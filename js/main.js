@@ -1,0 +1,54 @@
+// 入口。各部品をつなぐだけにして、中身は js/ 以下の各ファイルに置く。
+//   data/      … 保存と、予定・タブのデータ操作
+//   services/  … カレンダーのファイル作成、ファイルの受け渡し
+//   ui/        … 画面ごとの部品
+//   util/      … 日付や文字の小さな道具
+import { state, subscribe } from './state.js';
+import { FILTER_KEY } from './config.js';
+import { init } from './data/store.js';
+import { pruneOld } from './data/events.js';
+import { startFeed } from './data/feed.js';
+import { initHeader, renderHeader } from './ui/header.js';
+import { initTabsBar, renderTabsBar } from './ui/tabs-bar.js';
+import { renderEventList } from './ui/event-list.js';
+import { initEventSheet } from './ui/event-sheet.js';
+import { initTabManager, renderTabManager } from './ui/tab-manager.js';
+import { initSettingsSheet, renderSettings } from './ui/settings-sheet.js';
+import { initImportSheet } from './ui/import-sheet.js';
+import { toast } from './ui/toast.js';
+
+// 状態が変わるたびに、全画面を描き直す
+function renderAll() {
+  renderHeader();
+  renderTabsBar();
+  renderEventList();
+  renderTabManager();
+  renderSettings();
+}
+
+try {
+  const last = localStorage.getItem(FILTER_KEY);
+  if (last) state.ui.filter = last;
+} catch (e) { /* 既定の「すべて」で始める */ }
+
+initHeader();
+initTabsBar();
+initEventSheet();
+initTabManager();
+initSettingsSheet();
+initImportSheet();
+subscribe(renderAll);
+renderAll();
+
+init().then(async () => {
+  if (state.startupMessage) toast(state.startupMessage);
+  await pruneOld(); // 終わって1年たった予定を消す
+  startFeed();      // Claudeが調べた日程を自動で反映する（Claude上で開いたときだけ）
+});
+
+// オフラインでも開けるようにする（sw.js）
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./sw.js').catch(() => { /* 使えなくてもアプリは動く */ });
+  });
+}

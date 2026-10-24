@@ -1,0 +1,37 @@
+/* 画面上部：タイトル、ボタン、フォルダ形のタブ。 */
+.top {
+  position: sticky; top: 0; z-index: 5;
+  background: var(--bg);
+  padding-top: env(safe-area-inset-top, 0px);
+}
+.bar { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding-block: 12px 4px; }
+.bar h1 { margin: 0; font-size: 21px; line-height: 1.25; font-weight: 700; }
+.today { display: block; font-size: 12px; line-height: 1.4; color: var(--muted); font-variant-numeric: tabular-nums; }
+.bar-actions { display: flex; gap: 8px; flex-shrink: 0; }
+
+/* タブ */
+.tabs { overflow-x: auto; scrollbar-width: none; overscroll-behavior-x: contain; }
+.tabs::-webkit-scrollbar { display: none; }
+.tabs-in {
+  display: flex; align-items: flex-end; gap: 4px;
+  min-width: 100%; width: max-content;
+  padding-top: 8px; border-bottom: 1px solid var(--line);
+}
+.tab {
+  position: relative; flex: none; min-height: 42px; margin-bottom: -1px; padding: 0 12px;
+  background: var(--tab-off);
+  border: 1px solid var(--line);
+  border-top: 3px solid color-mix(in srgb, var(--c) 40%, var(--line));
+  border-radius: 10px 10px 0 0;
+  color: var(--muted); font-size: 13px; font-weight: 700; white-space: nowrap;
+}
+.tab[aria-selected="true"] {
+  z-index: 1; min-height: 46px;
+  background: var(--bg); border-top-color: var(--c); border-bottom-color: var(--bg);
+  color: var(--fg);
+}
+.tab-add {
+  position: sticky; right: 0; min-width: 42px; padding: 0 10px;
+  background: var(--bg); border-style: dashed; border-top-width: 1px; border-top-color: var(--line);
+  font-size: 17px; line-height: 1;
+}

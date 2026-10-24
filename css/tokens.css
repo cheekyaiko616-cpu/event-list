@@ -1,0 +1,47 @@
+/* 色・文字・明るい/暗いテーマの定義だけを置く。見た目を変えたいときは、まずここを直す。 */
+:root {
+  color-scheme: light dark;
+
+  --bg: #f2f3ef;
+  --surface: #ffffff;
+  --fg: #1a1d1b;
+  --muted: #5f6963;
+  --line: #d3d8d1;
+  --tab-off: #e6e8e1;
+  --ink: #1a1d1b;
+  --on-ink: #ffffff;
+  --danger: #b42318;
+  --note-bg: #fff1cf;
+  --note-fg: #5f4300;
+
+  /* タブの色（1〜8）。タブの管理画面で選ぶ色はこの番号 */
+  --c1: #c2410c; --c2: #2b7a3d; --c3: #3a4cc4; --c4: #b0266b;
+  --c5: #0f766e; --c6: #8a5a00; --c7: #6d3fc9; --c8: #475569;
+
+  /* 月ごとの帯の濃さ。色相は js 側で月ごとに決める */
+  --band-bg-s: 60%; --band-bg-l: 90%; --band-fg-s: 55%; --band-fg-l: 26%;
+
+  --font-ui: "Zen Kaku Gothic New", "Hiragino Sans", "Noto Sans JP", system-ui, sans-serif;
+  --font-num: "Barlow Condensed", "Arial Narrow", system-ui, sans-serif;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #111413;
+    --surface: #1a1e1c;
+    --fg: #eef1ee;
+    --muted: #9aa49e;
+    --line: #2f3632;
+    --tab-off: #1b201d;
+    --ink: #eef1ee;
+    --on-ink: #111413;
+    --danger: #ff8a7a;
+    --note-bg: #2e2610;
+    --note-fg: #f0cf85;
+
+    --c1: #ff9066; --c2: #6fd68a; --c3: #9aa8ff; --c4: #ff8fc0;
+    --c5: #5fd6c9; --c6: #f0b95a; --c7: #b99bff; --c8: #a9b6c7;
+
+    --band-bg-s: 30%; --band-bg-l: 19%; --band-fg-s: 70%; --band-fg-l: 80%;
+  }
+}

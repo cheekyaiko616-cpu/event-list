@@ -1,0 +1,70 @@
+/* 下から出る画面（予定の入力、タブの管理、設定）。 */
+.scrim {
+  position: fixed; inset: 0; z-index: 20;
+  display: flex; align-items: flex-end; justify-content: center;
+  background: rgba(0, 0, 0, .45);
+}
+.sheet {
+  width: 100%; max-width: 640px; max-height: 92vh; max-height: 92dvh; overflow-y: auto;
+  background: var(--surface); border-radius: 16px 16px 0 0;
+  padding: 16px max(16px, env(safe-area-inset-right, 0px)) calc(20px + env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px));
+}
+.sheet-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.sheet-head h2 { margin: 0; font-size: 18px; font-weight: 700; }
+
+/* 入力フォーム */
+.field { display: flex; flex-direction: column; gap: 4px; margin-top: 14px; min-width: 0; }
+.field > label { font-size: 12px; font-weight: 700; color: var(--muted); }
+.field.flush { margin-top: 0; }
+.two { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; }
+.seg { min-width: 0; margin: 14px 0 0; padding: 0; border: 0; }
+.seg-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+.seg-opt { position: relative; }
+.seg-opt input { position: absolute; inset: 0; margin: 0; opacity: 0; }
+.seg-opt span {
+  display: inline-flex; align-items: center; min-height: 40px; padding: 0 12px;
+  border: 1px solid var(--line); border-radius: 10px; background: var(--bg);
+  font-size: 14px; font-weight: 700;
+}
+.seg-opt input:checked + span { background: var(--ink); border-color: var(--ink); color: var(--on-ink); }
+.seg-opt input:focus-visible + span { outline: 2px solid var(--fg); outline-offset: 2px; }
+.check { display: flex; align-items: center; gap: 8px; margin-top: 14px; font-size: 14px; }
+.check input { width: 20px; height: 20px; margin: 0; }
+.form-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px; }
+.form-actions .grow { flex: 1 1 140px; }
+
+/* タブの管理 */
+.tab-list { list-style: none; margin: 12px 0 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+.tab-item { display: grid; grid-template-columns: auto minmax(0, 1fr) auto auto; gap: 8px; align-items: center; }
+.swatch { width: 40px; height: 40px; border: 1px solid var(--line); border-radius: 10px; background: var(--c); }
+.mv { display: flex; gap: 4px; }
+.mv .btn { min-width: 36px; padding: 0; }
+.tab-confirm { grid-column: 1 / -1; padding: 10px 12px; border: 1px solid var(--line); border-radius: 10px; background: var(--bg); }
+.tab-confirm p { margin: 0 0 8px; font-size: 13px; }
+.tab-new { margin-top: 18px; }
+.tab-new-row { display: flex; gap: 8px; margin-top: 4px; }
+
+/* 設定 */
+.set-sec { margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--line); }
+.set-sec:first-of-type { margin-top: 12px; padding-top: 0; border-top: 0; }
+.set-sec h3 { margin: 0 0 4px; font-size: 14px; font-weight: 700; }
+.set-sec .check { margin-top: 8px; }
+.set-sec .actions { margin-top: 10px; }
+.set-msg { min-height: 1.4em; margin: 8px 0 0; font-size: 13px; font-weight: 700; }
+.confirm-box { margin-top: 10px; padding: 10px 12px; border: 1px solid var(--line); border-radius: 10px; background: var(--bg); }
+.confirm-box p { margin: 0 0 8px; font-size: 13px; }
+
+/* 日程の取り込み */
+.cand-list { list-style: none; margin: 12px 0 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+.cand { border: 1px solid var(--line); border-radius: 10px; background: var(--bg); }
+.cand.dup { opacity: .55; }
+.cand-in { display: flex; gap: 10px; align-items: flex-start; padding: 10px 12px; }
+.cand-in input { flex: none; width: 22px; height: 22px; margin: 2px 0 0; }
+.cand-body { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.cand-kind { align-self: flex-start; padding: 1px 7px; border-radius: 999px; font-size: 11px; font-weight: 700; background: var(--line); color: var(--fg); }
+.cand-kind.k-new { background: var(--ink); color: var(--on-ink); }
+.cand-kind.k-update { background: var(--note-bg); color: var(--note-fg); }
+.cand-t { font-size: 15px; font-weight: 700; line-height: 1.4; overflow-wrap: anywhere; }
+.cand-when { font-size: 14px; font-variant-numeric: tabular-nums; }
+.cand-meta { font-size: 12px; color: var(--muted); overflow-wrap: anywhere; }
+.cand-warn { font-size: 12px; font-weight: 700; color: var(--danger); }

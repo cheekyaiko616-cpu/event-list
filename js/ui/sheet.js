@@ -1,0 +1,34 @@
+// 「下から出る画面」の共通の動き（開く・閉じる・外をタップで閉じる・Escで閉じる）。
+// 新しい画面を足すときは、mountSheet で枠を作り、中身を自分のファイルで用意する。
+import { $ } from '../util/dom.js';
+
+const open = []; // いま開いている画面（後に開いたものが末尾）
+
+/** 画面の枠を作る。html は固定の文字だけを渡すこと（入力された内容は入れない）。 */
+export function mountSheet(html) {
+  const wrap = document.createElement('div');
+  wrap.className = 'scrim';
+  wrap.hidden = true;
+  wrap.innerHTML = html;
+  $('#app-sheets').append(wrap);
+  wrap.addEventListener('click', (e) => { if (e.target === wrap) hideSheet(wrap); });
+  return wrap;
+}
+
+export function showSheet(wrap) {
+  wrap.hidden = false;
+  if (!open.includes(wrap)) open.push(wrap);
+  document.documentElement.classList.add('lock');
+}
+
+export function hideSheet(wrap) {
+  wrap.hidden = true;
+  const i = open.indexOf(wrap);
+  if (i >= 0) open.splice(i, 1);
+  if (!open.length) document.documentElement.classList.remove('lock');
+  wrap.dispatchEvent(new CustomEvent('sheetclose'));
+}
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && open.length) hideSheet(open[open.length - 1]);
+});

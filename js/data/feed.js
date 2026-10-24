@@ -1,0 +1,119 @@
+// 自動取得：Claudeが公式情報から調べて共有データ(feed)に書いた日程を、予定に反映する。
+// 画面は扱わない。反映のルールはこのファイルだけに置く。
+//   新しい日程        … 自動で追加
+//   日程の変更         … 自動で更新（変更前を残す）
+//   こちらで直した予定 … 「手動修正」。feedの内容が変わらない限り、直した内容を守る
+//   こちらで削除した予定 … 二度と自動では戻さない
+import { state } from '../state.js';
+import { commit } from './store.js';
+import { sortedTabs } from './tabs.js';
+import { getDb } from '../services/cloud.js';
+import { parseDate, eventEnd, formatRange, todayIso, addDaysIso } from '../util/date.js';
+import { safeUrl, newId } from '../util/text.js';
+import { RETENTION_DAYS } from '../config.js';
+
+const str = (v, max) => (typeof v === 'string' ? v.trim().slice(0, max) : '');
+const norm = (s) => (s || '').normalize('NFKC').replace(/\s+/g, '').toLowerCase();
+
+/** feedの1件を安全な形にする。出典が無い・名前が無いものは null（使わない）。 */
+export function cleanFeedItem(id, raw) {
+  const x = raw && typeof raw === 'object' ? raw : {};
+  const title = str(x.title, 100);
+  const source = str(x.source, 200);
+  if (!id || !title || !source) return null;
+  const date = parseDate(x.date) ? x.date : '';
+  const end = date && parseDate(x.end) && x.end > date ? x.end : '';
+  return {
+    id: String(id).slice(0, 100), tabName: str(x.tabName, 20), title, date, end,
+    place: str(x.place, 100), source, url: safeUrl(str(x.url, 500)) || '', note: str(x.note, 1000),
+    checkedAt: parseDate(x.checkedAt) ? x.checkedAt : ''
+  };
+}
+
+/** 反映すべき内容が変わったかを見分けるための印。確認日(checkedAt)は含めない。 */
+export const feedHash = (f) => [f.tabName, f.title, f.date, f.end, f.place, f.source, f.url, f.note].join('|');
+
+/** feedの内容を予定に反映する。変わった件数 { added, updated } を返し、変わったときだけ保存する。 */
+export async function applyFeed(items) {
+  const tabs = sortedTabs();
+  const limit = addDaysIso(todayIso(), -RETENTION_DAYS);
+  let added = 0, updated = 0, touched = false;
+
+  items.forEach((f) => {
+    if (state.dismissed.includes(f.id)) return;
+    if (f.date && (f.end || f.date) < limit) return; // 終わって1年たったものは戻さない
+    const hash = feedHash(f);
+    const tab = tabs.find((t) => norm(t.name) === norm(f.tabName)) || tabs[0];
+    if (!tab) return;
+
+    let e = state.events.find((x) => x.feedId === f.id);
+    if (!e) e = state.events.find((x) => !x.feedId && norm(x.title) === norm(f.title));
+
+    if (!e) {
+      state.events.push({
+        id: newId('e'), rev: 1, type: tab.id, title: f.title, date: f.date, end: f.end, place: f.place,
+        source: f.source, url: f.url, note: f.note, sample: false,
+        feedId: f.id, feedHash: hash, manual: false, checkedAt: f.checkedAt, lastChange: null
+      });
+      added++; touched = true;
+      return;
+    }
+
+    if (e.feedId === f.id && e.feedHash === hash) {
+      if (f.checkedAt && e.checkedAt !== f.checkedAt) { e.checkedAt = f.checkedAt; touched = true; }
+      return;
+    }
+
+    const before = e.date ? formatRange(e) : '日程未定';
+    const changedDate = e.date !== f.date || eventEnd(e) !== (f.end || f.date);
+    const wasManual = e.manual === true;
+    Object.assign(e, {
+      title: e.feedId ? f.title : e.title, date: f.date, end: f.end, place: f.place || e.place,
+      source: f.source, url: f.url || e.url, note: f.note || e.note, sample: false,
+      feedId: f.id, feedHash: hash, manual: false, checkedAt: f.checkedAt || e.checkedAt,
+      rev: (e.rev || 1) + 1
+    });
+    if (changedDate) e.lastChange = { at: todayIso(), from: before, manual: wasManual };
+    updated++; touched = true;
+  });
+
+  if (touched) await commit();
+  return { added, updated };
+}
+
+let started = false;
+
+/** 公開しているサイトの feed.json を読んで反映する（ホーム画面で使う形）。 */
+async function pullFile() {
+  try {
+    const res = await fetch('feed.json?t=' + Date.now(), { cache: 'no-store' });
+    if (!res.ok) return;
+    const body = await res.json();
+    const list = body && Array.isArray(body.items) ? body.items : [];
+    const items = list.map((x) => cleanFeedItem(x && x.id, x)).filter(Boolean);
+    await applyFeed(items);
+  } catch (e) { /* 読めなくてもアプリは動く */ }
+}
+
+/**
+ * 自動取得を始める。起動後に1回だけ呼ぶ。
+ *   Claude上で開いた  … 共有データ(feed)を見はる
+ *   ホーム画面などで開いた … サイトの feed.json を、開いたときと戻ってきたときに読む
+ */
+export async function startFeed() {
+  if (started) return;
+  started = true;
+  const db = await getDb();
+  if (!db) {
+    pullFile();
+    document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') pullFile(); });
+    return;
+  }
+  let busy = Promise.resolve();
+  db.collection('feed').onSnapshot((snap) => {
+    const items = snap.docs
+      .map((d) => cleanFeedItem(d.id, d.data()))
+      .filter(Boolean);
+    busy = busy.then(() => applyFeed(items)).catch(() => {});
+  }, () => { /* 見はれなくてもアプリは動く */ });
+}

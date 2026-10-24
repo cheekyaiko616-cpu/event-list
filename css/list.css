@@ -1,0 +1,63 @@
+/* 一覧画面：月の帯、予定の行、詳細、お知らせ、空の状態。 */
+.month { margin-top: 18px; }
+.band {
+  background: hsl(var(--h) var(--band-bg-s) var(--band-bg-l));
+  color: hsl(var(--h) var(--band-fg-s) var(--band-fg-l));
+}
+.band-in { display: flex; align-items: baseline; gap: 4px; padding-block: 8px; }
+.band-m { font: 700 34px/1 var(--font-num); font-variant-numeric: tabular-nums; }
+.band-u { font-size: 15px; font-weight: 700; }
+.band-r { margin-left: auto; font-size: 13px; font-weight: 500; font-variant-numeric: tabular-nums; }
+.band.tbd { background: var(--surface); color: var(--muted); border-block: 1px solid var(--line); }
+.band.tbd .band-t { font-size: 15px; font-weight: 700; }
+
+.rows { list-style: none; margin: 0; padding-block: 0; }
+.row { border-bottom: 1px solid var(--line); }
+.row:last-child { border-bottom: 0; }
+.row-btn {
+  display: grid; grid-template-columns: 56px minmax(0, 1fr) 16px; gap: 12px; align-items: start;
+  width: 100%; padding: 14px 0; background: none; border: 0; text-align: left;
+}
+.when { display: flex; flex-direction: column; align-items: center; gap: 3px; text-align: center; }
+.d { font: 600 30px/1 var(--font-num); font-variant-numeric: tabular-nums; }
+.d.multi { font-size: 24px; }
+.w { font-size: 12px; line-height: 1.2; color: var(--muted); }
+.pill {
+  display: inline-block; margin-top: 4px; padding: 2px 8px;
+  border: 1px dashed var(--muted); border-radius: 999px;
+  font-size: 12px; font-weight: 700; color: var(--muted);
+}
+.t { display: block; font-size: 16px; font-weight: 700; line-height: 1.45; overflow-wrap: anywhere; }
+.meta { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; margin-top: 3px; font-size: 13px; color: var(--muted); }
+.chip { padding: 1px 7px; border: 1px solid currentColor; border-radius: 999px; color: var(--c); font-size: 11px; font-weight: 700; line-height: 1.5; }
+.badge { padding: 1px 6px; border-radius: 4px; background: var(--note-bg); color: var(--note-fg); font-size: 11px; font-weight: 700; line-height: 1.5; }
+.chev {
+  width: 8px; height: 8px; margin-top: 9px;
+  border-right: 2px solid var(--muted); border-bottom: 2px solid var(--muted);
+  transform: rotate(45deg); transition: transform .15s;
+}
+.row-btn[aria-expanded="true"] .chev { transform: rotate(225deg); margin-top: 13px; }
+.past .t { color: var(--muted); }
+
+.detail { margin: 0 0 14px 68px; padding: 12px 14px; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; }
+.kv { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 4px 12px; margin: 0 0 12px; font-size: 14px; }
+.kv dt { padding-top: 2px; color: var(--muted); font-size: 12px; white-space: nowrap; }
+.kv dd { margin: 0; overflow-wrap: anywhere; }
+.actions { display: flex; flex-wrap: wrap; gap: 8px; }
+.hint { margin: 8px 0 0; font-size: 12px; line-height: 1.7; color: var(--muted); }
+.hint .link-btn { display: inline; min-height: 0; font-size: 12px; }
+
+.note {
+  display: flex; flex-direction: column; gap: 6px; align-items: flex-start;
+  margin-top: 12px; padding: 10px 12px; border-radius: 10px;
+  background: var(--note-bg); color: var(--note-fg); font-size: 13px; line-height: 1.55;
+}
+.note p { margin: 0; }
+.empty { padding-block: 44px; text-align: center; color: var(--muted); }
+.empty p { margin: 0 0 14px; }
+.empty .actions { justify-content: center; }
+.foot { padding-block: 28px 0; text-align: center; }
+.end-space { height: calc(72px + env(safe-area-inset-bottom, 0px)); }
+
+.badge.upd { background: var(--ink); color: var(--on-ink); }
+.badge.man { background: var(--line); color: var(--fg); }
