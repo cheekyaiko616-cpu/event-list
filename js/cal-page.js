@@ -18,4 +18,12 @@
     return;
   }
   btn.addEventListener('click', function () { location.href = url; });
+  // 開いたらすぐ、標準カレンダーの追加画面へ進む。進めなかったときのために、ボタンは残す。
+  btn.hidden = true;
+  msg.textContent = 'カレンダーの追加画面を開いています…';
+  location.href = url;
+  setTimeout(function () {
+    msg.textContent = '追加画面が出ないときは、下のボタンを押してください。';
+    btn.hidden = false;
+  }, 2500);
 })();

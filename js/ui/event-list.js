@@ -3,10 +3,10 @@ import { state, notify } from '../state.js';
 import { $, el, clear } from '../util/dom.js';
 import { ALERT_OPTIONS } from '../config.js';
 import { parseDate, weekday, eventEnd, formatRange, todayIso, addDaysIso } from '../util/date.js';
-import { safeUrl, safeFileName } from '../util/text.js';
+import { safeUrl } from '../util/text.js';
 import { selectVisible, groupByMonth, createNextYear, removeSamples, addSamples } from '../data/events.js';
 import { tabById } from '../data/tabs.js';
-import { addToCalendar, shareIcs, googleCalendarUrl } from '../services/calendar.js';
+import { addToCalendar, addToCalendarPage, googleCalendarUrl } from '../services/calendar.js';
 import { openEventSheet } from './event-sheet.js';
 import { openSettings } from './settings-sheet.js';
 import { toast } from './toast.js';
@@ -100,8 +100,8 @@ function detailEl(e) {
     ? el('p', { class: 'hint' },
         `アラート: ${alertText()}（設定で変更）。追加画面が出ないときは `,
         el('button', {
-          class: 'link-btn', type: 'button', text: '共有から追加',
-          onclick: () => shareIcs([e], `${safeFileName(e.title)}.ics`)
+          class: 'link-btn', type: 'button', text: '別画面で開く',
+          onclick: () => addToCalendarPage([e])
         }),
         ' か ',
         el('a', { href: googleCalendarUrl(e), target: '_blank', rel: 'noopener noreferrer', text: 'Googleカレンダー' }),

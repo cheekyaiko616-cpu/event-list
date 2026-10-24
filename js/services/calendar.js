@@ -10,13 +10,27 @@ import { safeUrl } from '../util/text.js';
 
 const MIME = 'text/calendar';
 
+function icsFor(events) {
+  return buildIcs(events, state.settings.alerts);
+}
+
 /**
- * 標準カレンダーに追加する。cal.html を別画面で開き、そこで .ics を開く
- * （ホーム画面のアプリは、ファイルを直接開けないため）。※ ボタンを押した直後に呼ぶこと。
+ * 標準カレンダーに追加する。画面は切り替えず、見えない枠で .ics を開く。
+ * iPhone では、カレンダーの追加画面がポップアップで出る。※ ボタンを押した直後に呼ぶこと。
  */
 export function addToCalendar(events) {
-  const text = buildIcs(events, state.settings.alerts);
-  const bytes = new TextEncoder().encode(text);
+  const url = URL.createObjectURL(new Blob([icsFor(events)], { type: `${MIME};charset=utf-8` }));
+  const f = document.createElement('iframe');
+  f.style.cssText = 'position:fixed;width:0;height:0;border:0;opacity:0;pointer-events:none';
+  f.setAttribute('aria-hidden', 'true');
+  f.src = url;
+  document.body.append(f);
+  setTimeout(() => { f.remove(); URL.revokeObjectURL(url); }, 60000);
+}
+
+/** うまくいかないとき用：専用ページ（cal.html）を別画面で開いて追加する。 */
+export function addToCalendarPage(events) {
+  const bytes = new TextEncoder().encode(icsFor(events));
   let bin = '';
   bytes.forEach((b) => { bin += String.fromCharCode(b); });
   const b64 = btoa(bin).replace(/\+/g, '-').replace(/\//g, '_');
