@@ -28,15 +28,6 @@ export function addToCalendar(events) {
   setTimeout(() => { f.remove(); URL.revokeObjectURL(url); }, 60000);
 }
 
-/** うまくいかないとき用：専用ページ（cal.html）を別画面で開いて追加する。 */
-export function addToCalendarPage(events) {
-  const bytes = new TextEncoder().encode(icsFor(events));
-  let bin = '';
-  bytes.forEach((b) => { bin += String.fromCharCode(b); });
-  const b64 = btoa(bin).replace(/\+/g, '-').replace(/\//g, '_');
-  window.open(`cal.html#d=${b64}`, '_blank');
-}
-
 export function shareIcs(events, filename) {
   return saveFile({ filename, mime: MIME, text: buildIcs(events, state.settings.alerts) });
 }

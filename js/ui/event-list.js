@@ -6,7 +6,7 @@ import { parseDate, weekday, eventEnd, formatRange, todayIso, addDaysIso } from 
 import { safeUrl } from '../util/text.js';
 import { selectVisible, groupByMonth, createNextYear, removeSamples, addSamples } from '../data/events.js';
 import { tabById } from '../data/tabs.js';
-import { addToCalendar, addToCalendarPage, googleCalendarUrl } from '../services/calendar.js';
+import { googleCalendarUrl } from '../services/calendar.js';
 import { openEventSheet } from './event-sheet.js';
 import { openSettings } from './settings-sheet.js';
 import { toast } from './toast.js';
@@ -86,7 +86,7 @@ function detailEl(e) {
   const actions = el('div', { class: 'actions' },
     url ? el('a', { class: 'btn', href: url, target: '_blank', rel: 'noopener noreferrer', text: 'リンクを開く ↗' }) : null,
     dated
-      ? el('button', { class: 'btn solid', type: 'button', text: 'カレンダーに追加', onclick: () => addToCalendar([e]) })
+      ? el('button', { class: 'btn solid', type: 'button', text: 'カレンダーに追加', onclick: () => window.open(googleCalendarUrl(e), '_blank', 'noopener') })
       : el('button', { class: 'btn', type: 'button', disabled: true, text: 'カレンダーに追加' }),
     el('button', { class: 'btn', type: 'button', text: '編集', onclick: () => openEventSheet(e) }),
     dated
@@ -98,14 +98,7 @@ function detailEl(e) {
 
   const hint = dated
     ? el('p', { class: 'hint' },
-        `アラート: ${alertText()}（設定で変更）。追加画面が出ないときは `,
-        el('button', {
-          class: 'link-btn', type: 'button', text: '別画面で開く',
-          onclick: () => addToCalendarPage([e])
-        }),
-        ' か ',
-        el('a', { href: googleCalendarUrl(e), target: '_blank', rel: 'noopener noreferrer', text: 'Googleカレンダー' }),
-        'を使います。')
+        '「カレンダーに追加」でGoogleカレンダーの登録画面が開きます。アラートは保存のときに付けてください。')
     : el('p', { class: 'hint', text: '公式に日程が出たら、編集で日付を入れます。' });
 
   return el('div', { class: 'detail', id: `d-${e.id}` }, dl, actions, hint);

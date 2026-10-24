@@ -1,13 +1,13 @@
 // 設定の画面：カレンダーのアラート、まとめて追加、バックアップ、見本の削除。
 import { state } from '../state.js';
 import { $, el } from '../util/dom.js';
-import { ALERT_OPTIONS } from '../config.js';
 import { mountSheet, showSheet, hideSheet } from './sheet.js';
 import { toast } from './toast.js';
 import { commit } from '../data/store.js';
 import { upcomingDated, removeSamples } from '../data/events.js';
 import { buildBackup, parseBackup, applyBackup } from '../data/backup.js';
-import { addToCalendar, shareIcs } from '../services/calendar.js';
+import { googleCalendarUrl } from '../services/calendar.js';
+import { formatRange } from '../util/date.js';
 import { saveFile } from '../services/files.js';
 
 const MARKUP = `
@@ -18,18 +18,9 @@ const MARKUP = `
     </div>
 
     <section class="set-sec">
-      <h3>カレンダーのアラート</h3>
-      <p class="help">カレンダーに追加するとき、選んだタイミングのアラートも一緒に登録します。通知はiPhoneのカレンダーが出します。</p>
-      <div id="st-alerts"></div>
-    </section>
-
-    <section class="set-sec">
-      <h3>カレンダーにまとめて追加</h3>
+      <h3>Googleカレンダーにまとめて追加</h3>
       <p class="help" id="st-bulk-help"></p>
-      <div class="actions">
-        <button type="button" class="btn solid" id="st-bulk">まとめて追加</button>
-        <button type="button" class="btn" id="st-bulk-share">共有から追加</button>
-      </div>
+      <div class="bulk-list" id="st-bulk-list"></div>
     </section>
 
     <section class="set-sec">
@@ -76,22 +67,6 @@ export function initSettingsSheet() {
   $('#st-close').addEventListener('click', () => hideSheet(wrap));
   wrap.addEventListener('sheetclose', () => { clearPending(); setMsg('', false); });
 
-  // アラートの選択肢（選び直しても画面を作り直さない）
-  const box = $('#st-alerts');
-  ALERT_OPTIONS.forEach((o) => {
-    const input = el('input', { type: 'checkbox', value: o.id, id: `st-alert-${o.id}` });
-    input.addEventListener('change', async () => {
-      state.settings.alerts = ALERT_OPTIONS
-        .filter((x) => $(`#st-alert-${x.id}`).checked)
-        .map((x) => x.id);
-      await commit();
-    });
-    box.append(el('label', { class: 'check' }, input, o.label));
-  });
-
-  $('#st-bulk').addEventListener('click', () => addToCalendar(upcomingDated()));
-  $('#st-bulk-share').addEventListener('click', () => shareIcs(upcomingDated(), 'event-cho.ics'));
-
   $('#st-export').addEventListener('click', onExport);
   $('#st-import').addEventListener('click', () => $('#st-file').click());
   $('#st-file').addEventListener('change', onFile);
@@ -113,13 +88,19 @@ export function openSettings() {
 /** 開いているときだけ、表示内容を今の状態に合わせる。 */
 export function renderSettings() {
   if (!wrap || wrap.hidden) return;
-  ALERT_OPTIONS.forEach((o) => { $(`#st-alert-${o.id}`).checked = state.settings.alerts.includes(o.id); });
-  const n = upcomingDated().length;
-  $('#st-bulk-help').textContent = n
-    ? `これからの確定した予定 ${n} 件を、まとめてカレンダーに追加します。`
+  const list = upcomingDated();
+  $('#st-bulk-help').textContent = list.length
+    ? `これからの確定した予定 ${list.length} 件です。「追加」を押すと、その予定の登録画面が開きます（Googleカレンダーは1件ずつ追加します）。`
     : 'これからの確定した予定がありません。';
-  $('#st-bulk').disabled = n === 0;
-  $('#st-bulk-share').disabled = n === 0;
+  const box = $('#st-bulk-list');
+  box.replaceChildren(...list.map((e) => el('div', { class: 'bulk-row' },
+    el('span', { class: 'bulk-text' },
+      el('b', { text: e.title || '（名前なし）' }),
+      el('span', { text: formatRange(e) })),
+    el('a', {
+      class: 'btn', href: googleCalendarUrl(e), target: '_blank', rel: 'noopener noreferrer', text: '追加',
+      onclick: (ev) => ev.currentTarget.classList.add('done')
+    }))));
   $('#st-sample-sec').hidden = !state.events.some((e) => e.sample);
 }
 
