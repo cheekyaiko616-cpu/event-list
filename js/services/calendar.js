@@ -49,6 +49,11 @@ export function googleCalendarUrl(e) {
  * 「noopener」を付けて開くと、iPhone は Googleカレンダーのアプリを起動する（付けないと、アプリ内でウェブ版が開く）。
  * アプリ側に開いた画面が残ることがあるが、それは左上の「×」で閉じる。
  */
+/** 【試験】アプリの画面を使わず、この画面からそのままGoogleカレンダーへ移動する。白い画面が出ないかを確かめるための方法。 */
+export function openGoogleCalendarDirect(e) {
+  window.location.href = googleCalendarUrl(e);
+}
+
 export function openGoogleCalendar(e) {
   window.open(googleCalendarUrl(e), '_blank', 'noopener');
 }
