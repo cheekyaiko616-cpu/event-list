@@ -4,14 +4,13 @@ import { $, el, clear } from '../util/dom.js';
 import { ALERT_OPTIONS } from '../config.js';
 import { parseDate, weekday, eventEnd, formatRange, todayIso, addDaysIso } from '../util/date.js';
 import { safeUrl } from '../util/text.js';
-import { selectVisible, groupByMonth, createNextYear, removeSamples, addSamples } from '../data/events.js';
+import { selectVisible, groupByMonth, removeSamples, addSamples } from '../data/events.js';
 import { tabById } from '../data/tabs.js';
 import { addToCalendar } from '../services/calendar.js';
 import { openEventSheet } from './event-sheet.js';
 import { openSettings } from './settings-sheet.js';
 import { toast } from './toast.js';
-import { nextCard } from './next-card.js';
-import { nowStrip } from './next-card.js';
+import { nowStrip, nextStrip } from './next-card.js';
 import { openImportSheet } from './import-sheet.js';
 
 const hueOf = (month) => (month * 150) % 360; // 隣り合う月の色が大きく離れるようにする
@@ -80,7 +79,6 @@ function detailEl(e) {
   add('出典', e.source || '未記入');
   if (e.note) add('メモ', e.note);
   if (e.feedId) {
-    add('自動取得', e.checkedAt ? `公式情報を自動で確認（最終確認 ${e.checkedAt}）` : '公式情報を自動で確認');
     if (e.lastChange) add('変更前', `${e.lastChange.from}（${e.lastChange.at} に更新）`);
   }
 
@@ -90,17 +88,9 @@ function detailEl(e) {
       ? el('button', { class: 'btn solid', type: 'button', text: 'カレンダーに追加', onclick: () => { addToCalendar([e]); state.ui.openId = null; notify(); } })
       : el('button', { class: 'btn', type: 'button', disabled: true, text: 'カレンダーに追加' }),
     el('button', { class: 'btn', type: 'button', text: '編集', onclick: () => openEventSheet(e) }),
-    dated
-      ? el('button', {
-          class: 'btn', type: 'button', text: '来年分を未定で作る',
-          onclick: async () => toast(`「${await createNextYear(e)}」を日程未定に追加しました`)
-        })
-      : null);
+    null);
 
-  const hint = dated
-    ? el('p', { class: 'hint' },
-        '「カレンダーに追加」でGoogleカレンダーの登録画面が開きます。アラートは保存のときに付けてください。Googleカレンダーのアプリが開きます。保存したあと、画面が残ったときは、左上の「×」で閉じます。')
-    : el('p', { class: 'hint', text: '公式に日程が出たら、編集で日付を入れます。' });
+  const hint = dated ? null : el('p', { class: 'hint', text: '公式に日程が出たら、編集で日付を入れます。' });
 
   const close = () => { state.ui.openId = null; notify(); };
   const box = el('div', { class: 'detail', id: `d-${e.id}` }, dl, actions, hint,
@@ -173,6 +163,24 @@ function renderPin() {
   pin.append(el('ul', { class: 'wrap rows' }, rowEl(e, state.ui.view === 'past', true)));
 }
 
+/** 固定表示の上で、上か下にスワイプしたら、固定を解除する。起動後に1回だけ呼ぶ。 */
+export function initPinSwipe() {
+  const pin = $('#app-pin');
+  let x0 = 0, y0 = 0, on = false;
+  pin.addEventListener('touchstart', (ev) => {
+    const t = ev.touches[0];
+    x0 = t.clientX; y0 = t.clientY; on = ev.touches.length === 1;
+  }, { passive: true });
+  pin.addEventListener('touchend', (ev) => {
+    if (!on) return;
+    on = false;
+    const t = ev.changedTouches[0];
+    const dx = t.clientX - x0, dy = t.clientY - y0;
+    if (pin.scrollHeight > pin.clientHeight + 2) return; // 中を読むためのスクロールは、解除にしない
+    if (Math.abs(dy) >= 40 && Math.abs(dy) > Math.abs(dx) * 1.5) { state.ui.openId = null; notify(); }
+  }, { passive: true });
+}
+
 export function renderEventList() {
   renderPin();
   const root = $('#app-list');
@@ -197,7 +205,6 @@ export function renderEventList() {
         onclick: async () => { await removeSamples(); toast('見本を消しました'); }
       })));
   }
-  if (past) notices.push(el('p', { class: 'help', style: 'margin-top:12px', text: '終わってから1年たった予定は、自動で消えます。' }));
   if (notices.length) root.append(el('div', { class: 'wrap' }, notices));
 
   const v = selectVisible();
@@ -205,7 +212,7 @@ export function renderEventList() {
     const today = todayIso();
     const live = v.up.filter((e) => e.date <= today);
     const next = v.up.find((e) => e.date > today);
-    if (live.length || next) root.append(el('div', { class: 'wrap' }, [...live.map(nowStrip), next ? nextCard(next) : null]));
+    if (live.length || next) root.append(el('div', { class: 'wrap' }, [...live.map(nowStrip), next ? nextStrip(next) : null]));
   }
   const groups = groupByMonth(past ? v.past : v.up);
   groups.forEach((g) => root.append(monthSection(g, past)));

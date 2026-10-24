@@ -12,6 +12,11 @@ export function mountSheet(html) {
   wrap.innerHTML = html;
   $('#app-sheets').append(wrap);
   wrap.addEventListener('click', (e) => { if (e.target === wrap) hideSheet(wrap); });
+  // 画面の背景や、中身が短くて動かす必要のない画面は、指で動かせないようにする
+  wrap.addEventListener('touchmove', (e) => {
+    const sheet = e.target instanceof Element ? e.target.closest('.sheet') : null;
+    if (!sheet || sheet.scrollHeight <= sheet.clientHeight + 1) e.preventDefault();
+  }, { passive: false });
   return wrap;
 }
 

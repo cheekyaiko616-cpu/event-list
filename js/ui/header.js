@@ -52,8 +52,10 @@ export function initHeader() {
 export function renderHeader() {
   const past = state.ui.view === 'past';
   const h = $('#h-title');
-  h.textContent = past ? '過去のイベント' : 'Event list';
-  h.classList.toggle('brand', !past);
+  h.textContent = 'Event list';
+  h.classList.add('brand');
+  const d = new Date();
+  $('#today').textContent = `今日 ${d.getMonth() + 1}/${d.getDate()}(${WEEKDAYS[d.getDay()]})${past ? ' ・ 過去' : ''}`;
   const b = $('#btn-view');
   b.textContent = past ? '予定へ' : '過去';
   b.setAttribute('aria-pressed', String(past));

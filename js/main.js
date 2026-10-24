@@ -10,7 +10,8 @@ import { pruneOld } from './data/events.js';
 import { startFeed } from './data/feed.js';
 import { initHeader, renderHeader } from './ui/header.js';
 import { initTabsBar, renderTabsBar } from './ui/tabs-bar.js';
-import { renderEventList, initOutsideClose } from './ui/event-list.js';
+import { renderEventList, initOutsideClose, initPinSwipe } from './ui/event-list.js';
+import { initTabSwipe } from './ui/tab-swipe.js';
 import { initEventSheet } from './ui/event-sheet.js';
 import { initTabManager, renderTabManager } from './ui/tab-manager.js';
 import { initSettingsSheet, renderSettings } from './ui/settings-sheet.js';
@@ -34,6 +35,8 @@ try {
 
 initHeader();
 initOutsideClose();
+initPinSwipe();
+initTabSwipe();
 initTabsBar();
 initEventSheet();
 initTabManager();

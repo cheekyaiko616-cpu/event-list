@@ -2,7 +2,7 @@
 *, *::before, *::after { box-sizing: border-box; }
 html, body { margin: 0; height: 100%; overflow: hidden; overscroll-behavior: none; touch-action: manipulation; }
 body { display: flex; flex-direction: column; height: 100vh; height: 100dvh; }
-#app-list { flex: 1; min-height: 0; overflow-y: auto; overscroll-behavior: contain; -webkit-overflow-scrolling: touch; }
+#app-list { touch-action: pan-y; flex: 1; min-height: 0; overflow-y: auto; overscroll-behavior: contain; -webkit-overflow-scrolling: touch; }
 html.lock { overflow: hidden; }
 [hidden] { display: none !important; }
 body {

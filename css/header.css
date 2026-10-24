@@ -51,3 +51,4 @@
 .bar > div:first-child { min-width: 0; flex: none; }
 .bar-actions { gap: 6px; }
 .bar-actions .btn { padding: 0 10px; }
+.today { white-space: nowrap; }
