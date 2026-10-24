@@ -1,5 +1,5 @@
 // カレンダーへの追加。方法は3つ。
-//  1. addToCalendar   … .ics を開く（iPhone 標準カレンダーの追加画面が出る）
+//  1. addToCalendar   … .ics を見えない枠で開く（iPhone 標準カレンダーの登録画面がポップアップで出る）
 //  2. shareIcs        … 共有シートで .ics を渡す（1 がうまくいかないとき）
 //  3. googleCalendarUrl … Google カレンダーの追加画面を開くリンク
 import { state } from '../state.js';
@@ -49,11 +49,12 @@ export function googleCalendarUrl(e) {
  * 「noopener」を付けて開くと、iPhone は Googleカレンダーのアプリを起動する（付けないと、アプリ内でウェブ版が開く）。
  * アプリ側に開いた画面が残ることがあるが、それは左上の「×」で閉じる。
  */
-/** 【試験】アプリの画面を使わず、この画面からそのままGoogleカレンダーへ移動する。白い画面が出ないかを確かめるための方法。 */
-export function openGoogleCalendarDirect(e) {
-  window.location.href = googleCalendarUrl(e);
-}
 
-export function openGoogleCalendar(e) {
-  window.open(googleCalendarUrl(e), '_blank', 'noopener');
+/** 予備：専用ページ（cal.html）を別画面で開いて、標準カレンダーに追加する（見えない枠で開けないとき用）。 */
+export function addToCalendarPage(events) {
+  const bytes = new TextEncoder().encode(buildIcs(events, state.settings.alerts));
+  let bin = '';
+  bytes.forEach((b) => { bin += String.fromCharCode(b); });
+  const b64 = btoa(bin).replace(/\+/g, '-').replace(/\//g, '_');
+  window.open(`cal.html#d=${b64}`, '_blank');
 }
