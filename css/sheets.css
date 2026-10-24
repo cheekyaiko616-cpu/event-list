@@ -76,3 +76,12 @@
 .bulk-text b { font-size: 14px; color: var(--fg); overflow-wrap: anywhere; }
 .bulk-row .btn { flex: none; min-width: 64px; text-decoration: none; }
 .bulk-row .btn.done { opacity: .5; }
+
+/* 更新の履歴 */
+.up-entry { margin-top: 16px; padding-top: 12px; border-top: 1px solid var(--line); }
+.up-entry h3 { margin: 0; font-size: 16px; font-variant-numeric: tabular-nums; }
+.up-sum { margin: 2px 0 6px; font-size: 13px; color: var(--muted); }
+.up-sec h4 { margin: 10px 0 2px; font-size: 12px; letter-spacing: .04em; color: var(--muted); }
+.up-line { display: flex; flex-direction: column; margin: 0; padding: 4px 0; font-size: 13px; }
+.up-line b { font-size: 14px; overflow-wrap: anywhere; }
+.up-line span { color: var(--muted); overflow-wrap: anywhere; }

@@ -3,6 +3,7 @@
   color-scheme: light dark;
 
   --bg: #f2f3ef;
+  --top: #ffffff; /* 画面最上部（ステータスバーと同色にする） */
   --surface: #ffffff;
   --fg: #1a1d1b;
   --muted: #5f6963;
@@ -29,6 +30,7 @@
 @media (prefers-color-scheme: dark) {
   :root {
     --bg: #111413;
+    --top: #000000;
     --surface: #1a1e1c;
     --fg: #eef1ee;
     --muted: #9aa49e;

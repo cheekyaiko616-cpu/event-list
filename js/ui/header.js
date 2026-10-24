@@ -5,13 +5,17 @@ import { WEEKDAYS } from '../config.js';
 import { openEventSheet } from './event-sheet.js';
 import { refreshNow } from '../data/feed.js';
 import { toast } from './toast.js';
+import { openUpdates } from './updates-sheet.js';
 
 export function initHeader() {
   $('#app-header').innerHTML = `
     <div class="wrap">
       <div class="bar">
         <div>
-          <h1 id="h-title"></h1>
+          <div class="brand-row">
+            <h1 id="h-title"></h1>
+            <button type="button" class="info-btn" id="btn-info" aria-label="更新の履歴">i</button>
+          </div>
           <span class="today" id="today"></span>
         </div>
         <div class="bar-actions">
@@ -27,6 +31,7 @@ export function initHeader() {
   $('#today').textContent = `今日 ${now.getMonth() + 1}/${now.getDate()}(${WEEKDAYS[now.getDay()]})`;
 
   $('#btn-add').addEventListener('click', () => openEventSheet(null));
+  $('#btn-info').addEventListener('click', openUpdates);
   $('#btn-refresh').addEventListener('click', async () => {
     const b = $('#btn-refresh');
     b.disabled = true;
@@ -40,7 +45,7 @@ export function initHeader() {
     state.ui.view = state.ui.view === 'past' ? 'upcoming' : 'past';
     state.ui.openId = null;
     notify();
-    window.scrollTo(0, 0);
+    $('#app-list').scrollTo(0, 0);
   });
 }
 

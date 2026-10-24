@@ -1,7 +1,7 @@
 /* 画面上部：タイトル、ボタン、フォルダ形のタブ。 */
 .top {
-  position: sticky; top: 0; z-index: 5;
-  background: var(--bg);
+  flex: none; z-index: 5;
+  background: var(--top);
   padding-top: env(safe-area-inset-top, 0px);
 }
 .bar { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding-block: 12px 4px; }
@@ -36,3 +36,17 @@
   background: var(--bg); border-style: dashed; border-top-width: 1px; border-top-color: var(--line);
   font-size: 17px; line-height: 1;
 }
+
+/* タイトルの横の「i」ボタン（更新の履歴へ） */
+.brand-row { display: flex; align-items: center; gap: 8px; }
+.info-btn {
+  display: inline-flex; align-items: center; justify-content: center; flex: none;
+  width: 22px; height: 22px; padding: 0; border: 1.5px solid var(--muted); border-radius: 50%;
+  background: none; color: var(--muted); font: italic 700 14px/1 Georgia, "Times New Roman", serif;
+}
+.info-btn::before { content: ""; position: absolute; width: 44px; height: 44px; margin: -11px; } /* 押しやすく */
+.info-btn { position: relative; }
+.bar h1 { white-space: nowrap; }
+.bar > div:first-child { min-width: 0; flex: none; }
+.bar-actions { gap: 6px; }
+.bar-actions .btn { padding: 0 10px; }

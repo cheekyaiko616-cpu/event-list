@@ -15,6 +15,7 @@ import { initEventSheet } from './ui/event-sheet.js';
 import { initTabManager, renderTabManager } from './ui/tab-manager.js';
 import { initSettingsSheet, renderSettings } from './ui/settings-sheet.js';
 import { initImportSheet } from './ui/import-sheet.js';
+import { initUpdatesSheet } from './ui/updates-sheet.js';
 import { toast } from './ui/toast.js';
 
 // 状態が変わるたびに、全画面を描き直す
@@ -38,6 +39,9 @@ initEventSheet();
 initTabManager();
 initSettingsSheet();
 initImportSheet();
+initUpdatesSheet();
+// 2本指の拡大・縮小を止める
+['gesturestart', 'gesturechange', 'gestureend'].forEach((n) => document.addEventListener(n, (e) => e.preventDefault()));
 subscribe(renderAll);
 renderAll();
 
