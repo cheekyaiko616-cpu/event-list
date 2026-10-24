@@ -56,6 +56,9 @@ export function openGoogleCalendar(e) {
   const stop = () => names.forEach((n) => { document.removeEventListener(n, tryClose, true); window.removeEventListener(n, tryClose, true); });
   function tryClose() {
     if (document.visibilityState === 'hidden') return;
+    // 1) 同じサイトの小さなページ（close.html）に切り替えて、そのページ自身に閉じさせる。
+    // 2) うまくいかなければ、外から閉じる命令を出す。閉じられなくても、案内の画面が残る。
+    try { w.location.replace(new URL('close.html', location.href).href); } catch (_) { /* 次へ */ }
     try { w.close(); } catch (_) { /* 閉じられなくても支障はない */ }
     if (w.closed) stop();
   }
