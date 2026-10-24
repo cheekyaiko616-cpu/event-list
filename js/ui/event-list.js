@@ -6,7 +6,7 @@ import { parseDate, weekday, eventEnd, formatRange, todayIso, addDaysIso } from 
 import { safeUrl } from '../util/text.js';
 import { selectVisible, groupByMonth, createNextYear, removeSamples, addSamples } from '../data/events.js';
 import { tabById } from '../data/tabs.js';
-import { googleCalendarUrl, inSafari } from '../services/calendar.js';
+import { googleCalendarUrl, openGoogleCalendar } from '../services/calendar.js';
 import { openEventSheet } from './event-sheet.js';
 import { openSettings } from './settings-sheet.js';
 import { toast } from './toast.js';
@@ -98,9 +98,7 @@ function detailEl(e) {
 
   const hint = dated
     ? el('p', { class: 'hint' },
-        '「カレンダーに追加」でGoogleカレンダーの登録画面が開きます。アラートは保存のときに付けてください。開かないときは ',
-        el('a', { href: googleCalendarUrl(e), target: '_blank', rel: 'noopener noreferrer', text: 'こちら' }),
-        'から開けます。')
+        '「カレンダーに追加」でGoogleカレンダーの登録画面が開きます。アラートは保存のときに付けてください。保存後に白い画面が残ったときは、左上の「×」で閉じます。')
     : el('p', { class: 'hint', text: '公式に日程が出たら、編集で日付を入れます。' });
 
   const close = () => { state.ui.openId = null; notify(); };
@@ -150,11 +148,6 @@ function emptyEl(past) {
 }
 
 /* ---------- 全体 ---------- */
-/** Googleカレンダーの登録画面を、Safari で開く（アプリの上に白い画面を重ねないため）。 */
-function openGoogleCalendar(e) {
-  window.location.href = inSafari(googleCalendarUrl(e));
-}
-
 /** 開いている詳細の外をタップしたら閉じる。起動後に1回だけ呼ぶ。 */
 export function initOutsideClose() {
   document.addEventListener('click', (ev) => {

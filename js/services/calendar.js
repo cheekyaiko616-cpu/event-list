@@ -44,5 +44,21 @@ export function googleCalendarUrl(e) {
     + `&details=${encodeURIComponent(details)}`;
 }
 
-/** Safari で開くための形（iPhone のホーム画面のアプリから、画面を重ねずに外へ出す）。 */
-export const inSafari = (url) => (url ? url.replace(/^https:/, 'x-safari-https:') : url);
+/**
+ * Googleカレンダーの登録画面を、アプリの中の画面で開く。
+ * アプリに戻ってきたら、開いた画面（保存後に白く残る画面）を閉じにいく。
+ * 閉じられるかはiPhone次第なので、戻った直後と、画面に触れたときに、何度か試す。
+ */
+export function openGoogleCalendar(e) {
+  const w = window.open(googleCalendarUrl(e), '_blank');
+  if (!w) return;
+  const names = ['visibilitychange', 'focus', 'pageshow', 'touchstart', 'click'];
+  const stop = () => names.forEach((n) => { document.removeEventListener(n, tryClose, true); window.removeEventListener(n, tryClose, true); });
+  function tryClose() {
+    if (document.visibilityState === 'hidden') return;
+    try { w.close(); } catch (_) { /* 閉じられなくても支障はない */ }
+    if (w.closed) stop();
+  }
+  names.forEach((n) => { document.addEventListener(n, tryClose, true); window.addEventListener(n, tryClose, true); });
+  setTimeout(stop, 10 * 60 * 1000);
+}
