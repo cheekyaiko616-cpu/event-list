@@ -45,28 +45,10 @@ export function googleCalendarUrl(e) {
 }
 
 /**
- * Googleカレンダーの登録画面を、アプリの中の画面で開く。
- * アプリに戻ってきたら、開いた画面（保存後に白く残る画面）を閉じにいく。
- * 閉じられるかはiPhone次第なので、戻った直後と、画面に触れたときに、何度か試す。
+ * Googleカレンダーの登録画面を開く。
+ * 「noopener」を付けて開くと、iPhone は Googleカレンダーのアプリを起動する（付けないと、アプリ内でウェブ版が開く）。
+ * アプリ側に開いた画面が残ることがあるが、それは左上の「×」で閉じる。
  */
 export function openGoogleCalendar(e) {
-  const w = window.open(googleCalendarUrl(e), '_blank');
-  if (!w) return;
-  const names = ['visibilitychange', 'focus', 'pageshow', 'touchstart', 'click'];
-  const stop = () => { document.removeEventListener('visibilitychange', arm); names.forEach((n) => { document.removeEventListener(n, tryClose, true); window.removeEventListener(n, tryClose, true); }); };
-  // 開いた直後に閉じてしまわないよう、「一度アプリを離れた」か「20秒たった」あとだけ閉じにいく
-  let armed = false;
-  const arm = () => { if (document.visibilityState === 'hidden') armed = true; };
-  document.addEventListener('visibilitychange', arm);
-  setTimeout(() => { armed = true; }, 20000);
-  function tryClose() {
-    if (!armed || document.visibilityState === 'hidden') return;
-    // 1) 同じサイトの小さなページ（close.html）に切り替えて、そのページ自身に閉じさせる。
-    // 2) うまくいかなければ、外から閉じる命令を出す。閉じられなくても、案内の画面が残る。
-    try { w.location.replace(new URL('close.html', location.href).href); } catch (_) { /* 次へ */ }
-    try { w.close(); } catch (_) { /* 閉じられなくても支障はない */ }
-    if (w.closed) stop();
-  }
-  names.forEach((n) => { document.addEventListener(n, tryClose, true); window.addEventListener(n, tryClose, true); });
-  setTimeout(stop, 10 * 60 * 1000);
+  window.open(googleCalendarUrl(e), '_blank', 'noopener');
 }

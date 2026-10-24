@@ -99,7 +99,7 @@ function detailEl(e) {
 
   const hint = dated
     ? el('p', { class: 'hint' },
-        '「カレンダーに追加」でGoogleカレンダーの登録画面が開きます。アラートは保存のときに付けてください。保存後に画面が残ったときは、左上の「×」で閉じます。')
+        '「カレンダーに追加」でGoogleカレンダーの登録画面が開きます。アラートは保存のときに付けてください。Googleカレンダーのアプリが開きます。保存したあと、画面が残ったときは、左上の「×」で閉じます。')
     : el('p', { class: 'hint', text: '公式に日程が出たら、編集で日付を入れます。' });
 
   const close = () => { state.ui.openId = null; notify(); };

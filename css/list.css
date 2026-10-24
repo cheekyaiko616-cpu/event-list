@@ -78,3 +78,8 @@
 #app-pin .hint { display: none; }
 #app-pin .actions .btn { min-height: 36px; padding: 0 12px; }
 #app-pin .close-btn { min-height: 30px; margin-top: 6px; }
+
+/* 固定表示は、一覧と背景色を変えて見分けやすくする */
+#app-pin { background: var(--surface); border-bottom: 2px solid var(--fg); box-shadow: 0 8px 14px -8px rgba(0, 0, 0, .45); }
+#app-pin .row-btn { background: var(--surface); }
+#app-pin .detail { background: var(--bg); }
