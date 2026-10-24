@@ -1,16 +1,23 @@
 // オフラインでも開けるようにするための仕組み。
 // 通信できるときは常に最新のファイルを取りに行き、できないときだけ保存済みのものを使う。
 // ファイルを追加・削除したら ASSETS を直し、CACHE の番号を上げる。
-const CACHE = 'event-cho-v33';
+const CACHE = 'event-cho-v42';
 const ASSETS = [
   './',
   'index.html',
+  'js/ui/motion.js',
+  'js/ui/splash.js',
+  'js/ui/splash-art.js',
+  'js/ui/pin-close.js',
   'js/ui/tab-swipe.js',
   'js/data/updates.js',
   'js/ui/updates-sheet.js',
   'manifest.webmanifest',
   'icons/apple-touch-icon.png',
   'icons/icon-192.png',
+  'img/splash-plane.png',
+  'img/splash-car.png',
+  'img/splash-train.png',
   'icons/icon-512.png',
   'css/tokens.css',
   'css/base.css',
@@ -18,6 +25,7 @@ const ASSETS = [
   'css/list.css',
   'css/next.css',
   'css/sheets.css',
+  'css/splash.css',
   'js/main.js',
   'js/config.js',
   'js/state.js',

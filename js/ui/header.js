@@ -6,6 +6,7 @@ import { openEventSheet } from './event-sheet.js';
 import { refreshNow } from '../data/feed.js';
 import { toast } from './toast.js';
 import { openUpdates } from './updates-sheet.js';
+import { slideList } from './motion.js';
 
 export function initHeader() {
   $('#app-header').innerHTML = `
@@ -46,6 +47,7 @@ export function initHeader() {
     state.ui.openId = null;
     notify();
     $('#app-list').scrollTo(0, 0);
+    slideList(0);
   });
 }
 

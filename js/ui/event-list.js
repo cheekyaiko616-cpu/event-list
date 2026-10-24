@@ -11,6 +11,8 @@ import { openEventSheet } from './event-sheet.js';
 import { openSettings } from './settings-sheet.js';
 import { toast } from './toast.js';
 import { nowStrip, nextStrip } from './next-card.js';
+import { reduced, EASE } from './motion.js';
+import { closeDetail, isClosing } from './pin-close.js';
 import { openImportSheet } from './import-sheet.js';
 
 const hueOf = (month) => (month * 150) % 360; // 隣り合う月の色が大きく離れるようにする
@@ -57,10 +59,10 @@ function rowEl(e, past, pinned = false) {
   const btn = el('button', {
     class: 'row-btn', type: 'button', 'aria-expanded': String(open), 'aria-controls': `d-${e.id}`,
     onclick: () => {
-      state.ui.openId = open ? null : e.id;
+      // 固定中に別の予定をタップしたら、その予定は開かず、固定を解除するだけにする
+      if (state.ui.openId) { closeDetail(); return; }
+      state.ui.openId = e.id;
       notify();
-      const again = document.querySelector(`[data-id="${e.id}"] .row-btn`);
-      if (again) again.focus({ preventScroll: true });
     }
   }, when, what, el('span', { class: 'chev', 'aria-hidden': 'true' }));
 
@@ -85,14 +87,14 @@ function detailEl(e) {
   const actions = el('div', { class: 'actions' },
     url ? el('a', { class: 'btn', href: url, target: '_blank', rel: 'noopener noreferrer', text: 'リンクを開く ↗' }) : null,
     dated
-      ? el('button', { class: 'btn solid', type: 'button', text: 'カレンダーに追加', onclick: () => { addToCalendar([e]); state.ui.openId = null; notify(); } })
+      ? el('button', { class: 'btn solid', type: 'button', text: 'カレンダーに追加', onclick: () => { addToCalendar([e]); closeDetail(); } })
       : el('button', { class: 'btn', type: 'button', disabled: true, text: 'カレンダーに追加' }),
     el('button', { class: 'btn', type: 'button', text: '編集', onclick: () => openEventSheet(e) }),
     null);
 
   const hint = dated ? null : el('p', { class: 'hint', text: '公式に日程が出たら、編集で日付を入れます。' });
 
-  const close = () => { state.ui.openId = null; notify(); };
+  const close = () => closeDetail();
   const box = el('div', { class: 'detail', id: `d-${e.id}` }, dl, actions, hint,
     el('button', { class: 'close-btn', type: 'button', text: '閉じる ▲', onclick: close }));
   // ボタンやリンク以外の、詳細のあいている所をタップしても閉じる
@@ -139,6 +141,9 @@ function emptyEl(past) {
 }
 
 /* ---------- 全体 ---------- */
+/* ---------- 固定表示（開いた予定をヘッダーの下に出す） ---------- */
+let pinId = null;      // いま固定している予定
+
 /** 開いている詳細の外をタップしたら閉じる。起動後に1回だけ呼ぶ。 */
 export function initOutsideClose() {
   document.addEventListener('click', (ev) => {
@@ -147,9 +152,8 @@ export function initOutsideClose() {
     const t = ev.target;
     if (!(t instanceof Element)) return;
     // 詳細の中の操作と、予定の行そのもの（行は自分で開閉する）は除く。行の横の余白は「外」として閉じる。
-    if (t.closest(`[data-id="${id}"] .detail`) || t.closest(`[data-id="${id}"] .row-btn`) || t.closest('.next') || t.closest('.now') || t.closest('[role="dialog"]') || t.closest('.toast')) return;
-    state.ui.openId = null;
-    notify();
+    if (t.closest(`[data-id="${id}"] .detail`) || t.closest(`[data-id="${id}"] .row-btn`) || t.closest('.now') || t.closest('[role="dialog"]') || t.closest('.toast')) return;
+    closeDetail();
   });
 }
 
@@ -159,25 +163,49 @@ function renderPin() {
   if (!pin) return;
   clear(pin);
   const e = state.ui.openId ? state.events.find((x) => x.id === state.ui.openId) : null;
-  if (!e || !state.ready) return;
+  if (!e || !state.ready) { pinId = null; return; }
   pin.append(el('ul', { class: 'wrap rows' }, rowEl(e, state.ui.view === 'past', true)));
+  if (pinId !== e.id) { // 出現：高さを広げながら、ふわっと出す
+    pinId = e.id;
+    if (!reduced() && pin.animate) {
+      const h = pin.getBoundingClientRect().height;
+      pin.animate([{ height: '0px', opacity: 0 }, { height: `${h}px`, opacity: 1 }], { duration: 240, easing: EASE });
+    }
+  }
 }
 
-/** 固定表示の上で、上か下にスワイプしたら、固定を解除する。起動後に1回だけ呼ぶ。 */
+/** 固定表示の上で、上か下にスワイプしたら、固定を解除する。指に合わせて動き、離すとなめらかに消える／戻る。 */
 export function initPinSwipe() {
   const pin = $('#app-pin');
-  let x0 = 0, y0 = 0, on = false;
+  let x0 = 0, y0 = 0, on = false, drag = false;
+  const body = () => pin.firstElementChild;
+  const scrollable = () => pin.scrollHeight > pin.clientHeight + 2; // 中を読むためのスクロールは、解除にしない
   pin.addEventListener('touchstart', (ev) => {
     const t = ev.touches[0];
-    x0 = t.clientX; y0 = t.clientY; on = ev.touches.length === 1;
+    x0 = t.clientX; y0 = t.clientY; on = ev.touches.length === 1; drag = false;
+  }, { passive: true });
+  pin.addEventListener('touchmove', (ev) => {
+    if (!on || isClosing() || scrollable() || !body()) return;
+    const t = ev.touches[0];
+    const dx = t.clientX - x0, dy = t.clientY - y0;
+    if (!drag && !(Math.abs(dy) > 8 && Math.abs(dy) > Math.abs(dx) * 1.5)) return;
+    drag = true;
+    body().style.transform = `translateY(${dy * 0.6}px)`;
+    body().style.opacity = String(Math.max(0.25, 1 - Math.abs(dy) / 220));
   }, { passive: true });
   pin.addEventListener('touchend', (ev) => {
     if (!on) return;
     on = false;
+    const b = body();
+    if (!b || !drag) return;
+    drag = false;
     const t = ev.changedTouches[0];
-    const dx = t.clientX - x0, dy = t.clientY - y0;
-    if (pin.scrollHeight > pin.clientHeight + 2) return; // 中を読むためのスクロールは、解除にしない
-    if (Math.abs(dy) >= 40 && Math.abs(dy) > Math.abs(dx) * 1.5) { state.ui.openId = null; notify(); }
+    const dy = t.clientY - y0;
+    if (Math.abs(dy) >= 50) { closeDetail(); return; }
+    // 足りなければ、元の位置になめらかに戻す
+    b.style.transition = `transform .2s ${EASE}, opacity .2s ${EASE}`;
+    b.style.transform = ''; b.style.opacity = '';
+    setTimeout(() => { if (b) b.style.transition = ''; }, 220);
   }, { passive: true });
 }
 

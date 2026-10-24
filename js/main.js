@@ -18,6 +18,7 @@ import { initSettingsSheet, renderSettings } from './ui/settings-sheet.js';
 import { initImportSheet } from './ui/import-sheet.js';
 import { initUpdatesSheet } from './ui/updates-sheet.js';
 import { toast } from './ui/toast.js';
+import { initSplash } from './ui/splash.js';
 
 // 状態が変わるたびに、全画面を描き直す
 function renderAll() {
@@ -33,6 +34,7 @@ try {
   if (last) state.ui.filter = last;
 } catch (e) { /* 既定の「すべて」で始める */ }
 
+initSplash();
 initHeader();
 initOutsideClose();
 initPinSwipe();

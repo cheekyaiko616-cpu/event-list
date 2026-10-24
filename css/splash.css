@@ -1,0 +1,29 @@
+/* 起動画面。動くのは transform と opacity だけ（電池に軽い）。 */
+#splash {
+  position: fixed; inset: 0; z-index: 100;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0;
+  background-color: var(--bg);
+  color: var(--fg);
+  transition: opacity .3s ease;
+}
+#splash[hidden] { display: none; }
+#splash.out { opacity: 0; pointer-events: none; }
+
+.sp-ring {
+  position: relative; width: 150px; height: 150px; margin: 56px 0 46px; border-radius: 50%;
+}
+.sp-arm {
+  position: absolute; inset: -2px; border-radius: 50%;
+  animation: sp-spin 4.8s linear infinite; will-change: transform;
+}
+/* 輪の上端に置く（大きさと位置は splash-art.js の値で決める） */
+.sp-veh { position: absolute; left: 50%; top: 0; }
+.sp-veh img { display: block; width: 100%; height: 100%; }
+.sp-veh svg { display: block; }
+@keyframes sp-spin { to { transform: rotate(360deg); } }
+
+.sp-title { font-family: 'Cormorant Garamond', serif; font-style: italic; font-weight: 600; font-size: 34px; letter-spacing: .02em; }
+.sp-bar { margin-top: 20px; width: 140px; height: 3px; border-radius: 2px; background: var(--line); overflow: hidden; }
+.sp-bar i { display: block; height: 100%; width: 100%; background: var(--ink); transform-origin: left; transform: scaleX(0); animation: sp-fill linear forwards; }
+@keyframes sp-fill { to { transform: scaleX(1); } }
+.sp-note { font-size: 12px; color: var(--muted); letter-spacing: .12em; margin-top: 10px; }

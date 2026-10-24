@@ -3,6 +3,7 @@ import { state, notify } from '../state.js';
 import { el } from '../util/dom.js';
 import { daysUntil, eventEnd, formatRange, todayIso } from '../util/date.js';
 import { tabById } from '../data/tabs.js';
+import { closeDetail } from './pin-close.js';
 
 /** 開催中の予定を、1行の細い帯で出す（「次の予定」とは別に並べる）。 */
 export function nowStrip(e) {
@@ -10,12 +11,7 @@ export function nowStrip(e) {
   const last = eventEnd(e) === todayIso();
   return el('button', {
     class: 'now', type: 'button', style: `--c:${tab ? `var(--c${tab.color})` : 'var(--muted)'}`,
-    onclick: () => {
-      state.ui.openId = e.id;
-      notify();
-      const row = document.querySelector(`[data-id="${e.id}"]`);
-      if (row) row.scrollIntoView({ block: 'center', behavior: 'smooth' });
-    }
+    onclick: () => { if (state.ui.openId) { closeDetail(); return; } state.ui.openId = e.id; notify(); }
   },
     el('span', { class: 'now-pill', text: '開催中' }),
     el('span', { class: 'now-title', text: e.title || '（名前なし）' }),
@@ -29,10 +25,7 @@ export function nextStrip(e) {
   const left = n === 0 ? '今日' : n === 1 ? '明日' : `${n}日後`;
   return el('button', {
     class: 'now next-s', type: 'button', style: `--c:${tab ? `var(--c${tab.color})` : 'var(--muted)'}`,
-    onclick: () => {
-      state.ui.openId = e.id;
-      notify();
-    }
+    onclick: () => { if (state.ui.openId) { closeDetail(); return; } state.ui.openId = e.id; notify(); }
   },
     el('span', { class: 'now-pill', text: '次の予定' }),
     el('span', { class: 'now-title', text: e.title || '（名前なし）' }),

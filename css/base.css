@@ -6,7 +6,10 @@ body { display: flex; flex-direction: column; height: 100vh; height: 100dvh; }
 html.lock { overflow: hidden; }
 [hidden] { display: none !important; }
 body {
-  background: var(--bg);
+  background-color: var(--bg);
+  background-image: var(--pattern);
+  background-size: var(--pattern-size);
+  background-repeat: repeat;
   color: var(--fg);
   font-family: var(--font-ui);
   font-size: 15px;
@@ -59,4 +62,3 @@ textarea.input { resize: vertical; }
   font-size: 13px; font-weight: 700; text-align: center;
 }
 
-@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }

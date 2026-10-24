@@ -21,13 +21,19 @@ export function mountSheet(html) {
 }
 
 export function showSheet(wrap) {
+  clearTimeout(wrap._t);
+  wrap.classList.remove('closing');
   wrap.hidden = false;
   if (!open.includes(wrap)) open.push(wrap);
   document.documentElement.classList.add('lock');
 }
 
 export function hideSheet(wrap) {
-  wrap.hidden = true;
+  if (wrap.hidden || wrap.classList.contains('closing')) return;
+  // 閉じる動き（下へ滑って消える）のあとで、実際に隠す
+  wrap.classList.add('closing');
+  clearTimeout(wrap._t);
+  wrap._t = setTimeout(() => { wrap.hidden = true; wrap.classList.remove('closing'); }, 200);
   const i = open.indexOf(wrap);
   if (i >= 0) open.splice(i, 1);
   if (!open.length) document.documentElement.classList.remove('lock');

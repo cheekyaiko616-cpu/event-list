@@ -4,6 +4,7 @@ import { $, el, clear } from '../util/dom.js';
 import { FILTER_KEY } from '../config.js';
 import { sortedTabs } from '../data/tabs.js';
 import { openTabManager } from './tab-manager.js';
+import { slideList } from './motion.js';
 
 export function initTabsBar() {
   $('#tabs-mount').innerHTML =
@@ -11,10 +12,13 @@ export function initTabsBar() {
 }
 
 export function setFilter(id) {
+  const ids = ['all'].concat(sortedTabs().map((x) => x.id));
+  const dir = Math.sign(ids.indexOf(id) - ids.indexOf(state.ui.filter));
   state.ui.filter = id;
   state.ui.openId = null;
   try { localStorage.setItem(FILTER_KEY, id); } catch (e) { /* 覚えておけなくても動く */ }
   notify();
+  if (dir) slideList(dir);
 }
 
 export function renderTabsBar() {
