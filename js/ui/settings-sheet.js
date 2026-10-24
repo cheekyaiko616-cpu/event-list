@@ -6,7 +6,7 @@ import { toast } from './toast.js';
 import { commit } from '../data/store.js';
 import { upcomingDated, removeSamples } from '../data/events.js';
 import { buildBackup, parseBackup, applyBackup } from '../data/backup.js';
-import { googleCalendarUrl } from '../services/calendar.js';
+import { googleCalendarUrl, inSafari } from '../services/calendar.js';
 import { formatRange } from '../util/date.js';
 import { saveFile } from '../services/files.js';
 
@@ -98,7 +98,7 @@ export function renderSettings() {
       el('b', { text: e.title || '（名前なし）' }),
       el('span', { text: formatRange(e) })),
     el('a', {
-      class: 'btn', href: googleCalendarUrl(e), target: '_blank', rel: 'noopener noreferrer', text: '追加',
+      class: 'btn', href: inSafari(googleCalendarUrl(e)), text: '追加',
       onclick: (ev) => ev.currentTarget.classList.add('done')
     }))));
   $('#st-sample-sec').hidden = !state.events.some((e) => e.sample);

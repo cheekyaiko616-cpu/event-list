@@ -3,7 +3,8 @@
   color-scheme: light dark;
 
   --bg: #f2f3ef;
-  --top: #ffffff; /* 画面最上部（ステータスバーと同色にする） */
+  --top: #ffffff;    /* ヘッダーの色 */
+  --status: #1a1d1b; /* 画面最上部（時計などの帯）。文字が白いので濃い色にする */
   --surface: #ffffff;
   --fg: #1a1d1b;
   --muted: #5f6963;
@@ -31,6 +32,7 @@
   :root {
     --bg: #111413;
     --top: #000000;
+    --status: #000000;
     --surface: #1a1e1c;
     --fg: #eef1ee;
     --muted: #9aa49e;

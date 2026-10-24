@@ -6,7 +6,7 @@ import { parseDate, weekday, eventEnd, formatRange, todayIso, addDaysIso } from 
 import { safeUrl } from '../util/text.js';
 import { selectVisible, groupByMonth, createNextYear, removeSamples, addSamples } from '../data/events.js';
 import { tabById } from '../data/tabs.js';
-import { googleCalendarUrl } from '../services/calendar.js';
+import { googleCalendarUrl, inSafari } from '../services/calendar.js';
 import { openEventSheet } from './event-sheet.js';
 import { openSettings } from './settings-sheet.js';
 import { toast } from './toast.js';
@@ -98,10 +98,17 @@ function detailEl(e) {
 
   const hint = dated
     ? el('p', { class: 'hint' },
-        '「カレンダーに追加」でGoogleカレンダーの登録画面が開きます。アラートは保存のときに付けてください。')
+        '「カレンダーに追加」でGoogleカレンダーの登録画面が開きます。アラートは保存のときに付けてください。開かないときは ',
+        el('a', { href: googleCalendarUrl(e), target: '_blank', rel: 'noopener noreferrer', text: 'こちら' }),
+        'から開けます。')
     : el('p', { class: 'hint', text: '公式に日程が出たら、編集で日付を入れます。' });
 
-  return el('div', { class: 'detail', id: `d-${e.id}` }, dl, actions, hint);
+  const close = () => { state.ui.openId = null; notify(); };
+  const box = el('div', { class: 'detail', id: `d-${e.id}` }, dl, actions, hint,
+    el('button', { class: 'close-btn', type: 'button', text: '閉じる ▲', onclick: close }));
+  // ボタンやリンク以外の、詳細のあいている所をタップしても閉じる
+  box.addEventListener('click', (ev) => { if (!ev.target.closest('a, button, input, textarea, select, label')) close(); });
+  return box;
 }
 
 /* ---------- 帯と見出し ---------- */
@@ -143,16 +150,9 @@ function emptyEl(past) {
 }
 
 /* ---------- 全体 ---------- */
-/** Googleカレンダーの登録画面を開く。アプリに戻ってきたら、開いた画面（保存後の白い画面）を閉じる。 */
+/** Googleカレンダーの登録画面を、Safari で開く（アプリの上に白い画面を重ねないため）。 */
 function openGoogleCalendar(e) {
-  const w = window.open(googleCalendarUrl(e), '_blank');
-  if (!w) return;
-  const back = () => {
-    if (document.visibilityState !== 'visible') return;
-    document.removeEventListener('visibilitychange', back);
-    try { w.close(); } catch (_) { /* 閉じられなくても支障はない */ }
-  };
-  document.addEventListener('visibilitychange', back);
+  window.location.href = inSafari(googleCalendarUrl(e));
 }
 
 /** 開いている詳細の外をタップしたら閉じる。起動後に1回だけ呼ぶ。 */
@@ -162,7 +162,8 @@ export function initOutsideClose() {
     if (!id) return;
     const t = ev.target;
     if (!(t instanceof Element)) return;
-    if (t.closest(`[data-id="${id}"]`) || t.closest('.next') || t.closest('.now') || t.closest('[role="dialog"]') || t.closest('.toast')) return;
+    // 詳細の中の操作と、予定の行そのもの（行は自分で開閉する）は除く。行の横の余白は「外」として閉じる。
+    if (t.closest(`[data-id="${id}"] .detail`) || t.closest(`[data-id="${id}"] .row-btn`) || t.closest('.next') || t.closest('.now') || t.closest('[role="dialog"]') || t.closest('.toast')) return;
     state.ui.openId = null;
     notify();
   });

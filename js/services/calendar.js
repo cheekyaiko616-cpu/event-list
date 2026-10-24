@@ -43,3 +43,6 @@ export function googleCalendarUrl(e) {
     + `&location=${encodeURIComponent(e.place || '')}`
     + `&details=${encodeURIComponent(details)}`;
 }
+
+/** Safari で開くための形（iPhone のホーム画面のアプリから、画面を重ねずに外へ出す）。 */
+export const inSafari = (url) => (url ? url.replace(/^https:/, 'x-safari-https:') : url);

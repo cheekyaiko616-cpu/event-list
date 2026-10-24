@@ -1,7 +1,8 @@
 /* 画面上部：タイトル、ボタン、フォルダ形のタブ。 */
 .top {
   flex: none; z-index: 5;
-  background: var(--top);
+  /* 画面最上部（時計などの帯）はヘッダーと同じ色。明るい表示のときだけ、白い文字が読めるよう濃い色にする */
+  background: linear-gradient(var(--status) 0, var(--status) env(safe-area-inset-top, 0px), var(--top) env(safe-area-inset-top, 0px));
   padding-top: env(safe-area-inset-top, 0px);
 }
 .bar { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding-block: 12px 4px; }
