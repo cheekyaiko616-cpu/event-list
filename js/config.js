@@ -1,5 +1,5 @@
 // アプリ全体の定数。数や初期値を変えたいときは、まずここを直す。
-export const APP = { id: 'event-cho', name: 'イベント帳', schema: 1 };
+export const APP = { id: 'event-cho', name: 'Event list', schema: 1 };
 
 export const STORAGE_KEY = 'eventcho.data.v1'; // 予定・タブ・設定の保存先
 export const FILTER_KEY = 'eventcho.filter';   // 最後に開いていたタブ

@@ -1,6 +1,6 @@
 {
-  "name": "イベント帳",
-  "short_name": "イベント帳",
+  "name": "Event list",
+  "short_name": "Event list",
   "description": "モータースポーツ・爬虫類イベント・Adoライブなどの日程を一覧で管理する個人用アプリ",
   "lang": "ja",
   "start_url": "./",

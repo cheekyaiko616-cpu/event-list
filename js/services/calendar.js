@@ -6,13 +6,28 @@ import { state } from '../state.js';
 import { buildIcs } from './ics.js';
 import { openBlob, saveFile } from './files.js';
 import { parseDate, addDaysIso, eventEnd } from '../util/date.js';
-import { safeUrl } from '../util/text.js';
+import { safeUrl, safeFileName } from '../util/text.js';
 
 const MIME = 'text/calendar';
 
-export function addToCalendar(events) {
+/**
+ * カレンダーに追加する。iPhone では共有シートを先に出す（ホーム画面のアプリではファイルを直接開けないため）。
+ * 共有シートが使えないときだけ、ファイルを開く。※ ボタンを押した直後に呼ぶこと。
+ */
+export async function addToCalendar(events) {
   const text = buildIcs(events, state.settings.alerts);
+  const name = events.length === 1 ? safeFileName(events[0].title) : 'event-list';
+  const file = typeof File === 'function' ? new File([text], `${name}.ics`, { type: MIME }) : null;
+  if (file && navigator.canShare && navigator.canShare({ files: [file] })) {
+    try {
+      await navigator.share({ files: [file] });
+      return 'shared';
+    } catch (e) {
+      if (e && e.name === 'AbortError') return 'cancelled';
+    }
+  }
   openBlob(new Blob([text], { type: `${MIME};charset=utf-8` }));
+  return 'opened';
 }
 
 export function shareIcs(events, filename) {

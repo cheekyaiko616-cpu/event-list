@@ -11,6 +11,7 @@ import { openEventSheet } from './event-sheet.js';
 import { openSettings } from './settings-sheet.js';
 import { toast } from './toast.js';
 import { nextCard } from './next-card.js';
+import { nowStrip } from './next-card.js';
 import { openImportSheet } from './import-sheet.js';
 
 const hueOf = (month) => (month * 150) % 360; // 隣り合う月の色が大きく離れるようにする
@@ -176,7 +177,12 @@ export function renderEventList() {
   if (notices.length) root.append(el('div', { class: 'wrap' }, notices));
 
   const v = selectVisible();
-  if (!past && v.up.length) root.append(el('div', { class: 'wrap' }, nextCard(v.up[0])));
+  if (!past) {
+    const today = todayIso();
+    const live = v.up.filter((e) => e.date <= today);
+    const next = v.up.find((e) => e.date > today);
+    if (live.length || next) root.append(el('div', { class: 'wrap' }, [...live.map(nowStrip), next ? nextCard(next) : null]));
+  }
   const groups = groupByMonth(past ? v.past : v.up);
   groups.forEach((g) => root.append(monthSection(g, past)));
   if (!past && v.undated.length) root.append(undatedSection(v.undated));

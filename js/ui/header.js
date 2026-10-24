@@ -46,7 +46,9 @@ export function initHeader() {
 
 export function renderHeader() {
   const past = state.ui.view === 'past';
-  $('#h-title').textContent = past ? '過去のイベント' : 'イベント帳';
+  const h = $('#h-title');
+  h.textContent = past ? '過去のイベント' : 'Event list';
+  h.classList.toggle('brand', !past);
   const b = $('#btn-view');
   b.textContent = past ? '予定へ' : '過去';
   b.setAttribute('aria-pressed', String(past));
