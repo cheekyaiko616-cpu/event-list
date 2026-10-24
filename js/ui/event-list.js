@@ -6,7 +6,7 @@ import { parseDate, weekday, eventEnd, formatRange, todayIso, addDaysIso } from 
 import { safeUrl } from '../util/text.js';
 import { selectVisible, groupByMonth, createNextYear, removeSamples, addSamples } from '../data/events.js';
 import { tabById } from '../data/tabs.js';
-import { googleCalendarUrl, openGoogleCalendar, openGoogleCalendarDirect } from '../services/calendar.js';
+import { googleCalendarUrl, openGoogleCalendar } from '../services/calendar.js';
 import { openEventSheet } from './event-sheet.js';
 import { openSettings } from './settings-sheet.js';
 import { toast } from './toast.js';
@@ -87,14 +87,10 @@ function detailEl(e) {
   const actions = el('div', { class: 'actions' },
     url ? el('a', { class: 'btn', href: url, target: '_blank', rel: 'noopener noreferrer', text: 'リンクを開く ↗' }) : null,
     dated
-      ? el('a', {
-          class: 'btn solid', href: googleCalendarUrl(e), target: '_blank', rel: 'noopener noreferrer', text: 'カレンダーに追加',
-          // 本物のリンクとして押してもらう（iPhone がGoogleカレンダーのアプリを開きやすい）。押したあと、詳細は閉じる
-          onclick: () => setTimeout(() => { state.ui.openId = null; notify(); }, 0)
-        })
+      ? el('button', { class: 'btn solid', type: 'button', text: 'カレンダーに追加', onclick: () => { openGoogleCalendar(e); state.ui.openId = null; notify(); } })
       : el('button', { class: 'btn', type: 'button', disabled: true, text: 'カレンダーに追加' }),
     dated
-      ? el('button', { class: 'btn', type: 'button', text: '試験：白い画面なしで追加', onclick: () => { openGoogleCalendarDirect(e); state.ui.openId = null; notify(); } })
+      ? el('a', { class: 'btn', href: googleCalendarUrl(e), target: '_blank', rel: 'noopener noreferrer', text: '試験：リンクで追加', onclick: () => setTimeout(() => { state.ui.openId = null; notify(); }, 0) })
       : null,
     el('button', { class: 'btn', type: 'button', text: '編集', onclick: () => openEventSheet(e) }),
     dated
