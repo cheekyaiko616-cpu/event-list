@@ -49,12 +49,3 @@ export function googleCalendarUrl(e) {
  * 「noopener」を付けて開くと、iPhone は Googleカレンダーのアプリを起動する（付けないと、アプリ内でウェブ版が開く）。
  * アプリ側に開いた画面が残ることがあるが、それは左上の「×」で閉じる。
  */
-
-/** 予備：専用ページ（cal.html）を別画面で開いて、標準カレンダーに追加する（見えない枠で開けないとき用）。 */
-export function addToCalendarPage(events) {
-  const bytes = new TextEncoder().encode(buildIcs(events, state.settings.alerts));
-  let bin = '';
-  bytes.forEach((b) => { bin += String.fromCharCode(b); });
-  const b64 = btoa(bin).replace(/\+/g, '-').replace(/\//g, '_');
-  window.open(`cal.html#d=${b64}`, '_blank');
-}
