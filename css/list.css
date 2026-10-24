@@ -64,3 +64,17 @@
 
 /* 詳細を閉じるボタン */
 .close-btn { display: block; width: 100%; min-height: 36px; margin-top: 8px; padding: 0; background: none; border: 0; border-top: 1px solid var(--line); color: var(--muted); font-size: 13px; font-weight: 700; }
+
+/* 開いた予定の固定表示（ヘッダーの下）。1画面に収まるよう、高さに上限を付ける */
+#app-pin { flex: none; max-height: 52dvh; overflow-y: auto; overscroll-behavior: contain; background: var(--bg); box-shadow: 0 6px 10px -8px rgba(0, 0, 0, .35); }
+#app-pin:empty { display: none; }
+#app-pin .rows { padding-block: 0; }
+#app-pin .row { border-bottom: 0; }
+#app-pin .detail { margin: 0 0 10px 0; padding: 10px 12px; }
+#app-pin .kv { margin-bottom: 8px; font-size: 13px; }
+#app-pin .hint { margin-top: 6px; }
+.row.is-open { background: color-mix(in srgb, var(--fg) 6%, transparent); }
+#app-pin { max-height: 60dvh; }
+#app-pin .hint { display: none; }
+#app-pin .actions .btn { min-height: 36px; padding: 0 12px; }
+#app-pin .close-btn { min-height: 30px; margin-top: 6px; }

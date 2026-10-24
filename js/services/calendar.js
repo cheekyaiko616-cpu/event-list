@@ -53,9 +53,14 @@ export function openGoogleCalendar(e) {
   const w = window.open(googleCalendarUrl(e), '_blank');
   if (!w) return;
   const names = ['visibilitychange', 'focus', 'pageshow', 'touchstart', 'click'];
-  const stop = () => names.forEach((n) => { document.removeEventListener(n, tryClose, true); window.removeEventListener(n, tryClose, true); });
+  const stop = () => { document.removeEventListener('visibilitychange', arm); names.forEach((n) => { document.removeEventListener(n, tryClose, true); window.removeEventListener(n, tryClose, true); }); };
+  // 開いた直後に閉じてしまわないよう、「一度アプリを離れた」か「20秒たった」あとだけ閉じにいく
+  let armed = false;
+  const arm = () => { if (document.visibilityState === 'hidden') armed = true; };
+  document.addEventListener('visibilitychange', arm);
+  setTimeout(() => { armed = true; }, 20000);
   function tryClose() {
-    if (document.visibilityState === 'hidden') return;
+    if (!armed || document.visibilityState === 'hidden') return;
     // 1) 同じサイトの小さなページ（close.html）に切り替えて、そのページ自身に閉じさせる。
     // 2) うまくいかなければ、外から閉じる命令を出す。閉じられなくても、案内の画面が残る。
     try { w.location.replace(new URL('close.html', location.href).href); } catch (_) { /* 次へ */ }

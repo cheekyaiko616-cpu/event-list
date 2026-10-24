@@ -31,7 +31,7 @@ function noteBox(...children) {
 // 自動で日程が変わってから2週間は、目印を出す
 const isRecentChange = (e) => !!(e.lastChange && e.lastChange.at >= addDaysIso(todayIso(), -14));
 
-function rowEl(e, past) {
+function rowEl(e, past, pinned = false) {
   const open = state.ui.openId === e.id;
   const a = parseDate(e.date);
   const multi = a && e.date !== eventEnd(e);
@@ -65,7 +65,8 @@ function rowEl(e, past) {
     }
   }, when, what, el('span', { class: 'chev', 'aria-hidden': 'true' }));
 
-  return el('li', { class: 'row' + (past ? ' past' : ''), 'data-id': e.id }, btn, open ? detailEl(e) : null);
+  // 開いた予定は、ヘッダーの下に固定して詳細を出す。一覧の中の行には詳細を出さず、印だけ付ける。
+  return el('li', { class: 'row' + (past ? ' past' : '') + (open && !pinned ? ' is-open' : ''), 'data-id': e.id }, btn, open && pinned ? detailEl(e) : null);
 }
 
 function detailEl(e) {
@@ -162,7 +163,18 @@ export function initOutsideClose() {
   });
 }
 
+/** 開いている予定を、ヘッダーの下に固定して表示する。閉じたら消える。 */
+function renderPin() {
+  const pin = $('#app-pin');
+  if (!pin) return;
+  clear(pin);
+  const e = state.ui.openId ? state.events.find((x) => x.id === state.ui.openId) : null;
+  if (!e || !state.ready) return;
+  pin.append(el('ul', { class: 'wrap rows' }, rowEl(e, state.ui.view === 'past', true)));
+}
+
 export function renderEventList() {
+  renderPin();
   const root = $('#app-list');
   clear(root);
 
