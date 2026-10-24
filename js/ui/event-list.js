@@ -86,7 +86,7 @@ function detailEl(e) {
   const actions = el('div', { class: 'actions' },
     url ? el('a', { class: 'btn', href: url, target: '_blank', rel: 'noopener noreferrer', text: 'リンクを開く ↗' }) : null,
     dated
-      ? el('button', { class: 'btn solid', type: 'button', text: 'カレンダーに追加', onclick: () => window.open(googleCalendarUrl(e), '_blank', 'noopener') })
+      ? el('button', { class: 'btn solid', type: 'button', text: 'カレンダーに追加', onclick: () => { openGoogleCalendar(e); state.ui.openId = null; notify(); } })
       : el('button', { class: 'btn', type: 'button', disabled: true, text: 'カレンダーに追加' }),
     el('button', { class: 'btn', type: 'button', text: '編集', onclick: () => openEventSheet(e) }),
     dated
@@ -143,6 +143,31 @@ function emptyEl(past) {
 }
 
 /* ---------- 全体 ---------- */
+/** Googleカレンダーの登録画面を開く。アプリに戻ってきたら、開いた画面（保存後の白い画面）を閉じる。 */
+function openGoogleCalendar(e) {
+  const w = window.open(googleCalendarUrl(e), '_blank');
+  if (!w) return;
+  const back = () => {
+    if (document.visibilityState !== 'visible') return;
+    document.removeEventListener('visibilitychange', back);
+    try { w.close(); } catch (_) { /* 閉じられなくても支障はない */ }
+  };
+  document.addEventListener('visibilitychange', back);
+}
+
+/** 開いている詳細の外をタップしたら閉じる。起動後に1回だけ呼ぶ。 */
+export function initOutsideClose() {
+  document.addEventListener('click', (ev) => {
+    const id = state.ui.openId;
+    if (!id) return;
+    const t = ev.target;
+    if (!(t instanceof Element)) return;
+    if (t.closest(`[data-id="${id}"]`) || t.closest('.next') || t.closest('.now') || t.closest('[role="dialog"]') || t.closest('.toast')) return;
+    state.ui.openId = null;
+    notify();
+  });
+}
+
 export function renderEventList() {
   const root = $('#app-list');
   clear(root);

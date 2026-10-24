@@ -10,7 +10,7 @@ import { pruneOld } from './data/events.js';
 import { startFeed } from './data/feed.js';
 import { initHeader, renderHeader } from './ui/header.js';
 import { initTabsBar, renderTabsBar } from './ui/tabs-bar.js';
-import { renderEventList } from './ui/event-list.js';
+import { renderEventList, initOutsideClose } from './ui/event-list.js';
 import { initEventSheet } from './ui/event-sheet.js';
 import { initTabManager, renderTabManager } from './ui/tab-manager.js';
 import { initSettingsSheet, renderSettings } from './ui/settings-sheet.js';
@@ -32,6 +32,7 @@ try {
 } catch (e) { /* 既定の「すべて」で始める */ }
 
 initHeader();
+initOutsideClose();
 initTabsBar();
 initEventSheet();
 initTabManager();
