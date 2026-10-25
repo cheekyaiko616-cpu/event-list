@@ -42,6 +42,13 @@ iPhoneのホーム画面に追加して使います。ビルド作業は不要�
 
 新しい画面を足すときは、`js/ui/` に1ファイル作り、`js/ui/sheet.js` の `mountSheet` で枠を作って、`main.js` で呼び出します。
 
+## ホーム画面アイコン（クリア・色合い調整）
+
+- `icons/` のアイコンは、外側の背景だけが半透明の白になっています（飛行機とカレンダーの白は不透明）
+- 背景の濃さを変えたいときは、元の画像（`originals/`）に対して `tools/make_icon.py` を実行します
+  例: `python3 tools/make_icon.py originals/apple-touch-icon.png icons/apple-touch-icon.png 0.4`（最後の数字が背景の濃さ。0=完全に透明、1=不透明の白）
+- iPhoneはアイコンを覚えているため、差し替えたあとはホーム画面のアイコンを削除して、もう一度追加してください
+
 ## ファイルを足したり消したりしたとき
 
 `sw.js`（オフライン用）の `ASSETS` の一覧を直し、`CACHE` の番号を1つ上げてください。
