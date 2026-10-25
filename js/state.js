@@ -8,7 +8,7 @@ export const state = {
   settings: { alerts: [] },
   dismissed: [],      // 自動取得の予定のうち、利用者が削除したもの（feedId）。再び追加しない
   cloud: false,       // 保存先がクラウド（Claude上の共有データ）か
-  ui: { filter: 'all', view: 'upcoming', openId: null }
+  ui: { filter: 'all', view: 'upcoming', openId: null, screen: 'list' } // screen: 'list'（予定）か 'settings'（設定）
 };
 
 const listeners = new Set();

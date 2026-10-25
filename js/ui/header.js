@@ -7,6 +7,7 @@ import { refreshNow } from '../data/feed.js';
 import { toast } from './toast.js';
 import { openUpdates } from './updates-sheet.js';
 import { slideList } from './motion.js';
+import { toggleSettings } from './settings-page.js';
 
 export function initHeader() {
   $('#app-header').innerHTML = `
@@ -20,9 +21,10 @@ export function initHeader() {
           <span class="today" id="today"></span>
         </div>
         <div class="bar-actions">
-          <button type="button" class="btn" id="btn-refresh" aria-label="今すぐ更新">↻ 更新</button>
+          <button type="button" class="btn icon-btn" id="btn-refresh" aria-label="今すぐ更新" title="今すぐ更新">↻</button>
           <button type="button" class="btn" id="btn-view" aria-pressed="false"></button>
           <button type="button" class="btn solid" id="btn-add">＋ 追加</button>
+          <button type="button" class="btn icon-btn" id="btn-settings" aria-label="設定" aria-pressed="false">⚙️</button>
         </div>
       </div>
       <div id="tabs-mount"></div>
@@ -33,6 +35,7 @@ export function initHeader() {
 
   $('#btn-add').addEventListener('click', () => openEventSheet(null));
   $('#btn-info').addEventListener('click', openUpdates);
+  $('#btn-settings').addEventListener('click', toggleSettings);
   $('#btn-refresh').addEventListener('click', async () => {
     const b = $('#btn-refresh');
     b.disabled = true;
@@ -53,9 +56,15 @@ export function initHeader() {
 
 export function renderHeader() {
   const past = state.ui.view === 'past';
+  const settings = state.ui.screen === 'settings';
   const h = $('#h-title');
-  h.textContent = 'Event list';
-  h.classList.add('brand');
+  h.textContent = settings ? '設定' : 'Event list';
+  h.classList.toggle('brand', !settings);
+  ['#btn-refresh', '#btn-view', '#btn-add'].forEach((id) => { $(id).hidden = settings; });
+  $('#tabs-mount').hidden = settings;
+  const g = $('#btn-settings');
+  g.setAttribute('aria-pressed', String(settings));
+  g.classList.toggle('on', settings);
   const d = new Date();
   $('#today').textContent = `今日 ${d.getMonth() + 1}/${d.getDate()}(${WEEKDAYS[d.getDay()]})${past ? ' ・ 過去' : ''}`;
   const b = $('#btn-view');

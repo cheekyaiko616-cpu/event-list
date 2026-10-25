@@ -14,7 +14,7 @@ import { renderEventList, initOutsideClose, initPinSwipe } from './ui/event-list
 import { initTabSwipe } from './ui/tab-swipe.js';
 import { initEventSheet } from './ui/event-sheet.js';
 import { initTabManager, renderTabManager } from './ui/tab-manager.js';
-import { initSettingsSheet, renderSettings } from './ui/settings-sheet.js';
+import { initSettingsPage, renderSettings } from './ui/settings-page.js';
 import { initImportSheet } from './ui/import-sheet.js';
 import { initUpdatesSheet } from './ui/updates-sheet.js';
 import { toast } from './ui/toast.js';
@@ -42,7 +42,7 @@ initTabSwipe();
 initTabsBar();
 initEventSheet();
 initTabManager();
-initSettingsSheet();
+initSettingsPage();
 initImportSheet();
 initUpdatesSheet();
 // 2本指の拡大・縮小を止める

@@ -1,25 +1,31 @@
-// 設定の画面：カレンダーのアラート、まとめて追加、バックアップ、見本の削除。
-import { state } from '../state.js';
-import { $, el } from '../util/dom.js';
-import { mountSheet, showSheet, hideSheet } from './sheet.js';
+// 設定の画面：⚙️ボタンで、予定の一覧から切り替わる。
+// 日程の取り込み、カレンダーへのまとめて追加、バックアップ、見本の削除。
+import { state, notify } from '../state.js';
+import { $ } from '../util/dom.js';
 import { toast } from './toast.js';
-import { commit } from '../data/store.js';
 import { upcomingDated, removeSamples } from '../data/events.js';
 import { buildBackup, parseBackup, applyBackup } from '../data/backup.js';
 import { addToCalendar } from '../services/calendar.js';
 import { saveFile } from '../services/files.js';
+import { openImportSheet } from './import-sheet.js';
 
+// 固定の文字だけで作る（入力された内容は入れない）
 const MARKUP = `
-  <div class="sheet" id="st-sheet" role="dialog" aria-modal="true" aria-labelledby="st-heading">
-    <div class="sheet-head">
-      <h2 id="st-heading">設定</h2>
-      <button type="button" class="ghost" id="st-close">閉じる</button>
+  <div class="wrap set-page" id="st-page">
+    <div class="set-head">
+      <button type="button" class="btn" id="st-back">← 予定へ戻る</button>
     </div>
+
+    <section class="set-sec">
+      <h3>日程の取り込み</h3>
+      <p class="help">Claudeが公式情報から調べた取り込み用ファイルを読み込みます。内容を確認してから追加します。</p>
+      <div class="actions"><button type="button" class="btn solid" id="st-import-open">日程の取り込みを開く</button></div>
+    </section>
 
     <section class="set-sec">
       <h3>カレンダーにまとめて追加</h3>
       <p class="help" id="st-bulk-help"></p>
-      <div class="actions"><button type="button" class="btn solid" id="st-bulk">まとめて標準カレンダーに追加</button></div>
+      <div class="actions"><button type="button" class="btn" id="st-bulk">まとめて標準カレンダーに追加</button></div>
     </section>
 
     <section class="set-sec">
@@ -47,47 +53,59 @@ const MARKUP = `
     </section>
   </div>`;
 
-let wrap = null;
 let pending = null; // 読み込み待ちのデータ
 
 function setMsg(text, isError) {
   const m = $('#st-msg');
+  if (!m) return;
   m.textContent = text;
   m.style.color = isError ? 'var(--danger)' : 'var(--muted)';
 }
 
 function clearPending() {
   pending = null;
-  $('#st-confirm').hidden = true;
+  const c = $('#st-confirm');
+  if (c) c.hidden = true;
 }
 
-export function initSettingsSheet() {
-  wrap = mountSheet(MARKUP);
-  $('#st-close').addEventListener('click', () => hideSheet(wrap));
-  wrap.addEventListener('sheetclose', () => { clearPending(); setMsg('', false); });
-
+export function initSettingsPage() {
+  $('#app-settings').innerHTML = MARKUP;
+  $('#st-back').addEventListener('click', closeSettings);
+  $('#st-import-open').addEventListener('click', openImportSheet);
   $('#st-bulk').addEventListener('click', () => addToCalendar(upcomingDated()));
   $('#st-export').addEventListener('click', onExport);
   $('#st-import').addEventListener('click', () => $('#st-file').click());
   $('#st-file').addEventListener('change', onFile);
   $('#st-apply').addEventListener('click', onApply);
   $('#st-cancel').addEventListener('click', clearPending);
-
   $('#st-sample-clear').addEventListener('click', async () => {
     await removeSamples();
     toast('見本を消しました');
   });
 }
 
-export function openSettings() {
-  setMsg('', false);
-  showSheet(wrap);
-  renderSettings();
+/** ⚙️ボタンで切り替える。もう一度押すか「予定へ戻る」で一覧に戻る。 */
+export function toggleSettings() {
+  state.ui.screen = state.ui.screen === 'settings' ? 'list' : 'settings';
+  state.ui.openId = null;
+  notify();
+  const page = $('#app-settings');
+  if (page) page.scrollTop = 0;
 }
 
-/** 開いているときだけ、表示内容を今の状態に合わせる。 */
+function closeSettings() {
+  state.ui.screen = 'list';
+  notify();
+}
+
+/** 画面の切り替えと、表示内容を今の状態に合わせる。 */
 export function renderSettings() {
-  if (!wrap || wrap.hidden) return;
+  const on = state.ui.screen === 'settings';
+  $('#app-settings').hidden = !on;
+  $('#app-list').hidden = on;
+  $('#app-pin').hidden = on;
+  if (!on) { clearPending(); setMsg('', false); return; }
+
   const list = upcomingDated();
   $('#st-bulk-help').textContent = list.length
     ? `これからの確定した予定 ${list.length} 件です。下のボタンで、標準カレンダーにまとめて追加できます。`

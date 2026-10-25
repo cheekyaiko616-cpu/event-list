@@ -8,12 +8,10 @@ import { selectVisible, groupByMonth, removeSamples, addSamples } from '../data/
 import { tabById } from '../data/tabs.js';
 import { addToCalendar } from '../services/calendar.js';
 import { openEventSheet } from './event-sheet.js';
-import { openSettings } from './settings-sheet.js';
 import { toast } from './toast.js';
 import { nowStrip, nextStrip } from './next-card.js';
 import { reduced, EASE } from './motion.js';
 import { closeDetail, isClosing } from './pin-close.js';
-import { openImportSheet } from './import-sheet.js';
 
 const hueOf = (month) => (month * 150) % 360; // 隣り合う月の色が大きく離れるようにする
 
@@ -247,9 +245,5 @@ export function renderEventList() {
   if (!past && v.undated.length) root.append(undatedSection(v.undated));
   if (!groups.length && !(!past && v.undated.length)) root.append(emptyEl(past));
 
-  root.append(el('div', { class: 'wrap foot' },
-    el('button', { class: 'link-btn', type: 'button', text: '日程の取り込み', onclick: openImportSheet }),
-    el('span', { class: 'foot-gap', text: '　' }),
-    el('button', { class: 'link-btn', type: 'button', text: 'データ・通知の設定', onclick: openSettings })));
   root.append(el('div', { class: 'end-space' }));
 }
