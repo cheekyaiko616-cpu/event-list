@@ -1,7 +1,7 @@
 // オフラインでも開けるようにするための仕組み。
 // 通信できるときは常に最新のファイルを取りに行き、できないときだけ保存済みのものを使う。
 // ファイルを追加・削除したら ASSETS を直し、CACHE の番号を上げる。
-const CACHE = 'event-cho-v46';
+const CACHE = 'event-cho-v47';
 const ASSETS = [
   './',
   'index.html',
@@ -36,6 +36,7 @@ const ASSETS = [
   'js/data/storage.js',
   'js/data/store.js',
   'js/data/tabs.js',
+  'js/data/watchlist.js',
   'js/data/events.js',
   'js/data/import.js',
   'js/data/feed.js',

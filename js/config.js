@@ -6,6 +6,7 @@ export const FILTER_KEY = 'eventcho.filter';   // 最後に開いていたタブ
 
 export const COLORS = 8;     // タブの色の数（css/tokens.css の --c1〜--c8 と合わせる）
 export const MAX_TABS = 12;  // タブの上限
+export const WATCH_MAX = 300; // タブごとの「取り込み内容」の文字数の上限
 
 export const WEEKDAYS = ['日', '月', '火', '水', '木', '金', '土'];
 

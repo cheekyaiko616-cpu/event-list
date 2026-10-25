@@ -32,6 +32,7 @@ iPhoneのホーム画面に追加して使います。ビルド作業は不要�
 | 日程の取り込み（読み込み・比べ方） | `js/data/import.js` |
 | 取り込みの確認画面 | `js/ui/import-sheet.js` |
 | 予定やタブの増減・並べ方のルール | `js/data/events.js` / `js/data/tabs.js` |
+| タブごとの「自動で取り込む内容」と、その一覧の形 | `js/data/watchlist.js` / タブ管理は `js/ui/tab-manager.js` |
 | 保存先（localStorage → IndexedDB など） | `js/data/storage.js` だけ |
 | 保存データの項目を増やす | `js/data/schema.js` と `js/data/events.js` |
 | カレンダー用ファイルの中身 | `js/services/ics.js` |

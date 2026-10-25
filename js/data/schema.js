@@ -1,6 +1,6 @@
 // 保存データや読み込んだファイルの中身を、安全な形に整える。
 // 項目を増やすときは、ここに足す。
-import { COLORS, DEFAULT_SETTINGS, ALERT_OPTIONS } from '../config.js';
+import { COLORS, DEFAULT_SETTINGS, ALERT_OPTIONS, WATCH_MAX } from '../config.js';
 import { parseDate } from '../util/date.js';
 
 const str = (v, max) => (typeof v === 'string' ? v.slice(0, max) : '');
@@ -17,7 +17,8 @@ export function normalizeData(raw) {
       id: t.id.slice(0, 60),
       name: str(t.name, 20) || '無題',
       color: Number.isInteger(t.color) && t.color >= 1 && t.color <= COLORS ? t.color : COLORS,
-      order: Number.isFinite(t.order) ? t.order : i + 1
+      order: Number.isFinite(t.order) ? t.order : i + 1,
+      watch: str(t.watch, WATCH_MAX).trim()
     });
   });
 

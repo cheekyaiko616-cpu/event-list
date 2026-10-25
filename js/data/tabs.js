@@ -1,8 +1,11 @@
 // タブ（予定の種類）の追加・名前変更・色・並び替え・削除。
 import { state } from '../state.js';
 import { commit } from './store.js';
-import { COLORS, MAX_TABS } from '../config.js';
+import { COLORS, MAX_TABS, WATCH_MAX } from '../config.js';
 import { newId } from '../util/text.js';
+
+/** 取り込み内容の文字を整える（前後の空白を消し、長さを上限まで） */
+export const cleanWatch = (raw) => (typeof raw === 'string' ? raw.trim().slice(0, WATCH_MAX) : '');
 
 export const sortedTabs = () =>
   [...state.tabs].sort((a, b) => (a.order - b.order) || a.name.localeCompare(b.name, 'ja'));
@@ -11,7 +14,7 @@ export const tabById = (id) => state.tabs.find((t) => t.id === id) || null;
 
 export const countEvents = (id) => state.events.filter((e) => e.type === id).length;
 
-export async function addTab(rawName) {
+export async function addTab(rawName, rawWatch = '') {
   const name = rawName.trim().slice(0, 20);
   if (!name) return { ok: false, error: 'タブの名前を入れてください。' };
   if (state.tabs.some((t) => t.name === name)) return { ok: false, error: '同じ名前のタブがあります。' };
@@ -23,7 +26,7 @@ export async function addTab(rawName) {
     if (!used.includes(c)) { color = c; break; }
   }
   const order = state.tabs.reduce((m, t) => Math.max(m, t.order), 0) + 1;
-  state.tabs.push({ id: newId('t'), name, color, order });
+  state.tabs.push({ id: newId('t'), name, color, order, watch: cleanWatch(rawWatch) });
   await commit();
   return { ok: true };
 }
@@ -45,6 +48,17 @@ export async function cycleColor(id) {
   if (!t) return;
   t.color = (t.color % COLORS) + 1;
   await commit();
+}
+
+/** このタブに自動で取り込む内容を変える。 */
+export async function setTabWatch(id, rawWatch) {
+  const t = tabById(id);
+  if (!t) return { ok: false, error: 'タブが見つかりません。' };
+  const watch = cleanWatch(rawWatch);
+  if (watch === (t.watch || '')) return { ok: true };
+  t.watch = watch;
+  await commit();
+  return { ok: true };
 }
 
 /** dir: -1 で前へ、1 で後ろへ。 */

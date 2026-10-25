@@ -87,3 +87,9 @@
 .up-line { display: flex; flex-direction: column; margin: 0; padding: 4px 0; font-size: 13px; }
 .up-line b { font-size: 14px; overflow-wrap: anywhere; }
 .up-line span { color: var(--muted); overflow-wrap: anywhere; }
+
+/* タブの取り込み内容 */
+.tab-watch { grid-column: 1 / -1; display: grid; gap: 4px; }
+.tab-watch-input { resize: vertical; min-height: 44px; }
+.tab-share { margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--line); }
+.tab-share .btn { margin-top: 6px; }
