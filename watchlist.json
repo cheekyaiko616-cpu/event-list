@@ -1,0 +1,20 @@
+{
+  "app": "event-cho-watchlist",
+  "version": 1,
+  "updatedAt": "2026-10-25",
+  "note": "下書き。内容を確認してから反映します。tabNameはアプリのタブ名と同じにしてください。",
+  "tabs": [
+    {
+      "tabName": "モータースポーツ",
+      "watch": "SUPER GT（公式 supergt.net のカレンダー）、スーパー耐久（公式 supertaikyu.com の日程案内）、WEC（公式 fiawec.com）の今後の日程"
+    },
+    {
+      "tabName": "爬虫類",
+      "watch": "夏レプ・冬レプ（主催 レップジャパン rep-japan.co.jp）、ナゴレプ（公式 nagorep.com/schedule）の次回開催"
+    },
+    {
+      "tabName": "Ado",
+      "watch": "Adoのライブ（コンサート・ツアー・フェス出演・会員限定ライブ）。Ado公式サイトのニュースと、公式ファンサイトのお知らせで確認。ライブ以外は入れない"
+    }
+  ]
+}
