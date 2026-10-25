@@ -8,6 +8,7 @@ import { buildBackup, parseBackup, applyBackup } from '../data/backup.js';
 import { addToCalendar } from '../services/calendar.js';
 import { saveFile } from '../services/files.js';
 import { openImportSheet } from './import-sheet.js';
+import { GITHUB_MARKUP, initGithubLink, renderGithubLink } from './github-link.js';
 
 // 固定の文字だけで作る（入力された内容は入れない）
 const MARKUP = `
@@ -21,6 +22,8 @@ const MARKUP = `
       <p class="help">Claudeが公式情報から調べた取り込み用ファイルを読み込みます。内容を確認してから追加します。</p>
       <div class="actions"><button type="button" class="btn solid" id="st-import-open">日程の取り込みを開く</button></div>
     </section>
+
+    ${GITHUB_MARKUP}
 
     <section class="set-sec">
       <h3>カレンダーにまとめて追加</h3>
@@ -72,6 +75,7 @@ export function initSettingsPage() {
   $('#app-settings').innerHTML = MARKUP;
   $('#st-back').addEventListener('click', closeSettings);
   $('#st-import-open').addEventListener('click', openImportSheet);
+  initGithubLink();
   $('#st-bulk').addEventListener('click', () => addToCalendar(upcomingDated()));
   $('#st-export').addEventListener('click', onExport);
   $('#st-import').addEventListener('click', () => $('#st-file').click());
@@ -106,6 +110,7 @@ export function renderSettings() {
   $('#app-pin').hidden = on;
   if (!on) { clearPending(); setMsg('', false); return; }
 
+  renderGithubLink();
   const list = upcomingDated();
   $('#st-bulk-help').textContent = list.length
     ? `これからの確定した予定 ${list.length} 件です。下のボタンで、標準カレンダーにまとめて追加できます。`

@@ -17,6 +17,7 @@ import { initTabManager, renderTabManager } from './ui/tab-manager.js';
 import { initSettingsPage, renderSettings } from './ui/settings-page.js';
 import { initImportSheet } from './ui/import-sheet.js';
 import { initUpdatesSheet } from './ui/updates-sheet.js';
+import { initWatchSync } from './data/watchlist-sync.js';
 import { toast } from './ui/toast.js';
 import { initSplash } from './ui/splash.js';
 
@@ -45,6 +46,7 @@ initTabManager();
 initSettingsPage();
 initImportSheet();
 initUpdatesSheet();
+initWatchSync();
 // 2本指の拡大・縮小を止める
 ['gesturestart', 'gesturechange', 'gestureend'].forEach((n) => document.addEventListener(n, (e) => e.preventDefault()));
 subscribe(renderAll);

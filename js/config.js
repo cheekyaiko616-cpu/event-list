@@ -29,5 +29,12 @@ export const DEFAULT_SETTINGS = { alerts: ['d1'] };
 // 終わった予定を残す日数。これを過ぎた予定は、起動時に一覧から消える。
 export const RETENTION_DAYS = 365;
 
+// 取り込み内容の一覧(watchlist.json)を保存するGitHub上の場所。毎週の取得がここを読む。
+export const GITHUB = {
+  owner: 'cheekyaiko616-cpu', repo: 'event-list', path: 'watchlist.json', branch: 'main',
+  tokenKey: 'eventcho.gh.token',   // 鍵の保存先（この端末の中だけ。バックアップには入れない）
+  filledKey: 'eventcho.gh.filled'  // 初回の「GitHubの内容を取り込む」を済ませたか
+};
+
 // 取り込みファイルの種類の名前。Claudeが作るファイルの先頭に書く。
 export const IMPORT_APP = 'event-cho-import';

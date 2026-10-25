@@ -5,6 +5,7 @@ import { toast } from './toast.js';
 import { sortedTabs, countEvents, addTab, renameTab, cycleColor, moveTab, removeTab, setTabWatch } from '../data/tabs.js';
 import { watchlistText, watchlistData } from '../data/watchlist.js';
 import { WATCH_MAX } from '../config.js';
+import { syncLabel } from '../data/watchlist-sync.js';
 
 const MARKUP = `
   <div class="sheet" id="tm-sheet" role="dialog" aria-modal="true" aria-labelledby="tm-heading">
@@ -25,7 +26,7 @@ const MARKUP = `
       <p class="err" id="tm-error" role="alert"></p>
     </form>
     <div class="tab-share">
-      <p class="help">タブごとの「取り込み内容」を、Claudeに渡す一覧にまとめます。</p>
+      <p class="help" id="tm-sync" role="status"></p>
       <button type="button" class="btn" id="tm-copy">取り込みの一覧をコピー</button>
       <p class="help" id="tm-copy-msg" role="status"></p>
     </div>
@@ -158,6 +159,7 @@ function itemEl(tab, i, tabs) {
 /** 画面が開いているときだけ描く。入力中は、打っている途中の文字が消えないよう描き直さない。 */
 export function renderTabManager(force) {
   if (!wrap || wrap.hidden) return;
+  $('#tm-sync').textContent = syncLabel();
   const list = $('#tm-list');
   const active = document.activeElement;
   if (!force && active && active.tagName === 'INPUT' && list.contains(active)) return;
