@@ -1,7 +1,7 @@
 {
   "app": "event-cho-feed",
   "version": 1,
-  "updatedAt": "2026-10-24",
+  "updatedAt": "2026-10-26",
   "items": [
     {
       "id": "supergt-2027-r1",
@@ -98,6 +98,18 @@
       "url": "https://racer.com/2026/07/31/super-gt-confirms-2027-calendar",
       "note": "暫定（FIA・JAF承認待ち、変更の可能性あり）。日付は決勝日。",
       "checkedAt": "2026-10-24"
+    },
+    {
+      "id": "supergt-2027-suzuka1000km",
+      "tabName": "モータースポーツ",
+      "title": "SUPER GT 2027 鈴鹿1000km（IGTC第5戦・GT300は選択参戦）",
+      "date": "2027-09-05",
+      "end": "",
+      "place": "鈴鹿サーキット",
+      "source": "RACER 2026/07/31報道（GTAの2027年暫定カレンダー）、Intercontinental GT Challenge公式サイト 2026/08/03。10/26確認",
+      "url": "https://racer.com/2026/07/31/super-gt-confirms-2027-calendar",
+      "note": "SUPER GT通常の8戦とは別の特別戦（GT300チームの選択参戦）。日付は決勝日。大会週末は9/3〜5との報道。暫定（FIA・JAF承認待ち、変更の可能性あり）。",
+      "checkedAt": "2026-10-26"
     },
     {
       "id": "taikyu-2027-r1",
