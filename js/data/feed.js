@@ -37,13 +37,13 @@ export function cleanFeedItem(id, raw) {
 export const feedHash = (f) => [f.tabName, f.title, f.date, f.end, f.place, f.source, f.url, f.note, (f.dates || []).map((d) => `${d.kind}:${d.date}`).join(',')].join('|');
 
 /**
- * 自動取得の期限日付を、予定に合わせる。設定で「取り込む」にした種類だけ入れる。
+ * 自動取得の期限日付を、予定に合わせる。そのタブの設定で「取り込む」にした種類だけ入れる。
  * 手で入れた日付（auto でないもの）は消さない。変わったら true。
  */
 function syncDates(e, f) {
   const mine = (e.dates || []).filter((d) => !d.auto);
   const fromFeed = (f.dates || [])
-    .filter((d) => importsKind(d.kind) && !mine.some((m) => m.kind === d.kind && m.date === d.date))
+    .filter((d) => importsKind(e.type, d.kind) && !mine.some((m) => m.kind === d.kind && m.date === d.date))
     .map((d) => ({ ...d, auto: true }));
   const next = cleanDates([...mine, ...fromFeed]);
   if (JSON.stringify(next) === JSON.stringify(e.dates || [])) return false;

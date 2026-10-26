@@ -24,7 +24,7 @@ iPhoneのホーム画面に追加して使います。ビルド作業は不要�
 | 一覧の表示内容・ボタン | `js/ui/event-list.js` |
 | 予定の入力画面 | `js/ui/event-sheet.js` |
 | 申し込み・期限の日付（入力欄 / データの整え方） | `js/ui/event-dates.js` / `js/data/dates.js` |
-| 設定（取り込む項目）とタブごとの表示（出す・出さない）の整え方 / 設定画面の選択欄（タブごとの表示は `js/ui/tab-edit.js`） | `js/data/settings.js` / `js/ui/settings-view.js` |
+| タブごとの設定（一覧に出す・出さない、自動で取り込む日付の種類）の整え方 / 選択欄 | `js/data/settings.js` / `js/ui/tab-edit.js` |
 | タブの並び | `js/ui/tabs-bar.js` |
 | タブの一覧・追加・編集の画面 | `js/ui/tab-manager.js` / `js/ui/tab-add.js` / `js/ui/tab-edit.js` |
 | ⚙️の設定画面（取り込み・バックアップ・カレンダー追加） | `js/ui/settings-page.js` / 見た目は `css/settings.css` |
@@ -76,7 +76,7 @@ iPhoneのホーム画面に追加して使います。ビルド作業は不要�
 - 形は `feed.json` の見本のとおりです。各件には `id`・`tabName`・`title`・`date`・`end`・`place`・`source`（出典。必須）・`url`・`note`・`checkedAt`（と、あれば `dates`）を書きます。
 - 反映のルールは `js/data/feed.js` にあります。
 - 申し込み・期限などの日付は、各件に `dates`（`kind`・`date`・`note` の並び。最大8つ）で書きます。`kind` は `open`（申込開始）・`close`（申込締切）・`result`（当落発表）・`pay`（入金期限）・`other` のどれかです。
-- アプリの「設定」で、取り込む種類を選べます。外した種類は自動では入りません。手で入れた日付は消えません。
+- 取り込む種類は、タブごとに「タブの編集」の「自動で取り込む日付」で選びます（その内容は `watchlist.json` の `kinds` に保存され、自動の作業もそれに従います）。外した種類は自動では入りません。手で入れた日付は消えません。
 - 毎週の自動の作業の手順は、`tools/weekly-fetch.md` にあります。
 
 ## データについて

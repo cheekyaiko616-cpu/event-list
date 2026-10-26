@@ -10,6 +10,6 @@ export function watchlistData() {
     updatedAt: new Date().toISOString(),
     tabs: sortedTabs()
       .filter((t) => (t.watch || '').trim())
-      .map((t) => ({ tabName: t.name, watch: t.watch.trim() }))
+      .map((t) => ({ tabName: t.name, watch: t.watch.trim(), kinds: t.importKinds || [] })) // kinds: 申し込みなどの日付で取り込む種類（空なら開催日だけ）
   };
 }

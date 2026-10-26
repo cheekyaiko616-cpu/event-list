@@ -14,7 +14,7 @@ export const WEEKDAYS = ['日', '月', '火', '水', '木', '金', '土'];
 export const DEFAULT_TABS = [
   { id: 'motor', name: 'モータースポーツ', color: 1, order: 1 },
   { id: 'rept', name: '爬虫類', color: 2, order: 2 },
-  { id: 'ado', name: 'Ado', color: 3, order: 3 }
+  { id: 'ado', name: 'Ado', color: 3, order: 3, importKinds: ['open', 'close', 'result', 'pay', 'other'] }
 ];
 
 // カレンダーに付けるアラート。trigger は「予定の0時」からの差（終日の予定なので0時が基準）
@@ -33,6 +33,8 @@ export const DATE_KINDS = [
   { id: 'other', label: 'その他' }
 ];
 export const DATES_MAX = 8;
+// 申し込みなどの日付を、初めから自動で取り込むタブ（名前）。ほかのタブは、タブの編集画面で選ぶまで取り込まない
+export const KIND_DEFAULT_TABS = ['Ado'];
 
 // 一覧の各行に出せる項目（設定で出す／出さないを選ぶ）
 export const SHOW_KEYS = [

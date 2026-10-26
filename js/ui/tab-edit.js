@@ -3,7 +3,8 @@ import { $, el, clear } from '../util/dom.js';
 import { mountSheet, showSheet, hideSheet } from './sheet.js';
 import { toast } from './toast.js';
 import { tabById, countEvents, updateTab, removeTab } from '../data/tabs.js';
-import { COLORS, WATCH_MAX, SHOW_KEYS } from '../config.js';
+import { COLORS, WATCH_MAX, SHOW_KEYS, DATE_KINDS } from '../config.js';
+import { refreshNow } from '../data/feed.js';
 
 const MARKUP = `
   <form class="sheet" id="te-sheet" role="dialog" aria-modal="true" aria-labelledby="te-heading" novalidate>
@@ -24,6 +25,10 @@ const MARKUP = `
       <textarea class="input" id="te-watch" rows="3" maxlength="${WATCH_MAX}" placeholder="例）SUPER GTの2027年の公式日程"></textarea>
     </div>
     <fieldset class="seg">
+      <legend class="legend">自動で取り込む日付（開催日のほか）</legend>
+      <div class="checks" id="te-kinds"></div>
+    </fieldset>
+    <fieldset class="seg">
       <legend class="legend">表示</legend>
       <div class="checks" id="te-show"></div>
     </fieldset>
@@ -40,6 +45,7 @@ let tabId = null;
 let color = 1;
 let hidden = false;
 let show = {};
+let kinds = [];
 
 export function initTabEdit() {
   wrap = mountSheet(MARKUP);
@@ -59,6 +65,17 @@ function drawColors() {
       onclick: () => { color = c; drawColors(); }
     }));
   }
+}
+
+/** 自動で取り込む日付の種類の選択欄。 */
+function drawKinds() {
+  const box = $('#te-kinds');
+  clear(box);
+  DATE_KINDS.forEach((k) => {
+    const input = el('input', { type: 'checkbox', id: `te-k-${k.id}`, checked: kinds.includes(k.id) });
+    input.addEventListener('change', () => { kinds = input.checked ? [...kinds, k.id] : kinds.filter((x) => x !== k.id); });
+    box.append(el('label', { class: 'check', for: `te-k-${k.id}` }, input, k.label));
+  });
 }
 
 /** 表示の選択欄。「このタブを一覧に出す」と、一覧に出す項目。 */
@@ -87,21 +104,24 @@ export function openTabEdit(id) {
   color = t.color;
   hidden = !!t.hidden;
   show = { ...(t.show || {}) };
+  kinds = [...(t.importKinds || [])];
   $('#te-name').value = t.name;
   $('#te-watch').value = t.watch || '';
   $('#te-error').textContent = '';
   $('#te-confirm').hidden = true;
   drawColors();
   drawShow();
+  drawKinds();
   showSheet(wrap);
 }
 
 async function onSubmit(ev) {
   ev.preventDefault();
   if (!tabId) return;
-  const r = await updateTab(tabId, { name: $('#te-name').value, color, watch: $('#te-watch').value, hidden, show });
+  const r = await updateTab(tabId, { name: $('#te-name').value, color, watch: $('#te-watch').value, hidden, show, importKinds: kinds });
   if (!r.ok) { $('#te-error').textContent = r.error; return; }
   hideSheet(wrap);
+  refreshNow(); // 取り込む種類を変えたときも、すぐ予定に合わせる（読めなくても困らない）
   toast('保存しました');
 }
 

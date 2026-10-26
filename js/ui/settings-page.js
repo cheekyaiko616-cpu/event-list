@@ -11,7 +11,6 @@ import { openImportSheet } from './import-sheet.js';
 import { refreshNow } from '../data/feed.js';
 import { openTabManager } from './tab-manager.js';
 import { GITHUB_MARKUP, initGithubLink, renderGithubLink } from './github-link.js';
-import { VIEW_MARKUP, renderViewSettings } from './settings-view.js';
 
 // 固定の文字だけで作る（入力された内容は入れない）
 const MARKUP = `
@@ -24,8 +23,6 @@ const MARKUP = `
       <h3>タブ</h3>
       <div class="actions"><button type="button" class="btn solid" id="st-tabs">タブの編集・並び替え</button></div>
     </section>
-
-    ${VIEW_MARKUP}
 
     <section class="set-sec">
       <h3>日程の更新・取り込み</h3>
@@ -182,7 +179,6 @@ export function renderSettings() {
   if (!on) { clearPending(); setMsg('', false); return; }
 
   renderGithubLink();
-  renderViewSettings();
   const list = upcomingDated();
   const bulk = $('#st-bulk');
   bulk.disabled = !list.length;
