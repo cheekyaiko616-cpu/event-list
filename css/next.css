@@ -24,3 +24,8 @@
 .now-end { flex: none; font-size: 12px; color: var(--muted); font-variant-numeric: tabular-nums; }
 
 .next-s .now-pill { background: transparent; color: var(--c); border: 1px solid var(--c); }
+
+/* 次の申込締切：「次の予定」と同じ線の印。3日以内は塗りつぶす */
+.dl-s .now-pill { background: transparent; color: var(--c); border: 1px solid var(--c); }
+.dl-s.soon .now-pill { background: var(--c); color: #fff; }
+.dl-s.soon .now-end { color: var(--fg); font-weight: 700; }

@@ -3,7 +3,7 @@ import { state, notify } from '../state.js';
 import { $, el, clear } from '../util/dom.js';
 import { ALERT_OPTIONS } from '../config.js';
 import { parseDate, weekday, eventEnd, formatRange, todayIso, addDaysIso, daysUntil } from '../util/date.js';
-import { kindLabel, nextDeadline } from '../data/dates.js';
+import { kindLabel, nextDeadline, nextCloseDeadline } from '../data/dates.js';
 import { isShown } from '../data/settings.js';
 import { safeUrl } from '../util/text.js';
 import { selectVisible, groupByMonth, removeSamples, addSamples } from '../data/events.js';
@@ -11,7 +11,7 @@ import { tabById } from '../data/tabs.js';
 import { addToCalendar } from '../services/calendar.js';
 import { openEventSheet } from './event-sheet.js';
 import { toast } from './toast.js';
-import { nowStrip, nextStrip } from './next-card.js';
+import { nowStrip, nextStrip, deadlineStrip } from './next-card.js';
 import { reduced, EASE } from './motion.js';
 import { closeDetail, isClosing } from './pin-close.js';
 import { viewSwitchEl } from './view-switch.js';
@@ -259,7 +259,8 @@ function buildView(root, now) {
     const today = todayIso();
     const live = v.up.filter((e) => e.date <= today);
     const next = v.up.find((e) => e.date > today);
-    if (live.length || next) now.append(el('div', { class: 'wrap' }, [...live.map(nowStrip), next ? nextStrip(next) : null]));
+    const close = nextCloseDeadline([...v.up, ...v.undated].filter((e) => isShown(e, 'deadline'))); // 次の申込締切（日程未定の予定も含む）
+    if (live.length || next || close) now.append(el('div', { class: 'wrap' }, [...live.map(nowStrip), next ? nextStrip(next) : null, close ? deadlineStrip(close.e, close.d) : null]));
   }
   const groups = groupByMonth(past ? v.past : v.up);
   groups.forEach((g) => root.append(monthSection(g, past)));
