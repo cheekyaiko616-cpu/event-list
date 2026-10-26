@@ -1,6 +1,8 @@
 /* 一覧画面：月の帯、予定の行、詳細、お知らせ、空の状態。 */
 .month { margin-top: 18px; }
+/* 月の帯：その月を見ているあいだは上に固定し、次の月に入ると入れ替わる */
 .band {
+  position: sticky; top: 0; z-index: 2;
   background: hsl(var(--h) var(--band-bg-s) var(--band-bg-l));
   color: hsl(var(--h) var(--band-fg-s) var(--band-fg-l));
 }

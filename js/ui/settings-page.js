@@ -124,6 +124,7 @@ export function renderSettings() {
   $('#app-settings').hidden = !on;
   $('#app-list').hidden = on;
   $('#app-pin').hidden = on;
+  $('#app-now').hidden = on;
   if (!on) { clearPending(); setMsg('', false); return; }
 
   renderGithubLink();

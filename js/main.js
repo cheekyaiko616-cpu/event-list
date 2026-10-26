@@ -14,6 +14,7 @@ import { renderEventList, initOutsideClose, initPinSwipe } from './ui/event-list
 import { initTabSwipe } from './ui/tab-swipe.js';
 import { initEventSheet } from './ui/event-sheet.js';
 import { initTabManager, renderTabManager } from './ui/tab-manager.js';
+import { initDrawer } from './ui/drawer.js';
 import { initFab, renderFab } from './ui/fab.js';
 import { initTabAdd } from './ui/tab-add.js';
 import { initTabEdit } from './ui/tab-edit.js';
@@ -42,6 +43,7 @@ try {
 initSplash();
 initHeader();
 initFab();
+initDrawer();
 initOutsideClose();
 initPinSwipe();
 initTabSwipe();

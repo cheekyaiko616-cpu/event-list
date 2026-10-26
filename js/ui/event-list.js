@@ -210,7 +210,9 @@ export function initPinSwipe() {
 export function renderEventList() {
   renderPin();
   const root = $('#app-list');
+  const now = $('#app-now'); // 開催中・次の予定は、一覧とは別に固定しておく
   clear(root);
+  clear(now);
 
   if (!state.ready) {
     root.append(el('p', { class: 'wrap empty', text: '予定を読み込んでいます…' }));
@@ -233,19 +235,18 @@ export function renderEventList() {
   }
   if (notices.length) root.append(el('div', { class: 'wrap' }, notices));
 
-  if (past) root.append(viewSwitchEl(true));
+  if (past) root.append(viewSwitchEl());
   const v = selectVisible();
   if (!past) {
     const today = todayIso();
     const live = v.up.filter((e) => e.date <= today);
     const next = v.up.find((e) => e.date > today);
-    if (live.length || next) root.append(el('div', { class: 'wrap' }, [...live.map(nowStrip), next ? nextStrip(next) : null]));
+    if (live.length || next) now.append(el('div', { class: 'wrap' }, [...live.map(nowStrip), next ? nextStrip(next) : null]));
   }
   const groups = groupByMonth(past ? v.past : v.up);
   groups.forEach((g) => root.append(monthSection(g, past)));
   if (!past && v.undated.length) root.append(undatedSection(v.undated));
   if (!groups.length && !(!past && v.undated.length)) root.append(emptyEl(past));
 
-  if (!past) root.append(viewSwitchEl(false));
   root.append(el('div', { class: 'end-space' }));
 }

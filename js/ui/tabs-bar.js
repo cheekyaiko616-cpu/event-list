@@ -35,7 +35,7 @@ export function renderTabsBar() {
   items.forEach((x) => {
     const selected = state.ui.filter === x.id;
     inner.append(el('button', {
-      class: 'tab', type: 'button', role: 'tab',
+      class: x.id === 'all' ? 'tab tab-all' : 'tab', type: 'button', role: 'tab',
       'aria-selected': String(selected), tabindex: selected ? '0' : '-1',
       style: `--c:${x.color}`, 'data-tab': x.id, text: x.name,
       onclick: () => setFilter(x.id),
@@ -54,12 +54,14 @@ export function renderTabsBar() {
     class: 'tab tab-add', type: 'button', 'aria-label': 'タブを追加', text: '＋', onclick: openTabAdd
   }));
 
-  // 選んでいるタブが見える位置までスクロールする
+  // 選んでいるタブが見える位置までスクロールする（左に固定した「すべて」の幅は除く）
   scroller.scrollLeft = left;
   const sel = inner.querySelector('[aria-selected="true"]');
-  if (sel) {
-    if (sel.offsetLeft < scroller.scrollLeft) {
-      scroller.scrollLeft = Math.max(0, sel.offsetLeft - 8);
+  const pinned = inner.querySelector('.tab-all');
+  const stickyW = pinned ? pinned.offsetWidth + 4 : 0;
+  if (sel && sel !== pinned) {
+    if (sel.offsetLeft - stickyW < scroller.scrollLeft) {
+      scroller.scrollLeft = Math.max(0, sel.offsetLeft - stickyW - 8);
     } else if (sel.offsetLeft + sel.offsetWidth > scroller.scrollLeft + scroller.clientWidth - 48) {
       scroller.scrollLeft = sel.offsetLeft + sel.offsetWidth - scroller.clientWidth + 56;
     }
