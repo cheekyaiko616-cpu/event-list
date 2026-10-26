@@ -30,7 +30,8 @@
 </head>
 <body>
 <!-- 画面の枠だけを置く。中身は js/ui/ の各ファイルが作る -->
-<div id="splash" hidden></div>
+<!-- 起動画面：最初の1コマから出るよう、枠だけをここに置く（乗りものは js/ui/splash.js が足す）。万一スクリプトが動かなくても、約5秒で消える -->
+<div id="splash"><div class="sp-ring"><div class="sp-arm"></div></div><div class="sp-title">Event list</div><div class="sp-bar"><i style="animation-duration:3200ms"></i></div><div class="sp-note">Loading…</div></div>
 <header class="top" id="app-header"></header>
 <div id="app-now"></div>
 <div id="app-pin"></div>
