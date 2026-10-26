@@ -61,14 +61,14 @@ function rowEl(e, past, pinned = false) {
   const what = el('span', { class: 'what' },
     el('span', { class: 't', text: e.title || '（名前なし）' }),
     el('span', { class: 'meta' },
-      state.ui.filter === 'all' && isShown('chip')
+      state.ui.filter === 'all' && isShown(e, 'chip')
         ? el('span', { class: 'chip', style: `--c:${tab ? `var(--c${tab.color})` : 'var(--muted)'}`, text: tab ? tab.name : '未分類' })
         : null,
       e.sample ? el('span', { class: 'badge', text: '見本' }) : null,
-      isShown('badges') && isRecentChange(e) ? el('span', { class: 'badge upd', text: e.lastChange.manual ? '公式で再更新' : '日程更新' }) : null,
-      isShown('badges') && e.manual ? el('span', { class: 'badge man', text: '手動修正' }) : null,
-      isShown('deadline') ? deadlineBadge(e) : null,
-      isShown('place') && e.place ? el('span', { text: e.place }) : null));
+      isShown(e, 'badges') && isRecentChange(e) ? el('span', { class: 'badge upd', text: e.lastChange.manual ? '公式で再更新' : '日程更新' }) : null,
+      isShown(e, 'badges') && e.manual ? el('span', { class: 'badge man', text: '手動修正' }) : null,
+      isShown(e, 'deadline') ? deadlineBadge(e) : null,
+      isShown(e, 'place') && e.place ? el('span', { text: e.place }) : null));
 
   const btn = el('button', {
     class: 'row-btn', type: 'button', 'aria-expanded': String(open), 'aria-controls': `d-${e.id}`,

@@ -29,7 +29,7 @@ function apply(d) {
 // 開いているタブが消えた・非表示になったら「すべて」に戻す
 function keepFilterValid() {
   const f = state.ui.filter;
-  const hidden = (state.settings.hiddenTabs || []).includes(f);
+  const hidden = state.tabs.some((t) => t.id === f && t.hidden);
   if (f !== 'all' && (hidden || !state.tabs.some((t) => t.id === f))) state.ui.filter = 'all';
 }
 

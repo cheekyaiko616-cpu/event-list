@@ -1,7 +1,7 @@
 // 保存データや読み込んだファイルの中身を、安全な形に整える。
 // 項目を増やすときは、ここに足す。
 import { COLORS, WATCH_MAX } from '../config.js';
-import { normalizeSettings } from './settings.js';
+import { normalizeSettings, normalizeShow } from './settings.js';
 import { parseDate } from '../util/date.js';
 import { cleanDates } from './dates.js';
 
@@ -10,6 +10,7 @@ const str = (v, max) => (typeof v === 'string' ? v.slice(0, max) : '');
 export function normalizeData(raw) {
   const src = raw && typeof raw === 'object' ? raw : {};
 
+  const legacy = src.settings && typeof src.settings === 'object' ? src.settings : {}; // 以前は設定にあった表示の項目を引き継ぐ
   const tabs = [];
   const seenTabs = new Set();
   (Array.isArray(src.tabs) ? src.tabs : []).forEach((t, i) => {
@@ -20,7 +21,9 @@ export function normalizeData(raw) {
       name: str(t.name, 20) || '無題',
       color: Number.isInteger(t.color) && t.color >= 1 && t.color <= COLORS ? t.color : COLORS,
       order: Number.isFinite(t.order) ? t.order : i + 1,
-      watch: str(t.watch, WATCH_MAX).trim()
+      watch: str(t.watch, WATCH_MAX).trim(),
+      hidden: t.hidden === true || (legacy.hiddenTabs || []).includes(t.id), // 一覧に出さない
+      show: normalizeShow(t.show, legacy.show) // 一覧に出す項目
     });
   });
 

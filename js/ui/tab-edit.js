@@ -3,7 +3,7 @@ import { $, el, clear } from '../util/dom.js';
 import { mountSheet, showSheet, hideSheet } from './sheet.js';
 import { toast } from './toast.js';
 import { tabById, countEvents, updateTab, removeTab } from '../data/tabs.js';
-import { COLORS, WATCH_MAX } from '../config.js';
+import { COLORS, WATCH_MAX, SHOW_KEYS } from '../config.js';
 
 const MARKUP = `
   <form class="sheet" id="te-sheet" role="dialog" aria-modal="true" aria-labelledby="te-heading" novalidate>
@@ -23,6 +23,10 @@ const MARKUP = `
       <label for="te-watch">自動で取り込む内容</label>
       <textarea class="input" id="te-watch" rows="3" maxlength="${WATCH_MAX}" placeholder="例）SUPER GTの2027年の公式日程"></textarea>
     </div>
+    <fieldset class="seg">
+      <legend class="legend">表示</legend>
+      <div class="checks" id="te-show"></div>
+    </fieldset>
     <p class="err" id="te-error" role="alert"></p>
     <div class="form-actions">
       <button type="submit" class="btn solid grow">保存</button>
@@ -34,6 +38,8 @@ const MARKUP = `
 let wrap = null;
 let tabId = null;
 let color = 1;
+let hidden = false;
+let show = {};
 
 export function initTabEdit() {
   wrap = mountSheet(MARKUP);
@@ -55,23 +61,45 @@ function drawColors() {
   }
 }
 
+/** 表示の選択欄。「このタブを一覧に出す」と、一覧に出す項目。 */
+function drawShow() {
+  const box = $('#te-show');
+  clear(box);
+  const add = (key, label, on, set) => {
+    const input = el('input', { type: 'checkbox', id: `te-s-${key}`, checked: on });
+    input.addEventListener('change', () => { set(input.checked); drawShow(); });
+    box.append(el('label', { class: 'check', for: `te-s-${key}` }, input, label));
+  };
+  add('visible', 'このタブを一覧に出す', !hidden, (on) => { hidden = !on; });
+  SHOW_KEYS.forEach((k) => {
+    const row = el('div', { class: 'check-sub' });
+    box.append(row);
+    const input = el('input', { type: 'checkbox', id: `te-s-${k.id}`, checked: show[k.id] !== false, disabled: hidden });
+    input.addEventListener('change', () => { show = { ...show, [k.id]: input.checked }; });
+    row.append(el('label', { class: 'check', for: `te-s-${k.id}` }, input, k.label));
+  });
+}
+
 export function openTabEdit(id) {
   const t = tabById(id);
   if (!t) return;
   tabId = id;
   color = t.color;
+  hidden = !!t.hidden;
+  show = { ...(t.show || {}) };
   $('#te-name').value = t.name;
   $('#te-watch').value = t.watch || '';
   $('#te-error').textContent = '';
   $('#te-confirm').hidden = true;
   drawColors();
+  drawShow();
   showSheet(wrap);
 }
 
 async function onSubmit(ev) {
   ev.preventDefault();
   if (!tabId) return;
-  const r = await updateTab(tabId, { name: $('#te-name').value, color, watch: $('#te-watch').value });
+  const r = await updateTab(tabId, { name: $('#te-name').value, color, watch: $('#te-watch').value, hidden, show });
   if (!r.ok) { $('#te-error').textContent = r.error; return; }
   hideSheet(wrap);
   toast('保存しました');

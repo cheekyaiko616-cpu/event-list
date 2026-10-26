@@ -1,15 +1,13 @@
-// 設定（通知の時刻・自動で取り込む項目・一覧に出すタブと項目）の初期値、整え方、変更の操作。
+// 設定（通知の時刻・自動で取り込む項目）と、タブごとの表示（タブを出す・一覧に出す項目）。
 import { state } from '../state.js';
 import { commit } from './store.js';
-import { sortedTabs } from './tabs.js';
+import { sortedTabs, tabById } from './tabs.js';
 import { DEFAULT_SETTINGS, ALERT_OPTIONS, DATE_KINDS, SHOW_KEYS } from '../config.js';
 
 export function defaultSettings() {
   return {
     alerts: [...DEFAULT_SETTINGS.alerts],
-    importKinds: DATE_KINDS.map((k) => k.id),
-    hiddenTabs: [],
-    show: Object.fromEntries(SHOW_KEYS.map((k) => [k.id, true]))
+    importKinds: DATE_KINDS.map((k) => k.id)
   };
 }
 
@@ -20,31 +18,26 @@ export function normalizeSettings(raw) {
   const list = (v, ok, fallback) => (Array.isArray(v) ? v.filter((x, i) => typeof x === 'string' && ok(x) && v.indexOf(x) === i) : fallback);
   return {
     alerts: list(src.alerts, (id) => ALERT_OPTIONS.some((o) => o.id === id), d.alerts),
-    importKinds: list(src.importKinds, (id) => DATE_KINDS.some((k) => k.id === id), d.importKinds),
-    hiddenTabs: list(src.hiddenTabs, (id) => id.length > 0 && id.length <= 60, d.hiddenTabs),
-    show: Object.fromEntries(SHOW_KEYS.map((k) => [k.id, src.show && typeof src.show === 'object' ? src.show[k.id] !== false : true]))
+    importKinds: list(src.importKinds, (id) => DATE_KINDS.some((k) => k.id === id), d.importKinds)
   };
 }
 
-export const isTabHidden = (id) => (state.settings.hiddenTabs || []).includes(id);
+/** タブごとの一覧に出す項目を整える。無い項目は「出す」。 */
+export function normalizeShow(raw, fallback) {
+  const src = raw && typeof raw === 'object' ? raw : {};
+  const fb = fallback && typeof fallback === 'object' ? fallback : {};
+  return Object.fromEntries(SHOW_KEYS.map((k) => [k.id, src[k.id] === undefined ? fb[k.id] !== false : src[k.id] !== false]));
+}
+
 /** タブの帯と一覧に出すタブ（非表示にしたものを除く）。 */
-export const visibleTabs = () => sortedTabs().filter((t) => !isTabHidden(t.id));
-export const isShown = (key) => !state.settings.show || state.settings.show[key] !== false;
+export const visibleTabs = () => sortedTabs().filter((t) => !t.hidden);
+export const isTabHidden = (id) => { const t = tabById(id); return !!(t && t.hidden); };
+/** その予定の、タブの設定で、この項目を一覧に出すか。タブが無い（未分類）予定は、すべて出す。 */
+export const isShown = (e, key) => { const t = tabById(e.type); return !t || !t.show || t.show[key] !== false; };
 export const importsKind = (kind) => (state.settings.importKinds || []).includes(kind);
 
-function toggleIn(list, id) {
-  return list.includes(id) ? list.filter((x) => x !== id) : [...list, id];
-}
-
 export async function toggleImportKind(id) {
-  state.settings.importKinds = toggleIn(state.settings.importKinds, id);
-  return commit();
-}
-export async function toggleTabHidden(id) {
-  state.settings.hiddenTabs = toggleIn(state.settings.hiddenTabs, id);
-  return commit();
-}
-export async function toggleShow(key) {
-  state.settings.show = { ...state.settings.show, [key]: !isShown(key) };
+  const cur = state.settings.importKinds || [];
+  state.settings.importKinds = cur.includes(id) ? cur.filter((x) => x !== id) : [...cur, id];
   return commit();
 }

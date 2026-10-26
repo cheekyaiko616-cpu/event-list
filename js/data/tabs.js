@@ -3,6 +3,7 @@ import { state } from '../state.js';
 import { commit } from './store.js';
 import { COLORS, MAX_TABS, WATCH_MAX } from '../config.js';
 import { newId } from '../util/text.js';
+import { normalizeShow } from './settings.js';
 
 /** 取り込み内容の文字を整える（前後の空白を消し、長さを上限まで） */
 export const cleanWatch = (raw) => (typeof raw === 'string' ? raw.trim().slice(0, WATCH_MAX) : '');
@@ -26,13 +27,13 @@ export async function addTab(rawName, rawWatch = '') {
     if (!used.includes(c)) { color = c; break; }
   }
   const order = state.tabs.reduce((m, t) => Math.max(m, t.order), 0) + 1;
-  state.tabs.push({ id: newId('t'), name, color, order, watch: cleanWatch(rawWatch) });
+  state.tabs.push({ id: newId('t'), name, color, order, watch: cleanWatch(rawWatch), hidden: false, show: normalizeShow(null) });
   await commit();
   return { ok: true };
 }
 
-/** 名前・色・取り込み内容を、まとめて1回で保存する。 */
-export async function updateTab(id, { name, color, watch }) {
+/** 名前・色・取り込み内容・表示を、まとめて1回で保存する。 */
+export async function updateTab(id, { name, color, watch, hidden, show }) {
   const t = tabById(id);
   if (!t) return { ok: false, error: 'タブが見つかりません。' };
   const n = String(name).trim().slice(0, 20);
@@ -40,8 +41,10 @@ export async function updateTab(id, { name, color, watch }) {
   if (state.tabs.some((x) => x.id !== id && x.name === n)) return { ok: false, error: '同じ名前のタブがあります。' };
   const c = Number.isInteger(color) && color >= 1 && color <= COLORS ? color : t.color;
   const w = cleanWatch(watch);
-  if (n === t.name && c === t.color && w === (t.watch || '')) return { ok: true };
-  t.name = n; t.color = c; t.watch = w;
+  const h = hidden === true;
+  const sh = normalizeShow(show, t.show);
+  if (n === t.name && c === t.color && w === (t.watch || '') && h === !!t.hidden && JSON.stringify(sh) === JSON.stringify(t.show)) return { ok: true };
+  t.name = n; t.color = c; t.watch = w; t.hidden = h; t.show = sh;
   await commit();
   return { ok: true };
 }

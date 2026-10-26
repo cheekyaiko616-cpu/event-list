@@ -119,3 +119,8 @@
 .dates-list { display: flex; flex-direction: column; gap: 8px; margin: 8px 0 10px; }
 .date-row { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr) 44px; gap: 8px; align-items: stretch; }
 .date-row .btn { padding: 0; min-width: 44px; }
+
+/* タブの編集：表示の選択欄。項目は「このタブを一覧に出す」の下に、少し字下げして並べる */
+#te-show .check { margin-top: 0; min-height: 40px; }
+#te-show .check-sub { padding-left: 24px; }
+#te-show input:disabled + * , #te-show .check:has(input:disabled) { opacity: .45; }

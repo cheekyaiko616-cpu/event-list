@@ -1,4 +1,4 @@
-// 設定の画面：左の引き出しから開く。左から右へスワイプしても、予定の一覧へ戻る。
+// 設定の画面：左の引き出しから開く。左右どちらへスワイプしても、予定の一覧へ戻る。
 // 日程の取り込み、カレンダーへのまとめて追加、バックアップ、見本の削除。
 import { state, notify } from '../state.js';
 import { $ } from '../util/dom.js';
@@ -108,38 +108,47 @@ export function initSettingsPage() {
   initSwipeClose();
 }
 
-/** 左から右へスワイプすると、設定の画面が指についてきて、離すと閉じる（予定の一覧へ戻る）。 */
+/**
+ * 左右どちらへスワイプしても、設定の画面が指についてきて、離すと閉じる（予定の一覧へ戻る）。
+ * 少しの距離でも、勢いよく払えば閉じる。縦のスクロールは、そのまま使える。
+ */
 function initSwipeClose() {
   const page = $('#app-settings');
-  let x0 = 0, y0 = 0, mode = 'idle'; // idle / wait / h / v / anim
+  let x0 = 0, y0 = 0, t0 = 0, dir = 0, mode = 'idle'; // idle / wait / h / v / anim
+  const typing = (el) => !!(el && el.closest('textarea, input:not([type="checkbox"])'));
   page.addEventListener('touchstart', (e) => {
     if (mode === 'anim') return;
     const t = e.touches[0];
     const el = e.target instanceof Element ? e.target : null;
-    // 左端は引き出し用。入力欄の中の操作も除く
-    if (e.touches.length !== 1 || t.clientX <= 24 || (el && el.closest('input, textarea'))) { mode = 'idle'; return; }
-    x0 = t.clientX; y0 = t.clientY; mode = 'wait';
+    if (e.touches.length !== 1 || typing(el)) { mode = 'idle'; return; }
+    x0 = t.clientX; y0 = t.clientY; t0 = e.timeStamp; dir = 0; mode = 'wait';
   }, { passive: true });
   page.addEventListener('touchmove', (e) => {
     if (mode !== 'wait' && mode !== 'h') return;
     const t = e.touches[0];
     const dx = t.clientX - x0, dy = t.clientY - y0;
     if (mode === 'wait') {
-      if (Math.abs(dx) < 10 && Math.abs(dy) < 10) return;
-      if (dx > 0 && Math.abs(dx) > Math.abs(dy) * 1.4) { mode = 'h'; page.style.overflowY = 'hidden'; } else { mode = 'v'; return; }
+      if (Math.abs(dx) < 8 && Math.abs(dy) < 8) return;
+      if (Math.abs(dx) > Math.abs(dy) * 1.2) {
+        dir = dx > 0 ? 1 : -1;
+        if (dir > 0 && x0 <= 24) { mode = 'v'; return; } // 左のふちは、iPhone自身の「戻る」用に残す
+        mode = 'h';
+      } else { mode = 'v'; return; }
     }
+    if (e.cancelable) e.preventDefault(); // 横に動かしている間は、縦スクロールを止める
     page.style.transition = 'none';
-    page.style.transform = `translateX(${Math.max(0, dx)}px)`;
-  }, { passive: true });
-  const reset = () => { page.style.transform = ''; page.style.transition = ''; page.style.overflowY = ''; mode = 'idle'; };
+    page.style.transform = `translateX(${dir > 0 ? Math.max(0, dx) : Math.min(0, dx)}px)`;
+  }, { passive: false });
+  const reset = () => { page.style.transform = ''; page.style.transition = ''; mode = 'idle'; };
   page.addEventListener('touchend', (e) => {
     if (mode !== 'h') { if (mode !== 'anim') mode = 'idle'; return; }
     const dx = e.changedTouches[0].clientX - x0;
     const w = page.clientWidth || window.innerWidth;
+    const fast = Math.abs(dx) / Math.max(1, e.timeStamp - t0) > 0.5 && Math.abs(dx) > 40; // 勢いよく払った
     mode = 'anim';
     page.style.transition = 'transform .2s ease-out';
-    if (dx > w * 0.25) {
-      page.style.transform = `translateX(${w}px)`;
+    if (dx * dir > 0 && (Math.abs(dx) > w * 0.2 || fast)) {
+      page.style.transform = `translateX(${dir * w}px)`;
       setTimeout(() => { closeSettings(); reset(); }, 200);
     } else {
       page.style.transform = '';
