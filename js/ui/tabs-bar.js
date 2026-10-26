@@ -11,14 +11,14 @@ export function initTabsBar() {
     '<div class="tabs" id="tabs" role="tablist" aria-label="種類で絞り込み"><div class="tabs-in" id="tabs-in"></div></div>';
 }
 
-export function setFilter(id) {
+export function setFilter(id, { animate = true } = {}) {
   const ids = ['all'].concat(sortedTabs().map((x) => x.id));
   const dir = Math.sign(ids.indexOf(id) - ids.indexOf(state.ui.filter));
   state.ui.filter = id;
   state.ui.openId = null;
   try { localStorage.setItem(FILTER_KEY, id); } catch (e) { /* 覚えておけなくても動く */ }
   notify();
-  if (dir) slideList(dir);
+  if (dir && animate) slideList(dir);
 }
 
 export function renderTabsBar() {

@@ -1,5 +1,5 @@
 // 画面の左側面から開く引き出し：設定・過去のイベント・イベント更新履歴。
-// 左端の持ち手を押すか、左端から右へスワイプすると開く。外（右の余白）をタップするか、左へスワイプすると閉じる。
+// 左端の持ち手を押すか、左端から右へスワイプすると開く。項目のボタン以外（余白やすきま）をタップするか、左へスワイプすると閉じる。
 import { state, notify } from '../state.js';
 import { $, el, clear } from '../util/dom.js';
 import { openUpdates } from './updates-sheet.js';
@@ -16,13 +16,14 @@ export function initDrawer() {
   const handle = el('button', { class: 'drawer-handle', type: 'button', id: 'drawer-handle', 'aria-label': 'メニューを開く', onclick: openDrawer });
   panel = el('nav', { class: 'drawer', id: 'drawer', 'aria-label': 'メニュー' });
   wrap = el('div', { class: 'drawer-scrim', id: 'drawer-scrim', hidden: true }, panel);
-  wrap.addEventListener('click', (e) => { if (e.target === wrap) closeDrawer(); });
+  const blank = (e) => !(e.target instanceof Element && e.target.closest('.drawer-item')); // 項目のボタン以外は、どこを押しても閉じる
+  wrap.addEventListener('click', (e) => { if (blank(e)) closeDrawer(); });
   // iPhoneは、何も押せない余白では click が出ないことがあるため、タップ（ほぼ動かさず離した）も閉じる合図にする
   let tx = 0, ty = 0;
   wrap.addEventListener('touchstart', (e) => { tx = e.touches[0].clientX; ty = e.touches[0].clientY; }, { passive: true });
   wrap.addEventListener('touchend', (e) => {
     const t = e.changedTouches[0];
-    if (e.target === wrap && Math.abs(t.clientX - tx) < 10 && Math.abs(t.clientY - ty) < 10) closeDrawer();
+    if (blank(e) && Math.abs(t.clientX - tx) < 10 && Math.abs(t.clientY - ty) < 10) closeDrawer();
   }, { passive: true });
   document.body.append(handle, wrap);
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && isDrawerOpen()) closeDrawer(); });
