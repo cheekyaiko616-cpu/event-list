@@ -37,7 +37,7 @@ export function initGithubLink() {
   $('#gh-save').addEventListener('click', onSave);
   $('#gh-now').addEventListener('click', async () => {
     const r = await syncNow();
-    if (r && r.ok) toast('GitHubに保存できました');
+    if (r && r.ok) toast(r.wrote ? 'GitHubに保存しました' : '接続できています（内容が同じなので書き込み不要）');
   });
   $('#gh-clear').addEventListener('click', () => {
     clearToken();
@@ -55,7 +55,7 @@ async function onSave() {
   input.value = '';
   renderGithubLink();
   const r = await syncNow();
-  if (r && r.ok) toast('連携できました');
+  if (r && r.ok) toast(r.wrote ? '連携できました（GitHubに保存しました）' : '連携できました');
   else clearTokenIfRejected();
 }
 

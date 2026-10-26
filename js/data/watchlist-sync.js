@@ -8,7 +8,7 @@ import { watchlistData } from './watchlist.js';
 import { readRemote, writeRemote, getToken } from '../services/github.js';
 import { GITHUB } from '../config.js';
 
-const sync = { status: 'off', error: '', at: '' }; // off / idle / saving / ok / error
+const sync = { status: 'off', error: '', at: '', wrote: false }; // off / idle / saving / ok / error。wrote: 最後に実際に書き込んだか
 let baseline = null;   // 最後に確認した、内容の印
 let timer = null;
 let running = false;
@@ -18,9 +18,10 @@ const fingerprint = () => JSON.stringify(watchlistData().tabs);
 const filled = () => { try { return localStorage.getItem(GITHUB.filledKey) === '1'; } catch (e) { return false; } };
 const markFilled = () => { try { localStorage.setItem(GITHUB.filledKey, '1'); } catch (e) { /* 次回もう一度行うだけ */ } };
 
-function set(status, error = '') {
+function set(status, error = '', wrote = false) {
   sync.status = status;
   sync.error = error;
+  if (status === 'ok') sync.wrote = wrote;
   if (status === 'ok') sync.at = new Date().toLocaleTimeString('ja-JP', { hour: '2-digit', minute: '2-digit' });
   notify();
 }
@@ -34,7 +35,11 @@ export function syncLabel() {
   if (!getToken()) return '連携は未設定です。設定画面で鍵を登録すると、自動で保存されます。';
   if (sync.status === 'saving') return 'GitHubへ保存しています…';
   if (sync.status === 'error') return `保存できませんでした。${sync.error}`;
-  if (sync.status === 'ok') return `GitHubに保存しました（${sync.at}）。`;
+  if (sync.status === 'ok') {
+    return sync.wrote
+      ? `GitHubに保存しました（${sync.at}）。`
+      : `接続できています。GitHubの内容と同じなので、書き込みは不要でした（${sync.at}）。`;
+  }
   return '連携は有効です。取り込み内容を変えると、自動で保存されます。';
 }
 
@@ -67,11 +72,11 @@ export async function syncNow() {
       // 中身が同じなら書かない
       let same = false;
       try { same = r.text && JSON.stringify(JSON.parse(r.text).tabs) === fingerprint(); } catch (e) { same = false; }
-      if (same) { baseline = fingerprint(); set('ok'); return { ok: true, wrote: false }; }
+      if (same) { baseline = fingerprint(); set('ok', '', false); return { ok: true, wrote: false }; }
 
       const text = JSON.stringify(watchlistData(), null, 2) + '\n';
       const w = await writeRemote(text, r.sha, 'アプリから取り込み内容を更新');
-      if (w.ok) { baseline = fingerprint(); set('ok'); return { ok: true, wrote: true }; }
+      if (w.ok) { baseline = fingerprint(); set('ok', '', true); return { ok: true, wrote: true }; }
       if (w.status !== 409 && w.status !== 422) { set('error', w.error); return { ok: false }; }
       // 先にGitHub側が変わっていたので、読み直してもう一度
     }
