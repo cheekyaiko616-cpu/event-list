@@ -31,6 +31,7 @@ export function initDrawer() {
 }
 
 export function openDrawer() {
+  if (state.ui.screen === 'settings') return; // 設定の画面では、横タブは使わない
   renderDrawer();
   wrap.hidden = false;
   requestAnimationFrame(() => wrap.classList.add('open'));
@@ -60,6 +61,15 @@ function toggleView() {
   slideList(0);
 }
 
+/** 設定の画面では、持ち手を隠して横タブを無効にする。 */
+export function renderDrawerHandle() {
+  const h = $('#drawer-handle');
+  if (!h) return;
+  const off = state.ui.screen === 'settings';
+  h.hidden = off;
+  if (off) closeDrawer();
+}
+
 /** 開くたびに、今の状態に合わせて中身を作り直す。 */
 export function renderDrawer() {
   if (!panel) return;
@@ -79,7 +89,7 @@ function initSwipe(handle) {
     if (e.touches.length !== 1) { on = false; return; }
     const t = e.touches[0];
     x0 = t.clientX; y0 = t.clientY; on = true;
-    edge = !isDrawerOpen() && t.clientX <= EDGE && !document.querySelector('.scrim:not([hidden])');
+    edge = state.ui.screen !== 'settings' && !isDrawerOpen() && t.clientX <= EDGE && !document.querySelector('.scrim:not([hidden])');
   }, { passive: true });
   document.addEventListener('touchend', (e) => {
     if (!on) return;

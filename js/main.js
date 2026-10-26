@@ -14,7 +14,7 @@ import { renderEventList, initOutsideClose, initPinSwipe } from './ui/event-list
 import { initTabSwipe } from './ui/tab-swipe.js';
 import { initEventSheet } from './ui/event-sheet.js';
 import { initTabManager, renderTabManager } from './ui/tab-manager.js';
-import { initDrawer } from './ui/drawer.js';
+import { initDrawer, renderDrawerHandle } from './ui/drawer.js';
 import { initFab, renderFab } from './ui/fab.js';
 import { initTabAdd } from './ui/tab-add.js';
 import { initTabEdit } from './ui/tab-edit.js';
@@ -29,6 +29,7 @@ import { initSplash } from './ui/splash.js';
 function renderAll() {
   renderHeader();
   renderFab();
+  renderDrawerHandle();
   renderTabsBar();
   renderEventList();
   renderTabManager();
