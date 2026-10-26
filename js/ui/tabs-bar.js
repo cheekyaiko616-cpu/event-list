@@ -1,9 +1,9 @@
-// フォルダ形のタブ。「すべて」＋ 自分で作ったタブ ＋ 右端の「＋」（タブの管理）。
+// フォルダ形のタブ。「すべて」＋ 自分で作ったタブ ＋ 右端の「＋」（タブの追加）。
 import { state, notify } from '../state.js';
 import { $, el, clear } from '../util/dom.js';
 import { FILTER_KEY } from '../config.js';
 import { sortedTabs } from '../data/tabs.js';
-import { openTabManager } from './tab-manager.js';
+import { openTabAdd } from './tab-add.js';
 import { slideList } from './motion.js';
 
 export function initTabsBar() {
@@ -51,7 +51,7 @@ export function renderTabsBar() {
     }));
   });
   inner.append(el('button', {
-    class: 'tab tab-add', type: 'button', 'aria-label': 'タブを追加・編集', text: '＋', onclick: openTabManager
+    class: 'tab tab-add', type: 'button', 'aria-label': 'タブを追加', text: '＋', onclick: openTabAdd
   }));
 
   // 選んでいるタブが見える位置までスクロールする

@@ -9,7 +9,6 @@ const MARKUP = `
       <h2 id="up-heading">更新の履歴</h2>
       <button type="button" class="ghost" id="up-close">閉じる</button>
     </div>
-    <p class="help" style="margin-top:6px">毎週月曜に、公式サイトなどから日程を調べ直した結果です。新しい順に並んでいます。</p>
     <div id="up-body"></div>
   </div>`;
 
@@ -46,6 +45,6 @@ export async function openUpdates() {
   const entries = await loadUpdates();
   clear(body);
   if (entries === null) body.append(el('p', { class: 'help', text: '履歴を読み込めませんでした。通信を確認してください。' }));
-  else if (!entries.length) body.append(el('p', { class: 'help', text: 'まだ記録がありません。次の月曜の調査のあとに表示されます。' }));
+  else if (!entries.length) body.append(el('p', { class: 'help', text: 'まだ記録がありません。' }));
   else entries.forEach((x) => body.append(entryEl(x)));
 }

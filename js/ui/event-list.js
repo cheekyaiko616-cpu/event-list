@@ -76,7 +76,7 @@ function detailEl(e) {
   const add = (k, v) => dl.append(el('dt', { text: k }), el('dd', { text: v }));
   add('日程', formatRange(e));
   if (e.place) add('場所', e.place);
-  add('出典', e.source || '未記入');
+  if (e.source) add('出典', e.source);
   if (e.note) add('メモ', e.note);
   if (e.feedId) {
     if (e.lastChange) add('変更前', `${e.lastChange.from}（${e.lastChange.at} に更新）`);
@@ -90,10 +90,9 @@ function detailEl(e) {
     el('button', { class: 'btn', type: 'button', text: '編集', onclick: () => openEventSheet(e) }),
     null);
 
-  const hint = dated ? null : el('p', { class: 'hint', text: '公式に日程が出たら、編集で日付を入れます。' });
 
   const close = () => closeDetail();
-  const box = el('div', { class: 'detail', id: `d-${e.id}` }, dl, actions, hint,
+  const box = el('div', { class: 'detail', id: `d-${e.id}` }, dl, actions,
     el('button', { class: 'close-btn', type: 'button', text: '閉じる ▲', onclick: close }));
   // ボタンやリンク以外の、詳細のあいている所をタップしても閉じる
   box.addEventListener('click', (ev) => { if (!ev.target.closest('a, button, input, textarea, select, label')) close(); });
@@ -124,7 +123,7 @@ function undatedSection(items) {
 function emptyEl(past) {
   if (!past && state.events.length === 0) {
     return el('div', { class: 'wrap empty' },
-      el('p', { text: 'まだ予定がありません。公式発表を見て、「＋ 追加」から入力します。' }),
+      el('p', { text: '予定がありません。' }),
       el('div', { class: 'actions' },
         el('button', { class: 'btn solid', type: 'button', text: '＋ 予定を追加', onclick: () => openEventSheet(null) }),
         el('button', {
@@ -133,7 +132,7 @@ function emptyEl(past) {
         })));
   }
   return el('div', { class: 'wrap empty' },
-    el('p', { text: past ? '終わったイベントはまだありません。' : state.ui.filter === 'all' ? '予定はまだありません。' : 'このタブの予定はまだありません。' }),
+    el('p', { text: past ? '終わった予定はありません。' : '予定がありません。' }),
     past ? null : el('div', { class: 'actions' },
       el('button', { class: 'btn solid', type: 'button', text: '＋ 予定を追加', onclick: () => openEventSheet(null) })));
 }
@@ -225,7 +224,7 @@ export function renderEventList() {
   }
   if (state.events.some((e) => e.sample)) {
     notices.push(noteBox(
-      el('p', { text: '「見本」の予定は仮の内容です。日程は公式発表を見て入力します。' }),
+      el('p', { text: '見本の予定が入っています。' }),
       el('button', {
         class: 'link-btn', type: 'button', text: '見本をすべて消す',
         onclick: async () => { await removeSamples(); toast('見本を消しました'); }

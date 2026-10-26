@@ -14,16 +14,15 @@ const MARKUP = `
     </div>
 
     <div id="im-step1">
-      <p class="help" style="margin-top:8px">Claudeが公式情報から調べた「取り込み用ファイル」を読み込みます。読み込んだあと、内容を確認してから追加します。</p>
       <div class="actions" style="margin-top:12px">
         <button type="button" class="btn solid" id="im-pick">ファイルを選ぶ</button>
       </div>
       <input type="file" id="im-file" accept=".json,application/json" hidden>
       <div class="field">
-        <label for="im-text">または、文字をそのまま貼り付ける</label>
+        <label for="im-text">または貼り付け</label>
         <textarea class="input" id="im-text" rows="4" placeholder="{ &quot;app&quot;: &quot;event-cho-import&quot;, ... }"></textarea>
       </div>
-      <div class="actions" style="margin-top:10px"><button type="button" class="btn" id="im-read">貼り付けた内容を読み込む</button></div>
+      <div class="actions" style="margin-top:10px"><button type="button" class="btn" id="im-read">読み込む</button></div>
       <p class="set-msg" id="im-msg" role="alert"></p>
     </div>
 

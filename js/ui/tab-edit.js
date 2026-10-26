@@ -1,0 +1,106 @@
+// タブを編集する画面。名前・色・自動で取り込む内容を直す。削除もここ。
+import { $, el, clear } from '../util/dom.js';
+import { mountSheet, showSheet, hideSheet } from './sheet.js';
+import { toast } from './toast.js';
+import { tabById, countEvents, updateTab, removeTab } from '../data/tabs.js';
+import { COLORS, WATCH_MAX } from '../config.js';
+
+const MARKUP = `
+  <form class="sheet" id="te-sheet" role="dialog" aria-modal="true" aria-labelledby="te-heading" novalidate>
+    <div class="sheet-head">
+      <h2 id="te-heading">タブを編集</h2>
+      <button type="button" class="ghost" id="te-close">閉じる</button>
+    </div>
+    <div class="field">
+      <label for="te-name">タブの名前</label>
+      <input class="input" id="te-name" type="text" maxlength="20" autocomplete="off">
+    </div>
+    <fieldset class="seg">
+      <legend class="legend">色</legend>
+      <div class="palette" id="te-colors"></div>
+    </fieldset>
+    <div class="field">
+      <label for="te-watch">自動で取り込む内容</label>
+      <textarea class="input" id="te-watch" rows="3" maxlength="${WATCH_MAX}" placeholder="例）SUPER GTの2027年の公式日程"></textarea>
+    </div>
+    <p class="err" id="te-error" role="alert"></p>
+    <div class="form-actions">
+      <button type="submit" class="btn solid grow">保存</button>
+      <button type="button" class="btn danger" id="te-delete">削除</button>
+    </div>
+    <div class="tab-confirm" id="te-confirm" hidden></div>
+  </form>`;
+
+let wrap = null;
+let tabId = null;
+let color = 1;
+
+export function initTabEdit() {
+  wrap = mountSheet(MARKUP);
+  $('#te-close').addEventListener('click', () => hideSheet(wrap));
+  $('#te-sheet').addEventListener('submit', onSubmit);
+  $('#te-delete').addEventListener('click', onDeleteAsk);
+  wrap.addEventListener('sheetclose', () => { tabId = null; });
+}
+
+function drawColors() {
+  const box = $('#te-colors');
+  clear(box);
+  for (let c = 1; c <= COLORS; c++) {
+    box.append(el('button', {
+      class: 'swatch', type: 'button', style: `--c:var(--c${c})`,
+      'aria-label': `色${c}`, 'aria-pressed': String(c === color), 'data-color': String(c),
+      onclick: () => { color = c; drawColors(); }
+    }));
+  }
+}
+
+export function openTabEdit(id) {
+  const t = tabById(id);
+  if (!t) return;
+  tabId = id;
+  color = t.color;
+  $('#te-name').value = t.name;
+  $('#te-watch').value = t.watch || '';
+  $('#te-error').textContent = '';
+  $('#te-confirm').hidden = true;
+  drawColors();
+  showSheet(wrap);
+}
+
+async function onSubmit(ev) {
+  ev.preventDefault();
+  if (!tabId) return;
+  const r = await updateTab(tabId, { name: $('#te-name').value, color, watch: $('#te-watch').value });
+  if (!r.ok) { $('#te-error').textContent = r.error; return; }
+  hideSheet(wrap);
+  toast('保存しました');
+}
+
+async function doRemove(withEvents) {
+  const id = tabId;
+  hideSheet(wrap);
+  await removeTab(id, { withEvents });
+  toast('タブを消しました');
+}
+
+function onDeleteAsk() {
+  const t = tabById(tabId);
+  if (!t) return;
+  const n = countEvents(tabId);
+  const box = $('#te-confirm');
+  clear(box);
+  const cancel = el('button', { class: 'btn', type: 'button', text: 'やめる', onclick: () => { box.hidden = true; } });
+  if (!n) {
+    box.append(el('p', { text: `「${t.name}」を消します。` }),
+      el('div', { class: 'actions' },
+        el('button', { class: 'btn danger', type: 'button', text: '消す', onclick: () => doRemove(false) }), cancel));
+  } else {
+    box.append(el('p', { text: `「${t.name}」には予定が${n}件あります。` }),
+      el('div', { class: 'actions' },
+        el('button', { class: 'btn danger', type: 'button', text: '予定も一緒に消す', onclick: () => doRemove(true) }),
+        el('button', { class: 'btn', type: 'button', text: 'タブだけ消す（予定は「未分類」に残る）', onclick: () => doRemove(false) }),
+        cancel));
+  }
+  box.hidden = false;
+}

@@ -8,32 +8,35 @@ import { buildBackup, parseBackup, applyBackup } from '../data/backup.js';
 import { addToCalendar } from '../services/calendar.js';
 import { saveFile } from '../services/files.js';
 import { openImportSheet } from './import-sheet.js';
+import { openTabManager } from './tab-manager.js';
 import { GITHUB_MARKUP, initGithubLink, renderGithubLink } from './github-link.js';
 
 // 固定の文字だけで作る（入力された内容は入れない）
 const MARKUP = `
   <div class="wrap set-page" id="st-page">
     <div class="set-head">
-      <button type="button" class="btn" id="st-back">← 予定へ戻る</button>
+      <button type="button" class="btn" id="st-back">← 戻る</button>
     </div>
 
     <section class="set-sec">
+      <h3>タブ</h3>
+      <div class="actions"><button type="button" class="btn solid" id="st-tabs">タブの編集・並び替え</button></div>
+    </section>
+
+    <section class="set-sec">
       <h3>日程の取り込み</h3>
-      <p class="help">Claudeが公式情報から調べた取り込み用ファイルを読み込みます。内容を確認してから追加します。</p>
-      <div class="actions"><button type="button" class="btn solid" id="st-import-open">日程の取り込みを開く</button></div>
+      <div class="actions"><button type="button" class="btn" id="st-import-open">ファイルから取り込む</button></div>
     </section>
 
     ${GITHUB_MARKUP}
 
     <section class="set-sec">
-      <h3>カレンダーにまとめて追加</h3>
-      <p class="help" id="st-bulk-help"></p>
+      <h3>カレンダー</h3>
       <div class="actions"><button type="button" class="btn" id="st-bulk">まとめて標準カレンダーに追加</button></div>
     </section>
 
     <section class="set-sec">
       <h3>バックアップ</h3>
-      <p class="help">データはこの端末のブラウザの中だけに保存されています。機種変更やブラウザのデータ削除に備えて、ときどき書き出してください。</p>
       <div class="actions">
         <button type="button" class="btn" id="st-export">書き出す</button>
         <button type="button" class="btn" id="st-import">読み込む</button>
@@ -51,7 +54,6 @@ const MARKUP = `
 
     <section class="set-sec" id="st-sample-sec" hidden>
       <h3>見本の予定</h3>
-      <p class="help">「（例）」が付いた仮の予定が残っています。</p>
       <div class="actions"><button type="button" class="btn danger" id="st-sample-clear">見本をすべて消す</button></div>
     </section>
   </div>`;
@@ -74,6 +76,7 @@ function clearPending() {
 export function initSettingsPage() {
   $('#app-settings').innerHTML = MARKUP;
   $('#st-back').addEventListener('click', closeSettings);
+  $('#st-tabs').addEventListener('click', openTabManager);
   $('#st-import-open').addEventListener('click', openImportSheet);
   initGithubLink();
   $('#st-bulk').addEventListener('click', () => addToCalendar(upcomingDated()));
@@ -112,9 +115,9 @@ export function renderSettings() {
 
   renderGithubLink();
   const list = upcomingDated();
-  $('#st-bulk-help').textContent = list.length
-    ? `これからの確定した予定 ${list.length} 件です。下のボタンで、標準カレンダーにまとめて追加できます。`
-    : 'これからの確定した予定がありません。';
+  const bulk = $('#st-bulk');
+  bulk.disabled = !list.length;
+  bulk.textContent = list.length ? `まとめて標準カレンダーに追加（${list.length}件）` : 'まとめて標準カレンダーに追加';
   $('#st-sample-sec').hidden = !state.events.some((e) => e.sample);
 }
 

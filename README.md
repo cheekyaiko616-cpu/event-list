@@ -23,7 +23,8 @@ iPhoneのホーム画面に追加して使います。ビルド作業は不要�
 | 「次の予定」カードの中身・見た目 | `js/ui/next-card.js` / `css/next.css` |
 | 一覧の表示内容・ボタン | `js/ui/event-list.js` |
 | 予定の入力画面 | `js/ui/event-sheet.js` |
-| タブの並び・タブの管理画面 | `js/ui/tabs-bar.js` / `js/ui/tab-manager.js` |
+| タブの並び | `js/ui/tabs-bar.js` |
+| タブの一覧・追加・編集の画面 | `js/ui/tab-manager.js` / `js/ui/tab-add.js` / `js/ui/tab-edit.js` |
 | ⚙️の設定画面（取り込み・バックアップ・カレンダー追加） | `js/ui/settings-page.js` / 見た目は `css/settings.css` |
 | 画面上部のボタン（⚙️で設定画面へ切り替え） | `js/ui/header.js` |
 | 初期のタブ・タブの上限・アラートの選択肢 | `js/config.js` |
@@ -32,7 +33,7 @@ iPhoneのホーム画面に追加して使います。ビルド作業は不要�
 | 日程の取り込み（読み込み・比べ方） | `js/data/import.js` |
 | 取り込みの確認画面 | `js/ui/import-sheet.js` |
 | 予定やタブの増減・並べ方のルール | `js/data/events.js` / `js/data/tabs.js` |
-| タブごとの「自動で取り込む内容」と、その一覧の形 | `js/data/watchlist.js` / タブ管理は `js/ui/tab-manager.js` |
+| タブごとの「自動で取り込む内容」と、その一覧の形 | `js/data/watchlist.js` / タブの編集は `js/ui/tab-edit.js` |
 | 保存先（localStorage → IndexedDB など） | `js/data/storage.js` だけ |
 | 保存データの項目を増やす | `js/data/schema.js` と `js/data/events.js` |
 | カレンダー用ファイルの中身 | `js/services/ics.js` |
@@ -56,7 +57,7 @@ iPhoneのホーム画面に追加して使います。ビルド作業は不要�
 
 ## 毎週の自動取得の仕組み（取り込み内容の一覧）
 
-1. タブ管理の「自動で取り込む内容」に、タブごとに欲しい日程を書く
+1. タブの追加・編集画面の「自動で取り込む内容」に、タブごとに欲しい日程を書く
 2. 「取り込みの一覧をコピー」で、その内容をClaudeに貼る
 3. Claudeが `watchlist.json`（このリポジトリの直下）を書き換える（pushは承認を得てから）
 4. 毎週月曜、自動の作業が `watchlist.json` を読み、タブごとに公式情報を調べて `feed.json` に書く

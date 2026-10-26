@@ -5,7 +5,7 @@ import { mountSheet, showSheet, hideSheet } from './sheet.js';
 import { toast } from './toast.js';
 import { sortedTabs, tabById } from '../data/tabs.js';
 import { saveEvent, deleteEvent, validateEventForm } from '../data/events.js';
-import { openTabManager } from './tab-manager.js';
+import { openTabAdd } from './tab-add.js';
 
 const MARKUP = `
   <form class="sheet" id="es-form" role="dialog" aria-modal="true" aria-labelledby="es-heading" novalidate>
@@ -15,7 +15,7 @@ const MARKUP = `
     </div>
 
     <fieldset class="seg">
-      <legend class="legend">種類（タブ）</legend>
+      <legend class="legend">タブ</legend>
       <div class="seg-row" id="es-types"></div>
     </fieldset>
 
@@ -24,44 +24,40 @@ const MARKUP = `
       <input class="input" id="es-title" type="text" autocomplete="off" maxlength="100" placeholder="例）スーパーGT 第5戦 富士">
     </div>
 
-    <div class="field">
-      <div class="two">
-        <div class="field flush">
-          <label for="es-date">開始日</label>
-          <input class="input" id="es-date" type="date">
-        </div>
-        <div class="field flush">
-          <label for="es-end">終了日（複数日のとき）</label>
-          <input class="input" id="es-end" type="date">
-        </div>
+    <div class="two">
+      <div class="field">
+        <label for="es-date">開始日</label>
+        <input class="input" id="es-date" type="date">
       </div>
-      <p class="help">公式発表がまだなら、日付は空欄のまま保存します。「日程未定」に入ります。</p>
+      <div class="field">
+        <label for="es-end">終了日</label>
+        <input class="input" id="es-end" type="date">
+      </div>
     </div>
 
-    <div class="field">
-      <label for="es-place">場所</label>
-      <input class="input" id="es-place" type="text" autocomplete="off" maxlength="100">
-    </div>
+    <details class="more" id="es-more">
+      <summary>くわしく（場所・出典・リンク・メモ）</summary>
+      <div class="field">
+        <label for="es-place">場所</label>
+        <input class="input" id="es-place" type="text" autocomplete="off" maxlength="100">
+      </div>
+      <div class="field">
+        <label for="es-source">出典</label>
+        <input class="input" id="es-source" type="text" autocomplete="off" maxlength="200" placeholder="例）公式サイト">
+      </div>
+      <div class="field">
+        <label for="es-url">リンク</label>
+        <input class="input" id="es-url" type="url" inputmode="url" autocomplete="off" maxlength="500" placeholder="https://">
+      </div>
+      <div class="field">
+        <label for="es-note">メモ</label>
+        <textarea class="input" id="es-note" rows="2" maxlength="1000"></textarea>
+      </div>
+    </details>
 
-    <div class="field">
-      <label for="es-source">出典メモ</label>
-      <input class="input" id="es-source" type="text" autocomplete="off" maxlength="200" placeholder="例）公式サイト／主催者発表を報じたニュース">
-      <p class="help">出どころが分からない日程は入力しません。</p>
-    </div>
+    <p class="note" id="es-auto-note" hidden>自動取得した予定です。直した内容は、公式の情報が変わるまで守られます。</p>
 
-    <div class="field">
-      <label for="es-url">リンク（任意）</label>
-      <input class="input" id="es-url" type="url" inputmode="url" autocomplete="off" maxlength="500" placeholder="https://">
-    </div>
-
-    <div class="field">
-      <label for="es-note">メモ（任意）</label>
-      <textarea class="input" id="es-note" rows="2" maxlength="1000"></textarea>
-    </div>
-
-    <p class="note" id="es-auto-note" hidden>自動取得した予定です。ここで直すと「手動修正」として残り、公式の情報が変わるまで、直した内容を守ります。</p>
-
-    <label class="check" id="es-continue-row"><input type="checkbox" id="es-continue">続けて追加する（種類・出典・リンクは引き継ぎ）</label>
+    <label class="check" id="es-continue-row"><input type="checkbox" id="es-continue">続けて追加</label>
 
     <p class="err" id="es-error" role="alert"></p>
 
@@ -110,7 +106,7 @@ function resetDelete() {
 export function openEventSheet(ev, preset) {
   if (!state.tabs.length) {
     toast('先にタブを作ってください');
-    openTabManager();
+    openTabAdd();
     return;
   }
   const isEdit = !!(ev && ev.id);
@@ -130,6 +126,7 @@ export function openEventSheet(ev, preset) {
   $('#es-source').value = d.source || '';
   $('#es-url').value = d.url || '';
   $('#es-note').value = d.note || '';
+  $('#es-more').open = !!(isEdit && (d.place || d.source || d.url || d.note));
   $('#es-continue').checked = false;
   $('#es-continue-row').hidden = isEdit;
   $('#es-delete').hidden = !isEdit;

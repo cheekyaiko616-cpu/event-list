@@ -35,16 +35,26 @@
 .form-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px; }
 .form-actions .grow { flex: 1 1 140px; }
 
-/* タブの管理 */
-.tab-list { list-style: none; margin: 12px 0 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
-.tab-item { display: grid; grid-template-columns: auto minmax(0, 1fr) auto auto; gap: 8px; align-items: center; }
-.swatch { width: 40px; height: 40px; border: 1px solid var(--line); border-radius: 10px; background: var(--c); }
+/* タブ（一覧・追加・編集） */
+.tab-list { list-style: none; margin: 12px 0 14px; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+.tab-row { display: flex; gap: 8px; align-items: stretch; }
+.tab-row-main {
+  display: flex; align-items: center; gap: 12px; flex: 1; min-width: 0; min-height: 48px; padding: 0 14px;
+  background: var(--bg); border: 1px solid var(--line); border-radius: 10px; text-align: left;
+}
+.dot { flex: none; width: 14px; height: 14px; border-radius: 50%; background: var(--c); }
+.tab-row-name { flex: 1; min-width: 0; font-size: 15px; font-weight: 700; overflow-wrap: anywhere; }
+.tab-row-go { flex: none; font-size: 12px; font-weight: 700; color: var(--muted); }
 .mv { display: flex; gap: 4px; }
-.mv .btn { min-width: 36px; padding: 0; }
-.tab-confirm { grid-column: 1 / -1; padding: 10px 12px; border: 1px solid var(--line); border-radius: 10px; background: var(--bg); }
+.mv .btn { min-width: 40px; padding: 0; }
+.palette { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 6px; }
+.swatch { width: 40px; height: 40px; border: 2px solid var(--line); border-radius: 50%; background: var(--c); }
+.swatch[aria-pressed="true"] { border-color: var(--fg); box-shadow: 0 0 0 2px var(--surface) inset; }
+.tab-confirm { margin-top: 12px; padding: 10px 12px; border: 1px solid var(--line); border-radius: 10px; background: var(--bg); }
 .tab-confirm p { margin: 0 0 8px; font-size: 13px; }
-.tab-new { margin-top: 18px; }
 .tab-new-row { display: flex; gap: 8px; margin-top: 4px; }
+.more { margin-top: 14px; }
+.more summary { cursor: pointer; font-size: 13px; font-weight: 700; color: var(--muted); min-height: 32px; }
 
 /* 設定 */
 .set-sec { margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--line); }
@@ -87,9 +97,3 @@
 .up-line { display: flex; flex-direction: column; margin: 0; padding: 4px 0; font-size: 13px; }
 .up-line b { font-size: 14px; overflow-wrap: anywhere; }
 .up-line span { color: var(--muted); overflow-wrap: anywhere; }
-
-/* タブの取り込み内容 */
-.tab-watch { grid-column: 1 / -1; display: grid; gap: 4px; }
-.tab-watch-input { resize: vertical; min-height: 44px; }
-.tab-share { margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--line); }
-.tab-share .btn { margin-top: 6px; }

@@ -1,4 +1,4 @@
-// タブ（予定の種類）の追加・名前変更・色・並び替え・削除。
+// タブ（予定の種類）の追加・編集・並び替え・削除。
 import { state } from '../state.js';
 import { commit } from './store.js';
 import { COLORS, MAX_TABS, WATCH_MAX } from '../config.js';
@@ -31,32 +31,17 @@ export async function addTab(rawName, rawWatch = '') {
   return { ok: true };
 }
 
-export async function renameTab(id, rawName) {
-  const t = tabById(id);
-  const name = rawName.trim().slice(0, 20);
-  if (!t) return { ok: false, error: 'タブが見つかりません。' };
-  if (!name) return { ok: false, error: 'タブの名前を入れてください。' };
-  if (name === t.name) return { ok: true };
-  if (state.tabs.some((x) => x.id !== id && x.name === name)) return { ok: false, error: '同じ名前のタブがあります。' };
-  t.name = name;
-  await commit();
-  return { ok: true };
-}
-
-export async function cycleColor(id) {
-  const t = tabById(id);
-  if (!t) return;
-  t.color = (t.color % COLORS) + 1;
-  await commit();
-}
-
-/** このタブに自動で取り込む内容を変える。 */
-export async function setTabWatch(id, rawWatch) {
+/** 名前・色・取り込み内容を、まとめて1回で保存する。 */
+export async function updateTab(id, { name, color, watch }) {
   const t = tabById(id);
   if (!t) return { ok: false, error: 'タブが見つかりません。' };
-  const watch = cleanWatch(rawWatch);
-  if (watch === (t.watch || '')) return { ok: true };
-  t.watch = watch;
+  const n = String(name).trim().slice(0, 20);
+  if (!n) return { ok: false, error: 'タブの名前を入れてください。' };
+  if (state.tabs.some((x) => x.id !== id && x.name === n)) return { ok: false, error: '同じ名前のタブがあります。' };
+  const c = Number.isInteger(color) && color >= 1 && color <= COLORS ? color : t.color;
+  const w = cleanWatch(watch);
+  if (n === t.name && c === t.color && w === (t.watch || '')) return { ok: true };
+  t.name = n; t.color = c; t.watch = w;
   await commit();
   return { ok: true };
 }

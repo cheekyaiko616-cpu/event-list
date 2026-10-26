@@ -1,4 +1,4 @@
-// 取り込みの一覧：タブごとの「取り込み内容」を、Claudeに渡せる形にまとめる。
+// 取り込みの一覧：タブごとの「取り込み内容」を、GitHub保存用の形にまとめる。
 // 画面は扱わない。形を変えるときはここだけ直す。
 import { sortedTabs } from './tabs.js';
 
@@ -13,5 +13,3 @@ export function watchlistData() {
       .map((t) => ({ tabName: t.name, watch: t.watch.trim() }))
   };
 }
-
-export const watchlistText = () => JSON.stringify(watchlistData(), null, 2);

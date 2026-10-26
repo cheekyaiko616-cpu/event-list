@@ -7,8 +7,7 @@ import { syncNow, syncLabel, syncInfo } from '../data/watchlist-sync.js';
 // 固定の文字だけで作る（入力された内容は入れない）
 export const GITHUB_MARKUP = `
     <section class="set-sec" id="gh-sec">
-      <h3>自動取り込みの連携</h3>
-      <p class="help">タブに書いた「取り込み内容」を、GitHubに自動で保存します。毎週月曜の取得が、この内容を読んで日程を調べます。</p>
+      <h3>自動取り込みの連携（GitHub）</h3>
       <p class="set-msg" id="gh-state" role="status"></p>
       <div id="gh-form">
         <label class="legend" for="gh-token">GitHubの鍵（トークン）</label>
@@ -30,7 +29,6 @@ export const GITHUB_MARKUP = `
           <li>作った鍵（github_pat_ で始まる文字）を、上の欄に貼って「登録」</li>
         </ol>
       </details>
-      <p class="help">鍵はこの端末の中だけに保存され、バックアップには入りません。端末を他の人に渡さないでください。</p>
     </section>`;
 
 export function initGithubLink() {

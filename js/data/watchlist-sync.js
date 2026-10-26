@@ -32,15 +32,15 @@ export function syncInfo() {
 
 /** 画面に出す一言。 */
 export function syncLabel() {
-  if (!getToken()) return '連携は未設定です。設定画面で鍵を登録すると、自動で保存されます。';
-  if (sync.status === 'saving') return 'GitHubへ保存しています…';
+  if (!getToken()) return '未設定';
+  if (sync.status === 'saving') return '保存しています…';
   if (sync.status === 'error') return `保存できませんでした。${sync.error}`;
   if (sync.status === 'ok') {
     return sync.wrote
-      ? `GitHubに保存しました（${sync.at}）。`
-      : `接続できています。GitHubの内容と同じなので、書き込みは不要でした（${sync.at}）。`;
+      ? `保存しました（${sync.at}）`
+      : `接続OK・書き込みは不要でした（${sync.at}）`;
   }
-  return '連携は有効です。取り込み内容を変えると、自動で保存されます。';
+  return '連携中';
 }
 
 /** 内容を保存する。変わっていなければ書かない。 */
