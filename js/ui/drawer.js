@@ -1,4 +1,4 @@
-// 画面の右側面から開く引き出し：設定・過去のイベント・インフォメーション（更新の履歴）。
+// 画面の右側面から開く引き出し：設定・過去のイベント・イベント更新履歴。
 // 右端の持ち手を押すか、右端から左へスワイプすると開く。外をタップするか、右へスワイプすると閉じる。
 import { state, notify } from '../state.js';
 import { $, el, clear } from '../util/dom.js';
@@ -61,7 +61,7 @@ export function renderDrawer() {
   panel.append(
     item('設定', 'dr-settings', toggleSettings, settings),
     item('過去のイベント', 'dr-past', toggleView, past),
-    item('インフォメーション', 'dr-info', openUpdates, false));
+    item('イベント更新履歴', 'dr-info', openUpdates, false));
 }
 
 /** 右端から左へのスワイプで開く／開いているとき右へのスワイプで閉じる。 */

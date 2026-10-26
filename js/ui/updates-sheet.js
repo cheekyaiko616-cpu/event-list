@@ -1,4 +1,4 @@
-// 更新の履歴の画面：毎週の自動調査で、何が追加・変更されたかを見る。
+// イベント更新履歴の画面：毎週の自動調査で、何が追加・変更されたかを、日ごとのカードで見る。
 import { $, el, clear } from '../util/dom.js';
 import { mountSheet, showSheet, hideSheet } from './sheet.js';
 import { loadUpdates } from '../data/updates.js';
@@ -6,7 +6,7 @@ import { loadUpdates } from '../data/updates.js';
 const MARKUP = `
   <div class="sheet" id="up-sheet" role="dialog" aria-modal="true" aria-labelledby="up-heading">
     <div class="sheet-head">
-      <h2 id="up-heading">更新の履歴</h2>
+      <h2 id="up-heading">イベント更新履歴</h2>
       <button type="button" class="ghost" id="up-close">閉じる</button>
     </div>
     <div id="up-body"></div>
@@ -19,22 +19,39 @@ export function initUpdatesSheet() {
   $('#up-close').addEventListener('click', () => hideSheet(wrap));
 }
 
-function section(title, nodes) {
-  return nodes.length ? el('div', { class: 'up-sec' }, el('h4', { text: title }), ...nodes) : null;
+const WD = ['日', '月', '火', '水', '木', '金', '土'];
+
+function dateEl(iso) {
+  const [y, m, d] = iso.split('-').map(Number);
+  const w = WD[new Date(y, m - 1, d).getDay()];
+  return el('div', { class: 'up-date' },
+    el('b', { class: 'up-md', text: `${m}/${d}` }),
+    el('span', { class: 'up-yw', text: `${y}（${w}）` }));
+}
+
+function count(label, n, cls) {
+  return el('span', { class: `up-count ${cls}${n ? '' : ' zero'}`, text: `${label} ${n}` });
+}
+
+function group(title, cls, lines) {
+  if (!lines.length) return null;
+  return el('div', { class: 'up-group' }, el('h4', { class: cls, text: title }), ...lines);
 }
 
 function entryEl(x) {
   const added = x.added.map((a) => el('p', { class: 'up-line' },
-    el('b', { text: a.title }), el('span', { text: [a.tab, a.when].filter(Boolean).join('　') })));
+    el('b', { text: a.title }), el('span', { text: [a.tab, a.when].filter(Boolean).join(' ・ ') })));
   const changed = x.changed.map((c) => el('p', { class: 'up-line' },
     el('b', { text: c.title }), el('span', { text: `${c.before || '（なし）'} → ${c.after || '（なし）'}` })));
   const uncertain = x.uncertain.map((u) => el('p', { class: 'up-line' }, el('span', { text: u })));
-  return el('article', { class: 'up-entry' },
-    el('h3', { text: x.date.replace(/-/g, '/') }),
-    el('p', { class: 'up-sum', text: x.summary || `追加 ${x.added.length}件・変更 ${x.changed.length}件・変更なし ${x.unchanged}件` }),
-    section(`追加（${x.added.length}件）`, added),
-    section(`変更（${x.changed.length}件）`, changed),
-    section('確認できなかったこと', uncertain));
+  return el('article', { class: 'up-card' },
+    el('header', { class: 'up-head' },
+      dateEl(x.date),
+      el('div', { class: 'up-counts' },
+        count('追加', x.added.length, 'c-add'), count('変更', x.changed.length, 'c-chg'), count('変更なし', x.unchanged, 'c-none'))),
+    group('追加', 'g-add', added),
+    group('変更', 'g-chg', changed),
+    group('確認できなかったこと', 'g-unc', uncertain));
 }
 
 export async function openUpdates() {
@@ -44,7 +61,7 @@ export async function openUpdates() {
   showSheet(wrap);
   const entries = await loadUpdates();
   clear(body);
-  if (entries === null) body.append(el('p', { class: 'help', text: '履歴を読み込めませんでした。通信を確認してください。' }));
+  if (entries === null) body.append(el('p', { class: 'help', text: '読み込めませんでした。通信を確認してください。' }));
   else if (!entries.length) body.append(el('p', { class: 'help', text: 'まだ記録がありません。' }));
   else entries.forEach((x) => body.append(entryEl(x)));
 }

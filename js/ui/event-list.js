@@ -105,9 +105,10 @@ function monthSection(g, past) {
   return el('section', { class: 'month', style: `--h:${hueOf(g.m)}` },
     el('div', { class: 'band' },
       el('div', { class: 'wrap band-in' },
+        g.y !== new Date().getFullYear() ? el('span', { class: 'band-y', text: String(g.y) }) : null, // 今の年と違うときだけ、月の左に年を出す
         el('span', { class: 'band-m', text: String(g.m) }),
         el('span', { class: 'band-u', text: '月' }),
-        el('span', { class: 'band-r', text: `${g.y} ・ ${g.items.length}件` }))),
+        el('span', { class: 'band-r', text: `${g.items.length}件` }))),
     el('ul', { class: 'wrap rows' }, g.items.map((e) => rowEl(e, past))));
 }
 

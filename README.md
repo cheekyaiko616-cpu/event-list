@@ -28,7 +28,7 @@ iPhoneのホーム画面に追加して使います。ビルド作業は不要�
 | ⚙️の設定画面（取り込み・バックアップ・カレンダー追加） | `js/ui/settings-page.js` / 見た目は `css/settings.css` |
 | 画面上部（タイトル・i・⚙️） | `js/ui/header.js` |
 | 右下の「＋」ボタン | `js/ui/fab.js` |
-| 右側面の引き出し（設定・過去・インフォメーション） | `js/ui/drawer.js` |
+| 右側面の引き出し（設定・過去・イベント更新履歴） | `js/ui/drawer.js` |
 | 「これから／過去」の切り替え | `js/ui/view-switch.js` |
 | 初期のタブ・タブの上限・アラートの選択肢 | `js/config.js` |
 | 自動取得（Claudeが調べた日程の反映ルール） | `js/data/feed.js` |
