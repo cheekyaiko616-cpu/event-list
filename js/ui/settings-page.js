@@ -8,6 +8,7 @@ import { buildBackup, parseBackup, applyBackup } from '../data/backup.js';
 import { addToCalendar } from '../services/calendar.js';
 import { saveFile } from '../services/files.js';
 import { openImportSheet } from './import-sheet.js';
+import { refreshNow } from '../data/feed.js';
 import { openTabManager } from './tab-manager.js';
 import { GITHUB_MARKUP, initGithubLink, renderGithubLink } from './github-link.js';
 
@@ -24,8 +25,11 @@ const MARKUP = `
     </section>
 
     <section class="set-sec">
-      <h3>日程の取り込み</h3>
-      <div class="actions"><button type="button" class="btn" id="st-import-open">ファイルから取り込む</button></div>
+      <h3>日程の更新・取り込み</h3>
+      <div class="actions">
+        <button type="button" class="btn solid" id="st-refresh">今すぐ更新</button>
+        <button type="button" class="btn" id="st-import-open">ファイルから取り込む</button>
+      </div>
     </section>
 
     ${GITHUB_MARKUP}
@@ -77,6 +81,15 @@ export function initSettingsPage() {
   $('#app-settings').innerHTML = MARKUP;
   $('#st-back').addEventListener('click', closeSettings);
   $('#st-tabs').addEventListener('click', openTabManager);
+  $('#st-refresh').addEventListener('click', async () => {
+    const b = $('#st-refresh');
+    b.disabled = true;
+    const r = await refreshNow();
+    b.disabled = false;
+    if (!r.ok) toast('更新できませんでした。通信を確認してください');
+    else if (r.added || r.updated) toast(`更新しました（追加${r.added}件・変更${r.updated}件）`);
+    else toast('最新です。新しい日程はありません');
+  });
   $('#st-import-open').addEventListener('click', openImportSheet);
   initGithubLink();
   $('#st-bulk').addEventListener('click', () => addToCalendar(upcomingDated()));

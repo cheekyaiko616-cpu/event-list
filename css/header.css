@@ -52,3 +52,13 @@
 .bar-actions { gap: 6px; }
 .bar-actions .btn { padding: 0 10px; }
 .today { white-space: nowrap; }
+
+/* 右下の「＋」（予定の追加） */
+.fab {
+  position: fixed; z-index: 10;
+  right: max(16px, env(safe-area-inset-right, 0px)); bottom: calc(18px + env(safe-area-inset-bottom, 0px));
+  width: 56px; height: 56px; padding: 0; border: 0; border-radius: 50%;
+  background: var(--ink); color: var(--on-ink); font-size: 28px; line-height: 1;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, .3);
+}
+.view-switch { margin-top: 20px; text-align: center; }

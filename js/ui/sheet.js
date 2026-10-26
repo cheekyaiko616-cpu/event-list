@@ -17,12 +17,48 @@ export function mountSheet(html) {
     const sheet = e.target instanceof Element ? e.target.closest('.sheet') : null;
     if (!sheet || sheet.scrollHeight <= sheet.clientHeight + 1) e.preventDefault();
   }, { passive: false });
+  enableSwipeClose(wrap);
   return wrap;
+}
+
+/** 上から下へスワイプして閉じる。中身が一番上まで戻っているときだけ、画面を指についてこさせる。 */
+function enableSwipeClose(wrap) {
+  const sheet = wrap.querySelector('.sheet');
+  if (!sheet) return;
+  let y0 = 0;
+  let dy = 0;
+  let on = false;
+  let t0 = 0;
+  const reset = () => { sheet.style.transition = 'transform .18s ease-out'; sheet.style.transform = ''; };
+  sheet.addEventListener('touchstart', (e) => {
+    const t = e.target instanceof Element ? e.target : null;
+    on = e.touches.length === 1 && sheet.scrollTop <= 0 && !(t && t.closest('input, textarea, select'));
+    dy = 0;
+    if (on) { y0 = e.touches[0].clientY; t0 = Date.now(); sheet.style.transition = 'none'; }
+  }, { passive: true });
+  sheet.addEventListener('touchmove', (e) => {
+    if (!on) return;
+    dy = e.touches[0].clientY - y0;
+    if (dy <= 0 || sheet.scrollTop > 0) { dy = 0; sheet.style.transform = ''; return; }
+    if (e.cancelable) e.preventDefault();
+    sheet.style.transform = `translateY(${dy}px)`;
+  }, { passive: false });
+  const end = () => {
+    if (!on) return;
+    on = false;
+    const fast = dy > 40 && Date.now() - t0 < 250;
+    if (dy > 90 || fast) hideSheet(wrap);
+    else reset();
+  };
+  sheet.addEventListener('touchend', end, { passive: true });
+  sheet.addEventListener('touchcancel', () => { on = false; reset(); }, { passive: true });
 }
 
 export function showSheet(wrap) {
   clearTimeout(wrap._t);
   wrap.classList.remove('closing');
+  const sh = wrap.querySelector('.sheet');
+  if (sh) { sh.style.transition = ''; sh.style.transform = ''; }
   wrap.hidden = false;
   if (!open.includes(wrap)) open.push(wrap);
   document.documentElement.classList.add('lock');
@@ -33,7 +69,12 @@ export function hideSheet(wrap) {
   // 閉じる動き（下へ滑って消える）のあとで、実際に隠す
   wrap.classList.add('closing');
   clearTimeout(wrap._t);
-  wrap._t = setTimeout(() => { wrap.hidden = true; wrap.classList.remove('closing'); }, 200);
+  const sheet = wrap.querySelector('.sheet');
+  if (sheet) { sheet.style.transition = 'transform .18s ease-in'; sheet.style.transform = 'translateY(100%)'; }
+  wrap._t = setTimeout(() => {
+    wrap.hidden = true; wrap.classList.remove('closing');
+    if (sheet) { sheet.style.transition = ''; sheet.style.transform = ''; }
+  }, 200);
   const i = open.indexOf(wrap);
   if (i >= 0) open.splice(i, 1);
   if (!open.length) document.documentElement.classList.remove('lock');

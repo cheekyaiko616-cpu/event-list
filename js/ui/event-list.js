@@ -12,6 +12,7 @@ import { toast } from './toast.js';
 import { nowStrip, nextStrip } from './next-card.js';
 import { reduced, EASE } from './motion.js';
 import { closeDetail, isClosing } from './pin-close.js';
+import { viewSwitchEl } from './view-switch.js';
 
 const hueOf = (month) => (month * 150) % 360; // 隣り合う月の色が大きく離れるようにする
 
@@ -232,6 +233,7 @@ export function renderEventList() {
   }
   if (notices.length) root.append(el('div', { class: 'wrap' }, notices));
 
+  if (past) root.append(viewSwitchEl(true));
   const v = selectVisible();
   if (!past) {
     const today = todayIso();
@@ -244,5 +246,6 @@ export function renderEventList() {
   if (!past && v.undated.length) root.append(undatedSection(v.undated));
   if (!groups.length && !(!past && v.undated.length)) root.append(emptyEl(past));
 
+  if (!past) root.append(viewSwitchEl(false));
   root.append(el('div', { class: 'end-space' }));
 }

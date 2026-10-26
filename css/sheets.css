@@ -14,6 +14,10 @@
 .sheet-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
 .sheet-head h2 { margin: 0; font-size: 18px; font-weight: 700; }
 
+/* 閉じるとき：下へ滑って消える。指で下げて閉じる動きは sheet.js が受け持つ */
+.scrim { transition: background-color .2s; }
+.scrim.closing { background: rgba(0, 0, 0, 0); }
+
 /* 入力フォーム */
 .field { display: flex; flex-direction: column; gap: 4px; margin-top: 14px; min-width: 0; }
 .field > label { font-size: 12px; font-weight: 700; color: var(--muted); }

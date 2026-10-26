@@ -14,6 +14,7 @@ import { renderEventList, initOutsideClose, initPinSwipe } from './ui/event-list
 import { initTabSwipe } from './ui/tab-swipe.js';
 import { initEventSheet } from './ui/event-sheet.js';
 import { initTabManager, renderTabManager } from './ui/tab-manager.js';
+import { initFab, renderFab } from './ui/fab.js';
 import { initTabAdd } from './ui/tab-add.js';
 import { initTabEdit } from './ui/tab-edit.js';
 import { initSettingsPage, renderSettings } from './ui/settings-page.js';
@@ -26,6 +27,7 @@ import { initSplash } from './ui/splash.js';
 // 状態が変わるたびに、全画面を描き直す
 function renderAll() {
   renderHeader();
+  renderFab();
   renderTabsBar();
   renderEventList();
   renderTabManager();
@@ -39,6 +41,7 @@ try {
 
 initSplash();
 initHeader();
+initFab();
 initOutsideClose();
 initPinSwipe();
 initTabSwipe();
