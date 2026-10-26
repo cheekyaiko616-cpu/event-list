@@ -1,11 +1,13 @@
 /* 下から出る画面（予定の入力、タブの管理、設定）。 */
 .scrim {
+  cursor: pointer;
   position: fixed; inset: 0; z-index: 20;
   display: flex; align-items: flex-end; justify-content: center;
   background: rgba(0, 0, 0, .45);
   overscroll-behavior: none; touch-action: none;
 }
 .sheet {
+  cursor: auto;
   width: 100%; max-width: 640px; max-height: 92vh; max-height: 92dvh; overflow-y: auto; overflow-x: hidden;
   overscroll-behavior: contain; touch-action: pan-y;
   background: var(--surface); border-radius: 16px 16px 0 0;

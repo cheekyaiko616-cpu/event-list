@@ -9,7 +9,7 @@ export function initTabSwipe() {
   let x0 = 0, y0 = 0, on = false;
   area.addEventListener('touchstart', (ev) => {
     const t = ev.touches[0];
-    x0 = t.clientX; y0 = t.clientY; on = ev.touches.length === 1 && t.clientX < window.innerWidth - 24; // 右端は引き出し用
+    x0 = t.clientX; y0 = t.clientY; on = ev.touches.length === 1 && t.clientX > 24; // 左端は引き出し用
   }, { passive: true });
   area.addEventListener('touchend', (ev) => {
     if (!on) return;

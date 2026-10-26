@@ -236,7 +236,7 @@ export function renderEventList() {
   }
   if (notices.length) root.append(el('div', { class: 'wrap' }, notices));
 
-  if (past) root.append(viewSwitchEl());
+  if (past) now.append(viewSwitchEl()); // 過去の一覧では、戻るボタンを一覧の外に固定する
   const v = selectVisible();
   if (!past) {
     const today = todayIso();

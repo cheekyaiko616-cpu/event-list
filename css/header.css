@@ -61,32 +61,32 @@
   background: var(--ink); color: var(--on-ink); font-size: 28px; line-height: 1;
   box-shadow: 0 4px 14px rgba(0, 0, 0, .3);
 }
-.view-switch { margin-top: 20px; text-align: center; }
+.view-switch { padding-top: 10px; text-align: left; }
 
 /* 「すべて」は左に固定。ほかのタブだけが横に動く */
 .tab-all { position: sticky; left: 0; z-index: 3; }
 .tab-all[aria-selected="false"] { background: var(--tab-off); }
 .tabs-in { padding-left: 0; }
 
-/* 右の引き出し */
+/* 左の引き出し */
 .drawer-handle {
-  position: fixed; z-index: 9; top: 42%; right: 0; width: 16px; height: 72px; padding: 0;
-  background: var(--ink); border: 0; border-radius: 10px 0 0 10px; opacity: .55;
+  position: fixed; z-index: 9; top: 42%; left: 0; width: 16px; height: 72px; padding: 0;
+  background: var(--ink); border: 0; border-radius: 0 10px 10px 0; opacity: .55;
 }
-.drawer-handle::before { content: ""; position: absolute; inset: -10px -4px -10px -16px; } /* 押しやすく */
+.drawer-handle::before { content: ""; position: absolute; inset: -10px -16px -10px -4px; } /* 押しやすく */
 .drawer-handle::after {
-  content: ""; position: absolute; left: 5px; top: 28px; width: 6px; height: 6px;
-  border-left: 2px solid var(--on-ink); border-bottom: 2px solid var(--on-ink); transform: rotate(45deg);
+  content: ""; position: absolute; left: 3px; top: 28px; width: 6px; height: 6px;
+  border-right: 2px solid var(--on-ink); border-top: 2px solid var(--on-ink); transform: rotate(45deg);
 }
 .drawer-scrim {
-  position: fixed; inset: 0; z-index: 25; display: flex; justify-content: flex-end;
+  position: fixed; inset: 0; z-index: 25; display: flex; justify-content: flex-start; cursor: pointer;
   background: rgba(0, 0, 0, 0); transition: background-color .2s; touch-action: none; overscroll-behavior: none;
 }
 .drawer-scrim.open { background: rgba(0, 0, 0, .45); }
 .drawer {
   width: min(78vw, 300px); height: 100%; padding: calc(24px + env(safe-area-inset-top, 0px)) 16px calc(24px + env(safe-area-inset-bottom, 0px));
-  background: var(--surface); box-shadow: -6px 0 18px rgba(0, 0, 0, .25);
-  display: flex; flex-direction: column; gap: 8px; transform: translateX(100%); transition: transform .2s ease-out;
+  background: var(--surface); box-shadow: 6px 0 18px rgba(0, 0, 0, .25); cursor: auto;
+  display: flex; flex-direction: column; gap: 8px; transform: translateX(-100%); transition: transform .2s ease-out;
 }
 .drawer-scrim.open .drawer { transform: none; }
 .drawer-item {
