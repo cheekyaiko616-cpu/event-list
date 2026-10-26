@@ -5,7 +5,7 @@ export const state = {
   startupMessage: '', // 起動時に出すお知らせ
   tabs: [],           // { id, name, color, order }
   events: [],         // { id, type, title, date, end, place, source, url, note, sample, rev }
-  settings: { alerts: [] },
+  settings: { alerts: [], importKinds: [], hiddenTabs: [], show: {} },
   dismissed: [],      // 自動取得の予定のうち、利用者が削除したもの（feedId）。再び追加しない
   cloud: false,       // 保存先がクラウド（Claude上の共有データ）か
   ui: { filter: 'all', view: 'upcoming', openId: null, screen: 'list' } // screen: 'list'（予定）か 'settings'（設定）

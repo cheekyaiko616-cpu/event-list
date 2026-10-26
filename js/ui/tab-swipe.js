@@ -3,7 +3,7 @@
 // 十分に動かして離すと切り替わる。足りなければ元の位置へ戻る。
 import { state } from '../state.js';
 import { $ } from '../util/dom.js';
-import { sortedTabs } from '../data/tabs.js';
+import { visibleTabs } from '../data/settings.js';
 import { setFilter } from './tabs-bar.js';
 import { buildNeighborView } from './event-list.js';
 import { EASE } from './motion.js';
@@ -21,7 +21,7 @@ export function initTabSwipe() {
   let ghost = null;   // 隣のタブの仮の画面
   let ghostDir = 0;   // 仮の画面を作った向き（+1 次のタブ側、-1 前のタブ側）
 
-  const ids = () => ['all'].concat(sortedTabs().map((x) => x.id));
+  const ids = () => ['all'].concat(visibleTabs().map((x) => x.id));
   const neighbor = (dir) => {
     const list = ids();
     const j = list.indexOf(state.ui.filter) + dir;

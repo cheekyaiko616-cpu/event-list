@@ -12,3 +12,6 @@
 .gh-help ol { margin: 6px 0 0; padding-left: 20px; color: var(--muted); }
 #gh-token { min-width: 0; }
 #gh-save { flex: none; white-space: nowrap; }
+
+/* 設定の中のチェック項目：押しやすい高さにする */
+.checks .check { min-height: 40px; margin-top: 0; }

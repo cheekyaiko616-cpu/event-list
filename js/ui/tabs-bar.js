@@ -2,7 +2,7 @@
 import { state, notify } from '../state.js';
 import { $, el, clear } from '../util/dom.js';
 import { FILTER_KEY } from '../config.js';
-import { sortedTabs } from '../data/tabs.js';
+import { visibleTabs } from '../data/settings.js';
 import { openTabAdd } from './tab-add.js';
 import { slideList } from './motion.js';
 
@@ -12,7 +12,7 @@ export function initTabsBar() {
 }
 
 export function setFilter(id, { animate = true } = {}) {
-  const ids = ['all'].concat(sortedTabs().map((x) => x.id));
+  const ids = ['all'].concat(visibleTabs().map((x) => x.id));
   const dir = Math.sign(ids.indexOf(id) - ids.indexOf(state.ui.filter));
   state.ui.filter = id;
   state.ui.openId = null;
@@ -28,7 +28,7 @@ export function renderTabsBar() {
   clear(inner);
 
   const items = [{ id: 'all', name: 'すべて', color: 'var(--ink)' }].concat(
-    sortedTabs().map((t) => ({ id: t.id, name: t.name, color: `var(--c${t.color})` }))
+    visibleTabs().map((t) => ({ id: t.id, name: t.name, color: `var(--c${t.color})` }))
   );
   const ids = items.map((x) => x.id);
 

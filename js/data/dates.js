@@ -10,7 +10,7 @@ export function cleanDates(list) {
   (Array.isArray(list) ? list : []).forEach((x) => {
     if (!x || !parseDate(x.date)) return;
     const kind = DATE_KINDS.some((k) => k.id === x.kind) ? x.kind : 'other';
-    out.push({ kind, date: x.date, note: typeof x.note === 'string' ? x.note.slice(0, 40) : '' });
+    out.push({ kind, date: x.date, note: typeof x.note === 'string' ? x.note.slice(0, 40) : '', auto: x.auto === true }); // auto: 自動取得で入った日付
   });
   out.sort((a, b) => (a.date < b.date ? -1 : a.date > b.date ? 1 : 0));
   return out.slice(0, DATES_MAX);

@@ -17,7 +17,9 @@ function rowEl(d) {
     class: 'btn', type: 'button', text: '×', 'aria-label': 'この日付を消す',
     onclick: (ev) => { ev.currentTarget.closest('.date-row').remove(); refresh(); }
   });
-  return el('div', { class: 'date-row' }, sel, date, del);
+  const row = el('div', { class: 'date-row' }, sel, date, del);
+  if (d.auto) { row.dataset.auto = '1'; row.dataset.k0 = d.kind; row.dataset.d0 = d.date; } // 自動取得の日付。直さなければ自動のまま
+  return row;
 }
 
 function refresh() {
@@ -48,6 +50,9 @@ export function fillDates(list) {
 /** 入力された日付を読む。日付が空の行は無視する。 */
 export function readDates() {
   return Array.from(document.querySelectorAll('#es-dates .date-row'))
-    .map((r) => ({ kind: r.querySelector('.dk').value, date: r.querySelector('.dd').value, note: '' }))
+    .map((r) => {
+      const kind = r.querySelector('.dk').value, date = r.querySelector('.dd').value;
+      return { kind, date, note: '', auto: r.dataset.auto === '1' && kind === r.dataset.k0 && date === r.dataset.d0 };
+    })
     .filter((d) => d.date);
 }

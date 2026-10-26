@@ -34,7 +34,15 @@ export const DATE_KINDS = [
 ];
 export const DATES_MAX = 8;
 
-export const DEFAULT_SETTINGS ={ alerts: ['d1'] };
+// 一覧の各行に出せる項目（設定で出す／出さないを選ぶ）
+export const SHOW_KEYS = [
+  { id: 'chip', label: 'タブ名（「すべて」のとき）' },
+  { id: 'place', label: '場所' },
+  { id: 'deadline', label: '近い申し込み・期限の印' },
+  { id: 'badges', label: '「日程更新」「手動修正」の印' }
+];
+
+export const DEFAULT_SETTINGS = { alerts: ['d1'] };
 
 // 終わった予定を残す日数。これを過ぎた予定は、起動時に一覧から消える。
 export const RETENTION_DAYS = 365;

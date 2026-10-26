@@ -24,6 +24,7 @@ iPhoneのホーム画面に追加して使います。ビルド作業は不要�
 | 一覧の表示内容・ボタン | `js/ui/event-list.js` |
 | 予定の入力画面 | `js/ui/event-sheet.js` |
 | 申し込み・期限の日付（入力欄 / データの整え方） | `js/ui/event-dates.js` / `js/data/dates.js` |
+| 設定（取り込む項目・一覧に出すタブと項目）の初期値と変更 / 設定画面の選択欄 | `js/data/settings.js` / `js/ui/settings-view.js` |
 | タブの並び | `js/ui/tabs-bar.js` |
 | タブの一覧・追加・編集の画面 | `js/ui/tab-manager.js` / `js/ui/tab-add.js` / `js/ui/tab-edit.js` |
 | ⚙️の設定画面（取り込み・バックアップ・カレンダー追加） | `js/ui/settings-page.js` / 見た目は `css/settings.css` |

@@ -7,6 +7,7 @@ import { parseDate, eventEnd, todayIso, addDaysIso, compareEvents } from '../uti
 import { RETENTION_DAYS } from '../config.js';
 import { safeUrl, newId, bumpYear } from '../util/text.js';
 import { cleanDates } from './dates.js';
+import { isTabHidden } from './settings.js';
 
 /** 入力内容の確認。問題があれば画面に出すメッセージ、なければ空文字。 */
 export function validateEventForm(f) {
@@ -109,7 +110,7 @@ export function selectVisible() {
   const t = todayIso();
   const f = state.ui.filter;
   const order = sortedTabs().map((x) => x.id);
-  const list = state.events.filter((e) => f === 'all' || e.type === f);
+  const list = state.events.filter((e) => (f === 'all' ? !isTabHidden(e.type) : e.type === f)); // 非表示のタブの予定は、一覧に出さない（消えない）
   const dated = list.filter((e) => parseDate(e.date));
   const undated = list
     .filter((e) => !parseDate(e.date))

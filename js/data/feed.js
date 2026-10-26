@@ -11,6 +11,8 @@ import { getDb } from '../services/cloud.js';
 import { parseDate, eventEnd, formatRange, todayIso, addDaysIso } from '../util/date.js';
 import { safeUrl, newId } from '../util/text.js';
 import { RETENTION_DAYS } from '../config.js';
+import { cleanDates } from './dates.js';
+import { importsKind } from './settings.js';
 
 const str = (v, max) => (typeof v === 'string' ? v.trim().slice(0, max) : '');
 const norm = (s) => (s || '').normalize('NFKC').replace(/\s+/g, '').toLowerCase();
@@ -26,12 +28,28 @@ export function cleanFeedItem(id, raw) {
   return {
     id: String(id).slice(0, 100), tabName: str(x.tabName, 20), title, date, end,
     place: str(x.place, 100), source, url: safeUrl(str(x.url, 500)) || '', note: str(x.note, 1000),
+    dates: cleanDates(x.dates).map((d) => ({ ...d, auto: true })),
     checkedAt: parseDate(x.checkedAt) ? x.checkedAt : ''
   };
 }
 
 /** 反映すべき内容が変わったかを見分けるための印。確認日(checkedAt)は含めない。 */
-export const feedHash = (f) => [f.tabName, f.title, f.date, f.end, f.place, f.source, f.url, f.note].join('|');
+export const feedHash = (f) => [f.tabName, f.title, f.date, f.end, f.place, f.source, f.url, f.note, (f.dates || []).map((d) => `${d.kind}:${d.date}`).join(',')].join('|');
+
+/**
+ * 自動取得の期限日付を、予定に合わせる。設定で「取り込む」にした種類だけ入れる。
+ * 手で入れた日付（auto でないもの）は消さない。変わったら true。
+ */
+function syncDates(e, f) {
+  const mine = (e.dates || []).filter((d) => !d.auto);
+  const fromFeed = (f.dates || [])
+    .filter((d) => importsKind(d.kind) && !mine.some((m) => m.kind === d.kind && m.date === d.date))
+    .map((d) => ({ ...d, auto: true }));
+  const next = cleanDates([...mine, ...fromFeed]);
+  if (JSON.stringify(next) === JSON.stringify(e.dates || [])) return false;
+  e.dates = next;
+  return true;
+}
 
 /** feedの内容を予定に反映する。変わった件数 { added, updated } を返し、変わったときだけ保存する。 */
 export async function applyFeed(items) {
@@ -53,14 +71,16 @@ export async function applyFeed(items) {
       state.events.push({
         id: newId('e'), rev: 1, type: tab.id, title: f.title, date: f.date, end: f.end, place: f.place,
         source: f.source, url: f.url, note: f.note, sample: false,
-        feedId: f.id, feedHash: hash, manual: false, checkedAt: f.checkedAt, lastChange: null
+        feedId: f.id, feedHash: hash, manual: false, checkedAt: f.checkedAt, lastChange: null, dates: []
       });
+      syncDates(state.events[state.events.length - 1], f);
       added++; touched = true;
       return;
     }
 
     if (e.feedId === f.id && e.feedHash === hash) {
       if (f.checkedAt && e.checkedAt !== f.checkedAt) { e.checkedAt = f.checkedAt; touched = true; }
+      if (syncDates(e, f)) touched = true; // 設定で取り込む種類を変えたときも反映する
       return;
     }
 
@@ -73,6 +93,7 @@ export async function applyFeed(items) {
       feedId: f.id, feedHash: hash, manual: false, checkedAt: f.checkedAt || e.checkedAt,
       rev: (e.rev || 1) + 1
     });
+    syncDates(e, f);
     if (changedDate) e.lastChange = { at: todayIso(), from: before, manual: wasManual };
     updated++; touched = true;
   });

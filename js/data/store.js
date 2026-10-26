@@ -1,5 +1,6 @@
 // 状態の読み込みと保存の入口。データを変えたあとは commit() を呼ぶ。
-import { APP, DEFAULT_TABS, DEFAULT_SETTINGS } from '../config.js';
+import { APP, DEFAULT_TABS } from '../config.js';
+import { defaultSettings } from './settings.js';
 import { state, notify } from '../state.js';
 import { loadData, saveData, requestPersistence } from './storage.js';
 import { normalizeData } from './schema.js';
@@ -25,10 +26,11 @@ function apply(d) {
   keepFilterValid();
 }
 
-// 開いているタブが消えていたら「すべて」に戻す
+// 開いているタブが消えた・非表示になったら「すべて」に戻す
 function keepFilterValid() {
   const f = state.ui.filter;
-  if (f !== 'all' && !state.tabs.some((t) => t.id === f)) state.ui.filter = 'all';
+  const hidden = (state.settings.hiddenTabs || []).includes(f);
+  if (f !== 'all' && (hidden || !state.tabs.some((t) => t.id === f))) state.ui.filter = 'all';
 }
 
 export async function persist() {
@@ -60,7 +62,7 @@ export async function init() {
     apply({
       tabs: DEFAULT_TABS.map((t) => ({ ...t })),
       events: [],
-      settings: { alerts: [...DEFAULT_SETTINGS.alerts] },
+      settings: defaultSettings(),
       dismissed: []
     });
     if (status === 'missing') await persist();
