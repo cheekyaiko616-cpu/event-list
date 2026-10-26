@@ -208,10 +208,8 @@ export function initPinSwipe() {
   }, { passive: true });
 }
 
-export function renderEventList() {
-  renderPin();
-  const root = $('#app-list');
-  const now = $('#app-now'); // 開催中・次の予定は、一覧とは別に固定しておく
+/** 一覧の中身（root）と、固定する開催中・次の予定（now）を作る。 */
+function buildView(root, now) {
   clear(root);
   clear(now);
 
@@ -250,4 +248,20 @@ export function renderEventList() {
   if (!groups.length && !(!past && v.undated.length)) root.append(emptyEl(past));
 
   root.append(el('div', { class: 'end-space' }));
+}
+
+export function renderEventList() {
+  renderPin();
+  buildView($('#app-list'), $('#app-now')); // 開催中・次の予定は、一覧とは別に固定しておく
+}
+
+/** スワイプ中に隣のタブの画面を見せるための、仮の画面を作る（今の画面や状態は変えない）。 */
+export function buildNeighborView(filterId) {
+  const keep = { f: state.ui.filter, o: state.ui.openId };
+  state.ui.filter = filterId;
+  state.ui.openId = null;
+  const now = el('div', { id: 'ghost-now' });
+  const list = el('div', { id: 'ghost-list' });
+  try { buildView(list, now); } finally { state.ui.filter = keep.f; state.ui.openId = keep.o; }
+  return { now, list };
 }

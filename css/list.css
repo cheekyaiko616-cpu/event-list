@@ -86,3 +86,13 @@
 #app-pin { background: var(--surface); border-bottom: 2px solid var(--fg); box-shadow: 0 8px 14px -8px rgba(0, 0, 0, .45); }
 #app-pin .row-btn { background: var(--surface); }
 #app-pin .detail { background: var(--bg); }
+
+/* タブのスワイプ中に見せる、隣のタブの仮の画面（指の動きに合わせて、今の画面に続いて動く） */
+.swipe-ghost {
+  position: fixed; left: 0; width: 100%; z-index: 4; display: flex; flex-direction: column; overflow: hidden;
+  background-color: var(--bg); background-image: var(--pattern); background-size: var(--pattern-size); background-attachment: fixed;
+  pointer-events: none; will-change: transform;
+}
+.swipe-ghost #ghost-now { background: var(--bg); flex: none; max-height: 30dvh; overflow: hidden; padding-bottom: 8px; }
+.swipe-ghost #ghost-now:empty { display: none; }
+.swipe-ghost-list { flex: 1; min-height: 0; overflow: hidden; }

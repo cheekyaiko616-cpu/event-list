@@ -1,4 +1,4 @@
-// 設定の画面：⚙️ボタンで、予定の一覧から切り替わる。
+// 設定の画面：左の引き出しから開く。左から右へスワイプしても、予定の一覧へ戻る。
 // 日程の取り込み、カレンダーへのまとめて追加、バックアップ、見本の削除。
 import { state, notify } from '../state.js';
 import { $ } from '../util/dom.js';
@@ -102,6 +102,48 @@ export function initSettingsPage() {
     await removeSamples();
     toast('見本を消しました');
   });
+  initSwipeClose();
+}
+
+/** 左から右へスワイプすると、設定の画面が指についてきて、離すと閉じる（予定の一覧へ戻る）。 */
+function initSwipeClose() {
+  const page = $('#app-settings');
+  let x0 = 0, y0 = 0, mode = 'idle'; // idle / wait / h / v / anim
+  page.addEventListener('touchstart', (e) => {
+    if (mode === 'anim') return;
+    const t = e.touches[0];
+    const el = e.target instanceof Element ? e.target : null;
+    // 左端は引き出し用。入力欄の中の操作も除く
+    if (e.touches.length !== 1 || t.clientX <= 24 || (el && el.closest('input, textarea'))) { mode = 'idle'; return; }
+    x0 = t.clientX; y0 = t.clientY; mode = 'wait';
+  }, { passive: true });
+  page.addEventListener('touchmove', (e) => {
+    if (mode !== 'wait' && mode !== 'h') return;
+    const t = e.touches[0];
+    const dx = t.clientX - x0, dy = t.clientY - y0;
+    if (mode === 'wait') {
+      if (Math.abs(dx) < 10 && Math.abs(dy) < 10) return;
+      if (dx > 0 && Math.abs(dx) > Math.abs(dy) * 1.4) { mode = 'h'; page.style.overflowY = 'hidden'; } else { mode = 'v'; return; }
+    }
+    page.style.transition = 'none';
+    page.style.transform = `translateX(${Math.max(0, dx)}px)`;
+  }, { passive: true });
+  const reset = () => { page.style.transform = ''; page.style.transition = ''; page.style.overflowY = ''; mode = 'idle'; };
+  page.addEventListener('touchend', (e) => {
+    if (mode !== 'h') { if (mode !== 'anim') mode = 'idle'; return; }
+    const dx = e.changedTouches[0].clientX - x0;
+    const w = page.clientWidth || window.innerWidth;
+    mode = 'anim';
+    page.style.transition = 'transform .2s ease-out';
+    if (dx > w * 0.25) {
+      page.style.transform = `translateX(${w}px)`;
+      setTimeout(() => { closeSettings(); reset(); }, 200);
+    } else {
+      page.style.transform = '';
+      setTimeout(reset, 220);
+    }
+  }, { passive: true });
+  page.addEventListener('touchcancel', () => { if (mode !== 'anim') reset(); }, { passive: true });
 }
 
 /** ⚙️ボタンで切り替える。もう一度押すか「予定へ戻る」で一覧に戻る。 */
