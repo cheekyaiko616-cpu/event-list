@@ -24,7 +24,17 @@ export const ALERT_OPTIONS = [
   { id: 'd0', label: '当日の朝9時', trigger: 'PT9H' }
 ];
 
-export const DEFAULT_SETTINGS = { alerts: ['d1'] };
+// 予定に付けられる「関連する日付」の種類（チケットの申し込みなど）と、1件の予定に付けられる数
+export const DATE_KINDS = [
+  { id: 'open', label: '申込開始' },
+  { id: 'close', label: '申込締切' },
+  { id: 'result', label: '当落発表' },
+  { id: 'pay', label: '入金期限' },
+  { id: 'other', label: 'その他' }
+];
+export const DATES_MAX = 8;
+
+export const DEFAULT_SETTINGS ={ alerts: ['d1'] };
 
 // 終わった予定を残す日数。これを過ぎた予定は、起動時に一覧から消える。
 export const RETENTION_DAYS = 365;

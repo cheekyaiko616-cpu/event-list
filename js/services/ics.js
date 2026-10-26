@@ -2,6 +2,7 @@
 import { ALERT_OPTIONS } from '../config.js';
 import { parseDate, addDaysIso, eventEnd } from '../util/date.js';
 import { safeUrl } from '../util/text.js';
+import { kindLabel } from '../data/dates.js';
 
 const encoder = new TextEncoder();
 
@@ -63,10 +64,36 @@ function eventLines(e, alertIds, now) {
   return lines;
 }
 
-/** 予定の一覧から .ics の文字を作る。日付が決まっていない予定は含めない。 */
+/** 申し込み・締切などの関連日付を、1日だけの終日予定にする。 */
+function dateLines(e, d, i, alertIds, now) {
+  const title = `【${kindLabel(d.kind)}】${e.title}`;
+  const lines = [
+    'BEGIN:VEVENT',
+    `UID:${e.id}-d${i}@event-cho`,
+    `DTSTAMP:${stamp(now)}`,
+    `SEQUENCE:${(e.rev || 1) - 1}`,
+    `DTSTART;VALUE=DATE:${compact(d.date)}`,
+    `DTEND;VALUE=DATE:${compact(addDaysIso(d.date, 1))}`,
+    `SUMMARY:${escapeText(title)}`
+  ];
+  const url = safeUrl(e.url);
+  if (url) lines.push(`URL:${url}`);
+  alertIds.forEach((id) => {
+    const o = ALERT_OPTIONS.find((x) => x.id === id);
+    if (!o) return;
+    lines.push('BEGIN:VALARM', 'ACTION:DISPLAY', `DESCRIPTION:${escapeText(title)}`, `TRIGGER:${o.trigger}`, 'END:VALARM');
+  });
+  lines.push('END:VEVENT');
+  return lines;
+}
+
+/** 予定の一覧から .ics の文字を作る。開催日が決まっていない予定は、関連日付だけを含める。 */
 export function buildIcs(events, alertIds, now = new Date()) {
   const lines = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//event-cho//JA', 'CALSCALE:GREGORIAN', 'METHOD:PUBLISH'];
-  events.filter((e) => parseDate(e.date)).forEach((e) => lines.push(...eventLines(e, alertIds, now)));
+  events.forEach((e) => {
+    if (parseDate(e.date)) lines.push(...eventLines(e, alertIds, now));
+    (e.dates || []).forEach((d, i) => { if (parseDate(d.date)) lines.push(...dateLines(e, d, i, alertIds, now)); });
+  });
   lines.push('END:VCALENDAR');
   return lines.map(foldLine).join('\r\n') + '\r\n';
 }

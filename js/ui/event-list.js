@@ -2,7 +2,8 @@
 import { state, notify } from '../state.js';
 import { $, el, clear } from '../util/dom.js';
 import { ALERT_OPTIONS } from '../config.js';
-import { parseDate, weekday, eventEnd, formatRange, todayIso, addDaysIso } from '../util/date.js';
+import { parseDate, weekday, eventEnd, formatRange, todayIso, addDaysIso, daysUntil } from '../util/date.js';
+import { kindLabel, nextDeadline } from '../data/dates.js';
 import { safeUrl } from '../util/text.js';
 import { selectVisible, groupByMonth, removeSamples, addSamples } from '../data/events.js';
 import { tabById } from '../data/tabs.js';
@@ -31,6 +32,18 @@ function noteBox(...children) {
 // 自動で日程が変わってから2週間は、目印を出す
 const isRecentChange = (e) => !!(e.lastChange && e.lastChange.at >= addDaysIso(todayIso(), -14));
 
+/** いちばん近い申し込み・期限の日付を、小さな印で出す。終わった予定には出さない。 */
+function deadlineBadge(e) {
+  const d = nextDeadline(e);
+  if (!d || (e.date && eventEnd(e) < todayIso())) return null;
+  const p = parseDate(d.date);
+  const left = daysUntil(d.date);
+  return el('span', {
+    class: 'badge dl' + (left <= 3 ? ' soon' : ''),
+    text: `${kindLabel(d.kind)} ${p.m}/${p.d}${left === 0 ? '（今日）' : left === 1 ? '（明日）' : ''}`
+  });
+}
+
 function rowEl(e, past, pinned = false) {
   const open = state.ui.openId === e.id;
   const a = parseDate(e.date);
@@ -53,6 +66,7 @@ function rowEl(e, past, pinned = false) {
       e.sample ? el('span', { class: 'badge', text: '見本' }) : null,
       isRecentChange(e) ? el('span', { class: 'badge upd', text: e.lastChange.manual ? '公式で再更新' : '日程更新' }) : null,
       e.manual ? el('span', { class: 'badge man', text: '手動修正' }) : null,
+      deadlineBadge(e),
       e.place ? el('span', { text: e.place }) : null));
 
   const btn = el('button', {
@@ -76,6 +90,10 @@ function detailEl(e) {
   const dl = el('dl', { class: 'kv' });
   const add = (k, v) => dl.append(el('dt', { text: k }), el('dd', { text: v }));
   add('日程', formatRange(e));
+  (e.dates || []).forEach((d) => {
+    const p = parseDate(d.date);
+    add(kindLabel(d.kind), `${p.m}月${p.d}日(${weekday(p)})`);
+  });
   if (e.place) add('場所', e.place);
   if (e.source) add('出典', e.source);
   if (e.note) add('メモ', e.note);
@@ -85,7 +103,7 @@ function detailEl(e) {
 
   const actions = el('div', { class: 'actions' },
     url ? el('a', { class: 'btn', href: url, target: '_blank', rel: 'noopener noreferrer', text: 'リンクを開く ↗' }) : null,
-    dated
+    dated || (e.dates || []).length
       ? el('button', { class: 'btn solid', type: 'button', text: 'カレンダーに追加', onclick: () => { addToCalendar([e]); closeDetail(); } })
       : el('button', { class: 'btn', type: 'button', disabled: true, text: 'カレンダーに追加' }),
     el('button', { class: 'btn', type: 'button', text: '編集', onclick: () => openEventSheet(e) }),

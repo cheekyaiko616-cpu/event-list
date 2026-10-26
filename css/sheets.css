@@ -114,3 +114,8 @@
 .up-line b { font-size: 14px; overflow-wrap: anywhere; }
 .up-line span { color: var(--muted); overflow-wrap: anywhere; }
 
+
+/* 申し込み・期限の日付の入力欄 */
+.dates-list { display: flex; flex-direction: column; gap: 8px; margin: 8px 0 10px; }
+.date-row { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr) 44px; gap: 8px; align-items: stretch; }
+.date-row .btn { padding: 0; min-width: 44px; }

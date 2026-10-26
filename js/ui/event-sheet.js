@@ -6,6 +6,7 @@ import { toast } from './toast.js';
 import { sortedTabs, tabById } from '../data/tabs.js';
 import { saveEvent, deleteEvent, validateEventForm } from '../data/events.js';
 import { openTabAdd } from './tab-add.js';
+import { DATES_MARKUP, initDatesEditor, fillDates, readDates } from './event-dates.js';
 
 const MARKUP = `
   <form class="sheet" id="es-form" role="dialog" aria-modal="true" aria-labelledby="es-heading" novalidate>
@@ -34,6 +35,8 @@ const MARKUP = `
         <input class="input" id="es-end" type="date">
       </div>
     </div>
+
+    ${DATES_MARKUP}
 
     <details class="more" id="es-more">
       <summary>くわしく（場所・出典・リンク・メモ）</summary>
@@ -77,6 +80,7 @@ export function initEventSheet() {
   $('#es-close').addEventListener('click', () => hideSheet(wrap));
   $('#es-form').addEventListener('submit', onSubmit);
   $('#es-delete').addEventListener('click', onDelete);
+  initDatesEditor();
   wrap.addEventListener('sheetclose', () => { resetDelete(); editingId = null; });
 }
 
@@ -126,6 +130,7 @@ export function openEventSheet(ev, preset) {
   $('#es-source').value = d.source || '';
   $('#es-url').value = d.url || '';
   $('#es-note').value = d.note || '';
+  fillDates(isEdit ? ev.dates : []);
   $('#es-more').open = !!(isEdit && (d.place || d.source || d.url || d.note));
   $('#es-continue').checked = false;
   $('#es-continue-row').hidden = isEdit;
@@ -146,7 +151,8 @@ function readForm() {
     place: $('#es-place').value.trim(),
     source: $('#es-source').value.trim(),
     url: $('#es-url').value.trim(),
-    note: $('#es-note').value.trim()
+    note: $('#es-note').value.trim(),
+    dates: readDates()
   };
 }
 

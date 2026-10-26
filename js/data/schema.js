@@ -2,6 +2,7 @@
 // 項目を増やすときは、ここに足す。
 import { COLORS, DEFAULT_SETTINGS, ALERT_OPTIONS, WATCH_MAX } from '../config.js';
 import { parseDate } from '../util/date.js';
+import { cleanDates } from './dates.js';
 
 const str = (v, max) => (typeof v === 'string' ? v.slice(0, max) : '');
 
@@ -40,6 +41,7 @@ export function normalizeData(raw) {
       url: str(e.url, 500),
       note: str(e.note, 1000),
       sample: e.sample === true,
+      dates: cleanDates(e.dates),
       feedId: str(e.feedId, 100),
       feedHash: str(e.feedHash, 600),
       manual: e.manual === true,

@@ -96,3 +96,7 @@
 .swipe-ghost #ghost-now { background: var(--bg); flex: none; max-height: 30dvh; overflow: hidden; padding-bottom: 8px; }
 .swipe-ghost #ghost-now:empty { display: none; }
 .swipe-ghost-list { flex: 1; min-height: 0; overflow: hidden; }
+
+/* 近い申し込み・期限の印。3日以内は目立たせる */
+.badge.dl { background: var(--line); color: var(--fg); }
+.badge.dl.soon { background: var(--ink); color: var(--on-ink); }

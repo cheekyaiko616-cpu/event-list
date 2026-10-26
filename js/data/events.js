@@ -6,6 +6,7 @@ import { buildSamples } from './samples.js';
 import { parseDate, eventEnd, todayIso, addDaysIso, compareEvents } from '../util/date.js';
 import { RETENTION_DAYS } from '../config.js';
 import { safeUrl, newId, bumpYear } from '../util/text.js';
+import { cleanDates } from './dates.js';
 
 /** 入力内容の確認。問題があれば画面に出すメッセージ、なければ空文字。 */
 export function validateEventForm(f) {
@@ -28,6 +29,7 @@ export async function saveEvent(f, id = null) {
     source: f.source,
     url: f.url,
     note: f.note,
+    dates: cleanDates(f.dates),
     sample: false
   };
   if (id) {
@@ -95,7 +97,11 @@ export async function pruneOld() {
 /** これから先にある、日付が決まった予定すべて。 */
 export function upcomingDated() {
   const t = todayIso();
-  return state.events.filter((e) => parseDate(e.date) && eventEnd(e) >= t).sort(compareEvents);
+  // まとめて追加する対象。関連日付は、これから先のものだけを付ける（開催日が未定でも、先の期限があれば含める）
+  return state.events
+    .map((e) => ({ ...e, dates: (e.dates || []).filter((d) => d.date >= t) }))
+    .filter((e) => (parseDate(e.date) && eventEnd(e) >= t) || e.dates.length)
+    .sort((a, b) => compareEvents(a, b));
 }
 
 /** 今のタブで、一覧に出す予定。{ up: これから, past: 終わった, undated: 日程未定 } */
