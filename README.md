@@ -65,7 +65,7 @@ iPhoneのホーム画面に追加して使います。ビルド作業は不要�
 1. タブの追加・編集画面の「自動で取り込む内容」に、タブごとに欲しい日程を書く
 2. 「取り込みの一覧をコピー」で、その内容をClaudeに貼る
 3. Claudeが `watchlist.json`（このリポジトリの直下）を書き換える（pushは承認を得てから）
-4. 毎週月曜、自動の作業が `watchlist.json` を読み、タブごとに公式情報を調べて `feed.json` に書く
+4. 毎週月曜、自動の作業が `watchlist.json` を読み、タブごとに公式情報を調べて `feed.json` に書く（手順は `tools/weekly-fetch.md`）
 5. アプリは開くたびに `feed.json` を読み、予定に追加・更新する。変わった内容は「i」の更新履歴に出る
 
 `watchlist.json` の `tabName` は、アプリのタブ名と同じにしてください。
@@ -73,8 +73,11 @@ iPhoneのホーム画面に追加して使います。ビルド作業は不要�
 ## 自動取得（feed.json）
 
 - サイト直下の `feed.json` に日程を書くと、アプリが開くたびに自動で予定へ反映します（追加・更新）。
-- 形は `feed.json` の見本のとおりです。各件には `id`・`tabName`・`title`・`date`・`end`・`place`・`source`（出典。必須）・`url`・`note`・`checkedAt` を書きます。
+- 形は `feed.json` の見本のとおりです。各件には `id`・`tabName`・`title`・`date`・`end`・`place`・`source`（出典。必須）・`url`・`note`・`checkedAt`（と、あれば `dates`）を書きます。
 - 反映のルールは `js/data/feed.js` にあります。
+- 申し込み・期限などの日付は、各件に `dates`（`kind`・`date`・`note` の並び。最大8つ）で書きます。`kind` は `open`（申込開始）・`close`（申込締切）・`result`（当落発表）・`pay`（入金期限）・`other` のどれかです。
+- アプリの「設定」で、取り込む種類を選べます。外した種類は自動では入りません。手で入れた日付は消えません。
+- 毎週の自動の作業の手順は、`tools/weekly-fetch.md` にあります。
 
 ## データについて
 
