@@ -6,7 +6,6 @@ import { toast } from './toast.js';
 import { buildBackup, parseBackup, applyBackup } from '../data/backup.js';
 import { saveFile } from '../services/files.js';
 import { openImportSheet } from './import-sheet.js';
-import { runRefresh } from './refresh-run.js';
 import { openTabManager } from './tab-manager.js';
 import { GITHUB_MARKUP, initGithubLink, renderGithubLink } from './github-link.js';
 
@@ -25,8 +24,7 @@ const MARKUP = `
     <section class="set-sec">
       <h3>日程の更新・取り込み</h3>
       <div class="actions">
-        <button type="button" class="btn solid" id="st-refresh">今すぐ更新</button>
-        <button type="button" class="btn" id="st-import-open">ファイルから取り込む</button>
+        <button type="button" class="btn solid" id="st-import-open">ファイルから取り込む</button>
       </div>
     </section>
 
@@ -70,12 +68,6 @@ export function initSettingsPage() {
   $('#app-settings').innerHTML = MARKUP;
   $('#st-back').addEventListener('click', closeSettings);
   $('#st-tabs').addEventListener('click', openTabManager);
-  $('#st-refresh').addEventListener('click', async () => {
-    const b = $('#st-refresh');
-    b.disabled = true;
-    await runRefresh();
-    b.disabled = false;
-  });
   $('#st-import-open').addEventListener('click', openImportSheet);
   initGithubLink();
   $('#st-export').addEventListener('click', onExport);

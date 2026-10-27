@@ -125,7 +125,7 @@ async function pullFile() {
   } catch (e) { return null; /* 読めなくてもアプリは動く */ }
 }
 
-/** 「今すぐ更新」ボタン用。{ ok, added, updated } を返す。 */
+/** 取り込む種類を変えたときに、すぐ反映する用。{ ok, added, updated } を返す。 */
 export async function refreshNow() {
   if (await getDb()) return { ok: true, added: 0, updated: 0 }; // Claude上は常に自動で反映済み
   const r = await pullFile();
