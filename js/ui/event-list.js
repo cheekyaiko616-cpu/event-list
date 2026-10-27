@@ -5,11 +5,10 @@ import { parseDate, weekday, eventEnd, formatRange, todayIso, addDaysIso, daysUn
 import { kindLabel, nextDeadline, nextCloseDeadline } from '../data/dates.js';
 import { isShown } from '../data/settings.js';
 import { safeUrl } from '../util/text.js';
-import { selectVisible, groupByMonth, removeSamples, addSamples } from '../data/events.js';
+import { selectVisible, groupByMonth } from '../data/events.js';
 import { tabById } from '../data/tabs.js';
 import { addToCalendar } from '../services/calendar.js';
 import { openEventSheet } from './event-sheet.js';
-import { toast } from './toast.js';
 import { nowStrip, nextStrip, deadlineStrip } from './next-card.js';
 import { reduced, EASE } from './motion.js';
 import { closeDetail, isClosing } from './pin-close.js';
@@ -59,7 +58,6 @@ function rowEl(e, past, pinned = false) {
       state.ui.filter === 'all' && isShown(e, 'chip')
         ? el('span', { class: 'chip', style: `--c:${tab ? `var(--c${tab.color})` : 'var(--muted)'}`, text: tab ? tab.name : '未分類' })
         : null,
-      e.sample ? el('span', { class: 'badge', text: '見本' }) : null,
       isShown(e, 'badges') && isRecentChange(e) ? el('span', { class: 'badge upd', text: e.lastChange.manual ? '公式で再更新' : '日程更新' }) : null,
       isShown(e, 'badges') && e.manual ? el('span', { class: 'badge man', text: '手動修正' }) : null,
       isShown(e, 'deadline') ? deadlineBadge(e) : null,
@@ -141,11 +139,7 @@ function emptyEl(past) {
     return el('div', { class: 'wrap empty' },
       el('p', { text: '予定がありません。' }),
       el('div', { class: 'actions' },
-        el('button', { class: 'btn solid', type: 'button', text: '＋ 予定を追加', onclick: () => openEventSheet(null) }),
-        el('button', {
-          class: 'btn', type: 'button', text: '見本を入れて試す',
-          onclick: async () => { if (!(await addSamples())) toast('先にタブを作ってください'); }
-        })));
+        el('button', { class: 'btn solid', type: 'button', text: '＋ 予定を追加', onclick: () => openEventSheet(null) })));
   }
   return el('div', { class: 'wrap empty' },
     el('p', { text: past ? '終わった予定はありません。' : '予定がありません。' }),
@@ -237,14 +231,6 @@ function buildView(root, now) {
   const notices = [];
   if (state.saveError) {
     notices.push(noteBox(el('p', { text: 'この端末に保存できませんでした。プライベートブラウズでは保存されないことがあります。' })));
-  }
-  if (state.events.some((e) => e.sample)) {
-    notices.push(noteBox(
-      el('p', { text: '見本の予定が入っています。' }),
-      el('button', {
-        class: 'link-btn', type: 'button', text: '見本をすべて消す',
-        onclick: async () => { await removeSamples(); toast('見本を消しました'); }
-      })));
   }
   if (notices.length) root.append(el('div', { class: 'wrap' }, notices));
 

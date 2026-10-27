@@ -67,14 +67,14 @@ export async function applyCandidates(list) {
   list.forEach((c) => {
     const x = c.item;
     if (c.kind === 'update' && c.existing) {
-      Object.assign(c.existing, { date: x.date, end: x.end, source: x.source, rev: (c.existing.rev || 1) + 1, sample: false });
+      Object.assign(c.existing, { date: x.date, end: x.end, source: x.source, rev: (c.existing.rev || 1) + 1});
       if (x.place) c.existing.place = x.place;
       if (x.url) c.existing.url = x.url;
       updated++;
     } else if (c.kind === 'new') {
       state.events.push({
         id: newId('e'), rev: 1, type: c.tabId, title: x.title, date: x.date, end: x.end,
-        place: x.place, source: x.source, url: x.url, note: x.note, sample: false
+        place: x.place, source: x.source, url: x.url, note: x.note
       });
       added++;
     }

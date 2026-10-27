@@ -73,7 +73,7 @@ export async function applyFeed(items) {
     if (!e) {
       state.events.push({
         id: newId('e'), rev: 1, type: tab.id, title: f.title, date: f.date, end: f.end, place: f.place,
-        source: f.source, url: f.url, note: f.note, sample: false,
+        source: f.source, url: f.url, note: f.note,
         feedId: f.id, feedHash: hash, manual: false, checkedAt: f.checkedAt, lastChange: null, dates: [],
         newAt: firstSync ? '' : today
       });
@@ -97,7 +97,7 @@ export async function applyFeed(items) {
     const wasManual = e.manual === true;
     Object.assign(e, {
       title: e.feedId ? f.title : e.title, date: f.date, end: f.end, place: f.place || e.place,
-      source: f.source, url: f.url || e.url, note: f.note || e.note, sample: false,
+      source: f.source, url: f.url || e.url, note: f.note || e.note,
       feedId: f.id, feedHash: hash, manual: false, checkedAt: f.checkedAt || e.checkedAt,
       rev: (e.rev || 1) + 1
     });

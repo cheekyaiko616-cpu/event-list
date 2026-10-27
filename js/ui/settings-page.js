@@ -1,9 +1,8 @@
 // 設定の画面：左の引き出しから開く。左右どちらへスワイプしても、予定の一覧へ戻る。
-// 日程の取り込み、バックアップ、見本の削除。
+// 日程の取り込み、バックアップ。
 import { state, notify } from '../state.js';
 import { $ } from '../util/dom.js';
 import { toast } from './toast.js';
-import { removeSamples } from '../data/events.js';
 import { buildBackup, parseBackup, applyBackup } from '../data/backup.js';
 import { saveFile } from '../services/files.js';
 import { openImportSheet } from './import-sheet.js';
@@ -50,10 +49,6 @@ const MARKUP = `
       <p class="set-msg" id="st-msg" role="status"></p>
     </section>
 
-    <section class="set-sec" id="st-sample-sec" hidden>
-      <h3>見本の予定</h3>
-      <div class="actions"><button type="button" class="btn danger" id="st-sample-clear">見本をすべて消す</button></div>
-    </section>
   </div>`;
 
 let pending = null; // 読み込み待ちのデータ
@@ -88,10 +83,6 @@ export function initSettingsPage() {
   $('#st-file').addEventListener('change', onFile);
   $('#st-apply').addEventListener('click', onApply);
   $('#st-cancel').addEventListener('click', clearPending);
-  $('#st-sample-clear').addEventListener('click', async () => {
-    await removeSamples();
-    toast('見本を消しました');
-  });
   initSwipeClose();
 }
 
@@ -169,7 +160,6 @@ export function renderSettings() {
   if (!on) { clearPending(); setMsg('', false); return; }
 
   renderGithubLink();
-  $('#st-sample-sec').hidden = !state.events.some((e) => e.sample);
 }
 
 async function onExport() {

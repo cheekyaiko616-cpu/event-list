@@ -8,11 +8,14 @@ import pathlib, re
 from PIL import Image
 root = pathlib.Path(__file__).resolve().parent.parent
 LIGHT, DARK = '#f2f3ef', '#1b2124'
-# (画面の幅pt, 高さpt, 倍率)  新しい機種を足すときはここへ
+# (画面の幅pt, 高さpt, 倍率)  iPhone 16 以降だけ。新しい機種を足すときはここへ
 SIZES = [
-    (320, 568, 2), (375, 667, 2), (414, 736, 3), (375, 812, 3), (414, 896, 2), (414, 896, 3),
-    (390, 844, 3), (428, 926, 3), (393, 852, 3), (430, 932, 3),
-    (402, 874, 3), (440, 956, 3), (420, 912, 3),
+    (390, 844, 3),  # 16e
+    (393, 852, 3),  # 16
+    (402, 874, 3),  # 16 Pro / 17 / 17 Pro
+    (420, 912, 3),  # Air
+    (430, 932, 3),  # 16 Plus
+    (440, 956, 3),  # 16 Pro Max / 17 Pro Max
 ]
 out = root / 'img' / 'startup'
 out.mkdir(parents=True, exist_ok=True)

@@ -2,7 +2,6 @@
 export const APP = { id: 'event-cho', name: 'Event list', schema: 1 };
 
 export const STORAGE_KEY = 'eventcho.data.v1'; // 予定・タブ・設定の保存先
-export const FILTER_KEY = 'eventcho.filter';   // 最後に開いていたタブ
 
 export const COLORS = 8;     // タブの色の数（css/tokens.css の --c1〜--c8 と合わせる）
 export const MAX_TABS = 12;  // タブの上限

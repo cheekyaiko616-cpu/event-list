@@ -2,7 +2,6 @@
 import { state } from '../state.js';
 import { commit } from './store.js';
 import { sortedTabs, tabById } from './tabs.js';
-import { buildSamples } from './samples.js';
 import { parseDate, eventEnd, todayIso, addDaysIso, compareEvents } from '../util/date.js';
 import { RETENTION_DAYS } from '../config.js';
 import { safeUrl, newId } from '../util/text.js';
@@ -30,8 +29,7 @@ export async function saveEvent(f, id = null) {
     source: f.source,
     url: f.url,
     note: f.note,
-    dates: cleanDates(f.dates),
-    sample: false
+    dates: cleanDates(f.dates)
   };
   if (id) {
     const e = state.events.find((x) => x.id === id);
@@ -48,27 +46,6 @@ export async function deleteEvent(id) {
   const gone = state.events.find((e) => e.id === id);
   if (gone && gone.feedId && !state.dismissed.includes(gone.feedId)) state.dismissed.push(gone.feedId); // 自動で戻さない
   state.events = state.events.filter((e) => e.id !== id);
-  return commit();
-}
-
-/** 見本の予定を入れる。タブが1つも無いときは false。 */
-export async function addSamples() {
-  const tabs = sortedTabs();
-  if (!tabs.length) return false;
-  const ids = new Set(tabs.map((t) => t.id));
-  buildSamples().forEach((s) => {
-    state.events.push({
-      id: newId('s'), rev: 1, ...s,
-      type: ids.has(s.type) ? s.type : tabs[0].id,
-      end: s.end || '', url: '', note: '', sample: true
-    });
-  });
-  await commit();
-  return true;
-}
-
-export async function removeSamples() {
-  state.events = state.events.filter((e) => !e.sample);
   return commit();
 }
 

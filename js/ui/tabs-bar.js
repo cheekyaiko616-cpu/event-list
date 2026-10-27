@@ -1,7 +1,6 @@
 // フォルダ形のタブ。「すべて」＋ 自分で作ったタブ ＋ 右端の「＋」（タブの追加）。
 import { state, notify } from '../state.js';
 import { $, el, clear } from '../util/dom.js';
-import { FILTER_KEY } from '../config.js';
 import { visibleTabs } from '../data/settings.js';
 import { openTabAdd } from './tab-add.js';
 import { slideList } from './motion.js';
@@ -16,7 +15,6 @@ export function setFilter(id, { animate = true } = {}) {
   const dir = Math.sign(ids.indexOf(id) - ids.indexOf(state.ui.filter));
   state.ui.filter = id;
   state.ui.openId = null;
-  try { localStorage.setItem(FILTER_KEY, id); } catch (e) { /* 覚えておけなくても動く */ }
   notify();
   if (dir && animate) slideList(dir);
 }

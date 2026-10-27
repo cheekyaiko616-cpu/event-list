@@ -35,6 +35,7 @@ export function normalizeData(raw) {
   const seenEvents = new Set();
   (Array.isArray(src.events) ? src.events : []).forEach((e) => {
     if (!e || typeof e.id !== 'string' || !e.id || seenEvents.has(e.id)) return;
+    if (e.sample === true) return; // 以前あった「見本の予定」は、読み込むときに取り除く
     seenEvents.add(e.id);
     const date = parseDate(e.date) ? e.date : '';
     const end = date && parseDate(e.end) && e.end > date ? e.end : '';
@@ -48,7 +49,6 @@ export function normalizeData(raw) {
       source: str(e.source, 200),
       url: str(e.url, 500),
       note: str(e.note, 1000),
-      sample: e.sample === true,
       dates: cleanDates(e.dates),
       feedId: str(e.feedId, 100),
       feedHash: str(e.feedHash, 600),
