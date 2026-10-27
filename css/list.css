@@ -87,7 +87,7 @@
 /* タブのスワイプ中に見せる、隣のタブの仮の画面（指の動きに合わせて、今の画面に続いて動く） */
 .swipe-ghost {
   position: fixed; left: 0; width: 100%; z-index: 4; display: flex; flex-direction: column; overflow: hidden;
-  background-color: var(--bg); background-image: var(--pattern); background-size: var(--pattern-size); background-attachment: fixed;
+  /* 背景は付けない。飛行機の柄は、アプリ全体の1枚（body）をそのまま見せる（動かさない・ずらさない） */
   pointer-events: none; will-change: transform;
 }
 .swipe-ghost #ghost-now { flex: none; max-height: 30dvh; overflow: hidden; padding-bottom: 8px; }
