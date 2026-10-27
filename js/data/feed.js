@@ -51,11 +51,52 @@ function syncDates(e, f) {
   return true;
 }
 
+/** feed の1件から、新しい予定を作る。 */
+function createEvent(f, tab, hash, newAt) {
+  const e = {
+    id: newId('e'), rev: 1, type: tab.id, title: f.title, date: f.date, end: f.end, place: f.place,
+    source: f.source, url: f.url, note: f.note,
+    feedId: f.id, feedHash: hash, manual: false, checkedAt: f.checkedAt, lastChange: null, dates: [],
+    newAt
+  };
+  syncDates(e, f);
+  return e;
+}
+
+/** feed の内容が前回と同じ予定：確認日と、期限の日付だけを合わせる。変わったら true。 */
+function refreshSame(e, f, today, firstSync) {
+  let touched = false;
+  if (f.checkedAt && e.checkedAt !== f.checkedAt) { e.checkedAt = f.checkedAt; touched = true; }
+  const autoCount = () => (e.dates || []).filter((d) => d.auto).length;
+  const before = autoCount();
+  if (syncDates(e, f)) {  // 設定で取り込む種類を変えたときも反映する
+    touched = true;
+    if (!firstSync && autoCount() > before) e.newAt = today; // 新しい申し込みの日付が入った
+  }
+  return touched;
+}
+
+/** feed の内容が変わった予定：上書きして、日程が動いたら「前の日程」を残す。 */
+function overwrite(e, f, hash, today, firstSync) {
+  const before = e.date ? formatRange(e) : '日程未定';
+  const changedDate = e.date !== f.date || eventEnd(e) !== (f.end || f.date);
+  const wasManual = e.manual === true;
+  Object.assign(e, {
+    title: e.feedId ? f.title : e.title, date: f.date, end: f.end, place: f.place || e.place,
+    source: f.source, url: f.url || e.url, note: f.note || e.note,
+    feedId: f.id, feedHash: hash, manual: false, checkedAt: f.checkedAt || e.checkedAt,
+    rev: (e.rev || 1) + 1
+  });
+  syncDates(e, f);
+  if (!firstSync) e.newAt = today; // 内容が変わった
+  if (changedDate) e.lastChange = { at: today, from: before, manual: wasManual };
+}
+
 /** feedの内容を予定に反映する。変わった件数 { added, updated } を返し、変わったときだけ保存する。 */
 async function applyFeed(items) {
   const tabs = sortedTabs();
-  const limit = addDaysIso(todayIso(), -RETENTION_DAYS);
   const today = todayIso();
+  const limit = addDaysIso(today, -RETENTION_DAYS);
   // 初めて自動取得を読むとき（入れ直したときなど）は、全部が新着になってしまうので、NEWの印は付けない
   const firstSync = !state.events.some((x) => x.feedId);
   let added = 0, updated = 0, touched = false;
@@ -67,44 +108,16 @@ async function applyFeed(items) {
     const tab = tabs.find((t) => norm(t.name) === norm(f.tabName)) || tabs[0];
     if (!tab) return;
 
-    let e = state.events.find((x) => x.feedId === f.id);
-    if (!e) e = state.events.find((x) => !x.feedId && norm(x.title) === norm(f.title));
-
+    const e = state.events.find((x) => x.feedId === f.id) || state.events.find((x) => !x.feedId && norm(x.title) === norm(f.title));
     if (!e) {
-      state.events.push({
-        id: newId('e'), rev: 1, type: tab.id, title: f.title, date: f.date, end: f.end, place: f.place,
-        source: f.source, url: f.url, note: f.note,
-        feedId: f.id, feedHash: hash, manual: false, checkedAt: f.checkedAt, lastChange: null, dates: [],
-        newAt: firstSync ? '' : today
-      });
-      syncDates(state.events[state.events.length - 1], f);
+      state.events.push(createEvent(f, tab, hash, firstSync ? '' : today));
       added++; touched = true;
-      return;
+    } else if (e.feedId === f.id && e.feedHash === hash) {
+      if (refreshSame(e, f, today, firstSync)) touched = true;
+    } else {
+      overwrite(e, f, hash, today, firstSync);
+      updated++; touched = true;
     }
-
-    if (e.feedId === f.id && e.feedHash === hash) {
-      if (f.checkedAt && e.checkedAt !== f.checkedAt) { e.checkedAt = f.checkedAt; touched = true; }
-      const autoBefore = (e.dates || []).filter((d) => d.auto).length;
-      if (syncDates(e, f)) {  // 設定で取り込む種類を変えたときも反映する
-        touched = true;
-        if (!firstSync && (e.dates || []).filter((d) => d.auto).length > autoBefore) e.newAt = today; // 新しい申し込みの日付が入った
-      }
-      return;
-    }
-
-    const before = e.date ? formatRange(e) : '日程未定';
-    const changedDate = e.date !== f.date || eventEnd(e) !== (f.end || f.date);
-    const wasManual = e.manual === true;
-    Object.assign(e, {
-      title: e.feedId ? f.title : e.title, date: f.date, end: f.end, place: f.place || e.place,
-      source: f.source, url: f.url || e.url, note: f.note || e.note,
-      feedId: f.id, feedHash: hash, manual: false, checkedAt: f.checkedAt || e.checkedAt,
-      rev: (e.rev || 1) + 1
-    });
-    syncDates(e, f);
-    if (!firstSync) e.newAt = today; // 内容が変わった
-    if (changedDate) e.lastChange = { at: todayIso(), from: before, manual: wasManual };
-    updated++; touched = true;
   });
 
   if (touched) await commit();

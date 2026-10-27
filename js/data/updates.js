@@ -1,5 +1,5 @@
 // 毎日の自動調査で「何が追加・変更されたか」の記録（updates.json）を読む。画面は扱わない。
-const MAX_ENTRIES = 50; // 画面に出すのは新しい順に50件まで（記録の側でも50件にそろえる。tools/weekly-fetch.md）
+const MAX_ENTRIES = 50; // 画面に出すのは新しい順に50件まで（記録の側でも50件にそろえる。tools/daily-fetch.md）
 const str = (v, max) => (typeof v === 'string' ? v.slice(0, max) : '');
 const list = (v) => (Array.isArray(v) ? v : []);
 

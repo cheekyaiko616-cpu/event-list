@@ -67,49 +67,57 @@ function buildView(root, now, neighbor = false) {
 
   const past = state.ui.view === 'past';
 
-  const notices = [];
   if (state.saveError) {
-    notices.push(noteBox(el('p', { text: 'この端末に保存できませんでした。プライベートブラウズでは保存されないことがあります。' })));
+    root.append(el('div', { class: 'wrap' }, noteBox(el('p', { text: 'この端末に保存できませんでした。プライベートブラウズでは保存されないことがあります。' }))));
   }
-  if (notices.length) root.append(el('div', { class: 'wrap' }, notices));
 
   if (past) now.append(viewSwitchEl()); // 過去の一覧では、戻るボタンを一覧の外に固定する
   const v = selectVisible();
-  if (!past) {
-    const today = todayIso();
-    const live = v.up.filter((e) => e.date <= today);
-    const next = v.up.find((e) => e.date > today);
-    const close = nextCloseDeadline([...v.up, ...v.undated].filter((e) => isShown(e, 'deadline'))); // 次の申込締切（日程未定の予定も含む）
-    if (live.length || next || close) now.append(el('div', { class: 'wrap' }, [...live.map(nowStrip), next ? nextStrip(next) : null, close ? deadlineStrip(close.e, close.d) : null]));
-  }
-  // 一覧は、見える分だけ描く。下へ進むと、続きを足していく（予定が増えても軽く保つ）
+  if (!past) appendNow(now, v);
+
   const sections = groupByMonth(past ? v.past : v.up).map((g) => ({ n: g.items.length, make: () => monthSection(g, past) }));
   if (!past && v.undated.length) sections.push({ n: v.undated.length, make: () => undatedSection(v.undated) });
   if (!sections.length) root.append(emptyEl(past));
+  appendChunked(root, sections, neighbor);
+}
 
+/** 一覧の上に固定する、開催中・次の予定・次の申込締切。 */
+function appendNow(now, v) {
+  const today = todayIso();
+  const live = v.up.filter((e) => e.date <= today);
+  const next = v.up.find((e) => e.date > today);
+  const close = nextCloseDeadline([...v.up, ...v.undated].filter((e) => isShown(e, 'deadline'))); // 次の申込締切（日程未定の予定も含む）
+  if (live.length || next || close) now.append(el('div', { class: 'wrap' }, [...live.map(nowStrip), next ? nextStrip(next) : null, close ? deadlineStrip(close.e, close.d) : null]));
+}
+
+/**
+ * 一覧は、見える分だけ描く。下へ進むと続きを足していく（予定が増えても軽く保つ）。
+ * neighbor（スワイプ用の仮の画面）は、最初の分だけ。
+ */
+function appendChunked(root, sections, neighbor) {
   const key = `${state.ui.filter}|${state.ui.view}`;
   if (!neighbor && loaded.key !== key) { loaded.key = key; loaded.n = CHUNK; } // タブや表示を切り替えたら、最初の分から
   let limit = neighbor ? CHUNK : loaded.n;
-  let i = 0, rows = 0;
-  const fill = () => {
-    while (i < sections.length && rows < limit) { rows += sections[i].n; root.insertBefore(sections[i].make(), tail); i++; }
-    if (i >= sections.length) { more.remove(); watch && watch.disconnect(); }
-  };
+  let next = 0, rows = 0;
   const tail = el('div', { class: 'end-space' });
-  const more = el('div', { class: 'list-more', 'aria-hidden': 'true' });
   root.append(tail);
-  let watch = null;
+  const fill = () => {
+    while (next < sections.length && rows < limit) { rows += sections[next].n; root.insertBefore(sections[next].make(), tail); next++; }
+  };
   fill();
-  if (!neighbor && i < sections.length && 'IntersectionObserver' in window) {
-    root.insertBefore(more, tail);
-    watch = new IntersectionObserver((es) => {
-      if (!es.some((x) => x.isIntersecting)) return;
-      limit += CHUNK; loaded.n = limit; // 再描画されても、ここまでは描き直す（スクロール位置が飛ばない）
-      fill();
-      if (i < sections.length) { watch.unobserve(more); watch.observe(more); } // まだ画面内なら続けて足す
-    }, { rootMargin: '600px 0px' });
-    watch.observe(more);
-  } else if (!neighbor) { limit = Infinity; fill(); }
+  if (neighbor || next >= sections.length) return;
+  if (!('IntersectionObserver' in window)) { limit = Infinity; fill(); return; }
+
+  const more = el('div', { class: 'list-more', 'aria-hidden': 'true' });
+  root.insertBefore(more, tail);
+  const watch = new IntersectionObserver((entries) => {
+    if (!entries.some((x) => x.isIntersecting)) return;
+    limit += CHUNK; loaded.n = limit; // 再描画されても、ここまでは描き直す（スクロール位置が飛ばない）
+    fill();
+    if (next >= sections.length) { more.remove(); watch.disconnect(); return; }
+    watch.unobserve(more); watch.observe(more); // まだ画面内なら続けて足す
+  }, { rootMargin: '600px 0px' });
+  watch.observe(more);
 }
 
 export function renderEventList() {

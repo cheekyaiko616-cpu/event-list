@@ -48,7 +48,16 @@ iPhoneのホーム画面に追加して使います。ビルド作業は不要�
 | 保存データの項目を増やす | `js/data/schema.js` と `js/data/events.js` |
 | カレンダー用ファイルの中身 | `js/services/ics.js` |
 | 予定1件ずつの「カレンダーに追加」 / ファイルの保存 | `js/services/calendar.js` / `js/services/files.js` |
+| 状態（予定・タブ・今の画面）の置き場 | `js/state.js` |
+| 保存データの読み書き / バックアップの書き出し・読み込み | `js/data/store.js` / `js/data/backup.js` |
+| イベント更新履歴（記録の読み込み / 画面） | `js/data/updates.js` / `js/ui/updates-sheet.js` |
+| 取り込み内容をGitHubへ書く（鍵の登録 / 書き込み / 画面） | `js/services/github.js` / `js/data/watchlist-sync.js` / `js/ui/github-link.js` |
+| タブを左右のスワイプで切り替える | `js/ui/tab-swipe.js` |
+| 動き・お知らせの小さな部品 | `js/ui/motion.js` / `js/ui/toast.js` |
 | 日付や文字の小さな処理 | `js/util/` |
+| ビルドと点検（食い違い・無駄・番号の上げ忘れを自動で見つける） | `tools/build.py` / `tools/check.py` |
+| 日々の自動取得の手順書 | `tools/daily-fetch.md` |
+| 動作確認用のプレビュー / 起動画像の作成 | `tools/make_preview.py` / `tools/make_startup.py` |
 
 `js/main.js` は各部品をつなぐだけの入口です。
 
@@ -68,7 +77,7 @@ iPhoneのホーム画面に追加して使います。ビルド作業は不要�
 1. タブの追加・編集画面の「自動で取り込む内容」に、タブごとに欲しい日程を書く
 2. 「取り込みの一覧をコピー」で、その内容をClaudeに貼る
 3. Claudeが `watchlist.json`（このリポジトリの直下）を書き換える（pushは承認を得てから）
-4. 毎日11:59（日本時間）、自動の作業が `watchlist.json` を読み、タブごとに公式情報を調べて `feed.json` に書く（手順は `tools/weekly-fetch.md`）
+4. 毎日11:59（日本時間）、自動の作業が `watchlist.json` を読み、タブごとに公式情報を調べて `feed.json` に書く（手順は `tools/daily-fetch.md`）
 5. アプリは開くたびに `feed.json` を読み、予定に追加・更新する。変わった内容は「i」の更新履歴に出る
 
 `watchlist.json` の `tabName` は、アプリのタブ名と同じにしてください。
@@ -80,7 +89,7 @@ iPhoneのホーム画面に追加して使います。ビルド作業は不要�
 - 反映のルールは `js/data/feed.js` にあります。
 - 申し込み・期限などの日付は、各件に `dates`（`kind`・`date`・`note` の並び。最大8つ）で書きます。`kind` は `open`（申込開始）・`close`（申込締切）・`result`（当落発表）・`pay`（入金期限）・`other` のどれかです。
 - 取り込む種類は、タブごとに「タブの編集」の「自動で取り込む日付」で選びます（その内容は `watchlist.json` の `kinds` に保存され、自動の作業もそれに従います）。外した種類は自動では入りません。手で入れた日付は消えません。
-- 毎日の自動の作業の手順は、`tools/weekly-fetch.md` にあります。
+- 毎日の自動の作業の手順は、`tools/daily-fetch.md` にあります。
 
 ## データについて
 
@@ -90,4 +99,4 @@ iPhoneのホーム画面に追加して使います。ビルド作業は不要�
 
 ## 公開の前に（軽量化の仕組み）
 ソースは機能・画面ごとのファイル（`js/`・`css/`）のままです。公開用には、これを1つにまとめて小さくした `dist/app.min.js` と `dist/app.min.css` を読み込みます。
-ソースを直したら、公開の前に `python3 tools/build.py` を実行して `dist/` を作り直し、一緒に公開します。
+ソースを直したら、公開の前に `python3 tools/build.py` を実行して `dist/` を作り直し、一緒に公開します。ビルドの最初に `tools/check.py` が動き、食い違い（説明文のファイル名、READMEの載せ忘れ、ぐるぐる参照、使われていないCSS・export、番号の上げ忘れ）が見つかると止まります。
