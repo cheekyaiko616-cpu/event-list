@@ -40,8 +40,6 @@ iPhoneのホーム画面に追加して使います。ビルド作業は不要�
 | 初期のタブ・タブの上限・アラートの選択肢 | `js/config.js` |
 | 自動取得（Claudeが調べた日程の反映ルール） | `js/data/feed.js` |
 | Claude上の共有データへの入口 | `js/services/cloud.js` |
-| 日程の取り込み（読み込み・比べ方） | `js/data/import.js` |
-| 取り込みの確認画面 | `js/ui/import-sheet.js` |
 | 予定やタブの増減・並べ方のルール | `js/data/events.js` / `js/data/tabs.js` |
 | タブごとの「自動で取り込む内容」と、その一覧の形 | `js/data/watchlist.js` / タブの編集は `js/ui/tab-edit.js` |
 | 保存先（localStorage → IndexedDB など） | `js/data/storage.js` だけ |

@@ -72,23 +72,6 @@
 .confirm-box { margin-top: 10px; padding: 10px 12px; border: 1px solid var(--line); border-radius: 10px; background: var(--bg); }
 .confirm-box p { margin: 0 0 8px; font-size: 13px; }
 
-/* 日程の取り込み */
-.cand-list { list-style: none; margin: 12px 0 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
-.cand { border: 1px solid var(--line); border-radius: 10px; background: var(--bg); }
-.cand.dup { opacity: .55; }
-.cand-in { display: flex; gap: 10px; align-items: flex-start; padding: 10px 12px; }
-.cand-in input { flex: none; width: 22px; height: 22px; margin: 2px 0 0; }
-.cand-body { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
-.cand-kind { align-self: flex-start; padding: 1px 7px; border-radius: 999px; font-size: 11px; font-weight: 700; background: var(--line); color: var(--fg); }
-.cand-kind.k-new { background: var(--ink); color: var(--on-ink); }
-.cand-kind.k-update { background: var(--note-bg); color: var(--note-fg); }
-.cand-t { font-size: 15px; font-weight: 700; line-height: 1.4; overflow-wrap: anywhere; }
-.cand-when { font-size: 14px; font-variant-numeric: tabular-nums; }
-.cand-meta { font-size: 12px; color: var(--muted); overflow-wrap: anywhere; }
-.cand-warn { font-size: 12px; font-weight: 700; color: var(--danger); }
-
-/* Googleカレンダーへまとめて追加（1件ずつ） */
-
 /* イベント更新履歴：日ごとのカード */
 .up-card { margin-top: 14px; padding: 14px; border: 1px solid var(--line); border-radius: 12px; background: var(--bg); }
 .up-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; }

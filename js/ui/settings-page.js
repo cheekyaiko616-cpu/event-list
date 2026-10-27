@@ -5,7 +5,6 @@ import { $ } from '../util/dom.js';
 import { toast } from './toast.js';
 import { buildBackup, parseBackup, applyBackup } from '../data/backup.js';
 import { saveFile } from '../services/files.js';
-import { openImportSheet } from './import-sheet.js';
 import { openTabManager } from './tab-manager.js';
 import { GITHUB_MARKUP, initGithubLink, renderGithubLink } from './github-link.js';
 
@@ -19,13 +18,6 @@ const MARKUP = `
     <section class="set-sec">
       <h3>タブ</h3>
       <div class="actions"><button type="button" class="btn solid" id="st-tabs">タブの編集・並び替え</button></div>
-    </section>
-
-    <section class="set-sec">
-      <h3>日程の更新・取り込み</h3>
-      <div class="actions">
-        <button type="button" class="btn solid" id="st-import-open">ファイルから取り込む</button>
-      </div>
     </section>
 
     ${GITHUB_MARKUP}
@@ -68,7 +60,6 @@ export function initSettingsPage() {
   $('#app-settings').innerHTML = MARKUP;
   $('#st-back').addEventListener('click', closeSettings);
   $('#st-tabs').addEventListener('click', openTabManager);
-  $('#st-import-open').addEventListener('click', openImportSheet);
   initGithubLink();
   $('#st-export').addEventListener('click', onExport);
   $('#st-import').addEventListener('click', () => $('#st-file').click());

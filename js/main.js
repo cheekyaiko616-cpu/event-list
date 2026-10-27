@@ -18,7 +18,6 @@ import { initFab, renderFab } from './ui/fab.js';
 import { initTabAdd } from './ui/tab-add.js';
 import { initTabEdit } from './ui/tab-edit.js';
 import { initSettingsPage, renderSettings } from './ui/settings-page.js';
-import { initImportSheet } from './ui/import-sheet.js';
 import { initUpdatesSheet } from './ui/updates-sheet.js';
 import { initWatchSync } from './data/watchlist-sync.js';
 import { toast } from './ui/toast.js';
@@ -51,7 +50,6 @@ initTabManager();
 initTabAdd();
 initTabEdit();
 initSettingsPage();
-initImportSheet();
 initUpdatesSheet();
 initWatchSync();
 // 2本指の拡大・縮小を止める
