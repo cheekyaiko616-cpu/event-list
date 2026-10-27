@@ -1,4 +1,4 @@
-// 毎週の自動調査で「何が変わったか」の記録（updates.json）を読む。画面は扱わない。
+// 毎日の自動調査で「何が追加・変更されたか」の記録（updates.json）を読む。画面は扱わない。
 const MAX_ENTRIES = 50; // 画面に出すのは新しい順に50件まで（記録の側でも50件にそろえる。tools/weekly-fetch.md）
 const str = (v, max) => (typeof v === 'string' ? v.slice(0, max) : '');
 const list = (v) => (Array.isArray(v) ? v : []);
@@ -9,9 +9,7 @@ function cleanEntry(x) {
     date: x.date,
     summary: str(x.summary, 300),
     added: list(x.added).slice(0, 200).map((a) => ({ title: str(a && a.title, 100), when: str(a && a.when, 60), tab: str(a && a.tab, 20) })).filter((a) => a.title),
-    changed: list(x.changed).slice(0, 200).map((c) => ({ title: str(c && c.title, 100), before: str(c && c.before, 100), after: str(c && c.after, 100) })).filter((c) => c.title),
-    unchanged: Number.isInteger(x.unchanged) && x.unchanged >= 0 ? x.unchanged : 0,
-    uncertain: list(x.uncertain).slice(0, 50).map((u) => str(u, 200)).filter(Boolean)
+    changed: list(x.changed).slice(0, 200).map((c) => ({ title: str(c && c.title, 100), before: str(c && c.before, 100), after: str(c && c.after, 100) })).filter((c) => c.title)
   };
 }
 
@@ -21,7 +19,7 @@ export async function loadUpdates() {
     const res = await fetch('updates.json?t=' + Date.now(), { cache: 'no-store' });
     if (!res.ok) return null;
     const body = await res.json();
-    return list(body && body.entries).map(cleanEntry).filter(Boolean).sort((a, b) => (a.date < b.date ? 1 : -1)).slice(0, MAX_ENTRIES);
+    return list(body && body.entries).map(cleanEntry).filter((x) => x && (x.added.length || x.changed.length)).sort((a, b) => (a.date < b.date ? 1 : -1)).slice(0, MAX_ENTRIES);
   } catch (e) {
     return null;
   }

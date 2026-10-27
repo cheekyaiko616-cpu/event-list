@@ -1,4 +1,4 @@
-// イベント更新履歴の画面：毎週の自動調査で、何が追加・変更されたかを、日ごとのカードで見る。
+// イベント更新履歴の画面：毎日の自動調査で、何が追加・変更されたかを、日ごとのカードで見る。
 import { $, el, clear } from '../util/dom.js';
 import { mountSheet, showSheet, hideSheet } from './sheet.js';
 import { loadUpdates } from '../data/updates.js';
@@ -43,15 +43,13 @@ function entryEl(x) {
     el('b', { text: a.title }), el('span', { text: [a.tab, a.when].filter(Boolean).join(' ・ ') })));
   const changed = x.changed.map((c) => el('p', { class: 'up-line' },
     el('b', { text: c.title }), el('span', { text: `${c.before || '（なし）'} → ${c.after || '（なし）'}` })));
-  const uncertain = x.uncertain.map((u) => el('p', { class: 'up-line' }, el('span', { text: u })));
   return el('article', { class: 'up-card' },
     el('header', { class: 'up-head' },
       dateEl(x.date),
       el('div', { class: 'up-counts' },
-        count('追加', x.added.length, 'c-add'), count('変更', x.changed.length, 'c-chg'), count('変更なし', x.unchanged, 'c-none'))),
+        count('追加', x.added.length, 'c-add'), count('変更', x.changed.length, 'c-chg'))),
     group('追加', 'g-add', added),
-    group('変更', 'g-chg', changed),
-    group('確認できなかったこと', 'g-unc', uncertain));
+    group('変更', 'g-chg', changed));
 }
 
 export async function openUpdates() {
