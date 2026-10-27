@@ -1,11 +1,10 @@
 // 設定の画面：左の引き出しから開く。左右どちらへスワイプしても、予定の一覧へ戻る。
-// 日程の取り込み、カレンダーへのまとめて追加、バックアップ、見本の削除。
+// 日程の取り込み、バックアップ、見本の削除。
 import { state, notify } from '../state.js';
 import { $ } from '../util/dom.js';
 import { toast } from './toast.js';
-import { upcomingDated, removeSamples } from '../data/events.js';
+import { removeSamples } from '../data/events.js';
 import { buildBackup, parseBackup, applyBackup } from '../data/backup.js';
-import { addToCalendar } from '../services/calendar.js';
 import { saveFile } from '../services/files.js';
 import { openImportSheet } from './import-sheet.js';
 import { refreshNow } from '../data/feed.js';
@@ -33,11 +32,6 @@ const MARKUP = `
     </section>
 
     ${GITHUB_MARKUP}
-
-    <section class="set-sec">
-      <h3>カレンダー</h3>
-      <div class="actions"><button type="button" class="btn" id="st-bulk">まとめて標準カレンダーに追加</button></div>
-    </section>
 
     <section class="set-sec">
       <h3>バックアップ</h3>
@@ -92,7 +86,6 @@ export function initSettingsPage() {
   });
   $('#st-import-open').addEventListener('click', openImportSheet);
   initGithubLink();
-  $('#st-bulk').addEventListener('click', () => addToCalendar(upcomingDated()));
   $('#st-export').addEventListener('click', onExport);
   $('#st-import').addEventListener('click', () => $('#st-file').click());
   $('#st-file').addEventListener('change', onFile);
@@ -179,10 +172,6 @@ export function renderSettings() {
   if (!on) { clearPending(); setMsg('', false); return; }
 
   renderGithubLink();
-  const list = upcomingDated();
-  const bulk = $('#st-bulk');
-  bulk.disabled = !list.length;
-  bulk.textContent = list.length ? `まとめて標準カレンダーに追加（${list.length}件）` : 'まとめて標準カレンダーに追加';
   $('#st-sample-sec').hidden = !state.events.some((e) => e.sample);
 }
 

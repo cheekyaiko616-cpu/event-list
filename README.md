@@ -31,7 +31,7 @@ iPhoneのホーム画面に追加して使います。ビルド作業は不要�
 | 文字フォントの読み込み（画面を止めない） | `js/boot-fonts.js` |
 | タブの並び | `js/ui/tabs-bar.js` |
 | タブの一覧・追加・編集の画面 | `js/ui/tab-manager.js` / `js/ui/tab-add.js` / `js/ui/tab-edit.js` |
-| ⚙️の設定画面（取り込み・バックアップ・カレンダー追加） | `js/ui/settings-page.js` / 見た目は `css/settings.css` |
+| ⚙️の設定画面（取り込み・バックアップ） | `js/ui/settings-page.js` / 見た目は `css/settings.css` |
 | 画面上部（タイトル・i・⚙️） | `js/ui/header.js` |
 | 右下の「＋」ボタン | `js/ui/fab.js` |
 | 左側面の引き出し（設定・過去・イベント更新履歴） | `js/ui/drawer.js` |
@@ -46,7 +46,7 @@ iPhoneのホーム画面に追加して使います。ビルド作業は不要�
 | 保存先（localStorage → IndexedDB など） | `js/data/storage.js` だけ |
 | 保存データの項目を増やす | `js/data/schema.js` と `js/data/events.js` |
 | カレンダー用ファイルの中身 | `js/services/ics.js` |
-| カレンダーの開き方・共有の仕方 | `js/services/calendar.js` / `js/services/files.js` |
+| 予定1件ずつの「カレンダーに追加」 / ファイルの保存 | `js/services/calendar.js` / `js/services/files.js` |
 | 日付や文字の小さな処理 | `js/util/` |
 
 `js/main.js` は各部品をつなぐだけの入口です。

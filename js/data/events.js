@@ -83,16 +83,6 @@ export async function pruneOld() {
   return n;
 }
 
-/** これから先にある、日付が決まった予定すべて。 */
-export function upcomingDated() {
-  const t = todayIso();
-  // まとめて追加する対象。関連日付は、これから先のものだけを付ける（開催日が未定でも、先の期限があれば含める）
-  return state.events
-    .map((e) => ({ ...e, dates: (e.dates || []).filter((d) => d.date >= t) }))
-    .filter((e) => (parseDate(e.date) && eventEnd(e) >= t) || e.dates.length)
-    .sort((a, b) => compareEvents(a, b));
-}
-
 /** 今のタブで、一覧に出す予定。{ up: これから, past: 終わった, undated: 日程未定 } */
 export function selectVisible() {
   const t = todayIso();
