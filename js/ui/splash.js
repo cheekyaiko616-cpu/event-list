@@ -1,8 +1,8 @@
 // 起動画面。ゲームのロード画面のように、乗りものが輪の上を一定の速さで回り続ける。
 // 種類は3つ（飛行機・スポーツカー・新幹線）。前回と同じものが続かないように選ぶ。
-// 電池のため：動くのは起動中の約5秒だけ。終わったら画面の部品ごと取り除く。
+// 電池のため：動くのは起動中の約3秒だけ。終わったら画面の部品ごと取り除く。
 // ゲージの長さは index.html の animation-duration と同じ値（SHOW_MS）にそろえる。
-const SHOW_MS = 5000;
+const SHOW_MS = 3000;
 const KEY = 'event-cho-splash';
 
 import { VEHICLES } from './splash-art.js';
