@@ -25,6 +25,9 @@ iPhoneのホーム画面に追加して使います。ビルド作業は不要�
 | 予定の入力画面 | `js/ui/event-sheet.js` |
 | 申し込み・期限の日付（入力欄 / データの整え方） | `js/ui/event-dates.js` / `js/data/dates.js` |
 | タブごとの設定（一覧に出す・出さない、自動で取り込む日付の種類）の整え方 / 選択欄 | `js/data/settings.js` / `js/ui/tab-edit.js` |
+| 起動時に最初に出す画面（いつも「すべて」） | `js/main.js` |
+| 起動の最初の1コマ（背景色・起動画面。`tools/build.py` が `index.html` に埋め込む） | `css/tokens.css` / `css/splash.css` |
+| 文字フォントの読み込み（画面を止めない） | `js/boot-fonts.js` |
 | タブの並び | `js/ui/tabs-bar.js` |
 | タブの一覧・追加・編集の画面 | `js/ui/tab-manager.js` / `js/ui/tab-add.js` / `js/ui/tab-edit.js` |
 | ⚙️の設定画面（取り込み・バックアップ・カレンダー追加） | `js/ui/settings-page.js` / 見た目は `css/settings.css` |
@@ -58,7 +61,7 @@ iPhoneのホーム画面に追加して使います。ビルド作業は不要�
 
 ## ファイルを足したり消したりしたとき
 
-`sw.js`（オフライン用）の `ASSETS` の一覧を直し、`CACHE` の番号を1つ上げてください。
+`sw.js`（オフライン用。アプリ本体は保存済みを先に出し、裏で更新）の `ASSETS` の一覧を直し、`CACHE` の番号を1つ上げてください。
 
 ## 毎週の自動取得の仕組み（取り込み内容の一覧）
 

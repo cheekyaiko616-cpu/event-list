@@ -20,5 +20,14 @@ subprocess.run([ESB, str(tmp), '--minify', '--loader:.css=css', f'--outfile={dis
 tmp.unlink()
 subprocess.run([ESB, str(root / 'js/main.js'), '--bundle', '--minify', '--format=iife', '--target=es2020',
                 f'--outfile={dist / "app.min.js"}'], check=True, capture_output=True)
+# 最初の1コマ用：色と起動画面のCSSを index.html に直接埋め込む（外のファイルを待たずに、最初から背景と起動画面が出る）
+tmp = dist / '_first.css'
+tmp.write_text('\n'.join([(root / 'css/tokens.css').read_text(encoding='utf-8'),
+                          'html,body{margin:0;height:100%;background-color:var(--bg)}',
+                          (root / 'css/splash.css').read_text(encoding='utf-8')]), encoding='utf-8')
+first = subprocess.run([ESB, str(tmp), '--minify', '--loader:.css=css'], check=True, capture_output=True).stdout.decode().strip()
+tmp.unlink()
+html2 = re.sub(r'<!--first-paint-start-->.*?<!--first-paint-end-->', lambda m: '<!--first-paint-start-->' + first + '<!--first-paint-end-->', html, flags=re.S)
+(root / 'index.html').write_text(html2, encoding='utf-8')
 for f in ('app.min.js', 'app.min.css'):
     print(f, (dist / f).stat().st_size // 1024, 'KB')

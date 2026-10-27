@@ -4,7 +4,6 @@
 //   ui/        … 画面ごとの部品
 //   util/      … 日付や文字の小さな道具
 import { state, subscribe } from './state.js';
-import { FILTER_KEY } from './config.js';
 import { init } from './data/store.js';
 import { pruneOld } from './data/events.js';
 import { startFeed } from './data/feed.js';
@@ -36,10 +35,8 @@ function renderAll() {
   renderSettings();
 }
 
-try {
-  const last = localStorage.getItem(FILTER_KEY);
-  if (last) state.ui.filter = last;
-} catch (e) { /* 既定の「すべて」で始める */ }
+// 起動時のトップ画面は、いつも「すべて」から始める（最後に開いたタブは引き継がない）
+state.ui.filter = 'all';
 
 initSplash();
 initHeader();
