@@ -14,11 +14,6 @@ export function downloadBlob(blob, filename) {
   triggerAnchor(URL.createObjectURL(blob), (a) => { a.download = filename; });
 }
 
-/** ファイルとして開く。iPhone の Safari では、.ics ならカレンダーの追加画面が出る。 */
-export function openBlob(blob) {
-  triggerAnchor(URL.createObjectURL(blob), (a) => { a.target = '_blank'; a.rel = 'noopener'; });
-}
-
 /**
  * ファイルを保存する。共有シートが使えれば出し、使えなければダウンロードする。
  * 戻り値: 'shared' | 'cancelled' | 'downloaded'

@@ -47,8 +47,6 @@
 .kv dt { padding-top: 2px; color: var(--muted); font-size: 12px; white-space: nowrap; }
 .kv dd { margin: 0; overflow-wrap: anywhere; }
 .actions { display: flex; flex-wrap: wrap; gap: 8px; }
-.hint { margin: 8px 0 0; font-size: 12px; line-height: 1.7; color: var(--muted); }
-.hint .link-btn { display: inline; min-height: 0; font-size: 12px; }
 
 .note {
   display: flex; flex-direction: column; gap: 6px; align-items: flex-start;
@@ -59,7 +57,6 @@
 .empty { padding-block: 44px; text-align: center; color: var(--muted); }
 .empty p { margin: 0 0 14px; }
 .empty .actions { justify-content: center; }
-.foot { padding-block: 28px 0; text-align: center; }
 .end-space { height: calc(72px + env(safe-area-inset-bottom, 0px)); }
 
 .badge.upd { background: var(--ink); color: var(--on-ink); }
@@ -75,10 +72,8 @@
 #app-pin .row { border-bottom: 0; }
 #app-pin .detail { margin: 0 0 10px 0; padding: 10px 12px; }
 #app-pin .kv { margin-bottom: 8px; font-size: 13px; }
-#app-pin .hint { margin-top: 6px; }
 .row.is-open { background: color-mix(in srgb, var(--fg) 6%, transparent); }
 #app-pin { max-height: 60dvh; }
-#app-pin .hint { display: none; }
 #app-pin .actions .btn { min-height: 36px; padding: 0 12px; }
 #app-pin .close-btn { min-height: 30px; margin-top: 6px; }
 

@@ -5,7 +5,7 @@ import { sortedTabs, tabById } from './tabs.js';
 import { buildSamples } from './samples.js';
 import { parseDate, eventEnd, todayIso, addDaysIso, compareEvents } from '../util/date.js';
 import { RETENTION_DAYS } from '../config.js';
-import { safeUrl, newId, bumpYear } from '../util/text.js';
+import { safeUrl, newId } from '../util/text.js';
 import { cleanDates } from './dates.js';
 import { isTabHidden } from './settings.js';
 
@@ -49,18 +49,6 @@ export async function deleteEvent(id) {
   if (gone && gone.feedId && !state.dismissed.includes(gone.feedId)) state.dismissed.push(gone.feedId); // 自動で戻さない
   state.events = state.events.filter((e) => e.id !== id);
   return commit();
-}
-
-/** 来年分の「日程未定」の枠を作る。作った予定の名前を返す。 */
-export async function createNextYear(ev) {
-  const p = parseDate(ev.date);
-  const title = bumpYear(ev.title || '', p ? p.y + 1 : 0);
-  state.events.push({
-    id: newId('e'), rev: 1, type: ev.type, title, date: '', end: '',
-    place: ev.place || '', source: '', url: '', note: '', sample: !!ev.sample
-  });
-  await commit();
-  return title;
 }
 
 /** 見本の予定を入れる。タブが1つも無いときは false。 */

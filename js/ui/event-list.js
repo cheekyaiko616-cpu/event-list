@@ -1,7 +1,6 @@
 // 一覧画面：月ごとの帯、予定の行、タップで開く詳細、日程未定のまとまり。
 import { state, notify } from '../state.js';
 import { $, el, clear } from '../util/dom.js';
-import { ALERT_OPTIONS } from '../config.js';
 import { parseDate, weekday, eventEnd, formatRange, todayIso, addDaysIso, daysUntil } from '../util/date.js';
 import { kindLabel, nextDeadline, nextCloseDeadline } from '../data/dates.js';
 import { isShown } from '../data/settings.js';
@@ -17,13 +16,6 @@ import { closeDetail, isClosing } from './pin-close.js';
 import { viewSwitchEl } from './view-switch.js';
 
 const hueOf = (month) => (month * 150) % 360; // 隣り合う月の色が大きく離れるようにする
-
-function alertText() {
-  const labels = state.settings.alerts
-    .map((id) => (ALERT_OPTIONS.find((o) => o.id === id) || {}).label)
-    .filter(Boolean);
-  return labels.length ? labels.join('・') : 'なし';
-}
 
 function noteBox(...children) {
   return el('div', { class: 'note' }, children);

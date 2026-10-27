@@ -4,14 +4,6 @@
   width: 100%; margin-top: 14px; padding: 14px 16px; text-align: left;
   background: var(--surface); border: 1px solid var(--line); border-left: 6px solid var(--c); border-radius: 12px;
 }
-.next-cd { display: flex; align-items: baseline; gap: 3px; min-width: 64px; }
-.next-big { font: 600 44px/1 var(--font-num); font-variant-numeric: tabular-nums; color: var(--c); }
-.next-big.word { font: 700 22px/1.2 var(--font-ui); }
-.next-small { font-size: 14px; font-weight: 700; color: var(--muted); }
-.next-body { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
-.next-label { font-size: 11px; font-weight: 700; color: var(--muted); letter-spacing: .06em; }
-.next-title { font-size: 16px; font-weight: 700; line-height: 1.4; overflow-wrap: anywhere; }
-.next-when { font-size: 13px; color: var(--muted); }
 
 
 /* 開催中の細い帯。 */

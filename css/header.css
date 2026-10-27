@@ -9,7 +9,6 @@
 .bar h1 { margin: 0; font-size: 21px; line-height: 1.25; font-weight: 700; }
 .bar h1.brand { font-family: "Cormorant Garamond", "Hiragino Mincho ProN", Georgia, serif; font-size: 28px; font-weight: 600; font-style: italic; letter-spacing: .03em; line-height: 1.1; }
 .today { display: block; font-size: 12px; line-height: 1.4; color: var(--muted); font-variant-numeric: tabular-nums; }
-.bar-actions { display: flex; gap: 8px; flex-shrink: 0; }
 
 /* タブ */
 .tabs { overflow-x: auto; scrollbar-width: none; overscroll-behavior: none; }
@@ -38,19 +37,10 @@
   font-size: 17px; line-height: 1;
 }
 
-/* タイトルの横の「i」ボタン（更新の履歴へ） */
+/* タイトルの行 */
 .brand-row { display: flex; align-items: center; gap: 8px; }
-.info-btn {
-  display: inline-flex; align-items: center; justify-content: center; flex: none;
-  width: 22px; height: 22px; padding: 0; border: 1.5px solid var(--muted); border-radius: 50%;
-  background: none; color: var(--muted); font: italic 700 14px/1 Georgia, "Times New Roman", serif;
-}
-.info-btn::before { content: ""; position: absolute; width: 44px; height: 44px; margin: -11px; } /* 押しやすく */
-.info-btn { position: relative; }
 .bar h1 { white-space: nowrap; }
 .bar > div:first-child { min-width: 0; flex: none; }
-.bar-actions { gap: 6px; }
-.bar-actions .btn { padding: 0 10px; }
 .today { white-space: nowrap; }
 
 /* 右下の「＋」（予定の追加） */

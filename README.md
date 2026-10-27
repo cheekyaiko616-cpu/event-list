@@ -27,6 +27,7 @@ iPhoneのホーム画面に追加して使います。ビルド作業は不要�
 | タブごとの設定（一覧に出す・出さない、自動で取り込む日付の種類）の整え方 / 選択欄 | `js/data/settings.js` / `js/ui/tab-edit.js` |
 | 起動時に最初に出す画面（いつも「すべて」） | `js/main.js` |
 | 起動の最初の1コマ（背景色・起動画面。`tools/build.py` が `index.html` に埋め込む） | `css/tokens.css` / `css/splash.css` |
+| iPhoneで開いた直後の画面（無地。`tools/make_startup.py` で作る。反映にはホーム画面のアイコンの入れ直しが必要） | `img/startup/` / `tools/make_startup.py` |
 | 文字フォントの読み込み（画面を止めない） | `js/boot-fonts.js` |
 | タブの並び | `js/ui/tabs-bar.js` |
 | タブの一覧・追加・編集の画面 | `js/ui/tab-manager.js` / `js/ui/tab-add.js` / `js/ui/tab-edit.js` |

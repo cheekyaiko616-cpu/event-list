@@ -88,12 +88,6 @@
 .cand-warn { font-size: 12px; font-weight: 700; color: var(--danger); }
 
 /* Googleカレンダーへまとめて追加（1件ずつ） */
-.bulk-list { display: flex; flex-direction: column; margin-top: 8px; max-height: 50vh; overflow-y: auto; }
-.bulk-row { display: flex; align-items: center; gap: 12px; padding: 8px 0; border-top: 1px solid var(--line); }
-.bulk-text { display: flex; flex-direction: column; gap: 2px; flex: 1; min-width: 0; font-size: 13px; color: var(--muted); }
-.bulk-text b { font-size: 14px; color: var(--fg); overflow-wrap: anywhere; }
-.bulk-row .btn { flex: none; min-width: 64px; text-decoration: none; }
-.bulk-row .btn.done { opacity: .5; }
 
 /* イベント更新履歴：日ごとのカード */
 .up-card { margin-top: 14px; padding: 14px; border: 1px solid var(--line); border-radius: 12px; background: var(--bg); }
