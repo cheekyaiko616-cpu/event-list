@@ -1,4 +1,5 @@
 // 毎週の自動調査で「何が変わったか」の記録（updates.json）を読む。画面は扱わない。
+const MAX_ENTRIES = 50; // 画面に出すのは新しい順に50件まで（記録の側でも50件にそろえる。tools/weekly-fetch.md）
 const str = (v, max) => (typeof v === 'string' ? v.slice(0, max) : '');
 const list = (v) => (Array.isArray(v) ? v : []);
 
@@ -20,7 +21,7 @@ export async function loadUpdates() {
     const res = await fetch('updates.json?t=' + Date.now(), { cache: 'no-store' });
     if (!res.ok) return null;
     const body = await res.json();
-    return list(body && body.entries).map(cleanEntry).filter(Boolean).sort((a, b) => (a.date < b.date ? 1 : -1));
+    return list(body && body.entries).map(cleanEntry).filter(Boolean).sort((a, b) => (a.date < b.date ? 1 : -1)).slice(0, MAX_ENTRIES);
   } catch (e) {
     return null;
   }
