@@ -22,7 +22,7 @@ const MARKUP = `
     </fieldset>
     <div class="field">
       <label for="te-watch">自動で取り込む内容</label>
-      <textarea class="input" id="te-watch" rows="3" maxlength="${WATCH_MAX}" placeholder="例）SUPER GTの2027年の公式日程"></textarea>
+      <textarea class="input" id="te-watch" rows="2" maxlength="${WATCH_MAX}" placeholder="例）SUPER GTの2027年の公式日程"></textarea>
     </div>
     <fieldset class="seg">
       <legend class="legend">自動で取り込む日付（開催日のほか）</legend>
@@ -74,7 +74,7 @@ function drawKinds() {
   DATE_KINDS.forEach((k) => {
     const input = el('input', { type: 'checkbox', id: `te-k-${k.id}`, checked: kinds.includes(k.id) });
     input.addEventListener('change', () => { kinds = input.checked ? [...kinds, k.id] : kinds.filter((x) => x !== k.id); });
-    box.append(el('label', { class: 'check', for: `te-k-${k.id}` }, input, k.label));
+    box.append(el('label', { class: 'pick', for: `te-k-${k.id}` }, input, el('span', { text: k.label })));
   });
 }
 
@@ -82,18 +82,14 @@ function drawKinds() {
 function drawShow() {
   const box = $('#te-show');
   clear(box);
-  const add = (key, label, on, set) => {
-    const input = el('input', { type: 'checkbox', id: `te-s-${key}`, checked: on });
+  const add = (key, label, on, set, disabled) => {
+    const input = el('input', { type: 'checkbox', id: `te-s-${key}`, checked: on, disabled });
     input.addEventListener('change', () => { set(input.checked); drawShow(); });
-    box.append(el('label', { class: 'check', for: `te-s-${key}` }, input, label));
+    box.append(el('label', { class: 'pick', for: `te-s-${key}` }, input, el('span', { text: label })));
   };
-  add('visible', 'このタブを一覧に出す', !hidden, (on) => { hidden = !on; });
+  add('visible', 'このタブを一覧に出す', !hidden, (on) => { hidden = !on; }, false);
   SHOW_KEYS.forEach((k) => {
-    const row = el('div', { class: 'check-sub' });
-    box.append(row);
-    const input = el('input', { type: 'checkbox', id: `te-s-${k.id}`, checked: show[k.id] !== false, disabled: hidden });
-    input.addEventListener('change', () => { show = { ...show, [k.id]: input.checked }; });
-    row.append(el('label', { class: 'check', for: `te-s-${k.id}` }, input, k.label));
+    add(k.id, k.label, show[k.id] !== false, (on) => { show = { ...show, [k.id]: on }; }, hidden);
   });
 }
 
