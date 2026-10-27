@@ -16,19 +16,20 @@ export function initHeader() {
       </div>
       <div id="tabs-mount"></div>
     </div>`;
-
-  const now = new Date();
-  $('#today').textContent = `今日 ${now.getMonth() + 1}/${now.getDate()}(${WEEKDAYS[now.getDay()]})`;
-
 }
 
 export function renderHeader() {
   const past = state.ui.view === 'past';
   const settings = state.ui.screen === 'settings';
   const h = $('#h-title');
-  h.textContent = settings ? '設定' : 'Event list';
+  setText(h, settings ? '設定' : 'Event list');
   h.classList.toggle('brand', !settings);
   $('#tabs-mount').hidden = settings;
   const d = new Date();
-  $('#today').textContent = `今日 ${d.getMonth() + 1}/${d.getDate()}(${WEEKDAYS[d.getDay()]})${past ? ' ・ 過去' : ''}`;
+  setText($('#today'), `今日 ${d.getMonth() + 1}/${d.getDate()}(${WEEKDAYS[d.getDay()]})${past ? ' ・ 過去' : ''}`);
+}
+
+/** 文字が変わったときだけ書き換える（同じ文字で、描き直しを起こさない）。 */
+function setText(node, text) {
+  if (node.textContent !== text) node.textContent = text;
 }

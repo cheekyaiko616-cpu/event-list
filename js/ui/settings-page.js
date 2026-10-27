@@ -70,19 +70,19 @@ export function initSettingsPage() {
 }
 
 /**
- * 左右どちらへスワイプしても、設定の画面が指についてきて、離すと閉じる（予定の一覧へ戻る）。
+ * 左から右へスワイプすると、設定の画面が指についてきて、離すと閉じる（予定の一覧へ戻る）。右から左は何もしない。
  * 少しの距離でも、勢いよく払えば閉じる。縦のスクロールは、そのまま使える。
  */
 function initSwipeClose() {
   const page = $('#app-settings');
-  let x0 = 0, y0 = 0, t0 = 0, dir = 0, mode = 'idle'; // idle / wait / h / v / anim
+  let x0 = 0, y0 = 0, t0 = 0, mode = 'idle'; // idle / wait / h / v / anim
   const typing = (el) => !!(el && el.closest('textarea, input:not([type="checkbox"])'));
   page.addEventListener('touchstart', (e) => {
     if (mode === 'anim') return;
     const t = e.touches[0];
     const el = e.target instanceof Element ? e.target : null;
     if (e.touches.length !== 1 || typing(el)) { mode = 'idle'; return; }
-    x0 = t.clientX; y0 = t.clientY; t0 = e.timeStamp; dir = 0; mode = 'wait';
+    x0 = t.clientX; y0 = t.clientY; t0 = e.timeStamp; mode = 'wait';
   }, { passive: true });
   page.addEventListener('touchmove', (e) => {
     if (mode !== 'wait' && mode !== 'h') return;
@@ -90,26 +90,24 @@ function initSwipeClose() {
     const dx = t.clientX - x0, dy = t.clientY - y0;
     if (mode === 'wait') {
       if (Math.abs(dx) < 8 && Math.abs(dy) < 8) return;
-      if (Math.abs(dx) > Math.abs(dy) * 1.2) {
-        dir = dx > 0 ? 1 : -1;
-        if (dir > 0 && x0 <= 24) { mode = 'v'; return; } // 左のふちは、iPhone自身の「戻る」用に残す
-        mode = 'h';
-      } else { mode = 'v'; return; }
+      // 右へ動かしたときだけ閉じる動作にする。左のふちは、iPhone自身の「戻る」用に残す
+      if (dx > 0 && Math.abs(dx) > Math.abs(dy) * 1.2 && x0 > 24) mode = 'h';
+      else { mode = 'v'; return; }
     }
     if (e.cancelable) e.preventDefault(); // 横に動かしている間は、縦スクロールを止める
     page.style.transition = 'none';
-    page.style.transform = `translateX(${dir > 0 ? Math.max(0, dx) : Math.min(0, dx)}px)`;
+    page.style.transform = `translateX(${Math.max(0, dx)}px)`;
   }, { passive: false });
   const reset = () => { page.style.transform = ''; page.style.transition = ''; mode = 'idle'; };
   page.addEventListener('touchend', (e) => {
     if (mode !== 'h') { if (mode !== 'anim') mode = 'idle'; return; }
     const dx = e.changedTouches[0].clientX - x0;
     const w = page.clientWidth || window.innerWidth;
-    const fast = Math.abs(dx) / Math.max(1, e.timeStamp - t0) > 0.5 && Math.abs(dx) > 40; // 勢いよく払った
+    const fast = dx / Math.max(1, e.timeStamp - t0) > 0.5 && dx > 40; // 勢いよく払った
     mode = 'anim';
     page.style.transition = 'transform .2s ease-out';
-    if (dx * dir > 0 && (Math.abs(dx) > w * 0.2 || fast)) {
-      page.style.transform = `translateX(${dir * w}px)`;
+    if (dx > w * 0.2 || fast) {
+      page.style.transform = `translateX(${w}px)`;
       setTimeout(() => { closeSettings(); reset(); }, 200);
     } else {
       page.style.transform = '';
@@ -134,15 +132,18 @@ function closeSettings() {
 }
 
 /** 画面の切り替えと、表示内容を今の状態に合わせる。 */
+let screenOn = null; // 設定の画面を出しているか。切り替わったときだけ、画面を入れ替える
 export function renderSettings() {
   const on = state.ui.screen === 'settings';
-  $('#app-settings').hidden = !on;
-  $('#app-list').hidden = on;
-  $('#app-pin').hidden = on;
-  $('#app-now').hidden = on;
-  if (!on) { clearPending(); setMsg('', false); return; }
-
-  renderGithubLink();
+  if (on !== screenOn) {
+    screenOn = on;
+    $('#app-settings').hidden = !on;
+    $('#app-list').hidden = on;
+    $('#app-pin').hidden = on;
+    $('#app-now').hidden = on;
+    if (!on) { clearPending(); setMsg('', false); }
+  }
+  if (on) renderGithubLink();
 }
 
 async function onExport() {
