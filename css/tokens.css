@@ -25,7 +25,7 @@
   --band-bg-s: 60%; --band-bg-l: 90%; --band-fg-s: 55%; --band-fg-l: 26%;
 
   --font-ui: "Zen Kaku Gothic New", "Hiragino Sans", "Noto Sans JP", system-ui, sans-serif;
-  --font-brand: "Cormorant Garamond", Georgia, serif;
+  --font-brand: "Cormorant Garamond", "Hiragino Mincho ProN", Georgia, serif;
   --font-num: "Barlow Condensed", "Arial Narrow", system-ui, sans-serif;
 }
 

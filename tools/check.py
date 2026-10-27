@@ -5,7 +5,8 @@
   3. JS のファイル同士が、ぐるぐる参照していないか
   4. CSS の、使われていない class / id、同じ場所の二重定義
   5. JS の、使われていない export
-  6. 画面や動きを直したのに sw.js の CACHE の番号を上げ忘れていないか（git の直前の版と比べる）"""
+  6. 画面や動きを直したのに sw.js の CACHE の番号を上げ忘れていないか（git の直前の版と比べる）
+  7. 背景色が、tokens.css・index.html の theme-color・manifest・起動画像で、そろっているか"""
 import pathlib, re, subprocess, sys
 
 root = pathlib.Path(__file__).resolve().parent.parent
@@ -102,6 +103,30 @@ if head_sw:
     changed = git('diff', '--name-only', 'HEAD', '--', 'js', 'css', 'index.html', 'img', 'icons', 'manifest.webmanifest')
     if changed and changed.strip() and cache(head_sw) == cache(read(root / 'sw.js')):
         errors.append(f'画面や動きを直したのに、sw.js の CACHE（{cache(head_sw)}）が上がっていません')
+
+# 7. 背景色（正本は css/tokens.css の --bg。1つ目が明るい表示、2つ目が暗い表示）
+bgs = [c.lower() for c in re.findall(r'--bg:\s*(#[0-9a-fA-F]{6})', read(root / 'css/tokens.css'))]
+if len(bgs) >= 2:
+    light, dark = bgs[0], bgs[1]
+    html = read(root / 'index.html')
+    for scheme, want in (('light', light), ('dark', dark)):
+        m = re.search(r'<meta name="theme-color" content="(#[0-9a-fA-F]{6})" media="\(prefers-color-scheme: ' + scheme + r'\)">', html)
+        if not m or m.group(1).lower() != want:
+            errors.append(f'index.html の theme-color（{scheme}）が tokens.css の --bg（{want}）と違います')
+    manifest = read(root / 'manifest.webmanifest')
+    for key in ('background_color', 'theme_color'):
+        m = re.search(r'"' + key + r'":\s*"(#[0-9a-fA-F]{6})"', manifest)
+        if not m or m.group(1).lower() != light:
+            errors.append(f'manifest の {key} が tokens.css の --bg（{light}）と違います')
+    try:
+        from PIL import Image
+        for f in sorted((root / 'img/startup').glob('*.png')):
+            want = light if f.name.startswith('light-') else dark
+            got = '#%02x%02x%02x' % Image.open(f).convert('RGB').getpixel((0, 0))
+            if got != want:
+                errors.append(f'起動画像 {f.name} の色（{got}）が tokens.css の --bg（{want}）と違います。tools/make_startup.py を実行してください')
+    except ImportError:
+        pass
 
 if errors:
     print('点検で見つかったこと（直してからビルドしてください）:')

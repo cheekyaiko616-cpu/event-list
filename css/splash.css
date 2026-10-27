@@ -24,7 +24,7 @@
 .sp-veh svg { display: block; }
 @keyframes sp-spin { to { transform: rotate(360deg); } }
 
-.sp-title { font-family: 'Cormorant Garamond', serif; font-style: italic; font-weight: 600; font-size: 34px; letter-spacing: .02em; }
+.sp-title { font-family: var(--font-brand); font-style: italic; font-weight: 600; font-size: 34px; letter-spacing: .02em; }
 .sp-bar { margin-top: 20px; width: 140px; height: 3px; border-radius: 2px; background: var(--line); overflow: hidden; }
 .sp-bar i { display: block; height: 100%; width: 100%; background: var(--ink); transform-origin: left; transform: scaleX(0); animation: sp-fill linear forwards; }
 @keyframes sp-fill { to { transform: scaleX(1); } }

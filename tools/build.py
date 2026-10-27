@@ -5,6 +5,10 @@
 import pathlib, re, subprocess, sys
 root = pathlib.Path(__file__).resolve().parent.parent
 ESB = '/opt/npm-tools/node_modules/.bin/esbuild'
+
+# 最初に点検（食い違い・無駄・番号の上げ忘れ）。見つかったら、ここで止める
+if subprocess.run([sys.executable, str(root / 'tools' / 'check.py')]).returncode != 0:
+    sys.exit(1)
 dist = root / 'dist'
 dist.mkdir(exist_ok=True)
 

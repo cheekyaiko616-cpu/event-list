@@ -7,7 +7,7 @@
 }
 .bar { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding-block: 12px 4px; }
 .bar h1 { margin: 0; font-size: 21px; line-height: 1.25; font-weight: 700; white-space: nowrap; }
-.bar h1.brand { font-family: "Cormorant Garamond", "Hiragino Mincho ProN", Georgia, serif; font-size: 28px; font-weight: 600; font-style: italic; letter-spacing: .03em; line-height: 1.1; }
+.bar h1.brand { font-family: var(--font-brand); font-size: 28px; font-weight: 600; font-style: italic; letter-spacing: .03em; line-height: 1.1; }
 .today { display: block; font-size: 12px; line-height: 1.4; color: var(--muted); font-variant-numeric: tabular-nums; white-space: nowrap; }
 
 /* タブ */

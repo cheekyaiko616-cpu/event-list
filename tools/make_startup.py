@@ -2,12 +2,14 @@
   python3 tools/make_startup.py
   → img/startup/ に端末の大きさごとの無地の画像（明るい/暗い）を作り、index.html の
     <!--startup-start--> と <!--startup-end--> の間にその一覧を書き込む。
-色を変えたら（css/tokens.css の --bg）、下の LIGHT / DARK も同じ色にして実行し直す。
+色は css/tokens.css の --bg（明るい／暗い）から読む。色を変えたら、この作業を実行し直す。
 ※ iPhoneはこの画像を「ホーム画面に追加したとき」に覚えるため、反映するにはホーム画面のアイコンを入れ直す。"""
 import pathlib, re
 from PIL import Image
 root = pathlib.Path(__file__).resolve().parent.parent
-LIGHT, DARK = '#f2f3ef', '#1b2124'
+tokens = (root / 'css' / 'tokens.css').read_text(encoding='utf-8')
+bgs = re.findall(r'--bg:\s*(#[0-9a-fA-F]{6})', tokens)  # 1つ目が明るい表示、2つ目が暗い表示
+LIGHT, DARK = bgs[0], bgs[1]
 # (画面の幅pt, 高さpt, 倍率)  iPhone 16 以降だけ。新しい機種を足すときはここへ
 SIZES = [
     (390, 844, 3),  # 16e
@@ -24,7 +26,9 @@ links = []
 for scheme, color in (('light', LIGHT), ('dark', DARK)):
     for w, h, r in SIZES:
         name = f'{scheme}-{w * r}x{h * r}.png'
-        Image.new('RGB', (w * r, h * r), color).save(out / name, optimize=True)
+        img = Image.new('P', (w * r, h * r), 0)  # 無地なので、色は1色だけ（軽い形式で保存する）
+        img.putpalette([int(color[i:i + 2], 16) for i in (1, 3, 5)] + [0] * 765)
+        img.save(out / name, optimize=True)
         media = f'(device-width: {w}px) and (device-height: {h}px) and (-webkit-device-pixel-ratio: {r}) and (orientation: portrait) and (prefers-color-scheme: {scheme})'
         links.append(f'<link rel="apple-touch-startup-image" media="{media}" href="img/startup/{name}">')
 p = root / 'index.html'
