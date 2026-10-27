@@ -1,7 +1,7 @@
 {
   "app": "event-cho-watchlist",
   "version": 1,
-  "updatedAt": "2026-10-27T02:38:08.805Z",
+  "updatedAt": "2026-10-27T02:56:38.908Z",
   "tabs": [
     {
       "tabName": "モータースポーツ",
@@ -11,7 +11,9 @@
     {
       "tabName": "爬虫類",
       "watch": "夏レプ・冬レプ（主催 レップジャパン rep-japan.co.jp）、ナゴレプ（公式 nagorep.com/schedule）の次回開催",
-      "kinds": []
+      "kinds": [
+        "open"
+      ]
     },
     {
       "tabName": "Ado",
