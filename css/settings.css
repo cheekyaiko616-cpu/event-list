@@ -13,3 +13,9 @@
 
 /* 設定の中のチェック項目：押しやすい高さにする */
 .checks .check { min-height: 40px; margin-top: 0; }
+
+/* バックアップの読み込み確認（置き換える／やめる）は、出ているあいだ画面の下に固定する */
+#st-confirm:not([hidden]) {
+  position: sticky; bottom: calc(12px + env(safe-area-inset-bottom, 0px)); z-index: 3;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, .28);
+}

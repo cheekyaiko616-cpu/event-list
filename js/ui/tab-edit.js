@@ -22,7 +22,7 @@ const MARKUP = `
     </fieldset>
     <div class="field">
       <label for="te-watch">自動で取り込む内容</label>
-      <textarea class="input" id="te-watch" rows="2" maxlength="${WATCH_MAX}" placeholder="例）SUPER GTの2027年の公式日程"></textarea>
+      <textarea class="input" id="te-watch" rows="3" maxlength="${WATCH_MAX}" placeholder="例）SUPER GTの2027年の公式日程"></textarea>
     </div>
     <fieldset class="seg">
       <legend class="legend">自動で取り込む日付（開催日のほか）</legend>
@@ -74,7 +74,7 @@ function drawKinds() {
   DATE_KINDS.forEach((k) => {
     const input = el('input', { type: 'checkbox', id: `te-k-${k.id}`, checked: kinds.includes(k.id) });
     input.addEventListener('change', () => { kinds = input.checked ? [...kinds, k.id] : kinds.filter((x) => x !== k.id); });
-    box.append(el('label', { class: 'pick', for: `te-k-${k.id}` }, input, el('span', { text: k.label })));
+    box.append(el('label', { class: 'check', for: `te-k-${k.id}` }, input, k.label));
   });
 }
 
@@ -82,14 +82,18 @@ function drawKinds() {
 function drawShow() {
   const box = $('#te-show');
   clear(box);
-  const add = (key, label, on, set, disabled) => {
-    const input = el('input', { type: 'checkbox', id: `te-s-${key}`, checked: on, disabled });
+  const add = (key, label, on, set) => {
+    const input = el('input', { type: 'checkbox', id: `te-s-${key}`, checked: on });
     input.addEventListener('change', () => { set(input.checked); drawShow(); });
-    box.append(el('label', { class: 'pick', for: `te-s-${key}` }, input, el('span', { text: label })));
+    box.append(el('label', { class: 'check', for: `te-s-${key}` }, input, label));
   };
-  add('visible', 'このタブを一覧に出す', !hidden, (on) => { hidden = !on; }, false);
+  add('visible', 'このタブを一覧に出す', !hidden, (on) => { hidden = !on; });
   SHOW_KEYS.forEach((k) => {
-    add(k.id, k.label, show[k.id] !== false, (on) => { show = { ...show, [k.id]: on }; }, hidden);
+    const row = el('div', { class: 'check-sub' });
+    box.append(row);
+    const input = el('input', { type: 'checkbox', id: `te-s-${k.id}`, checked: show[k.id] !== false, disabled: hidden });
+    input.addEventListener('change', () => { show = { ...show, [k.id]: input.checked }; });
+    row.append(el('label', { class: 'check', for: `te-s-${k.id}` }, input, k.label));
   });
 }
 
@@ -105,6 +109,7 @@ export function openTabEdit(id) {
   $('#te-watch').value = t.watch || '';
   $('#te-error').textContent = '';
   $('#te-confirm').hidden = true;
+  $('#te-sheet .form-actions').hidden = false;
   drawColors();
   drawShow();
   drawKinds();
@@ -134,7 +139,7 @@ function onDeleteAsk() {
   const n = countEvents(tabId);
   const box = $('#te-confirm');
   clear(box);
-  const cancel = el('button', { class: 'btn', type: 'button', text: 'やめる', onclick: () => { box.hidden = true; } });
+  const cancel = el('button', { class: 'btn', type: 'button', text: 'やめる', onclick: () => { box.hidden = true; $('#te-sheet .form-actions').hidden = false; } });
   if (!n) {
     box.append(el('p', { text: `「${t.name}」を消します。` }),
       el('div', { class: 'actions' },
@@ -147,4 +152,6 @@ function onDeleteAsk() {
         cancel));
   }
   box.hidden = false;
+  $('#te-sheet .form-actions').hidden = true; // 確認が出ている間は、確認のボタンを下に固定する
+  box.scrollIntoView({ block: 'end' });
 }

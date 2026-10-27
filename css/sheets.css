@@ -114,34 +114,24 @@
 .date-row { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr) 44px; gap: 8px; align-items: stretch; }
 .date-row .btn { padding: 0; min-width: 44px; }
 
-/* タブの編集：1画面に収めるための詰めた並び。選ぶ項目は、押すと色が変わる小さなボタン（選択ボタン）にする */
-#te-sheet .field, #te-sheet .seg { margin-top: 10px; }
-#te-sheet .input { min-height: 40px; padding: 6px 12px; }
-#te-sheet .palette { flex-wrap: nowrap; justify-content: space-between; gap: 4px; margin-top: 4px; }
-#te-sheet .swatch { flex: none; width: 36px; height: 36px; }
-#te-sheet .checks { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
-.pick { position: relative; }
-.pick input { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: pointer; }
-.pick span {
-  display: inline-flex; align-items: center; min-height: 36px; padding: 0 11px;
-  border: 1px solid var(--line); border-radius: 18px; background: var(--bg);
-  font-size: 13px; font-weight: 700; color: var(--muted); white-space: nowrap;
+/* タブの編集：表示の選択欄。項目は「このタブを一覧に出す」の下に、少し字下げして並べる */
+#te-show .check { margin-top: 0; min-height: 40px; }
+#te-show .check-sub { padding-left: 24px; }
+#te-show input:disabled + * , #te-show .check:has(input:disabled) { opacity: .45; }
+
+/* 押すボタン（保存・追加・実行・やめる など）は、画面が長くても下に固定して、スクロールなしで押せるようにする */
+.sheet .form-actions {
+  position: sticky; bottom: calc(-1 * (20px + env(safe-area-inset-bottom, 0px))); z-index: 2;
+  margin: 12px 0 calc(-1 * (20px + env(safe-area-inset-bottom, 0px)));
+  padding: 10px 0 calc(20px + env(safe-area-inset-bottom, 0px));
+  background: var(--surface);
+  box-shadow: 0 -10px 10px -10px rgba(0, 0, 0, .22);
 }
-.pick input:checked + span { background: var(--ink); border-color: var(--ink); color: var(--on-ink); }
-.pick input:focus-visible + span { outline: 2px solid var(--fg); outline-offset: 2px; }
-.pick input:disabled + span { opacity: .45; }
-.pick input:disabled { cursor: default; }
-#te-sheet .err { min-height: 0; margin: 8px 0 0; }
-#te-sheet .err:empty { display: none; }
-#te-sheet .form-actions { margin-top: 12px; }
-/* 画面が低い機種（iPhone SE など）では、さらに詰めて1画面に収める */
-@media (max-height: 700px) {
-  #te-sheet .field, #te-sheet .seg { margin-top: 8px; }
-  #te-sheet .input { min-height: 36px; padding: 4px 12px; }
-  #te-sheet textarea.input { height: 52px; min-height: 0; }
-  #te-sheet .swatch { width: 32px; height: 32px; }
-  #te-sheet .checks { gap: 5px; margin-top: 3px; }
-  #te-sheet .pick span { min-height: 32px; padding: 0 7px; font-size: 12px; }
-  #te-sheet .form-actions { margin-top: 8px; }
-  #te-sheet .form-actions .btn { min-height: 40px; }
+.sheet .form-actions[hidden] { display: none; }
+#te-confirm:not([hidden]) {
+  border-radius: 10px 10px 0 0; border-bottom: 0;
+  position: sticky; bottom: calc(-1 * (20px + env(safe-area-inset-bottom, 0px))); z-index: 3;
+  margin-bottom: calc(-1 * (20px + env(safe-area-inset-bottom, 0px)));
+  padding-bottom: calc(20px + env(safe-area-inset-bottom, 0px));
+  background: var(--surface); box-shadow: 0 -10px 10px -10px rgba(0, 0, 0, .22);
 }
