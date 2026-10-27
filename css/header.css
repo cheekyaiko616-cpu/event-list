@@ -6,9 +6,9 @@
   padding-top: env(safe-area-inset-top, 0px);
 }
 .bar { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding-block: 12px 4px; }
-.bar h1 { margin: 0; font-size: 21px; line-height: 1.25; font-weight: 700; }
+.bar h1 { margin: 0; font-size: 21px; line-height: 1.25; font-weight: 700; white-space: nowrap; }
 .bar h1.brand { font-family: "Cormorant Garamond", "Hiragino Mincho ProN", Georgia, serif; font-size: 28px; font-weight: 600; font-style: italic; letter-spacing: .03em; line-height: 1.1; }
-.today { display: block; font-size: 12px; line-height: 1.4; color: var(--muted); font-variant-numeric: tabular-nums; }
+.today { display: block; font-size: 12px; line-height: 1.4; color: var(--muted); font-variant-numeric: tabular-nums; white-space: nowrap; }
 
 /* タブ */
 .tabs { overflow-x: auto; scrollbar-width: none; overscroll-behavior: none; }
@@ -16,7 +16,7 @@
 .tabs-in {
   display: flex; align-items: flex-end; gap: 4px;
   min-width: 100%; width: max-content;
-  padding-top: 8px; border-bottom: 1px solid var(--line);
+  padding-top: 8px; padding-left: 0; border-bottom: 1px solid var(--line);
 }
 .tab {
   position: relative; flex: none; min-height: 44px; margin-bottom: -1px; padding: 0 12px;
@@ -36,9 +36,7 @@
 
 /* タイトルの行 */
 .brand-row { display: flex; align-items: center; gap: 8px; }
-.bar h1 { white-space: nowrap; }
 .bar > div:first-child { min-width: 0; flex: none; }
-.today { white-space: nowrap; }
 
 /* 右下の「＋」（予定の追加） */
 .fab {
@@ -52,7 +50,6 @@
 
 /* 「すべて」は左に固定。ほかのタブだけが横に動く */
 .tab-all { position: sticky; left: 0; z-index: 3; }
-.tabs-in { padding-left: 0; }
 
 /* 左の引き出し */
 .drawer-handle {

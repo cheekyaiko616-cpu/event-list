@@ -96,7 +96,7 @@ function buildView(root, now, neighbor = false) {
     if (i >= sections.length) { more.remove(); watch && watch.disconnect(); }
   };
   const tail = el('div', { class: 'end-space' });
-  const more = el('div', { class: 'more', 'aria-hidden': 'true' });
+  const more = el('div', { class: 'list-more', 'aria-hidden': 'true' });
   root.append(tail);
   let watch = null;
   fill();

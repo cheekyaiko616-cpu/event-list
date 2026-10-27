@@ -6,7 +6,7 @@ import { newId } from '../util/text.js';
 import { normalizeShow, normalizeKinds } from './settings-normalize.js';
 
 /** 取り込み内容の文字を整える（前後の空白を消し、長さを上限まで） */
-export const cleanWatch = (raw) => (typeof raw === 'string' ? raw.trim().slice(0, WATCH_MAX) : '');
+const cleanWatch = (raw) => (typeof raw === 'string' ? raw.trim().slice(0, WATCH_MAX) : '');
 
 export const sortedTabs = () =>
   [...state.tabs].sort((a, b) => (a.order - b.order) || a.name.localeCompare(b.name, 'ja'));

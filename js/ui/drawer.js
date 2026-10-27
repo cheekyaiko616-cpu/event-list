@@ -10,7 +10,7 @@ const EDGE = 24; // 左端のこの幅（px）から始めたスワイプで開�
 let wrap = null;
 let panel = null;
 
-export const isDrawerOpen = () => !!wrap && !wrap.hidden;
+const isDrawerOpen = () => !!wrap && !wrap.hidden;
 
 export function initDrawer() {
   const handle = el('button', { class: 'drawer-handle', type: 'button', id: 'drawer-handle', 'aria-label': 'メニューを開く', onclick: openDrawer });
@@ -30,7 +30,7 @@ export function initDrawer() {
   initSwipe(handle);
 }
 
-export function openDrawer() {
+function openDrawer() {
   if (state.ui.screen === 'settings') return; // 設定の画面では、横タブは使わない
   renderDrawer();
   wrap.hidden = false;
@@ -38,7 +38,7 @@ export function openDrawer() {
   document.documentElement.classList.add('lock');
 }
 
-export function closeDrawer() {
+function closeDrawer() {
   if (!isDrawerOpen()) return;
   wrap.classList.remove('open');
   setTimeout(() => { if (!wrap.classList.contains('open')) wrap.hidden = true; }, 200);
@@ -62,7 +62,7 @@ export function renderDrawerHandle() {
 }
 
 /** 開くたびに、今の状態に合わせて中身を作り直す。 */
-export function renderDrawer() {
+function renderDrawer() {
   if (!panel) return;
   clear(panel);
   const settings = state.ui.screen === 'settings';

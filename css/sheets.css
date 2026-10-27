@@ -3,7 +3,7 @@
   cursor: pointer;
   position: fixed; inset: 0; z-index: 20;
   display: flex; align-items: flex-end; justify-content: center;
-  background: rgba(0, 0, 0, .45);
+  background: rgba(0, 0, 0, .45); transition: background-color .2s;
   overscroll-behavior: none; touch-action: none;
 }
 .sheet {
@@ -17,7 +17,6 @@
 .sheet-head h2 { margin: 0; font-size: 18px; font-weight: 700; }
 
 /* 閉じるとき：下へ滑って消える。指で下げて閉じる動きは sheet.js が受け持つ */
-.scrim { transition: background-color .2s; }
 .scrim.closing { background: rgba(0, 0, 0, 0); }
 
 /* 入力フォーム */

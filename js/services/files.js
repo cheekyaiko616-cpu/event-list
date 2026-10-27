@@ -10,7 +10,7 @@ function triggerAnchor(url, setup) {
   setTimeout(() => URL.revokeObjectURL(url), 60000);
 }
 
-export function downloadBlob(blob, filename) {
+function downloadBlob(blob, filename) {
   triggerAnchor(URL.createObjectURL(blob), (a) => { a.download = filename; });
 }
 

@@ -56,4 +56,3 @@ export const GITHUB = {
 };
 
 // 取り込みファイルの種類の名前。Claudeが作るファイルの先頭に書く。
-export const IMPORT_APP = 'event-cho-import';

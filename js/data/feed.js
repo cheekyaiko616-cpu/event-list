@@ -18,7 +18,7 @@ const str = (v, max) => (typeof v === 'string' ? v.trim().slice(0, max) : '');
 const norm = (s) => (s || '').normalize('NFKC').replace(/\s+/g, '').toLowerCase();
 
 /** feedの1件を安全な形にする。出典が無い・名前が無いものは null（使わない）。 */
-export function cleanFeedItem(id, raw) {
+function cleanFeedItem(id, raw) {
   const x = raw && typeof raw === 'object' ? raw : {};
   const title = str(x.title, 100);
   const source = str(x.source, 200);
@@ -52,7 +52,7 @@ function syncDates(e, f) {
 }
 
 /** feedの内容を予定に反映する。変わった件数 { added, updated } を返し、変わったときだけ保存する。 */
-export async function applyFeed(items) {
+async function applyFeed(items) {
   const tabs = sortedTabs();
   const limit = addDaysIso(todayIso(), -RETENTION_DAYS);
   const today = todayIso();

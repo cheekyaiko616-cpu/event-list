@@ -6,7 +6,7 @@ import { kindLabel } from '../data/dates.js';
 
 const encoder = new TextEncoder();
 
-export function escapeText(s) {
+function escapeText(s) {
   return String(s)
     .replace(/\\/g, '\\\\')
     .replace(/;/g, '\\;')
@@ -15,7 +15,7 @@ export function escapeText(s) {
 }
 
 /** 1行は75バイトまで。超える分は改行して先頭に空白を付ける（日本語の文字は途中で切らない）。 */
-export function foldLine(line) {
+function foldLine(line) {
   const out = [];
   let cur = '';
   let bytes = 0;

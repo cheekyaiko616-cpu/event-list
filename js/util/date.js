@@ -1,7 +1,7 @@
 // 日付まわりの計算と表示。日付は 'YYYY-MM-DD' の文字列で持つ。
 import { WEEKDAYS } from '../config.js';
 
-export const pad = (n) => (n < 10 ? '0' : '') + n;
+const pad = (n) => (n < 10 ? '0' : '') + n;
 
 /** 'YYYY-MM-DD' を { y, m, d } にする。実在しない日付や空欄は null。 */
 export function parseDate(s) {
@@ -13,7 +13,7 @@ export function parseDate(s) {
 }
 
 export const weekday = (p) => WEEKDAYS[new Date(p.y, p.m - 1, p.d).getDay()];
-export const toIso = (date) => `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}`;
+const toIso = (date) => `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}`;
 export const todayIso = () => toIso(new Date());
 
 export function addDaysIso(iso, n) {
@@ -24,7 +24,7 @@ export function addDaysIso(iso, n) {
 /** 予定の最終日。終了日が無ければ開始日と同じ。 */
 export const eventEnd = (e) => (e.end && e.end > e.date ? e.end : e.date);
 
-export const formatFull = (p) => `${p.y}年${p.m}月${p.d}日(${weekday(p)})`;
+const formatFull = (p) => `${p.y}年${p.m}月${p.d}日(${weekday(p)})`;
 
 export function formatRange(e) {
   const a = parseDate(e.date);

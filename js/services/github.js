@@ -15,13 +15,13 @@ export function clearToken() {
 }
 
 /** 日本語を含む文字を、GitHubが受け取れる形（base64）にする。 */
-export function toBase64(text) {
+function toBase64(text) {
   const bytes = new TextEncoder().encode(text);
   let bin = '';
   for (let i = 0; i < bytes.length; i += 0x8000) bin += String.fromCharCode(...bytes.subarray(i, i + 0x8000));
   return btoa(bin);
 }
-export function fromBase64(b64) {
+function fromBase64(b64) {
   const bin = atob(String(b64).replace(/\s/g, ''));
   return new TextDecoder().decode(Uint8Array.from(bin, (c) => c.charCodeAt(0)));
 }
