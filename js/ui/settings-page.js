@@ -7,7 +7,7 @@ import { removeSamples } from '../data/events.js';
 import { buildBackup, parseBackup, applyBackup } from '../data/backup.js';
 import { saveFile } from '../services/files.js';
 import { openImportSheet } from './import-sheet.js';
-import { refreshNow } from '../data/feed.js';
+import { runRefresh } from './refresh-run.js';
 import { openTabManager } from './tab-manager.js';
 import { GITHUB_MARKUP, initGithubLink, renderGithubLink } from './github-link.js';
 
@@ -78,11 +78,8 @@ export function initSettingsPage() {
   $('#st-refresh').addEventListener('click', async () => {
     const b = $('#st-refresh');
     b.disabled = true;
-    const r = await refreshNow();
+    await runRefresh();
     b.disabled = false;
-    if (!r.ok) toast('更新できませんでした。通信を確認してください');
-    else if (r.added || r.updated) toast(`更新しました（追加${r.added}件・変更${r.updated}件）`);
-    else toast('最新です。新しい日程はありません');
   });
   $('#st-import-open').addEventListener('click', openImportSheet);
   initGithubLink();

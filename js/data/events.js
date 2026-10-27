@@ -44,6 +44,14 @@ export async function saveEvent(f, id = null) {
   return commit();
 }
 
+/** 予定を開いたら、その予定の「NEW」の印を消す。 */
+export async function markSeen(id) {
+  const e = state.events.find((x) => x.id === id);
+  if (!e || !e.newAt) return;
+  e.newAt = '';
+  await commit();
+}
+
 export async function deleteEvent(id) {
   const gone = state.events.find((e) => e.id === id);
   if (gone && gone.feedId && !state.dismissed.includes(gone.feedId)) state.dismissed.push(gone.feedId); // 自動で戻さない

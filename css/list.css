@@ -59,6 +59,7 @@
 .empty .actions { justify-content: center; }
 .end-space { height: calc(72px + env(safe-area-inset-bottom, 0px)); }
 
+.badge.new { background: var(--danger); color: #fff; letter-spacing: .06em; }
 .badge.upd { background: var(--ink); color: var(--on-ink); }
 .badge.man { background: var(--line); color: var(--fg); }
 
@@ -95,3 +96,15 @@
 /* 近い申し込み・期限の印。3日以内は目立たせる */
 .badge.dl { background: var(--line); color: var(--fg); }
 .badge.dl.soon { background: var(--ink); color: var(--on-ink); }
+@media (prefers-color-scheme: dark) { .badge.new { color: #1b2124; } }
+
+/* 一覧を上から下へ引いて更新するときの表示（js/ui/pull-refresh.js） */
+.pull-ind {
+  position: fixed; left: 0; right: 0; z-index: 5; height: 0; overflow: hidden; pointer-events: none;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  font-size: 13px; font-weight: 700; color: var(--muted);
+}
+.pull-ind .pull-arrow { display: inline-block; transition: transform .15s ease; }
+.pull-ind.ready .pull-arrow { transform: rotate(180deg); }
+.pull-ind.busy .pull-arrow { animation: pull-spin .8s linear infinite; }
+@keyframes pull-spin { to { transform: rotate(360deg); } }

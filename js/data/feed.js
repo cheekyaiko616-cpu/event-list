@@ -55,6 +55,9 @@ function syncDates(e, f) {
 export async function applyFeed(items) {
   const tabs = sortedTabs();
   const limit = addDaysIso(todayIso(), -RETENTION_DAYS);
+  const today = todayIso();
+  // 初めて自動取得を読むとき（入れ直したときなど）は、全部が新着になってしまうので、NEWの印は付けない
+  const firstSync = !state.events.some((x) => x.feedId);
   let added = 0, updated = 0, touched = false;
 
   items.forEach((f) => {
@@ -71,7 +74,8 @@ export async function applyFeed(items) {
       state.events.push({
         id: newId('e'), rev: 1, type: tab.id, title: f.title, date: f.date, end: f.end, place: f.place,
         source: f.source, url: f.url, note: f.note, sample: false,
-        feedId: f.id, feedHash: hash, manual: false, checkedAt: f.checkedAt, lastChange: null, dates: []
+        feedId: f.id, feedHash: hash, manual: false, checkedAt: f.checkedAt, lastChange: null, dates: [],
+        newAt: firstSync ? '' : today
       });
       syncDates(state.events[state.events.length - 1], f);
       added++; touched = true;
@@ -80,7 +84,11 @@ export async function applyFeed(items) {
 
     if (e.feedId === f.id && e.feedHash === hash) {
       if (f.checkedAt && e.checkedAt !== f.checkedAt) { e.checkedAt = f.checkedAt; touched = true; }
-      if (syncDates(e, f)) touched = true; // 設定で取り込む種類を変えたときも反映する
+      const autoBefore = (e.dates || []).filter((d) => d.auto).length;
+      if (syncDates(e, f)) {  // 設定で取り込む種類を変えたときも反映する
+        touched = true;
+        if (!firstSync && (e.dates || []).filter((d) => d.auto).length > autoBefore) e.newAt = today; // 新しい申し込みの日付が入った
+      }
       return;
     }
 
@@ -94,6 +102,7 @@ export async function applyFeed(items) {
       rev: (e.rev || 1) + 1
     });
     syncDates(e, f);
+    if (!firstSync) e.newAt = today; // 内容が変わった
     if (changedDate) e.lastChange = { at: todayIso(), from: before, manual: wasManual };
     updated++; touched = true;
   });

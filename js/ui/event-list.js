@@ -5,7 +5,7 @@ import { parseDate, weekday, eventEnd, formatRange, todayIso, addDaysIso, daysUn
 import { kindLabel, nextDeadline, nextCloseDeadline } from '../data/dates.js';
 import { isShown } from '../data/settings.js';
 import { safeUrl } from '../util/text.js';
-import { selectVisible, groupByMonth, removeSamples, addSamples } from '../data/events.js';
+import { selectVisible, groupByMonth, removeSamples, addSamples, markSeen } from '../data/events.js';
 import { tabById } from '../data/tabs.js';
 import { addToCalendar } from '../services/calendar.js';
 import { openEventSheet } from './event-sheet.js';
@@ -23,6 +23,8 @@ function noteBox(...children) {
 
 /* ---------- 行と詳細 ---------- */
 // 自動で日程が変わってから2週間は、目印を出す
+// 新しく入った・内容が変わってから1週間は、「NEW」の印を出す（開いて見たら消える）
+const isNew = (e) => !!(e.newAt && e.newAt >= addDaysIso(todayIso(), -7));
 const isRecentChange = (e) => !!(e.lastChange && e.lastChange.at >= addDaysIso(todayIso(), -14));
 
 /** いちばん近い申し込み・期限の日付を、小さな印で出す。終わった予定には出さない。 */
@@ -53,6 +55,7 @@ function rowEl(e, past, pinned = false) {
   const what = el('span', { class: 'what' },
     el('span', { class: 't', text: e.title || '（名前なし）' }),
     el('span', { class: 'meta' },
+      isNew(e) ? el('span', { class: 'badge new', text: 'NEW' }) : null,
       state.ui.filter === 'all' && isShown(e, 'chip')
         ? el('span', { class: 'chip', style: `--c:${tab ? `var(--c${tab.color})` : 'var(--muted)'}`, text: tab ? tab.name : '未分類' })
         : null,
@@ -67,6 +70,7 @@ function rowEl(e, past, pinned = false) {
     onclick: () => {
       // 固定中に別の予定をタップしたら、その予定は開かず、固定を解除するだけにする
       if (state.ui.openId) { closeDetail(); return; }
+      if (e.newAt) markSeen(e.id); // 見たので、NEWの印は消す
       state.ui.openId = e.id;
       notify();
     }

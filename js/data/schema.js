@@ -54,6 +54,7 @@ export function normalizeData(raw) {
       feedHash: str(e.feedHash, 600),
       manual: e.manual === true,
       checkedAt: parseDate(e.checkedAt) ? e.checkedAt : '',
+      newAt: parseDate(e.newAt) ? e.newAt : '', // 新しく入った・変わった日（一覧の「NEW」の印に使う）
       lastChange: e.lastChange && parseDate(e.lastChange.at) ? { at: e.lastChange.at, from: str(e.lastChange.from, 100), manual: e.lastChange.manual === true } : null,
       rev: Number.isInteger(e.rev) && e.rev > 0 ? e.rev : 1
     });
