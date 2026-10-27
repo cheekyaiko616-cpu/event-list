@@ -32,8 +32,6 @@ export const DATE_KINDS = [
   { id: 'other', label: 'その他' }
 ];
 export const DATES_MAX = 8;
-// 申し込みなどの日付を、初めから自動で取り込むタブ（名前）。ほかのタブは、タブの編集画面で選ぶまで取り込まない
-export const KIND_DEFAULT_TABS = ['Ado'];
 
 // 一覧の各行に出せる項目（設定で出す／出さないを選ぶ）
 export const SHOW_KEYS = [
