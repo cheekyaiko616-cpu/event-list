@@ -90,7 +90,7 @@
   background-color: var(--bg); background-image: var(--pattern); background-size: var(--pattern-size); background-attachment: fixed;
   pointer-events: none; will-change: transform;
 }
-.swipe-ghost #ghost-now { background: var(--bg); flex: none; max-height: 30dvh; overflow: hidden; padding-bottom: 8px; }
+.swipe-ghost #ghost-now { flex: none; max-height: 30dvh; overflow: hidden; padding-bottom: 8px; }
 .swipe-ghost #ghost-now:empty { display: none; }
 .swipe-ghost-list { flex: 1; min-height: 0; overflow: hidden; }
 
