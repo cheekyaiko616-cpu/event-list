@@ -21,11 +21,13 @@ iPhoneのホーム画面に追加して使います。ビルド作業は不要�
 | 一覧（月の帯・行・詳細）の見た目 | `css/list.css` |
 | 下から出る画面（入力・タブ管理・設定）の見た目 | `css/sheets.css` |
 | 「次の予定」カードの中身・見た目 | `js/ui/next-card.js` / `css/next.css` |
-| 一覧の表示内容・ボタン | `js/ui/event-list.js` |
+| 一覧の表示内容（月の帯・日程未定・見える分だけ描く仕組み） | `js/ui/event-list.js` |
+| 予定1件の行と、開いたときの詳細・ボタン | `js/ui/event-row.js` |
+| 開いた予定をヘッダーの下に固定する仕組み | `js/ui/pin.js` / `js/ui/pin-close.js` |
 | 予定の入力画面 | `js/ui/event-sheet.js` |
 | 申し込み・期限の日付（入力欄 / データの整え方） | `js/ui/event-dates.js` / `js/data/dates.js` |
-| タブごとの設定（一覧に出す・出さない、自動で取り込む日付の種類）の整え方 / 選択欄 | `js/data/settings.js` / `js/ui/tab-edit.js` |
-| 一覧の「NEW」の印（新しく入った・変わった予定。1週間たつと消える。開いても消えない） | `js/ui/event-list.js` / 付ける条件は `js/data/feed.js` |
+| タブごとの設定（一覧に出す・出さない、自動で取り込む日付の種類）の整え方 / 調べ方 / 選択欄 | `js/data/settings-normalize.js` / `js/data/settings.js` / `js/ui/tab-edit.js` |
+| 一覧の「NEW」の印（新しく入った・変わった予定。1週間たつと消える。開いても消えない） | `js/ui/event-row.js` / 付ける条件は `js/data/feed.js` |
 | 起動時に最初に出す画面（いつも「すべて」） | `js/main.js` |
 | 起動の最初の1コマ（背景色・起動画面。`tools/build.py` が `index.html` に埋め込む） | `css/tokens.css` / `css/splash.css` |
 | iPhoneで開いた直後の画面（無地。`tools/make_startup.py` で作る。反映にはホーム画面のアイコンの入れ直しが必要） | `img/startup/` / `tools/make_startup.py` |

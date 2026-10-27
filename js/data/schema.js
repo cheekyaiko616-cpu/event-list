@@ -1,7 +1,7 @@
 // 保存データや読み込んだファイルの中身を、安全な形に整える。
 // 項目を増やすときは、ここに足す。
 import { COLORS, WATCH_MAX, DATE_KINDS, KIND_DEFAULT_TABS } from '../config.js';
-import { normalizeSettings, normalizeShow, normalizeKinds } from './settings.js';
+import { normalizeSettings, normalizeShow, normalizeKinds } from './settings-normalize.js';
 import { parseDate } from '../util/date.js';
 import { cleanDates } from './dates.js';
 

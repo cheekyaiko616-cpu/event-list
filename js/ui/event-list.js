@@ -1,115 +1,20 @@
-// 一覧画面：月ごとの帯、予定の行、タップで開く詳細、日程未定のまとまり。
-import { state, notify } from '../state.js';
+// 一覧画面：月ごとの帯、日程未定のまとまり、見える分だけ描く仕組み。行と詳細は event-row.js、固定表示は pin.js。
+import { state } from '../state.js';
 import { $, el, clear } from '../util/dom.js';
-import { parseDate, weekday, eventEnd, formatRange, todayIso, addDaysIso, daysUntil } from '../util/date.js';
-import { kindLabel, nextDeadline, nextCloseDeadline } from '../data/dates.js';
+import { todayIso } from '../util/date.js';
+import { nextCloseDeadline } from '../data/dates.js';
 import { isShown } from '../data/settings.js';
-import { safeUrl } from '../util/text.js';
 import { selectVisible, groupByMonth } from '../data/events.js';
-import { tabById } from '../data/tabs.js';
-import { addToCalendar } from '../services/calendar.js';
 import { openEventSheet } from './event-sheet.js';
 import { nowStrip, nextStrip, deadlineStrip } from './next-card.js';
-import { reduced, EASE } from './motion.js';
-import { closeDetail, isClosing } from './pin-close.js';
 import { viewSwitchEl } from './view-switch.js';
+import { rowEl } from './event-row.js';
+import { renderPin } from './pin.js';
 
 const hueOf = (month) => (month * 150) % 360; // 隣り合う月の色が大きく離れるようにする
 
 function noteBox(...children) {
   return el('div', { class: 'note' }, children);
-}
-
-/* ---------- 行と詳細 ---------- */
-// 自動で日程が変わってから2週間は、目印を出す
-// 新しく入った・内容が変わってから1週間は、「NEW」の印を出す
-const isNew = (e) => !!(e.newAt && e.newAt >= addDaysIso(todayIso(), -7));
-const isRecentChange = (e) => !!(e.lastChange && e.lastChange.at >= addDaysIso(todayIso(), -14));
-
-/** いちばん近い申し込み・期限の日付を、小さな印で出す。終わった予定には出さない。 */
-function deadlineBadge(e) {
-  const d = nextDeadline(e);
-  if (!d || (e.date && eventEnd(e) < todayIso())) return null;
-  const p = parseDate(d.date);
-  const left = daysUntil(d.date);
-  return el('span', {
-    class: 'badge dl' + (left <= 3 ? ' soon' : ''),
-    text: `${kindLabel(d.kind)} ${p.m}/${p.d}${left === 0 ? '（今日）' : left === 1 ? '（明日）' : ''}`
-  });
-}
-
-function rowEl(e, past, pinned = false) {
-  const open = state.ui.openId === e.id;
-  const a = parseDate(e.date);
-  const multi = a && e.date !== eventEnd(e);
-  const b = multi ? parseDate(eventEnd(e)) : null;
-  const tab = tabById(e.type);
-
-  const when = a
-    ? el('span', { class: 'when' },
-        el('b', { class: 'd' + (multi ? ' multi' : ''), text: multi ? `${a.d}–${b.d}` : String(a.d) }),
-        el('span', { class: 'w', text: multi ? `${weekday(a)}–${weekday(b)}` : weekday(a) }))
-    : el('span', { class: 'when' }, el('b', { class: 'pill', text: '未定' }));
-
-  const what = el('span', { class: 'what' },
-    el('span', { class: 't', text: e.title || '（名前なし）' }),
-    el('span', { class: 'meta' },
-      isNew(e) ? el('span', { class: 'badge new', text: 'NEW' }) : null,
-      state.ui.filter === 'all' && isShown(e, 'chip')
-        ? el('span', { class: 'chip', style: `--c:${tab ? `var(--c${tab.color})` : 'var(--muted)'}`, text: tab ? tab.name : '未分類' })
-        : null,
-      isShown(e, 'badges') && isRecentChange(e) ? el('span', { class: 'badge upd', text: e.lastChange.manual ? '公式で再更新' : '日程更新' }) : null,
-      isShown(e, 'badges') && e.manual ? el('span', { class: 'badge man', text: '手動修正' }) : null,
-      isShown(e, 'deadline') ? deadlineBadge(e) : null,
-      isShown(e, 'place') && e.place ? el('span', { text: e.place }) : null));
-
-  const btn = el('button', {
-    class: 'row-btn', type: 'button', 'aria-expanded': String(open), 'aria-controls': `d-${e.id}`,
-    onclick: () => {
-      // 固定中に別の予定をタップしたら、その予定は開かず、固定を解除するだけにする
-      if (state.ui.openId) { closeDetail(); return; }
-      state.ui.openId = e.id;
-      notify();
-    }
-  }, when, what, el('span', { class: 'chev', 'aria-hidden': 'true' }));
-
-  // 開いた予定は、ヘッダーの下に固定して詳細を出す。一覧の中の行には詳細を出さず、印だけ付ける。
-  return el('li', { class: 'row' + (past ? ' past' : '') + (open && !pinned ? ' is-open' : ''), 'data-id': e.id }, btn, open && pinned ? detailEl(e) : null);
-}
-
-function detailEl(e) {
-  const dated = !!parseDate(e.date);
-  const url = safeUrl(e.url);
-
-  const dl = el('dl', { class: 'kv' });
-  const add = (k, v) => dl.append(el('dt', { text: k }), el('dd', { text: v }));
-  add('日程', formatRange(e));
-  (e.dates || []).forEach((d) => {
-    const p = parseDate(d.date);
-    add(kindLabel(d.kind), `${p.m}月${p.d}日(${weekday(p)})`);
-  });
-  if (e.place) add('場所', e.place);
-  if (e.source) add('出典', e.source);
-  if (e.note) add('メモ', e.note);
-  if (e.feedId) {
-    if (e.lastChange) add('変更前', `${e.lastChange.from}（${e.lastChange.at} に更新）`);
-  }
-
-  const actions = el('div', { class: 'actions' },
-    url ? el('a', { class: 'btn', href: url, target: '_blank', rel: 'noopener noreferrer', text: 'リンクを開く ↗' }) : null,
-    dated || (e.dates || []).length
-      ? el('button', { class: 'btn solid', type: 'button', text: 'カレンダーに追加', onclick: () => { addToCalendar([e]); closeDetail(); } })
-      : el('button', { class: 'btn', type: 'button', disabled: true, text: 'カレンダーに追加' }),
-    el('button', { class: 'btn', type: 'button', text: '編集', onclick: () => openEventSheet(e) }),
-    null);
-
-
-  const close = () => closeDetail();
-  const box = el('div', { class: 'detail', id: `d-${e.id}` }, dl, actions,
-    el('button', { class: 'close-btn', type: 'button', text: '閉じる ▲', onclick: close }));
-  // ボタンやリンク以外の、詳細のあいている所をタップしても閉じる
-  box.addEventListener('click', (ev) => { if (!ev.target.closest('a, button, input, textarea, select, label')) close(); });
-  return box;
 }
 
 /* ---------- 帯と見出し ---------- */
@@ -148,75 +53,6 @@ function emptyEl(past) {
 }
 
 /* ---------- 全体 ---------- */
-/* ---------- 固定表示（開いた予定をヘッダーの下に出す） ---------- */
-let pinId = null;      // いま固定している予定
-
-/** 開いている詳細の外をタップしたら閉じる。起動後に1回だけ呼ぶ。 */
-export function initOutsideClose() {
-  document.addEventListener('click', (ev) => {
-    const id = state.ui.openId;
-    if (!id) return;
-    const t = ev.target;
-    if (!(t instanceof Element)) return;
-    // 詳細の中の操作と、予定の行そのもの（行は自分で開閉する）は除く。行の横の余白は「外」として閉じる。
-    if (t.closest(`[data-id="${id}"] .detail`) || t.closest(`[data-id="${id}"] .row-btn`) || t.closest('.now') || t.closest('[role="dialog"]') || t.closest('.toast')) return;
-    closeDetail();
-  });
-}
-
-/** 開いている予定を、ヘッダーの下に固定して表示する。閉じたら消える。 */
-function renderPin() {
-  const pin = $('#app-pin');
-  if (!pin) return;
-  clear(pin);
-  const e = state.ui.openId ? state.events.find((x) => x.id === state.ui.openId) : null;
-  if (!e || !state.ready) { pinId = null; return; }
-  pin.append(el('ul', { class: 'wrap rows' }, rowEl(e, state.ui.view === 'past', true)));
-  if (pinId !== e.id) { // 出現：高さを広げながら、ふわっと出す
-    pinId = e.id;
-    if (!reduced() && pin.animate) {
-      const h = pin.getBoundingClientRect().height;
-      pin.animate([{ height: '0px', opacity: 0 }, { height: `${h}px`, opacity: 1 }], { duration: 240, easing: EASE });
-    }
-  }
-}
-
-/** 固定表示の上で、上か下にスワイプしたら、固定を解除する。指に合わせて動き、離すとなめらかに消える／戻る。 */
-export function initPinSwipe() {
-  const pin = $('#app-pin');
-  let x0 = 0, y0 = 0, on = false, drag = false;
-  const body = () => pin.firstElementChild;
-  const scrollable = () => pin.scrollHeight > pin.clientHeight + 2; // 中を読むためのスクロールは、解除にしない
-  pin.addEventListener('touchstart', (ev) => {
-    const t = ev.touches[0];
-    x0 = t.clientX; y0 = t.clientY; on = ev.touches.length === 1; drag = false;
-  }, { passive: true });
-  pin.addEventListener('touchmove', (ev) => {
-    if (!on || isClosing() || scrollable() || !body()) return;
-    const t = ev.touches[0];
-    const dx = t.clientX - x0, dy = t.clientY - y0;
-    if (!drag && !(Math.abs(dy) > 8 && Math.abs(dy) > Math.abs(dx) * 1.5)) return;
-    drag = true;
-    body().style.transform = `translateY(${dy * 0.6}px)`;
-    body().style.opacity = String(Math.max(0.25, 1 - Math.abs(dy) / 220));
-  }, { passive: true });
-  pin.addEventListener('touchend', (ev) => {
-    if (!on) return;
-    on = false;
-    const b = body();
-    if (!b || !drag) return;
-    drag = false;
-    const t = ev.changedTouches[0];
-    const dy = t.clientY - y0;
-    if (Math.abs(dy) >= 50) { closeDetail(); return; }
-    // 足りなければ、元の位置になめらかに戻す
-    b.style.transition = `transform .2s ${EASE}, opacity .2s ${EASE}`;
-    b.style.transform = ''; b.style.opacity = '';
-    setTimeout(() => { if (b) b.style.transition = ''; }, 220);
-  }, { passive: true });
-}
-
-/** 一覧の中身（root）と、固定する開催中・次の予定（now）を作る。 */
 const CHUNK = 40; // 1回に描く予定の行数のめやす
 const loaded = { key: '', n: CHUNK }; // いま開いている一覧で、どこまで描いたか
 

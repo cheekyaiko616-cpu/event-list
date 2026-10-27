@@ -1,10 +1,10 @@
 // 画面の左側面から開く引き出し：設定・過去のイベント・イベント更新履歴。
 // 左端の持ち手を押すか、左端から右へスワイプすると開く。項目のボタン以外（余白やすきま）をタップするか、左へスワイプすると閉じる。
-import { state, notify } from '../state.js';
+import { state } from '../state.js';
 import { $, el, clear } from '../util/dom.js';
 import { openUpdates } from './updates-sheet.js';
 import { toggleSettings } from './settings-page.js';
-import { slideList } from './motion.js';
+import { toggleView } from './view-switch.js';
 
 const EDGE = 24; // 左端のこの幅（px）から始めたスワイプで開く
 let wrap = null;
@@ -50,15 +50,6 @@ function item(label, id, onclick, on) {
     class: 'drawer-item' + (on ? ' on' : ''), type: 'button', id, text: label,
     onclick: () => { closeDrawer(); onclick(); }
   });
-}
-
-function toggleView() {
-  state.ui.screen = 'list';
-  state.ui.view = state.ui.view === 'past' ? 'upcoming' : 'past';
-  state.ui.openId = null;
-  notify();
-  $('#app-list').scrollTo(0, 0);
-  slideList(0);
 }
 
 /** 設定の画面では、持ち手を隠して横タブを無効にする。 */

@@ -1,6 +1,6 @@
 // 状態の読み込みと保存の入口。データを変えたあとは commit() を呼ぶ。
 import { APP, DEFAULT_TABS } from '../config.js';
-import { defaultSettings } from './settings.js';
+import { defaultSettings } from './settings-normalize.js';
 import { state, notify } from '../state.js';
 import { loadData, saveData, requestPersistence } from './storage.js';
 import { normalizeData } from './schema.js';

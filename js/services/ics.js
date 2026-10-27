@@ -40,6 +40,19 @@ function stamp(d) {
   return `${d.getUTCFullYear()}${p2(d.getUTCMonth() + 1)}${p2(d.getUTCDate())}T${p2(d.getUTCHours())}${p2(d.getUTCMinutes())}${p2(d.getUTCSeconds())}Z`;
 }
 
+/** 予定の終わり：URL・アラームをつけて VEVENT を閉じる。 */
+function closeEvent(lines, rawUrl, alertIds, title) {
+  const url = safeUrl(rawUrl);
+  if (url) lines.push(`URL:${url}`);
+  alertIds.forEach((id) => {
+    const o = ALERT_OPTIONS.find((x) => x.id === id);
+    if (!o) return;
+    lines.push('BEGIN:VALARM', 'ACTION:DISPLAY', `DESCRIPTION:${escapeText(title)}`, `TRIGGER:${o.trigger}`, 'END:VALARM');
+  });
+  lines.push('END:VEVENT');
+  return lines;
+}
+
 function eventLines(e, alertIds, now) {
   const lines = [
     'BEGIN:VEVENT',
@@ -53,15 +66,7 @@ function eventLines(e, alertIds, now) {
   if (e.place) lines.push(`LOCATION:${escapeText(e.place)}`);
   const desc = [e.source ? `出典: ${e.source}` : '', e.note || ''].filter(Boolean).join('\n');
   if (desc) lines.push(`DESCRIPTION:${escapeText(desc)}`);
-  const url = safeUrl(e.url);
-  if (url) lines.push(`URL:${url}`);
-  alertIds.forEach((id) => {
-    const o = ALERT_OPTIONS.find((x) => x.id === id);
-    if (!o) return;
-    lines.push('BEGIN:VALARM', 'ACTION:DISPLAY', `DESCRIPTION:${escapeText(e.title)}`, `TRIGGER:${o.trigger}`, 'END:VALARM');
-  });
-  lines.push('END:VEVENT');
-  return lines;
+  return closeEvent(lines, e.url, alertIds, e.title);
 }
 
 /** 申し込み・締切などの関連日付を、1日だけの終日予定にする。 */
@@ -76,15 +81,7 @@ function dateLines(e, d, i, alertIds, now) {
     `DTEND;VALUE=DATE:${compact(addDaysIso(d.date, 1))}`,
     `SUMMARY:${escapeText(title)}`
   ];
-  const url = safeUrl(e.url);
-  if (url) lines.push(`URL:${url}`);
-  alertIds.forEach((id) => {
-    const o = ALERT_OPTIONS.find((x) => x.id === id);
-    if (!o) return;
-    lines.push('BEGIN:VALARM', 'ACTION:DISPLAY', `DESCRIPTION:${escapeText(title)}`, `TRIGGER:${o.trigger}`, 'END:VALARM');
-  });
-  lines.push('END:VEVENT');
-  return lines;
+  return closeEvent(lines, e.url, alertIds, title);
 }
 
 /** 予定の一覧から .ics の文字を作る。開催日が決まっていない予定は、関連日付だけを含める。 */

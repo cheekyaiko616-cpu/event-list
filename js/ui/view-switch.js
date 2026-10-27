@@ -3,7 +3,9 @@ import { state, notify } from '../state.js';
 import { $, el } from '../util/dom.js';
 import { slideList } from './motion.js';
 
-function toggle() {
+/** 「これから」と「過去」を入れ替える（右の引き出しと、過去の一覧の戻るボタンで共通）。 */
+export function toggleView() {
+  state.ui.screen = 'list';
   state.ui.view = state.ui.view === 'past' ? 'upcoming' : 'past';
   state.ui.openId = null;
   notify();
@@ -13,5 +15,5 @@ function toggle() {
 
 export function viewSwitchEl() {
   return el('div', { class: 'wrap view-switch' },
-    el('button', { class: 'btn', type: 'button', id: 'btn-view', text: '← これからの予定', onclick: toggle }));
+    el('button', { class: 'btn', type: 'button', id: 'btn-view', text: '← これからの予定', onclick: toggleView }));
 }
