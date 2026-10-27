@@ -217,7 +217,10 @@ export function initPinSwipe() {
 }
 
 /** 一覧の中身（root）と、固定する開催中・次の予定（now）を作る。 */
-function buildView(root, now) {
+const CHUNK = 40; // 1回に描く予定の行数のめやす
+const loaded = { key: '', n: CHUNK }; // いま開いている一覧で、どこまで描いたか
+
+function buildView(root, now, neighbor = false) {
   clear(root);
   clear(now);
 
@@ -243,15 +246,38 @@ function buildView(root, now) {
     const close = nextCloseDeadline([...v.up, ...v.undated].filter((e) => isShown(e, 'deadline'))); // 次の申込締切（日程未定の予定も含む）
     if (live.length || next || close) now.append(el('div', { class: 'wrap' }, [...live.map(nowStrip), next ? nextStrip(next) : null, close ? deadlineStrip(close.e, close.d) : null]));
   }
-  const groups = groupByMonth(past ? v.past : v.up);
-  groups.forEach((g) => root.append(monthSection(g, past)));
-  if (!past && v.undated.length) root.append(undatedSection(v.undated));
-  if (!groups.length && !(!past && v.undated.length)) root.append(emptyEl(past));
+  // 一覧は、見える分だけ描く。下へ進むと、続きを足していく（予定が増えても軽く保つ）
+  const sections = groupByMonth(past ? v.past : v.up).map((g) => ({ n: g.items.length, make: () => monthSection(g, past) }));
+  if (!past && v.undated.length) sections.push({ n: v.undated.length, make: () => undatedSection(v.undated) });
+  if (!sections.length) root.append(emptyEl(past));
 
-  root.append(el('div', { class: 'end-space' }));
+  const key = `${state.ui.filter}|${state.ui.view}`;
+  if (!neighbor && loaded.key !== key) { loaded.key = key; loaded.n = CHUNK; } // タブや表示を切り替えたら、最初の分から
+  let limit = neighbor ? CHUNK : loaded.n;
+  let i = 0, rows = 0;
+  const fill = () => {
+    while (i < sections.length && rows < limit) { rows += sections[i].n; root.insertBefore(sections[i].make(), tail); i++; }
+    if (i >= sections.length) { more.remove(); watch && watch.disconnect(); }
+  };
+  const tail = el('div', { class: 'end-space' });
+  const more = el('div', { class: 'more', 'aria-hidden': 'true' });
+  root.append(tail);
+  let watch = null;
+  fill();
+  if (!neighbor && i < sections.length && 'IntersectionObserver' in window) {
+    root.insertBefore(more, tail);
+    watch = new IntersectionObserver((es) => {
+      if (!es.some((x) => x.isIntersecting)) return;
+      limit += CHUNK; loaded.n = limit; // 再描画されても、ここまでは描き直す（スクロール位置が飛ばない）
+      fill();
+      if (i < sections.length) { watch.unobserve(more); watch.observe(more); } // まだ画面内なら続けて足す
+    }, { rootMargin: '600px 0px' });
+    watch.observe(more);
+  } else if (!neighbor) { limit = Infinity; fill(); }
 }
 
 export function renderEventList() {
+  if (state.ui.screen === 'settings') return; // 設定を開いている間は、一覧を描き直さない
   renderPin();
   buildView($('#app-list'), $('#app-now')); // 開催中・次の予定は、一覧とは別に固定しておく
 }
@@ -263,6 +289,6 @@ export function buildNeighborView(filterId) {
   state.ui.openId = null;
   const now = el('div', { id: 'ghost-now' });
   const list = el('div', { id: 'ghost-list' });
-  try { buildView(list, now); } finally { state.ui.filter = keep.f; state.ui.openId = keep.o; }
+  try { buildView(list, now, true); } finally { state.ui.filter = keep.f; state.ui.openId = keep.o; }
   return { now, list };
 }

@@ -57,6 +57,7 @@
 .empty { padding-block: 44px; text-align: center; color: var(--muted); }
 .empty p { margin: 0 0 14px; }
 .empty .actions { justify-content: center; }
+.more { height: 1px; }
 .end-space { height: calc(72px + env(safe-area-inset-bottom, 0px)); }
 
 .badge.new { background: var(--danger); color: #fff; letter-spacing: .06em; }
