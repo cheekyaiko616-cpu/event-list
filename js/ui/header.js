@@ -1,4 +1,4 @@
-// 画面上部：タイトルと今日の日付だけ。設定・過去・イベント更新履歴は、右の引き出し（drawer.js）。タブは tabs-bar.js が作る。
+// 画面上部：タイトルと今日の日付だけ。設定・過去・イベント更新履歴は、左の引き出し（drawer.js）。タブは tabs-bar.js が作る。
 import { state } from '../state.js';
 import { $ } from '../util/dom.js';
 import { WEEKDAYS } from '../config.js';
