@@ -62,9 +62,12 @@ export async function moveTab(id, dir) {
   await commit();
 }
 
-/** withEvents が true なら、そのタブの予定も一緒に消す。false なら予定は「未分類」で残る。 */
-export async function removeTab(id, { withEvents }) {
-  if (withEvents) state.events = state.events.filter((e) => e.type !== id);
+/** タブを消す。そのタブの予定も、いつも一緒に消す。自動取得の予定は、消した後に自動で戻らないようにする。 */
+export async function removeTab(id) {
+  state.events.filter((e) => e.type === id && e.feedId).forEach((e) => {
+    if (!state.dismissed.includes(e.feedId)) state.dismissed.push(e.feedId);
+  });
+  state.events = state.events.filter((e) => e.type !== id);
   state.tabs = state.tabs.filter((t) => t.id !== id);
   await commit();
 }

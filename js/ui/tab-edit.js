@@ -126,10 +126,10 @@ async function onSubmit(ev) {
   toast('保存しました');
 }
 
-async function doRemove(withEvents) {
+async function doRemove() {
   const id = tabId;
   hideSheet(wrap);
-  await removeTab(id, { withEvents });
+  await removeTab(id);
   toast('タブを消しました');
 }
 
@@ -140,17 +140,10 @@ function onDeleteAsk() {
   const box = $('#te-confirm');
   clear(box);
   const cancel = el('button', { class: 'btn', type: 'button', text: 'やめる', onclick: () => { box.hidden = true; $('#te-sheet .form-actions').hidden = false; } });
-  if (!n) {
-    box.append(el('p', { text: `「${t.name}」を消します。` }),
-      el('div', { class: 'actions' },
-        el('button', { class: 'btn danger', type: 'button', text: '消す', onclick: () => doRemove(false) }), cancel));
-  } else {
-    box.append(el('p', { text: `「${t.name}」には予定が${n}件あります。` }),
-      el('div', { class: 'actions' },
-        el('button', { class: 'btn danger', type: 'button', text: '予定も一緒に消す', onclick: () => doRemove(true) }),
-        el('button', { class: 'btn', type: 'button', text: 'タブだけ消す（予定は「未分類」に残る）', onclick: () => doRemove(false) }),
-        cancel));
-  }
+  const msg = n ? `「${t.name}」を消すと、予定${n}件も一緒に消えます。` : `「${t.name}」を消します。`;
+  box.append(el('p', { text: msg }),
+    el('div', { class: 'actions' },
+      el('button', { class: 'btn danger', type: 'button', text: n ? 'タブと予定を消す' : '消す', onclick: () => doRemove() }), cancel));
   box.hidden = false;
   $('#te-sheet .form-actions').hidden = true; // 確認が出ている間は、確認のボタンを下に固定する
   box.scrollIntoView({ block: 'end' });
