@@ -1,0 +1,31 @@
+// 天気・場所の検索結果を、端末に一時保存する小さな入れ物。期限が切れたら使わない。
+// 保存できない環境でも、メモリ上だけで動く。バックアップには入らない。
+import { TRIP } from '../config.js';
+
+let mem = null;
+
+function load() {
+  if (mem) return mem;
+  try { mem = JSON.parse(localStorage.getItem(TRIP.cacheKey) || '{}') || {}; } catch (e) { mem = {}; }
+  return mem;
+}
+
+export function cacheGet(group, key, ttl) {
+  const hit = (load()[group] || {})[key];
+  return hit && Date.now() - hit.at < ttl ? hit.v : undefined;
+}
+
+export function cacheSet(group, key, v, max) {
+  const all = load();
+  const g = all[group] || (all[group] = {});
+  delete g[key];
+  g[key] = { at: Date.now(), v };
+  const keys = Object.keys(g);
+  for (let i = 0; i < keys.length - max; i++) delete g[keys[i]]; // 古いものから消す
+  try { localStorage.setItem(TRIP.cacheKey, JSON.stringify(all)); } catch (e) { /* 保存できなくても動く */ }
+}
+
+// 乗り換えの「出発駅」は、前回の入力を覚えておく（毎回入れ直さなくてよいように）
+const ORIGIN = TRIP.cacheKey + '.origin';
+export function getOrigin() { try { return localStorage.getItem(ORIGIN) || ''; } catch (e) { return ''; } }
+export function setOrigin(v) { try { localStorage.setItem(ORIGIN, v); } catch (e) { /* 覚えられなくても動く */ } }

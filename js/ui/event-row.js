@@ -9,6 +9,7 @@ import { tabById } from '../data/tabs.js';
 import { addToCalendar } from '../services/calendar.js';
 import { openEventSheet } from './event-sheet.js';
 import { closeDetail } from './pin-close.js';
+import { tripEl } from './event-trip.js';
 
 /* ---------- 行と詳細 ---------- */
 // 自動で日程が変わってから2週間は、目印を出す
@@ -95,7 +96,7 @@ function detailEl(e) {
 
 
   const close = () => closeDetail();
-  const box = el('div', { class: 'detail', id: `d-${e.id}` }, dl, actions,
+  const box = el('div', { class: 'detail', id: `d-${e.id}` }, dl, tripEl(e), actions,
     el('button', { class: 'close-btn', type: 'button', text: '閉じる ▲', onclick: close }));
   // ボタンやリンク以外の、詳細のあいている所をタップしても閉じる
   box.addEventListener('click', (ev) => { if (!ev.target.closest('a, button, input, textarea, select, label')) close(); });
