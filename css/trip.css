@@ -1,27 +1,30 @@
-/* 予定の詳細に出す「現地の天気・乗り換え・ナビ・マップ」 */
-.trip { margin: 0 0 12px; }
-.trip .actions { margin-top: 8px; }
-.trip .btn[aria-disabled="true"] { opacity: .45; }
-
+/* 予定の詳細に出す「現地の天気」「乗り換え・ナビ・マップ」と、乗り換えの入力画面 */
+.wx { margin: 0 0 10px; }
 .wx-text { margin: 0; color: var(--muted); font-size: 13px; }
 .wx-strip { display: flex; gap: 6px; overflow-x: auto; }
-.wx-day { flex: 0 0 auto; min-width: 64px; padding: 6px 8px; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); text-align: center; }
-.wx-day small { display: block; color: var(--muted); font-size: 11px; white-space: nowrap; }
+.wx-day { flex: 0 0 auto; min-width: 68px; padding: 6px 8px; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); text-align: center; }
+.wx-day small { display: block; color: var(--muted); font-size: 12px; white-space: nowrap; }
 .wx-day .i { display: block; font-size: 22px; line-height: 1.3; }
-.wx-day .t { display: block; font-family: var(--font-num); font-size: 15px; font-weight: 600; }
+.wx-day .t { display: block; font-family: var(--font-num); font-size: 16px; font-weight: 600; }
 
-.tform-wrap { margin-top: 10px; }
-.tform { display: flex; flex-direction: column; gap: 8px; }
-.tform .input-row { display: flex; gap: 8px; align-items: flex-end; }
-.tform label { display: flex; flex: 1 1 0; min-width: 0; flex-direction: column; gap: 2px; color: var(--muted); font-size: 12px; font-weight: 700; }
-.tform .btn { flex: none; }
+/* 乗り換え・ナビ・マップは、同じ幅の3つのボタンにそろえる */
+.trip-actions { margin-top: 8px; }
+.trip-actions .btn { flex: 1 1 0; min-width: 0; }
+.trip-actions .btn[aria-disabled="true"] { opacity: .45; }
+
+.tform { display: flex; flex-direction: column; gap: 12px; margin-top: 12px; }
+.tform .help { margin: 0; }
+.tform .help:empty { display: none; }
+.tr-row { display: flex; gap: 8px; align-items: flex-end; }
+.tr-row .field { flex: 1 1 0; }
+.tr-row .btn { flex: none; min-height: 44px; }
+.tform .input { color: var(--fg); font-family: inherit; }
 .tform .err { min-height: 0; margin: 0; }
 .tform .err:empty { display: none; }
-.tform .btn.wide { flex-direction: column; width: 100%; min-height: 44px; }
-.tform .btn.wide small { font-size: 11px; font-weight: 500; opacity: .8; }
+.tform .btn.wide { flex-direction: column; width: 100%; min-height: 48px; }
+.tform .btn.wide small { font-size: 12px; font-weight: 500; opacity: .85; }
 .tform .btn.wide small:empty { display: none; }
 .chips { display: flex; flex-wrap: wrap; gap: 6px; }
 .chips:empty { display: none; }
-.pick { min-height: 32px; padding: 0 10px; border: 1px solid var(--line); border-radius: 16px; background: var(--surface); color: var(--fg); font-size: 13px; font-weight: 700; }
-.pick small { color: var(--muted); font-size: 11px; font-weight: 500; }
-.tform .input { color: var(--fg); font-family: inherit; }
+.pick { min-height: 36px; padding: 0 12px; border: 1px solid var(--line); border-radius: 18px; background: var(--surface); color: var(--fg); font-size: 13px; font-weight: 700; }
+.pick small { color: var(--muted); font-size: 12px; font-weight: 500; }

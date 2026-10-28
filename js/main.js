@@ -20,6 +20,7 @@ import { initTabAdd } from './ui/tab-add.js';
 import { initTabEdit } from './ui/tab-edit.js';
 import { initSettingsPage, renderSettings } from './ui/settings-page.js';
 import { initUpdatesSheet } from './ui/updates-sheet.js';
+import { initTransitSheet } from './ui/transit-sheet.js';
 import { initWatchSync } from './data/watchlist-sync.js';
 import { toast } from './ui/toast.js';
 import { initSplash } from './ui/splash.js';
@@ -52,6 +53,7 @@ initTabAdd();
 initTabEdit();
 initSettingsPage();
 initUpdatesSheet();
+initTransitSheet();
 initWatchSync();
 // 2本指の拡大・縮小を止める
 ['gesturestart', 'gesturechange', 'gestureend'].forEach((n) => document.addEventListener(n, (e) => e.preventDefault()));
