@@ -43,7 +43,8 @@ def build(date, remind):
     if entry and entry.get('changed'):
         lines = ['✎ 日程の更新']
         for c in entry['changed']:
-            lines.append(f'・{c.get("title", "")}：{c.get("before", "")} → {c.get("after", "")}')
+            lines.append(f'・予定名：{c.get("title", "")}')
+            lines.append(f'　{c.get("field") or "変更内容"}：{c.get("before", "")} → {c.get("after", "")}')
         blocks.append('\n'.join(lines))
     today = datetime.strptime(date, '%Y-%m-%d').date()
     soon = []
