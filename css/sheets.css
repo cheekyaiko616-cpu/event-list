@@ -51,7 +51,7 @@
 .tab-row-name { flex: 1; min-width: 0; font-size: var(--fs-md); font-weight: 500; overflow-wrap: anywhere; }
 .tab-row-go { flex: none; font-size: var(--fs-cap); font-weight: 500; color: var(--muted); }
 .mv { display: flex; gap: 4px; }
-.mv .btn { min-width: 40px; padding: 0; }
+.mv .btn { min-width: 44px; padding: 0; }
 .palette { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 6px; }
 .swatch { width: 40px; height: 40px; border: 2px solid var(--line); border-radius: 50%; background: var(--c); }
 .swatch[aria-pressed="true"] { border-color: var(--fg); box-shadow: 0 0 0 2px var(--surface) inset; }

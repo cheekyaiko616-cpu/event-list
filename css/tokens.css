@@ -28,9 +28,9 @@
   --font-brand: "Cormorant Garamond", "Hiragino Mincho ProN", Georgia, serif;
   --font-num: "Barlow Condensed", "Arial Narrow", system-ui, sans-serif;
   /* 文字の大きさは、この表の値だけを使う（直接 px を書かない）。数字用の大きさ（num-s/num/display）は --font-num の書体専用 */
-  --fs-cap: 12px;   /* 補足・曜日・ラベル・小さなタグ */
-  --fs-sm: 13px;    /* 補助の文・ボタン・タブ */
-  --fs-md: 14px;    /* 本文・詳細・見出し(小) */
+  --fs-cap: 13px;   /* 補足・曜日・ラベル・小さなタグ */
+  --fs-sm: 14px;    /* 補助の文・ボタン・タブ */
+  --fs-md: 15px;    /* 本文・詳細・見出し(小) */
   --fs-lg: 16px;    /* 予定名・入力欄・リストの見出し */
   --fs-h2: 18px;    /* シートの見出し */
   --fs-h1: 22px;    /* 画面名 */
