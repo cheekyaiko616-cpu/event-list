@@ -26,7 +26,7 @@ export function weatherEl(e) {
     .then((days) => {
       if (!days) { text('場所が分からないため、天気は出せません'); return; }
       const list = [];
-      for (let d = e.date; d <= eventEnd(e) && list.length < 5; d = addDaysIso(d, 1)) if (days[d]) list.push(d);
+      for (let d = e.date; d <= eventEnd(e) && list.length < 3; d = addDaysIso(d, 1)) if (days[d]) list.push(d);
       if (!list.length) { text('この日の天気は、まだ出ていません'); return; }
       box.replaceChildren(el('div', { class: 'wx-strip' }, list.map((d) => {
         const w = days[d];
@@ -35,7 +35,7 @@ export function weatherEl(e) {
           el('small', { text: md(d) }),
           el('span', { class: 'i', 'aria-hidden': 'true', text: icon }),
           el('span', { class: 't', text: `${w.max}°/${w.min}°` }),
-          el('small', { text: `雨${w.pop}%` }));
+          el('small', { text: `降水 ${w.pop}%` }));
       })));
     })
     .catch(() => text('天気を取得できませんでした（通信を確認してください）'));
