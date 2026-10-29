@@ -31,11 +31,12 @@ iPhoneのホーム画面に追加して使います。ビルド作業は不要�
 | 起動時に最初に出す画面（いつも「すべて」） | `js/main.js` |
 | 起動の最初の1コマ（背景色・起動画面。`tools/build.py` が `index.html` に埋め込む） | `css/tokens.css` / `css/splash.css` |
 | iPhoneで開いた直後の画面（無地。`tools/make_startup.py` で作る。反映にはホーム画面のアイコンの入れ直しが必要） | `img/startup/` / `tools/make_startup.py` |
+| 起動画面（乗りものが回る約2秒の画面） | `js/ui/splash.js` / `js/ui/splash-art.js` |
 | 文字フォントの読み込み（画面を止めない） | `js/boot-fonts.js` |
 | タブの並び | `js/ui/tabs-bar.js` |
 | タブの一覧・追加・編集の画面 | `js/ui/tab-manager.js` / `js/ui/tab-add.js` / `js/ui/tab-edit.js` |
-| ⚙️の設定画面（取り込み・バックアップ） | `js/ui/settings-page.js` / 見た目は `css/settings.css` |
-| 画面上部（タイトル・i・⚙️） | `js/ui/header.js` |
+| 設定画面（取り込み・バックアップ。引き出しから開く） | `js/ui/settings-page.js` / 見た目は `css/settings.css` |
+| 画面上部（タイトルと今日の日付） | `js/ui/header.js` |
 | 右下の「＋」ボタン | `js/ui/fab.js` |
 | 左側面の引き出し（設定・過去・イベント更新履歴） | `js/ui/drawer.js` |
 | 「これから／過去」の切り替え | `js/ui/view-switch.js` |
@@ -81,10 +82,9 @@ iPhoneのホーム画面に追加して使います。ビルド作業は不要�
 ## 毎日の自動取得の仕組み（取り込み内容の一覧）
 
 1. タブの追加・編集画面の「自動で取り込む内容」に、タブごとに欲しい日程を書く
-2. 「取り込みの一覧をコピー」で、その内容をClaudeに貼る
-3. Claudeが `watchlist.json`（このリポジトリの直下）を書き換える（pushは承認を得てから）
+2. 設定画面の「自動取り込みの連携（GitHub）」に鍵を登録しておくと、その内容が `watchlist.json`（このリポジトリの直下）に自動で保存される
 4. 毎日11:59（日本時間）、自動の作業が `watchlist.json` を読み、タブごとに公式情報を調べて `feed.json` に書く（手順は `tools/daily-fetch.md`）
-5. アプリは開くたびに `feed.json` を読み、予定に追加・更新する。変わった内容は「i」の更新履歴に出る
+5. アプリは開くたびに `feed.json` を読み、予定に追加・更新する。変わった内容は、引き出しの「イベント更新履歴」に出る
 
 `watchlist.json` の `tabName` は、アプリのタブ名と同じにしてください。
 
