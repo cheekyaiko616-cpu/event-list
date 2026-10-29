@@ -4,12 +4,13 @@
   python3 tools/line_notify.py --broadcast  # 友だち全員へ（既定は LINE_TO の1人へ）
   python3 tools/line_notify.py --remind 3,1  # 締切の何日前に知らせるか（既定は3日前だけ）
   python3 tools/line_notify.py --date 2026-10-26
+  python3 tools/line_notify.py --today      # 朝の知らせ：今日開催の予定だけを送る（開催のない日は送らない）
 環境変数（鍵はファイルに書かない。GitHub の Secrets などに入れる）:
   LINE_CHANNEL_ACCESS_TOKEN … チャネルアクセストークン（長期）
   LINE_TO                   … 送り先のユーザーID（push のとき）
 ※ 以前の「LINE Notify」は2025年3月末で終了しているため、Messaging API を使う。
 同じ内容を二重に送らないよう、内容から作った再送キー（X-Line-Retry-Key）を付ける。"""
-import hashlib, json, os, pathlib, sys, time, urllib.error, urllib.request, uuid
+import hashlib, json, os, pathlib, re, sys, time, urllib.error, urllib.request, uuid
 from datetime import datetime, timedelta, timezone
 
 root = pathlib.Path(__file__).resolve().parent.parent
@@ -66,6 +67,45 @@ def build(date, remind):
     return f'{today.month}月{today.day}日更新\n' + '\n\n'.join(blocks)
 
 
+LONG_DAYS = 7  # これより長く続く予定（長期の展示など）は、初日だけ知らせる
+
+
+def times_for(note, day):
+    """メモから開場・開演の時刻を取り出す。日ごとに書かれていれば、その日の分だけ。"""
+    segs = [x.strip() for x in re.split('[、，]', note or '')]
+    dated = [x for x in segs if re.match(r'\d{1,2}/\d{1,2}', x)]
+    if dated:
+        segs = [x for x in dated if re.match(r'0?%d/0?%d(?!\d)' % (day.month, day.day), x)]
+    text = ' '.join(segs)
+    op, st = re.search(r'開場\s*(\d{1,2}:\d{2})', text), re.search(r'開演\s*(\d{1,2}:\d{2})', text)
+    return (op.group(1) if op else ''), (st.group(1) if st else '')
+
+
+def build_today(date):
+    """今日開催の予定を、朝の知らせの文章にする。無ければ空文字。"""
+    today = datetime.strptime(date, '%Y-%m-%d').date()
+    lines = []
+    for it in load('feed.json').get('items', []):
+        try:
+            start = datetime.strptime(it.get('date', ''), '%Y-%m-%d').date()
+            end = datetime.strptime(it.get('end') or it['date'], '%Y-%m-%d').date()
+        except (ValueError, KeyError):
+            continue  # 日程未定の予定は対象外
+        if not start <= today <= end or (end - start).days >= LONG_DAYS and today != start:
+            continue
+        when = start.strftime('%Y/%m/%d') + (('〜' + end.strftime('%Y/%m/%d')) if end != start else '')
+        lines.append(f'・{it.get("title", "")}')
+        lines.append(f'　日程：{when}')
+        if it.get('place'):
+            lines.append(f'　場所：{it["place"]}')
+        opening, starting = times_for(it.get('note', ''), today)
+        if opening:
+            lines.append(f'　開場：{opening}')
+        if starting:
+            lines.append(f'　開演：{starting}')
+    return f'{today.month}月{today.day}日 今日のイベント\n' + '\n'.join(lines) if lines else ''
+
+
 def chunks(text):
     out, cur = [], ''
     for line in text.split('\n'):
@@ -96,9 +136,12 @@ def post(path, payload, token, retry_key):
 
 def main():
     date = arg('--date', datetime.now(JST).strftime('%Y-%m-%d'))
-    text = build(date, {int(x) for x in arg('--remind', '3').split(',') if x.strip().isdigit()})
+    if '--today' in sys.argv:
+        text = build_today(date)
+    else:
+        text = build(date, {int(x) for x in arg('--remind', '3').split(',') if x.strip().isdigit()})
     if not text:
-        print('送る内容がありません（今日の更新も、締切の知らせもなし）')
+        print('送る内容がありません' + ('（今日開催の予定なし）' if '--today' in sys.argv else '（今日の更新も、締切の知らせもなし）'))
         return 0
     token, to = os.environ.get('LINE_CHANNEL_ACCESS_TOKEN', ''), os.environ.get('LINE_TO', '')
     broadcast = '--broadcast' in sys.argv

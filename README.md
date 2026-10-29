@@ -64,6 +64,7 @@ iPhoneのホーム画面に追加して使います。ビルド作業は不要�
 | 動作確認用のプレビュー / 起動画像の作成 | `tools/make_preview.py` / `tools/make_startup.py` |
 | 読み込み中・空・エラーの共通の表示（骨組み・読み上げ対応） | `js/ui/state-panel.js` |
 | 毎日の結果をLINEに送る | `tools/line_notify.py` |
+| 毎朝7時に今日開催の予定をLINEに送る | `tools/line_notify.py --today`（`.github/workflows/line-morning.yml`） |
 | LINEのユーザーIDを調べる（Webhookで受け取る） | `tools/line_get_user_id.py` |
 
 `js/main.js` は各部品をつなぐだけの入口です。

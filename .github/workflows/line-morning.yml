@@ -1,0 +1,23 @@
+# 毎朝7時（日本時間）に、今日開催の予定をLINEに送る（GitHub Actions）。
+# 7時は 22:00 UTC（前日）。GitHub の自動実行は数分〜1時間ほど遅れることがある。
+# 鍵は line-notify と同じ（GitHub の Secrets: LINE_CHANNEL_ACCESS_TOKEN / LINE_TO）。
+name: line-morning
+
+on:
+  schedule:
+    - cron: '0 22 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: LINE に送る（今日のイベント）
+        env:
+          LINE_CHANNEL_ACCESS_TOKEN: ${{ secrets.LINE_CHANNEL_ACCESS_TOKEN }}
+          LINE_TO: ${{ secrets.LINE_TO }}
+        run: python3 -I tools/line_notify.py --today
