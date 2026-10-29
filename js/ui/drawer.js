@@ -27,7 +27,7 @@ export function initDrawer() {
   }, { passive: true });
   document.body.append(handle, wrap);
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && isDrawerOpen()) closeDrawer(); });
-  initSwipe(handle);
+  initSwipe();
 }
 
 function openDrawer() {
@@ -74,7 +74,7 @@ function renderDrawer() {
 }
 
 /** 左端から右へのスワイプで開く／開いているとき左へのスワイプで閉じる。 */
-function initSwipe(handle) {
+function initSwipe() {
   let x0 = 0, y0 = 0, on = false, edge = false;
   document.addEventListener('touchstart', (e) => {
     if (e.touches.length !== 1) { on = false; return; }
@@ -91,5 +91,4 @@ function initSwipe(handle) {
     if (edge && dx > 0) openDrawer();
     else if (isDrawerOpen() && dx < 0) closeDrawer();
   }, { passive: true });
-  void handle;
 }
