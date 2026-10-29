@@ -66,6 +66,7 @@ renderAll();
 initDayWatch(renderAll); // 日付をまたいだら描き直す
 
 init().then(async () => {
+  document.documentElement.setAttribute('data-ready', '1'); // 起動できた印（js/boot-css.js が、失敗時の再起動に使う）
   if (state.startupMessage) toast(state.startupMessage);
   weeklyIfDue();    // 週1回、戻すための控えを残す
   await pruneOld(); // 終わって1年たった予定を消す
