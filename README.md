@@ -53,6 +53,7 @@ iPhoneのホーム画面に追加して使います。ビルド作業は不要�
 | 保存データの項目を増やす | `js/data/schema.js` と `js/data/events.js` |
 | 詳細の「現地の天気」「乗り換え・ナビ・マップ」のボタン / 乗り換えの入力画面（出発駅・到着駅だけ） / 見た目 | `js/ui/event-trip.js` / `js/ui/transit-sheet.js` / `css/trip.css` |
 | 場所の特定（会場表に足す / 地図の検索） / 天気 / 最寄り駅（`data/stations.json`） | `js/services/venues.js` / `js/services/geo.js` / `js/services/weather.js` / `js/services/stations.js` |
+| 1時間ごとの天気の画面（詳細の天気の日付をタップ） | `js/ui/weather-sheet.js` / 見た目は `css/trip.css` |
 | 乗り換え・ナビ・マップのリンクの作り方 / 天気・場所の一時保存 | `js/services/trip-links.js` / `js/services/trip-cache.js` |
 | カレンダー用ファイルの中身 | `js/services/ics.js` |
 | 予定1件ずつの「カレンダーに追加」 / ファイルの保存 | `js/services/calendar.js` / `js/services/files.js` |

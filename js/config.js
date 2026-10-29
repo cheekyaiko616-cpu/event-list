@@ -63,6 +63,8 @@ export const TRIP = {
   carnaviScheme: 'yjcarnavi://navi/select',
   forecastDays: 16,                // 天気予報が出せる日数（今日から）
   weatherTtl: 3 * 3600 * 1000,     // 天気の保存期間（3時間）
+  hourlyTtl: 1 * 3600 * 1000,      // 1時間ごとの天気の保存期間（1時間）
+  hoursFrom: 6, hoursTo: 21,       // 1時間ごとの天気で出す時間帯（現地の時刻）
   geoTtl: 90 * 86400 * 1000,       // 場所の保存期間（90日）
   cacheKey: 'eventcho.trip.v1',    // 天気・場所の保存先（バックアップには入れない）
   offline: /オンライン|配信|未発表|未定/  // 現地がない予定

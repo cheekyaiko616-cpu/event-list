@@ -30,3 +30,23 @@ export async function forecast(pos) {
   cacheSet('weather', key, days, 40);
   return days;
 }
+
+/** ある日の1時間ごとの天気（HOURS の時間帯だけ）。[{ hour, code, temp, pop }]。通信できなければ例外。 */
+export async function hourly(pos, date) {
+  const key = `${pos.lat.toFixed(2)},${pos.lon.toFixed(2)},${date}`;
+  const hit = cacheGet('weatherH', key, TRIP.hourlyTtl);
+  if (hit) return hit;
+  const url = `${TRIP.weatherApi}?latitude=${pos.lat}&longitude=${pos.lon}&hourly=weather_code,temperature_2m,precipitation_probability&timezone=auto&start_date=${date}&end_date=${date}`;
+  const res = await fetch(url);
+  if (!res.ok) throw new Error('weather');
+  const h = (await res.json()).hourly;
+  if (!h || !Array.isArray(h.time)) throw new Error('weather');
+  const rows = [];
+  h.time.forEach((t, i) => {
+    const hour = +t.slice(11, 13); // 現地の時刻（timezone=auto）
+    if (hour < TRIP.hoursFrom || hour > TRIP.hoursTo) return;
+    rows.push({ hour, code: h.weather_code[i], temp: Math.round(h.temperature_2m[i]), pop: h.precipitation_probability[i] });
+  });
+  cacheSet('weatherH', key, rows, 60);
+  return rows;
+}

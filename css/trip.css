@@ -2,7 +2,7 @@
 .wx { margin: 0 0 10px; }
 .wx-text { margin: 0; color: var(--muted); font-size: var(--fs-sm); }
 .wx-strip { display: flex; gap: 6px; overflow-x: auto; }
-.wx-day { flex: 0 0 auto; min-width: 68px; padding: 6px 8px; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); text-align: center; }
+.wx-day { font: inherit; color: inherit; cursor: pointer; flex: 0 0 auto; min-width: 68px; padding: 6px 8px; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); text-align: center; }
 .wx-day small { display: block; color: var(--muted); font-size: var(--fs-cap); white-space: nowrap; }
 .wx-day .i { display: block; font-size: var(--fs-h1); line-height: 1.3; }
 .wx-day .t { display: block; font-family: var(--font-num); font-size: var(--fs-lg); font-weight: 600; }
@@ -31,3 +31,11 @@
 .chips:empty { display: none; }
 .pick { min-height: 36px; padding: 0 12px; border: 1px solid var(--line); border-radius: 18px; background: var(--surface); color: var(--fg); font-size: var(--fs-sm); font-weight: 500; }
 .pick small { color: var(--muted); font-size: var(--fs-cap); font-weight: 500; }
+
+/* 1時間ごとの天気の画面 */
+.wh-sub { margin: 4px 0 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--muted); font-size: var(--fs-sm); }
+.wh-msg { margin: 16px 0; color: var(--muted); font-size: var(--fs-md); }
+.wh-list { list-style: none; margin: 0; padding: 0; }
+.wh-row { display: grid; grid-template-columns: 3.2em 2em 3em 1fr; align-items: center; min-height: 30px; border-top: 1px solid var(--line); font-size: var(--fs-md); }
+.wh-t { font-family: var(--font-num); font-size: var(--fs-lg); font-weight: 600; }
+.wh-p { justify-self: end; color: var(--muted); font-size: var(--fs-sm); }

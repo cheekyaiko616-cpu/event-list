@@ -4,6 +4,8 @@ import { TRIP } from '../config.js';
 import { el } from '../util/dom.js';
 import { parseDate, weekday, eventEnd, todayIso, addDaysIso, daysUntil } from '../util/date.js';
 import { hasPlace, locate } from '../services/geo.js';
+import { inJapan } from '../services/trip-links.js';
+import { openWeatherSheet } from './weather-sheet.js';
 import { forecast, weatherLabel } from '../services/weather.js';
 import { carnaviUrl, mapUrl } from '../services/trip-links.js';
 import { openTransit } from './transit-sheet.js';
@@ -11,27 +13,34 @@ import { openTransit } from './transit-sheet.js';
 const md = (iso) => { const p = parseDate(iso); return `${p.m}/${p.d}(${weekday(p)})`; };
 const where = (e) => locate(e.place).catch(() => null); // 同じ場所は保存・共有されるので、何度呼んでも通信は1回
 
-/** 現地の天気。日付がない・終わった・場所がない予定では null。 */
+/** 現地の天気（日本国内の予定だけ）。日付がない・終わった・場所がない予定では null。海外・場所が分からない予定では、場所を調べたあと何も出さない。 */
 export function weatherEl(e) {
   if (!hasPlace(e.place) || !parseDate(e.date) || eventEnd(e) < todayIso()) return null;
-  const box = el('div', { class: 'wx' });
-  const text = (t) => box.replaceChildren(el('p', { class: 'wx-text', text: t }));
-  if (daysUntil(e.date) >= TRIP.forecastDays) {
-    text(`${md(addDaysIso(e.date, -(TRIP.forecastDays - 1)))}ごろから、現地の天気が出ます`);
-    return box;
-  }
-  text('現地の天気を読み込み中…');
+  const box = el('div', { class: 'wx', hidden: true }); // 日本国内と分かるまで出さない
+  const text = (t) => { box.hidden = false; box.replaceChildren(el('p', { class: 'wx-text', text: t })); };
+  let place = null;
   locate(e.place)
-    .then((pos) => (pos ? forecast(pos) : null))
+    .then((pos) => {
+      if (!inJapan(pos)) return null; // 海外・場所が分からない：天気は出さない
+      place = pos;
+      if (daysUntil(e.date) >= TRIP.forecastDays) {
+        text(`${md(addDaysIso(e.date, -(TRIP.forecastDays - 1)))}ごろから、現地の天気が出ます`);
+        return null;
+      }
+      text('現地の天気を読み込み中…');
+      return forecast(pos);
+    })
     .then((days) => {
-      if (!days) { text('場所が分からないため、天気は出せません'); return; }
+      if (!days) return;
       const list = [];
       for (let d = e.date; d <= eventEnd(e) && list.length < 3; d = addDaysIso(d, 1)) if (days[d]) list.push(d);
       if (!list.length) { text('この日の天気は、まだ出ていません'); return; }
+      box.hidden = false;
       box.replaceChildren(el('div', { class: 'wx-strip' }, list.map((d) => {
         const w = days[d];
         const { icon, label } = weatherLabel(w.code);
-        return el('div', { class: 'wx-day', role: 'group', 'aria-label': `${md(d)} ${label}、最高${w.max}度、最低${w.min}度、降水確率${w.pop}%` },
+        return el('button', { class: 'wx-day', type: 'button', 'aria-label': `${md(d)} ${label}、最高${w.max}度、最低${w.min}度、降水確率${w.pop}%。タップで1時間ごとの天気`,
+          onclick: (ev) => { ev.stopPropagation(); openWeatherSheet(place, d, md(d), e.place); } },
           el('small', { text: md(d) }),
           el('span', { class: 'i', 'aria-hidden': 'true', text: icon }),
           el('span', { class: 't', text: `${w.max}°/${w.min}°` }),
