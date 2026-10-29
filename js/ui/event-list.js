@@ -10,12 +10,9 @@ import { nowStrip, nextStrip, deadlineStrip } from './next-card.js';
 import { viewSwitchEl } from './view-switch.js';
 import { rowEl } from './event-row.js';
 import { renderPin } from './pin.js';
+import { statePanel } from './state-panel.js';
 
 const hueOf = (month) => (month * 150) % 360; // 隣り合う月の色が大きく離れるようにする
-
-function noteBox(...children) {
-  return el('div', { class: 'note' }, children);
-}
 
 /* ---------- 帯と見出し ---------- */
 function monthSection(g, past) {
@@ -40,16 +37,11 @@ function undatedSection(items) {
 
 /* ---------- 空の状態 ---------- */
 function emptyEl(past) {
-  if (!past && state.events.length === 0) {
-    return el('div', { class: 'wrap empty' },
-      el('p', { text: '予定がありません。' }),
-      el('div', { class: 'actions' },
-        el('button', { class: 'btn solid', type: 'button', text: '＋ 予定を追加', onclick: () => openEventSheet(null) })));
-  }
-  return el('div', { class: 'wrap empty' },
-    el('p', { text: past ? '終わった予定はありません。' : '予定がありません。' }),
-    past ? null : el('div', { class: 'actions' },
-      el('button', { class: 'btn solid', type: 'button', text: '＋ 予定を追加', onclick: () => openEventSheet(null) })));
+  return statePanel({
+    status: 'empty',
+    message: past ? '終わった予定はありません。' : '予定がありません。',
+    actions: past ? [] : [{ text: '＋ 予定を追加', onClick: () => openEventSheet(null), solid: true }]
+  });
 }
 
 /* ---------- 全体 ---------- */
@@ -61,14 +53,14 @@ function buildView(root, now, neighbor = false) {
   clear(now);
 
   if (!state.ready) {
-    root.append(el('p', { class: 'wrap empty', text: '予定を読み込んでいます…' }));
+    root.append(statePanel({ status: 'loading', message: '予定を読み込んでいます…' }));
     return;
   }
 
   const past = state.ui.view === 'past';
 
   if (state.saveError) {
-    root.append(el('div', { class: 'wrap' }, noteBox(el('p', { text: 'この端末に保存できませんでした。プライベートブラウズでは保存されないことがあります。' }))));
+    root.append(statePanel({ status: 'error', message: 'この端末に保存できませんでした。プライベートブラウズでは保存されないことがあります。' }));
   }
 
   if (past) now.append(viewSwitchEl()); // 過去の一覧では、戻るボタンを一覧の外に固定する

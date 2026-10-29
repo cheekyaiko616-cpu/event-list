@@ -2,11 +2,10 @@
 import { state } from '../state.js';
 import { commit } from './store.js';
 import { sortedTabs, tabById } from './tabs.js';
-import { parseDate, eventEnd, todayIso, addDaysIso, compareEvents } from '../util/date.js';
+import { parseDate, eventEnd, todayIso, addDaysIso, compareEvents, compareJa } from '../util/date.js';
 import { RETENTION_DAYS } from '../config.js';
 import { safeUrl, newId } from '../util/text.js';
 import { cleanDates } from './dates.js';
-import { isTabHidden } from './settings.js';
 
 /** 入力内容の確認。問題があれば画面に出すメッセージ、なければ空文字。 */
 export function validateEventForm(f) {
@@ -64,17 +63,18 @@ export async function pruneOld() {
 export function selectVisible() {
   const t = todayIso();
   const f = state.ui.filter;
-  const order = sortedTabs().map((x) => x.id);
-  const list = state.events.filter((e) => (f === 'all' ? !isTabHidden(e.type) : e.type === f)); // 非表示のタブの予定は、一覧に出さない（消えない）
-  const dated = list.filter((e) => parseDate(e.date));
-  const undated = list
-    .filter((e) => !parseDate(e.date))
-    .sort((a, b) => (order.indexOf(a.type) - order.indexOf(b.type)) || (a.title || '').localeCompare(b.title || '', 'ja'));
-  return {
-    up: dated.filter((e) => eventEnd(e) >= t).sort(compareEvents),
-    past: dated.filter((e) => eventEnd(e) < t).sort((a, b) => compareEvents(b, a)),
-    undated
-  };
+  const order = new Map(sortedTabs().map((x, i) => [x.id, i]));
+  const rank = (e) => (order.has(e.type) ? order.get(e.type) : -1); // 一覧に無いタブは indexOf と同じく -1
+  const hidden = new Map(state.tabs.map((x) => [x.id, !!x.hidden]));
+  const list = state.events.filter((e) => (f === 'all' ? !hidden.get(e.type) : e.type === f)); // 非表示のタブの予定は、一覧に出さない（消えない）
+  const up = [], past = [], undated = [];
+  list.forEach((e) => {
+    if (!parseDate(e.date)) undated.push(e);
+    else if (eventEnd(e) >= t) up.push(e);
+    else past.push(e);
+  });
+  undated.sort((a, b) => (rank(a) - rank(b)) || compareJa(a.title, b.title));
+  return { up: up.sort(compareEvents), past: past.sort((a, b) => compareEvents(b, a)), undated };
 }
 
 /** 月の変わり目ごとにまとめる。 */

@@ -127,21 +127,34 @@ async function applyFeed(items, watch = new Map()) {
   const firstSync = !state.events.some((x) => x.feedId);
   let added = 0, updated = 0;
 
+  // 件数が増えても遅くならないよう、探す先は最初に引き出しにしておく（1件ごとに全予定を舐めない）
+  const dismissed = new Set(state.dismissed);
+  const tabByName = new Map();
+  tabs.forEach((t) => { const k = norm(t.name); if (!tabByName.has(k)) tabByName.set(k, t); });
+  const byFeedId = new Map(), byTitle = new Map();
+  state.events.forEach((x) => {
+    if (x.feedId) { if (!byFeedId.has(x.feedId)) byFeedId.set(x.feedId, x); }
+    else { const k = norm(x.title); if (!byTitle.has(k)) byTitle.set(k, x); }
+  });
+
   items.forEach((f) => {
-    if (state.dismissed.includes(f.id)) return;
+    if (dismissed.has(f.id)) return;
     if (f.date && (f.end || f.date) < limit) return; // 終わって1年たったものは戻さない
     const hash = feedHash(f);
-    const tab = tabs.find((t) => norm(t.name) === norm(f.tabName)) || tabs[0];
+    const tab = tabByName.get(norm(f.tabName)) || tabs[0];
     if (!tab) return;
 
-    const e = state.events.find((x) => x.feedId === f.id) || state.events.find((x) => !x.feedId && norm(x.title) === norm(f.title));
+    const e = byFeedId.get(f.id) || byTitle.get(norm(f.title));
     if (!e) {
-      state.events.push(createEvent(f, tab, hash, firstSync ? '' : today));
+      const made = createEvent(f, tab, hash, firstSync ? '' : today);
+      state.events.push(made);
+      byFeedId.set(f.id, made);
       added++; touched = true;
     } else if (e.feedId === f.id && e.feedHash === hash) {
       if (refreshSame(e, f, today, firstSync)) touched = true;
     } else {
       overwrite(e, f, hash, today, firstSync);
+      if (!byFeedId.has(f.id)) byFeedId.set(f.id, e);
       updated++; touched = true;
     }
   });
@@ -150,13 +163,17 @@ async function applyFeed(items, watch = new Map()) {
   return { added, updated };
 }
 
+const PULL_GAP_MS = 30 * 1000;
 let started = false;
+
+// 毎回ぜんぶ取り直さず、変わっていなければ「変更なし」の返事だけで済ませる（中身はいつも最新のまま）
+const REVALIDATE = { cache: 'no-cache' };
 
 /** サイトの watchlist.json から、タブごとの取り込み内容を読む（新しく現れるタブに引き継ぐ用）。読めなければ空。 */
 async function pullWatch() {
   const map = new Map();
   try {
-    const res = await fetch('watchlist.json?t=' + Date.now(), { cache: 'no-store' });
+    const res = await fetch('watchlist.json', REVALIDATE);
     const body = res.ok ? await res.json() : null;
     (body && Array.isArray(body.tabs) ? body.tabs : []).forEach((x) => {
       if (x && typeof x.tabName === 'string' && typeof x.watch === 'string') map.set(norm(x.tabName), { name: x.tabName.slice(0, 20), watch: x.watch.trim().slice(0, 300), importKinds: x.kinds });
@@ -168,12 +185,13 @@ async function pullWatch() {
 /** 公開しているサイトの feed.json を読んで反映する（ホーム画面で使う形）。 */
 async function pullFile() {
   try {
-    const res = await fetch('feed.json?t=' + Date.now(), { cache: 'no-store' });
+    const watching = pullWatch(); // feed.json と同時に読む（順番待ちをしない）
+    const res = await fetch('feed.json', REVALIDATE);
     if (!res.ok) return null;
     const body = await res.json();
     const list = body && Array.isArray(body.items) ? body.items : [];
     const items = list.map((x) => cleanFeedItem(x && x.id, x)).filter(Boolean);
-    return await applyFeed(items, await pullWatch());
+    return await applyFeed(items, await watching);
   } catch (e) { return null; /* 読めなくてもアプリは動く */ }
 }
 
@@ -194,8 +212,14 @@ export async function startFeed() {
   started = true;
   const db = await getDb();
   if (!db) {
+    let lastPull = Date.now();
     pullFile();
-    document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') pullFile(); });
+    document.addEventListener('visibilitychange', () => {
+      // 画面を行き来するたびに通信しない。前回から30秒以内なら読まない
+      if (document.visibilityState !== 'visible' || Date.now() - lastPull < PULL_GAP_MS) return;
+      lastPull = Date.now();
+      pullFile();
+    });
     return;
   }
   let busy = Promise.resolve();
