@@ -24,8 +24,3 @@ export function cacheSet(group, key, v, max) {
   for (let i = 0; i < keys.length - max; i++) delete g[keys[i]]; // 古いものから消す
   try { localStorage.setItem(TRIP.cacheKey, JSON.stringify(all)); } catch (e) { /* 保存できなくても動く */ }
 }
-
-// 乗り換えの「出発駅」は、前回の入力を覚えておく（毎回入れ直さなくてよいように）
-const ORIGIN = TRIP.cacheKey + '.origin';
-export function getOrigin() { try { return localStorage.getItem(ORIGIN) || ''; } catch (e) { return ''; } }
-export function setOrigin(v) { try { localStorage.setItem(ORIGIN, v); } catch (e) { /* 覚えられなくても動く */ } }

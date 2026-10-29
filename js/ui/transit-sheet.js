@@ -1,10 +1,9 @@
 // 「乗り換え」の入力画面（下から出る）。出発駅と到着駅を入れると、Yahoo!乗換案内が開く。
-// 日時は入れない（開いた先で、現在の日時で検索の画面になる）。入力は予定ごとに覚え、前回の出発駅は次回の初期値にする。
+// 日時は入れない（開いた先で、現在の日時で検索の画面になる）。出発駅は毎回空欄から始める（前回の入力は覚えない）。
 import { $, el, clear } from '../util/dom.js';
 import { mountSheet, showSheet, hideSheet } from './sheet.js';
 import { nearStations } from '../services/stations.js';
 import { transitUrl, inJapan, whereAmI } from '../services/trip-links.js';
-import { getOrigin, setOrigin } from '../services/trip-cache.js';
 
 const MARKUP = `
   <div class="sheet" id="tr-sheet" role="dialog" aria-modal="true" aria-labelledby="tr-heading">
@@ -15,7 +14,6 @@ const MARKUP = `
     <div id="tr-body"></div>
   </div>`;
 
-const memo = new Map(); // 予定ごとの入力（開き直しても残る）
 let wrap = null;
 
 export function initTransitSheet() {
@@ -27,10 +25,9 @@ const field = (label, input) => el('div', { class: 'field flush' }, el('label', 
 
 /** e: 予定。getPos: 会場の位置を返す関数（会場表／検索の結果。分からなければ null）。 */
 export function openTransit(e, getPos) {
-  const m = memo.get(e.id) || {};
   const inp = (name, value, extra) => el('input', { class: 'input', name, type: 'text', value, autocomplete: 'off', ...extra });
-  const from = inp('from', m.from ?? getOrigin(), { placeholder: '例）新宿', enterkeyhint: 'next' });
-  const to = inp('to', m.to ?? '', { placeholder: '到着駅', enterkeyhint: 'go' });
+  const from = inp('from', '', { placeholder: '例）新宿', enterkeyhint: 'next' });
+  const to = inp('to', '', { placeholder: '到着駅', enterkeyhint: 'go' });
   const err = el('p', { class: 'err', role: 'alert' });
   const near = el('div', { class: 'chips' });
   const go = el('a', { class: 'btn solid wide', target: '_blank', rel: 'noopener', href: '#', text: 'Yahoo!乗換案内で検索' });
@@ -39,7 +36,6 @@ export function openTransit(e, getPos) {
   const problem = (v) => (!v.from ? ['出発駅を入力してください', from] : !v.to ? ['到着駅を入力してください', to] : null);
   const refresh = () => {
     const v = read();
-    memo.set(e.id, v);
     go.href = problem(v) ? '#' : transitUrl(v);
     return v;
   };
@@ -71,8 +67,7 @@ export function openTransit(e, getPos) {
     const v = refresh();
     const bad = problem(v);
     err.textContent = bad ? bad[0] : '';
-    if (bad) { ev.preventDefault(); bad[1].focus(); return; }
-    setOrigin(v.from);
+    if (bad) { ev.preventDefault(); bad[1].focus(); }
   });
 
   const body = $('#tr-body');
