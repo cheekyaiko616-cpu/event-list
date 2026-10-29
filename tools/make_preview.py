@@ -15,7 +15,10 @@ html = re.sub(r'<meta http-equiv="Content-Security-Policy"[^>]*>\n?', '', html)
 html = re.sub(r'<link rel="manifest"[^>]*>\n?', '', html)
 # 1枚にまとめるため、外のファイルを読む指定を、中身そのものに置き換える
 html = re.sub(r'<link rel="preload"[^>]*>\n?', '', html)
-html = html.replace('<link rel="stylesheet" href="dist/app.min.css" media="print" id="app-css">', '<style>\n' + (root / 'dist/app.min.css').read_text(encoding='utf-8') + '\n</style>')
+css = (root / 'dist/app.min.css').read_text(encoding='utf-8')
+for p in (root / 'fonts').glob('*.woff'):  # 書体も、1枚の中に埋め込む
+    css = css.replace(f'../fonts/{p.name}', 'data:font/woff;base64,' + base64.b64encode(p.read_bytes()).decode())
+html = html.replace('<link rel="stylesheet" href="dist/app.min.css" media="print" id="app-css">', '<style>\n' + css + '\n</style>')
 js = js.replace('</script', '<\\/script')
 splash_js = (root / 'js/boot-splash.js').read_text(encoding='utf-8')
 for p in (root / 'img').glob('*.png'):

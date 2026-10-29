@@ -1,0 +1,10 @@
+/* アプリに同梱した書体（fonts/）。外から取りに行かないので、途中で書体が切り替わらない。
+   ・Barlow Condensed … 日付などの数字用（SIL Open Font License。fonts/OFL-Barlow.txt）
+   ・Cormorant Garamond … ヘッダーのアプリ名用（SIL Open Font License。fonts/OFL-Cormorant.txt）
+   どちらも、英数字と記号だけに絞ってある。日本語は端末のフォントを使う。
+   ※アプリ名は太さ600で指定しているが、同梱は500だけ。ブラウザが太く見せる（これまでと同じ見た目）。
+   url は dist/app.min.css と css/ のどちらからも同じ階層なので、この書き方で読める。 */
+@font-face { font-family: "Barlow Condensed"; font-style: normal; font-weight: 500; font-display: swap; src: url("../fonts/BarlowCondensed-500.woff") format("woff"); }
+@font-face { font-family: "Barlow Condensed"; font-style: normal; font-weight: 600; font-display: swap; src: url("../fonts/BarlowCondensed-600.woff") format("woff"); }
+@font-face { font-family: "Barlow Condensed"; font-style: normal; font-weight: 700; font-display: swap; src: url("../fonts/BarlowCondensed-700.woff") format("woff"); }
+@font-face { font-family: "Cormorant Garamond"; font-style: italic; font-weight: 500; font-display: swap; src: url("../fonts/CormorantGaramond-500-italic.woff") format("woff"); }

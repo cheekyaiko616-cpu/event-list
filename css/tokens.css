@@ -24,9 +24,20 @@
   /* 月ごとの帯の濃さ。色相は js 側で月ごとに決める */
   --band-bg-s: 30%; --band-bg-l: 92%; --band-fg-s: 28%; --band-fg-l: 30%;
 
-  --font-ui: "Zen Kaku Gothic New", "Hiragino Sans", "Noto Sans JP", system-ui, sans-serif;
+  --font-ui: "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Noto Sans JP", system-ui, sans-serif;
   --font-brand: "Cormorant Garamond", "Hiragino Mincho ProN", Georgia, serif;
   --font-num: "Barlow Condensed", "Arial Narrow", system-ui, sans-serif;
+  /* 文字の大きさは、この表の値だけを使う（直接 px を書かない）。数字用の大きさ（num-s/num/display）は --font-num の書体専用 */
+  --fs-cap: 12px;   /* 補足・曜日・ラベル・小さなタグ */
+  --fs-sm: 13px;    /* 補助の文・ボタン・タブ */
+  --fs-md: 14px;    /* 本文・詳細・見出し(小) */
+  --fs-lg: 16px;    /* 予定名・入力欄・リストの見出し */
+  --fs-h2: 18px;    /* シートの見出し */
+  --fs-h1: 22px;    /* 画面名 */
+  --fs-xl: 28px;    /* アプリ名・ボタンの大きな記号 */
+  --fs-num-s: 24px; /* 数字（複数日の日付） */
+  --fs-num: 30px;   /* 数字（日付） */
+  --fs-display: 34px; /* 数字（月の帯）・起動画面の題名 */
 }
 
 @media (prefers-color-scheme: dark) {

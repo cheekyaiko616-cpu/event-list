@@ -34,7 +34,8 @@ iPhoneのホーム画面に追加して使います。ビルド作業は不要�
 | 起動画面（約2秒の画面）のゲージと切り替え | `js/ui/splash.js` |
 | 起動画面の乗りもの（最初の1コマから出す） | `js/boot-splash.js` |
 | 見た目のファイルを待たずに起動画面を出し、読み終わってからアプリ本体を動かす | `js/boot-css.js` |
-| 文字フォントの読み込み（画面を止めない） | `js/boot-fonts.js` |
+| 同梱の書体（数字・アプリ名用。外から取りに行かない） | `fonts/`・`css/fonts.css`（ライセンスは `fonts/OFL-*.txt`） |
+| 文字の大きさの表（直接 px を書かず、`--fs-*` を使う） | `css/tokens.css` |
 | タブの並び | `js/ui/tabs-bar.js` |
 | タブの一覧・追加・編集の画面 | `js/ui/tab-manager.js` / `js/ui/tab-add.js` / `js/ui/tab-edit.js` |
 | 設定画面（取り込み・バックアップ。引き出しから開く） | `js/ui/settings-page.js` / 見た目は `css/settings.css` |

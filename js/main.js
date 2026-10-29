@@ -68,7 +68,8 @@ init().then(async () => {
 
 // オフラインでも開けるようにする（sw.js）
 if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('./sw.js').catch(() => { /* 使えなくてもアプリは動く */ });
-  });
+  const register = () => navigator.serviceWorker.register('./sw.js').catch(() => { /* 使えなくてもアプリは動く */ });
+  // 本体は書体の読み込みを待ってから動くため、このときすでに「読み込み完了」を過ぎていることがある
+  if (document.readyState === 'complete') register();
+  else window.addEventListener('load', register);
 }

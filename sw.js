@@ -1,13 +1,16 @@
 // オフラインでも開けるようにするための仕組み。
 // 通信できるときは常に最新のファイルを取りに行き、できないときだけ保存済みのものを使う。
 // ファイルを追加・削除したら ASSETS を直し、CACHE の番号を上げる。
-const CACHE = 'event-cho-v105';
+const CACHE = 'event-cho-v106';
 const ASSETS = [
   './',
   'index.html',
   'dist/app.min.js',
   'dist/app.min.css',
-  'js/boot-fonts.js',
+  'fonts/BarlowCondensed-500.woff',
+  'fonts/BarlowCondensed-600.woff',
+  'fonts/BarlowCondensed-700.woff',
+  'fonts/CormorantGaramond-500-italic.woff',
   'js/boot-css.js',
   'js/boot-splash.js',
   'manifest.webmanifest',
