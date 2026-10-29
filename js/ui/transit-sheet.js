@@ -5,7 +5,7 @@ import { $, el, clear } from '../util/dom.js';
 import { todayIso } from '../util/date.js';
 import { mountSheet, showSheet, hideSheet } from './sheet.js';
 import { nearStations } from '../services/stations.js';
-import { transitUrl, whenText, inJapan, whereAmI, TIME_MODES, timeMode } from '../services/trip-links.js';
+import { transitUrl, viaBrowser, whenText, inJapan, whereAmI, TIME_MODES, timeMode } from '../services/trip-links.js';
 import { getOrigin, setOrigin } from '../services/trip-cache.js';
 
 const MARKUP = `
@@ -48,12 +48,16 @@ export function openTransit(e, getPos) {
   const near = el('div', { class: 'chips' });
   const when = el('small', { text: '' });
   const go = el('a', { class: 'btn solid wide', target: '_blank', rel: 'noopener', href: '#' }, el('span', { text: 'Yahoo!乗換案内で検索' }), when);
+  // アプリで開く（駅だけ入り、日時は入れ直しになる）
+  const app = el('a', { class: 'tr-app', target: '_blank', rel: 'noopener', href: '#', text: 'アプリで開く（日時は入れ直し）' });
 
   const read = () => ({ from: ui.from.value.trim(), to: ui.to.value.trim(), date: ui.day.value, time: ui.time.value, mode: ui.how.value });
   const refresh = () => {
     const v = read();
     memo.set(e.id, v);
-    go.href = problem(v, ui) ? '#' : transitUrl({ ...v, time: TIME.test(v.time) ? v.time : TRIP.defaultTime });
+    const url = problem(v, ui) ? '' : transitUrl({ ...v, time: TIME.test(v.time) ? v.time : TRIP.defaultTime });
+    go.href = url ? viaBrowser(url) : '#';
+    app.href = url || '#';
     when.textContent = ISO.test(v.date) && (TIME.test(v.time) || fixedTime(v)) ? whenText(v) : '';
     ui.time.disabled = fixedTime(v);
     return v;
@@ -80,7 +84,7 @@ export function openTransit(e, getPos) {
     field('到着駅', ui.to), near,
     el('div', { class: 'tr-row dt' }, field('日付', ui.day), field('時刻', ui.time)),
     field('条件', ui.how),
-    err, go);
+    err, go, app);
   form.addEventListener('input', () => { err.textContent = ''; refresh(); });
   form.addEventListener('change', () => { err.textContent = ''; refresh(); });
   form.addEventListener('submit', (ev) => { ev.preventDefault(); go.click(); });
@@ -89,7 +93,13 @@ export function openTransit(e, getPos) {
     const bad = problem(v, ui);
     err.textContent = bad ? bad[0] : '';
     if (bad) { ev.preventDefault(); bad[1].focus(); return; }
-    go.href = transitUrl({ ...v, time: TIME.test(v.time) ? v.time : TRIP.defaultTime });
+    setOrigin(v.from);
+  });
+  app.addEventListener('click', (ev) => {
+    const v = refresh();
+    const bad = problem(v, ui);
+    err.textContent = bad ? bad[0] : '';
+    if (bad) { ev.preventDefault(); bad[1].focus(); return; }
     setOrigin(v.from);
   });
 

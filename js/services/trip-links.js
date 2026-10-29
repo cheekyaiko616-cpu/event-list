@@ -28,6 +28,11 @@ export function transitUrl({ from, to, date, time, mode }) {
   return `${TRIP.transit}?${q}`;
 }
 
+/** ブラウザ版で開くための、中継ページ(go.html)経由のアドレス。アプリではなくブラウザで開き、日時を渡すため。 */
+export function viaBrowser(url) {
+  return `${new URL('go.html', document.baseURI)}?u=${encodeURIComponent(url)}`;
+}
+
 /** 「11/3(月) 9:00 到着」のような、検索条件の短い表示。始発・終電は時刻なし。 */
 export function whenText({ date, time, mode }) {
   const p = parseDate(date);

@@ -34,3 +34,4 @@
 .chips:empty { display: none; }
 .pick { min-height: 36px; padding: 0 12px; border: 1px solid var(--line); border-radius: 18px; background: var(--surface); color: var(--fg); font-size: 13px; font-weight: 700; }
 .pick small { color: var(--muted); font-size: 12px; font-weight: 500; }
+.tr-app { align-self: center; padding: 8px; color: var(--muted); font-size: 13px; text-decoration: underline; }

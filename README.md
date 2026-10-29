@@ -49,6 +49,7 @@ iPhoneのホーム画面に追加して使います。ビルド作業は不要�
 | 詳細の「現地の天気」「乗り換え・ナビ・マップ」のボタン / 乗り換えの入力画面 / 見た目 | `js/ui/event-trip.js` / `js/ui/transit-sheet.js` / `css/trip.css` |
 | 場所の特定（会場表に足す / 地図の検索） / 天気 / 最寄り駅（`data/stations.json`） | `js/services/venues.js` / `js/services/geo.js` / `js/services/weather.js` / `js/services/stations.js` |
 | 乗り換え・ナビ・マップのリンクの作り方 / 天気・場所の一時保存 | `js/services/trip-links.js` / `js/services/trip-cache.js` |
+| 乗り換えをブラウザ版のYahoo!乗換案内で開く中継ページ（アプリで開くと日時が入らないため） | `go.html` / `js/go-redirect.js` |
 | カレンダー用ファイルの中身 | `js/services/ics.js` |
 | 予定1件ずつの「カレンダーに追加」 / ファイルの保存 | `js/services/calendar.js` / `js/services/files.js` |
 | 状態（予定・タブ・今の画面）の置き場 | `js/state.js` |

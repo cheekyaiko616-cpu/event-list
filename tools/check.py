@@ -104,6 +104,12 @@ if head_sw:
     if changed and changed.strip() and cache(head_sw) == cache(read(root / 'sw.js')):
         errors.append(f'画面や動きを直したのに、sw.js の CACHE（{cache(head_sw)}）が上がっていません')
 
+# 8. 起動画面のゲージの長さ（index.html の animation-duration と splash.js の SHOW_MS が同じか）
+m1 = re.search(r'const SHOW_MS = (\d+)', read(root / 'js/ui/splash.js'))
+m2 = re.search(r'<div class="sp-bar"><i style="animation-duration:(\d+)ms"', read(root / 'index.html'))
+if not m1 or not m2 or m1.group(1) != m2.group(1):
+    errors.append('起動画面のゲージの長さが、splash.js の SHOW_MS と index.html の animation-duration で違います')
+
 # 7. 背景色（正本は css/tokens.css の --bg。1つ目が明るい表示、2つ目が暗い表示）
 bgs = [c.lower() for c in re.findall(r'--bg:\s*(#[0-9a-fA-F]{6})', read(root / 'css/tokens.css'))]
 if len(bgs) >= 2:
