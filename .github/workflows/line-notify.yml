@@ -1,0 +1,25 @@
+# 毎日のLINE送信（GitHub Actions）
+# 日次の取得（11:59 JST）のあとに動かすため、12:30 JST（03:30 UTC）に実行する。
+# 鍵は GitHub の Secrets に入れる（ファイルには書かない）。
+#   LINE_CHANNEL_ACCESS_TOKEN … チャネルアクセストークン（長期）
+#   LINE_TO                   … 送り先のユーザーID
+name: line-notify
+
+on:
+  schedule:
+    - cron: '30 3 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: LINE に送る
+        env:
+          LINE_CHANNEL_ACCESS_TOKEN: ${{ secrets.LINE_CHANNEL_ACCESS_TOKEN }}
+          LINE_TO: ${{ secrets.LINE_TO }}
+        run: python3 -I tools/line_notify.py
