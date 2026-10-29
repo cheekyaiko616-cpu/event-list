@@ -7,6 +7,10 @@ on:
   schedule:
     - cron: '0 22 * * *'
   workflow_dispatch:
+    inputs:
+      date:
+        description: 'テスト用：この日付の予定を送る（例 2026-11-07）。空なら今日'
+        required: false
 
 permissions:
   contents: read
@@ -20,4 +24,5 @@ jobs:
         env:
           LINE_CHANNEL_ACCESS_TOKEN: ${{ secrets.LINE_CHANNEL_ACCESS_TOKEN }}
           LINE_TO: ${{ secrets.LINE_TO }}
-        run: python3 -I tools/line_notify.py --today
+          INPUT_DATE: ${{ github.event.inputs.date }}
+        run: python3 -I tools/line_notify.py --today ${INPUT_DATE:+--date "$INPUT_DATE"}
