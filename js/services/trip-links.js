@@ -4,23 +4,38 @@ import { parseDate, weekday } from '../util/date.js';
 
 const p2 = (n) => String(n).padStart(2, '0');
 
-/** Yahoo!乗換案内の検索ページ。date は 2026-11-03、time は 09:00、arrive が true なら「到着」基準。 */
-export function transitUrl({ from, to, date, time, arrive }) {
+/** 時刻の使い方 → Yahoo!乗換案内の type（1=出発 4=到着 3=始発 2=終電）。 */
+export const TIME_MODES = [
+  { id: 'arrive', label: 'この時刻に着きたい', type: '4', text: '到着' },
+  { id: 'depart', label: 'この時刻に出たい', type: '1', text: '出発' },
+  { id: 'first', label: '始発', type: '3', text: '始発' },
+  { id: 'last', label: '終電', type: '2', text: '終電' }
+];
+export const timeMode = (id) => TIME_MODES.find((m) => m.id === id) || TIME_MODES[0];
+
+/**
+ * Yahoo!乗換案内の検索ページ。Yahoo自身が検索したときと同じ形（時は2けた、分は十の位と一の位に分ける）にする。
+ * date は 2026-11-03、time は 09:05、mode は TIME_MODES の id。
+ */
+export function transitUrl({ from, to, date, time, mode }) {
   const [y, m, d] = date.split('-');
   const [hh, mm] = time.split(':');
   const q = new URLSearchParams({
-    from, to, y, m: p2(+m), d: p2(+d), ym: `${y}${p2(+m)}`, datepick: `${y}${p2(+m)}${p2(+d)}`,
-    hh: String(+hh), m1: mm[0], m2: mm[1], type: arrive ? '4' : '1',
-    ticket: 'ic', expkind: '1', ws: '3', s: '0', al: '1', shin: '1', ex: '1', hb: '1', lb: '1', sr: '1'
+    from, flatlon: '', to, tlatlon: '', via: '',
+    y, m: p2(+m), d: p2(+d), hh: p2(+hh), m1: mm[0], m2: mm[1], type: timeMode(mode).type,
+    ticket: 'ic', expkind: '1', userpass: '1', ws: '3', s: '0', al: '1', shin: '1', ex: '1', hb: '1', lb: '1', sr: '1'
   });
   return `${TRIP.transit}?${q}`;
 }
 
-/** 「11/3(月) 9:00 到着」のような、検索条件の短い表示。 */
-export function whenText({ date, time, arrive }) {
+/** 「11/3(月) 9:00 到着」のような、検索条件の短い表示。始発・終電は時刻なし。 */
+export function whenText({ date, time, mode }) {
   const p = parseDate(date);
+  const md = `${p.m}/${p.d}(${weekday(p)})`;
+  const t = timeMode(mode);
+  if (t.id === 'first' || t.id === 'last') return `${md} ${t.text}`;
   const [hh, mm] = time.split(':');
-  return `${p.m}/${p.d}(${weekday(p)}) ${+hh}:${mm} ${arrive ? '到着' : '出発'}`;
+  return `${md} ${+hh}:${mm} ${t.text}`;
 }
 
 /** Yahoo!カーナビ（入っている端末だけで開く）。現在地から会場までの道順。 */

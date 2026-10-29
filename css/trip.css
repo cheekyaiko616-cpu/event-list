@@ -19,6 +19,12 @@
 .tr-row .field { flex: 1 1 0; }
 .tr-row .btn { flex: none; min-height: 44px; }
 .tform .input { color: var(--fg); font-family: inherit; }
+/* 日付・時刻の欄：iPhoneでは標準の入力部品が幅や高さを勝手に変えるので、見た目をそろえる */
+.tform input[type="date"], .tform input[type="time"] { -webkit-appearance: none; appearance: none; display: block; height: 44px; min-width: 0; padding-inline: 8px; text-align: left; }
+.tform input::-webkit-date-and-time-value { text-align: left; min-height: 1.4em; }
+.tform .input:disabled { opacity: .45; }
+.tr-row.dt .field:first-child { flex: 1 1 0; }
+.tr-row.dt .field:last-child { flex: 0 0 128px; }
 .tform .err { min-height: 0; margin: 0; }
 .tform .err:empty { display: none; }
 .tform .btn.wide { flex-direction: column; width: 100%; min-height: 48px; }

@@ -5,7 +5,7 @@ import { $, el, clear } from '../util/dom.js';
 import { todayIso } from '../util/date.js';
 import { mountSheet, showSheet, hideSheet } from './sheet.js';
 import { nearStations } from '../services/stations.js';
-import { transitUrl, whenText, inJapan, whereAmI } from '../services/trip-links.js';
+import { transitUrl, whenText, inJapan, whereAmI, TIME_MODES, timeMode } from '../services/trip-links.js';
 import { getOrigin, setOrigin } from '../services/trip-cache.js';
 
 const MARKUP = `
@@ -28,7 +28,8 @@ export function initTransitSheet() {
 }
 
 const field = (label, input) => el('div', { class: 'field flush' }, el('label', { text: label }), input);
-const problem = (v, ui) => (!v.from ? ['出発駅を入力してください', ui.from] : !v.to ? ['到着駅を入力してください', ui.to] : !ISO.test(v.date) ? ['日付を入力してください', ui.day] : !TIME.test(v.time) ? ['時刻を入力してください', ui.time] : null);
+const fixedTime = (v) => v.mode === 'first' || v.mode === 'last'; // 始発・終電は時刻を使わない
+const problem = (v, ui) => (!v.from ? ['出発駅を入力してください', ui.from] : !v.to ? ['到着駅を入力してください', ui.to] : !ISO.test(v.date) ? ['日付を入力してください', ui.day] : !TIME.test(v.time) && !fixedTime(v) ? ['時刻を入力してください', ui.time] : null);
 
 /** e: 予定。getPos: 会場の位置を返す関数（会場表／検索の結果。分からなければ null）。 */
 export function openTransit(e, getPos) {
@@ -40,21 +41,21 @@ export function openTransit(e, getPos) {
     to: inp('to', 'text', m.to ?? '', { placeholder: '到着駅', enterkeyhint: 'done' }),
     day: inp('date', 'date', ISO.test(m.date || '') && m.date >= today ? m.date : (e.date && e.date >= today ? e.date : today)),
     time: inp('time', 'time', m.time || TRIP.defaultTime),
-    how: el('select', { class: 'input', name: 'how' },
-      el('option', { value: 'arrive', text: 'この時刻に着きたい' }), el('option', { value: 'depart', text: 'この時刻に出たい' }))
+    how: el('select', { class: 'input', name: 'how' }, TIME_MODES.map((t) => el('option', { value: t.id, text: t.label })))
   };
-  ui.how.value = m.arrive === false ? 'depart' : 'arrive';
+  ui.how.value = timeMode(m.mode).id;
   const err = el('p', { class: 'err', role: 'alert' });
   const near = el('div', { class: 'chips' });
   const when = el('small', { text: '' });
   const go = el('a', { class: 'btn solid wide', target: '_blank', rel: 'noopener', href: '#' }, el('span', { text: 'Yahoo!乗換案内で検索' }), when);
 
-  const read = () => ({ from: ui.from.value.trim(), to: ui.to.value.trim(), date: ui.day.value, time: ui.time.value, arrive: ui.how.value === 'arrive' });
+  const read = () => ({ from: ui.from.value.trim(), to: ui.to.value.trim(), date: ui.day.value, time: ui.time.value, mode: ui.how.value });
   const refresh = () => {
     const v = read();
     memo.set(e.id, v);
-    go.href = problem(v, ui) ? '#' : transitUrl(v);
-    when.textContent = ISO.test(v.date) && TIME.test(v.time) ? whenText(v) : '';
+    go.href = problem(v, ui) ? '#' : transitUrl({ ...v, time: TIME.test(v.time) ? v.time : TRIP.defaultTime });
+    when.textContent = ISO.test(v.date) && (TIME.test(v.time) || fixedTime(v)) ? whenText(v) : '';
+    ui.time.disabled = fixedTime(v);
     return v;
   };
   const chip = (name, km) => el('button', { type: 'button', class: 'pick', onclick: () => { ui.to.value = name; err.textContent = ''; refresh(); } },
@@ -77,8 +78,8 @@ export function openTransit(e, getPos) {
     el('p', { class: 'help', text: e.place ? `行き先：${e.place}` : '' }),
     el('div', { class: 'tr-row' }, field('出発駅', ui.from), here),
     field('到着駅', ui.to), near,
-    el('div', { class: 'tr-row' }, field('日付', ui.day), field('時刻', ui.time)),
-    field('時刻の使い方', ui.how),
+    el('div', { class: 'tr-row dt' }, field('日付', ui.day), field('時刻', ui.time)),
+    field('条件', ui.how),
     err, go);
   form.addEventListener('input', () => { err.textContent = ''; refresh(); });
   form.addEventListener('change', () => { err.textContent = ''; refresh(); });
@@ -88,7 +89,7 @@ export function openTransit(e, getPos) {
     const bad = problem(v, ui);
     err.textContent = bad ? bad[0] : '';
     if (bad) { ev.preventDefault(); bad[1].focus(); return; }
-    go.href = transitUrl(v);
+    go.href = transitUrl({ ...v, time: TIME.test(v.time) ? v.time : TRIP.defaultTime });
     setOrigin(v.from);
   });
 
