@@ -31,6 +31,7 @@ iPhoneのホーム画面に追加して使います。ビルド作業は不要�
 | 起動時に最初に出す画面（いつも「すべて」） | `js/main.js` |
 | 起動の最初の1コマ（背景色・起動画面。`tools/build.py` が `index.html` に埋め込む） | `css/tokens.css` / `css/splash.css` |
 | iPhoneで開いた直後の画面（無地。`tools/make_startup.py` で作る。反映にはホーム画面のアイコンの入れ直しが必要） | `img/startup/` / `tools/make_startup.py` |
+| 日付が変わったときの描き直し | `js/ui/day-watch.js` |
 | 起動画面（約2秒の画面）のゲージと切り替え | `js/ui/splash.js` |
 | 起動画面の乗りもの（最初の1コマから出す） | `js/boot-splash.js` |
 | 見た目のファイルを待たずに起動画面を出し、読み終わってからアプリ本体を動かす | `js/boot-css.js` |
@@ -115,3 +116,4 @@ iPhoneのホーム画面に追加して使います。ビルド作業は不要�
 
 1. LINE Messaging API のチャネルを作り、チャネルアクセストークンと、送り先のユーザーID（`tools/line_get_user_id.py` で調べられる）を、環境変数 `LINE_CHANNEL_ACCESS_TOKEN` と `LINE_TO` に入れる
 2. `python3 tools/line_notify.py` で、今日のアプリ内の更新と、申込締切のちょうど3日前になったものをLINEに送る（`--remind 3,1` で日数を変えられる）。旧LINE Notifyは終了しているため Messaging API を使う。鍵が無いときは内容を表示するだけ
+3. `feed.json` の最上位 `checkedAt`（毎日の取得が必ず書く確認日）が2日以上前、または無いときは、同じ通知に「自動取得が止まっている可能性」の警告が付く（更新や締切が無い日も、警告だけは送る）

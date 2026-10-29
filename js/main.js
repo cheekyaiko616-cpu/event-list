@@ -24,6 +24,7 @@ import { initTransitSheet } from './ui/transit-sheet.js';
 import { initWatchSync } from './data/watchlist-sync.js';
 import { toast } from './ui/toast.js';
 import { initSplash } from './ui/splash.js';
+import { initDayWatch } from './ui/day-watch.js';
 
 // 状態が変わるたびに、全画面を描き直す
 function renderAll() {
@@ -59,6 +60,7 @@ initWatchSync();
 ['gesturestart', 'gesturechange', 'gestureend'].forEach((n) => document.addEventListener(n, (e) => e.preventDefault()));
 subscribe(renderAll);
 renderAll();
+initDayWatch(renderAll); // 日付をまたいだら描き直す
 
 init().then(async () => {
   if (state.startupMessage) toast(state.startupMessage);

@@ -4,6 +4,8 @@
 //   日程の変更         … 自動で更新（変更前を残す）
 //   こちらで直した予定 … 「手動修正」。feedの内容が変わらない限り、直した内容を守る
 //   こちらで削除した予定 … 二度と自動では戻さない
+//   こちらで作った予定   … 同じ題名のfeedがあっても、上書きも二重にもしない（こちらを優先する）
+//   こちらで消したタブ   … そのタブ向けの予定は入れない（別のタブには入れない）
 import { state } from '../state.js';
 import { commit } from './store.js';
 import { sortedTabs, newTab } from './tabs.js';
@@ -143,10 +145,13 @@ async function applyFeed(items, watch = new Map()) {
     seenIds.add(f.id);
     if (f.date && (f.end || f.date) < limit) return; // 終わって1年たったものは戻さない
     const hash = feedHash(f);
-    const tab = tabByName.get(norm(f.tabName)) || tabs[0];
+    // タブ名があるのに、そのタブが無いのは、こちらで消したタブ。別のタブには入れない（タブ名が空のときだけ先頭のタブ）
+    const tab = f.tabName ? tabByName.get(norm(f.tabName)) : tabs[0];
     if (!tab) return;
 
-    const e = byFeedId.get(f.id) || byTitle.get(norm(f.title));
+    // こちらで作った予定（feedから来ていないもの）と同じ題名なら、こちらを優先して入れない
+    if (!byFeedId.has(f.id) && byTitle.has(norm(f.title))) return;
+    const e = byFeedId.get(f.id);
     if (!e) {
       const made = createEvent(f, tab, hash, firstSync ? '' : today);
       state.events.push(made);

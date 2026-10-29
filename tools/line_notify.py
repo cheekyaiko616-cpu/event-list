@@ -28,6 +28,22 @@ def load(name):
     return json.loads(p.read_text(encoding='utf-8')) if p.exists() else {}
 
 
+STALE_DAYS = 2  # 自動取得の最終確認が、これだけ前より古ければ警告する（11:59の取得が2回続けて動かなかった）
+
+
+def stale_warning(date):
+    """自動取得が止まっていそうなら、警告の文。大丈夫なら空文字。feed.json の最上位 checkedAt（毎日必ず書く）を見る。"""
+    today = datetime.strptime(date, '%Y-%m-%d').date()
+    raw = load('feed.json').get('checkedAt', '')
+    try:
+        last = datetime.strptime(raw, '%Y-%m-%d').date()
+    except (ValueError, TypeError):
+        return '⚠ 日程の自動取得の確認日が記録されていません。取得が動いているか確かめてください'
+    if (today - last).days >= STALE_DAYS:
+        return f'⚠ 日程の自動取得が止まっている可能性があります（最終確認：{last.month}月{last.day}日）'
+    return ''
+
+
 def build(date, remind):
     """送る文章を作る。内容ごと（追加・更新・締切）にまとめる。送るものが無ければ空文字。"""
     blocks = []
@@ -60,9 +76,9 @@ def build(date, remind):
         for left, title in sorted(soon):
             lines.append(f'・{title}（締切まであと{left}日）')
         blocks.append('\n'.join(lines))
-    if not blocks:
-        return ''
-    return f'{today.month}月{today.day}日更新\n' + '\n\n'.join(blocks)
+    text = f'{today.month}月{today.day}日更新\n' + '\n\n'.join(blocks) if blocks else ''
+    warn = stale_warning(date)  # 取得が止まっていたら、更新や締切が無い日でも知らせる
+    return text + ('\n\n' if text and warn else '') + warn
 
 
 LIVE_DAYS = 2  # この日数以内の予定（ライブ・イベント）は、期間中毎朝知らせる。これより長い予定（長期の展示など）は初日だけ
