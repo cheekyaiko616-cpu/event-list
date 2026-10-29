@@ -43,7 +43,7 @@ const MARKUP = `
 
     <section class="set-sec">
       <h3>前の状態に戻す</h3>
-      <p class="set-note">操作の前や週1回、この端末に自動で控えを残しています。端末のデータを消した場合は戻せないので、大事なときは「書き出す」も使ってください。</p>
+      <p class="set-note">自動で残した控えに戻せます。</p>
       <div id="st-snaps"></div>
     </section>
 
@@ -221,6 +221,6 @@ function onPickSnap(s) {
   pending = d;
   pendingLabel = '戻す前';
   setMsg('', false);
-  $('#st-confirm-text').textContent = `予定${d.events.length}件・タブ${d.tabs.length}個の状態に戻します。今のデータは、戻す前の控えとして残ります。`;
+  $('#st-confirm-text').textContent = `予定${d.events.length}件・タブ${d.tabs.length}個の状態に戻します。`;
   $('#st-confirm').hidden = false;
 }
