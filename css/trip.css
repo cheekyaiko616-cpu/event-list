@@ -24,5 +24,5 @@
 .tform .btn.wide { flex-direction: column; width: 100%; min-height: 48px; }
 .chips { display: flex; flex-wrap: wrap; gap: 6px; }
 .chips:empty { display: none; }
-.pick { min-height: 36px; padding: 0 12px; border: 1px solid var(--line); border-radius: 18px; background: var(--surface); color: var(--fg); font-size: 13px; font-weight: 700; }
+.pick { min-height: 36px; padding: 0 12px; border: 1px solid var(--line); border-radius: 18px; background: var(--surface); color: var(--fg); font-size: 13px; font-weight: 500; }
 .pick small { color: var(--muted); font-size: 12px; font-weight: 500; }

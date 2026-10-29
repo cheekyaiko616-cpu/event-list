@@ -4,9 +4,9 @@
 .set-head { display: flex; align-items: center; justify-content: flex-start; margin-bottom: 4px; }
 .set-page .set-sec { margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--line); }
 .set-page .set-sec:first-of-type { margin-top: 12px; border-top: 0; padding-top: 0; }
-.set-page .set-sec h3 { margin: 0 0 4px; font-size: 14px; font-weight: 700; }
+.set-page .set-sec h3 { margin: 0 0 4px; font-size: 14px; font-weight: 500; }
 .gh-help { margin-top: 10px; font-size: 13px; }
-.gh-help summary { cursor: pointer; font-weight: 700; }
+.gh-help summary { cursor: pointer; font-weight: 500; }
 .gh-help ol { margin: 6px 0 0; padding-left: 20px; color: var(--muted); }
 #gh-token { min-width: 0; }
 #gh-save { flex: none; white-space: nowrap; }

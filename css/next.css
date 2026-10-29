@@ -2,17 +2,17 @@
 .next {
   display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 16px; align-items: center;
   width: 100%; margin-top: 14px; padding: 14px 16px; text-align: left;
-  background: var(--surface); border: 1px solid var(--line); border-left: 6px solid var(--c); border-radius: 12px;
+  background: var(--surface); border: 1px solid var(--line); border-left: 3px solid var(--c); border-radius: 12px;
 }
 
 
 /* 開催中の細い帯。 */
 .now {
   display: flex; align-items: center; gap: 10px; width: 100%; min-height: 40px; margin-top: 10px; padding: 6px 12px; text-align: left;
-  background: color-mix(in srgb, var(--c) 8%, var(--surface)); border: 1px solid var(--line); border-left: 4px solid var(--c); border-radius: 10px;
+  background: color-mix(in srgb, var(--c) 8%, var(--surface)); border: 1px solid var(--line); border-left: 3px solid var(--c); border-radius: 10px;
 }
-.now-pill { flex: none; padding: 1px 8px; border-radius: 999px; background: var(--c); color: #fff; font-size: 11px; font-weight: 700; letter-spacing: .04em; }
-.now-title { flex: 1; min-width: 0; font-size: 14px; font-weight: 700; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.now-pill { flex: none; padding: 1px 8px; border-radius: 999px; background: var(--c); color: #fff; font-size: 11px; font-weight: 500; letter-spacing: .04em; }
+.now-title { flex: 1; min-width: 0; font-size: 14px; font-weight: 500; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .now-end { flex: none; font-size: 12px; color: var(--muted); font-variant-numeric: tabular-nums; }
 
 .next-s .now-pill { background: transparent; color: var(--c); border: 1px solid var(--c); }
@@ -20,4 +20,4 @@
 /* 次の申込締切：「次の予定」と同じ線の印。3日以内は塗りつぶす */
 .dl-s .now-pill { background: transparent; color: var(--c); border: 1px solid var(--c); }
 .dl-s.soon .now-pill { background: var(--c); color: #fff; }
-.dl-s.soon .now-end { color: var(--fg); font-weight: 700; }
+.dl-s.soon .now-end { color: var(--fg); font-weight: 500; }

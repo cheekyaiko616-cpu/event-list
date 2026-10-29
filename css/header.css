@@ -6,8 +6,8 @@
   padding-top: env(safe-area-inset-top, 0px);
 }
 .bar { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding-block: 12px 4px; }
-.bar h1 { margin: 0; font-size: 21px; line-height: 1.25; font-weight: 700; white-space: nowrap; }
-.bar h1.brand { font-family: var(--font-brand); font-size: 28px; font-weight: 600; font-style: italic; letter-spacing: .03em; line-height: 1.1; }
+.bar h1 { margin: 0; font-size: 21px; line-height: 1.25; font-weight: 500; white-space: nowrap; }
+.bar h1.brand { font-family: var(--font-brand); font-size: 28px; font-weight: 600; font-style: italic; letter-spacing: .04em; line-height: 1.1; }
 .today { display: block; font-size: 12px; line-height: 1.4; color: var(--muted); font-variant-numeric: tabular-nums; white-space: nowrap; }
 
 /* タブ */
@@ -22,9 +22,9 @@
   position: relative; flex: none; min-height: 44px; margin-bottom: -1px; padding: 0 12px;
   background: var(--top); /* すべてのタブで同じ（ヘッダーと共通）。切り替えで背景も大きさも変えない */
   border: 1px solid var(--line);
-  border-top: 3px solid color-mix(in srgb, var(--c) 40%, var(--line));
-  border-radius: 10px 10px 0 0;
-  color: var(--muted); font-size: 13px; font-weight: 700; white-space: nowrap;
+  border-top: 2px solid color-mix(in srgb, var(--c) 30%, var(--line));
+  border-radius: 8px 8px 0 0;
+  color: var(--muted); font-size: 13px; font-weight: 500; white-space: nowrap;
 }
 /* 選んでいるタブは、上の線の色と文字の濃さだけで見分ける */
 .tab[aria-selected="true"] { border-top-color: var(--c); color: var(--fg); }
@@ -42,9 +42,9 @@
 .fab {
   position: fixed; z-index: 10;
   right: max(16px, env(safe-area-inset-right, 0px)); bottom: calc(18px + env(safe-area-inset-bottom, 0px));
-  width: 56px; height: 56px; padding: 0; border: 0; border-radius: 50%;
+  width: 54px; height: 54px; padding: 0; border: 0; border-radius: 50%;
   background: var(--ink); color: var(--on-ink); font-size: 28px; line-height: 1;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, .3);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, .2);
 }
 .view-switch { padding-top: 10px; text-align: left; }
 
@@ -73,7 +73,7 @@
 }
 .drawer-scrim.open .drawer { transform: none; }
 .drawer-item {
-  min-height: 52px; padding: 0 16px; text-align: left; font-size: 16px; font-weight: 700;
+  min-height: 52px; padding: 0 16px; text-align: left; font-size: 16px; font-weight: 500;
   background: var(--bg); border: 1px solid var(--line); border-radius: 10px;
 }
 .drawer-item.on { background: var(--ink); border-color: var(--ink); color: var(--on-ink); }
