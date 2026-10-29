@@ -67,7 +67,8 @@ def build(date, remind):
     return f'{today.month}月{today.day}日更新\n' + '\n\n'.join(blocks)
 
 
-LONG_DAYS = 7  # これより長く続く予定（長期の展示など）は、初日だけ知らせる
+LIVE_DAYS = 2  # この日数以内の予定（ライブ・イベント）は、期間中毎朝知らせる。これより長い予定（長期の展示など）は初日だけ
+MOTOR_TAB = 'モータースポーツ'  # このタブは、決勝日（最終日）と予選日（その前日）だけ知らせる
 
 
 def times_for(note, day):
@@ -91,10 +92,18 @@ def build_today(date):
             end = datetime.strptime(it.get('end') or it['date'], '%Y-%m-%d').date()
         except (ValueError, KeyError):
             continue  # 日程未定の予定は対象外
-        if not start <= today <= end or (end - start).days >= LONG_DAYS and today != start:
+        tag = ''
+        if MOTOR_TAB in it.get('tabName', ''):
+            if today == end:
+                tag = '（決勝日）'
+            elif today == end - timedelta(days=1):
+                tag = '（予選日）'
+            else:
+                continue
+        elif not start <= today <= end or (end - start).days + 1 > LIVE_DAYS and today != start:
             continue
         when = start.strftime('%Y/%m/%d') + (('〜' + end.strftime('%Y/%m/%d')) if end != start else '')
-        lines.append(f'・{it.get("title", "")}')
+        lines.append(f'・{it.get("title", "")}{tag}')
         lines.append(f'　日程：{when}')
         if it.get('place'):
             lines.append(f'　場所：{it["place"]}')
