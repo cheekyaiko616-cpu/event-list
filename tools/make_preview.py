@@ -13,8 +13,14 @@ for p in (root / 'img').glob('*.png'):
 html = (root / 'index.html').read_text(encoding='utf-8')
 html = re.sub(r'<meta http-equiv="Content-Security-Policy"[^>]*>\n?', '', html)
 html = re.sub(r'<link rel="manifest"[^>]*>\n?', '', html)
-html = html.replace('<link rel="stylesheet" href="dist/app.min.css">', '<style>\n' + (root / 'dist/app.min.css').read_text(encoding='utf-8') + '\n</style>')
+# 1枚にまとめるため、外のファイルを読む指定を、中身そのものに置き換える
+html = re.sub(r'<link rel="preload"[^>]*>\n?', '', html)
+html = html.replace('<link rel="stylesheet" href="dist/app.min.css" media="print" id="app-css">', '<style>\n' + (root / 'dist/app.min.css').read_text(encoding='utf-8') + '\n</style>')
 js = js.replace('</script', '<\\/script')
-html = html.replace('<script src="dist/app.min.js" defer></script>', '<script>' + js + '</script>')
+splash_js = (root / 'js/boot-splash.js').read_text(encoding='utf-8')
+for p in (root / 'img').glob('*.png'):
+    splash_js = splash_js.replace(f'img/{p.name}', 'data:image/png;base64,' + base64.b64encode(p.read_bytes()).decode())
+html = html.replace('<script src="js/boot-splash.js"></script>', '<script>' + splash_js + '</script>')
+html = html.replace('<script src="js/boot-css.js" defer></script>', '<script>' + js + '</script>')
 out.write_text(html, encoding='utf-8')
 print(out, len(html) // 1024, 'KB')

@@ -1,13 +1,15 @@
 // オフラインでも開けるようにするための仕組み。
 // 通信できるときは常に最新のファイルを取りに行き、できないときだけ保存済みのものを使う。
 // ファイルを追加・削除したら ASSETS を直し、CACHE の番号を上げる。
-const CACHE = 'event-cho-v103';
+const CACHE = 'event-cho-v104';
 const ASSETS = [
   './',
   'index.html',
   'dist/app.min.js',
   'dist/app.min.css',
   'js/boot-fonts.js',
+  'js/boot-css.js',
+  'js/boot-splash.js',
   'manifest.webmanifest',
   'icons/apple-touch-icon.png',
   'icons/icon-192.png',
