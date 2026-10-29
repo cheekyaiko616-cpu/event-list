@@ -17,7 +17,7 @@ errors = []
 rel = lambda p: str(p.relative_to(root))
 
 # 1. 書かれたファイル名が実在するか
-PATH = re.compile(r'(?<![\w/.-])((?:js|css|tools|img|icons)/[\w./-]*[\w-]\.(?:js|css|md|py|png|json))')
+PATH = re.compile(r'(?<![\w/.-])((?:js|css|tools|img|icons)/[\w./-]*[\w-]\.(?:json|js|css|md|py|png))')
 docs = [root / 'README.md', root / 'tools/daily-fetch.md'] + js_files + css_files
 for f in docs:
     for m in PATH.finditer(read(f)):

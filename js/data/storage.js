@@ -54,13 +54,11 @@ let queue = Promise.resolve();
 /** 保存に失敗したら例外を投げる。同じ書類への書き込みは1つずつ順に行う。 */
 export function saveData(data) {
   const run = async () => {
-    try { writeLocal(data); } catch (e) { /* 共有データに保存できれば続ける */ }
     const db = await getDb();
-    if (db) {
-      await db.doc(DOC).set({ json: JSON.stringify(data), savedAt: new Date().toISOString() });
-      return;
-    }
-    writeLocal(data);
+    if (!db) { writeLocal(data); return; } // 端末内だけ：失敗したら例外のまま返す
+    const json = JSON.stringify(data);
+    try { localStorage.setItem(STORAGE_KEY, json); } catch (e) { /* 共有データに保存できれば続ける */ }
+    await db.doc(DOC).set({ json, savedAt: new Date().toISOString() });
   };
   const p = queue.then(run, run);
   queue = p.catch(() => {});

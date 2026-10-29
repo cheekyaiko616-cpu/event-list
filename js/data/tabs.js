@@ -3,13 +3,14 @@ import { state } from '../state.js';
 import { commit } from './store.js';
 import { COLORS, MAX_TABS, WATCH_MAX } from '../config.js';
 import { newId } from '../util/text.js';
+import { compareJa } from '../util/date.js';
 import { normalizeShow, normalizeKinds } from './settings-normalize.js';
 
 /** 取り込み内容の文字を整える（前後の空白を消し、長さを上限まで） */
 const cleanWatch = (raw) => (typeof raw === 'string' ? raw.trim().slice(0, WATCH_MAX) : '');
 
 export const sortedTabs = () =>
-  [...state.tabs].sort((a, b) => (a.order - b.order) || a.name.localeCompare(b.name, 'ja'));
+  [...state.tabs].sort((a, b) => (a.order - b.order) || compareJa(a.name, b.name));
 
 export const tabById = (id) => state.tabs.find((t) => t.id === id) || null;
 

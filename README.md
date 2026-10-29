@@ -61,6 +61,9 @@ iPhoneのホーム画面に追加して使います。ビルド作業は不要�
 | ビルドと点検（食い違い・無駄・番号の上げ忘れを自動で見つける） | `tools/build.py` / `tools/check.py` |
 | 日々の自動取得の手順書 | `tools/daily-fetch.md` |
 | 動作確認用のプレビュー / 起動画像の作成 | `tools/make_preview.py` / `tools/make_startup.py` |
+| 読み込み中・空・エラーの共通の表示（骨組み・読み上げ対応） | `js/ui/state-panel.js` |
+| 毎日の結果をLINEに送る | `tools/line_notify.py` |
+| LINEのユーザーIDを調べる（Webhookで受け取る） | `tools/line_get_user_id.py` |
 
 `js/main.js` は各部品をつなぐだけの入口です。
 
@@ -103,3 +106,8 @@ iPhoneのホーム画面に追加して使います。ビルド作業は不要�
 ## 公開の前に（軽量化の仕組み）
 ソースは機能・画面ごとのファイル（`js/`・`css/`）のままです。公開用には、これを1つにまとめて小さくした `dist/app.min.js` と `dist/app.min.css` を読み込みます。
 ソースを直したら、公開の前に `python3 tools/build.py` を実行して `dist/` を作り直し、一緒に公開します。ビルドの最初に `tools/check.py` が動き、食い違い（説明文のファイル名、READMEの載せ忘れ、ぐるぐる参照、使われていないCSS・export、番号の上げ忘れ）が見つかると止まります。
+
+## LINEへの知らせ
+
+1. LINE Messaging API のチャネルを作り、チャネルアクセストークンと、送り先のユーザーID（`tools/line_get_user_id.py` で調べられる）を、環境変数 `LINE_CHANNEL_ACCESS_TOKEN` と `LINE_TO` に入れる
+2. `python3 tools/line_notify.py` で、今日のアプリ内の更新と、申込締切のちょうど3日前になったものをLINEに送る（`--remind 3,1` で日数を変えられる）。旧LINE Notifyは終了しているため Messaging API を使う。鍵が無いときは内容を表示するだけ
