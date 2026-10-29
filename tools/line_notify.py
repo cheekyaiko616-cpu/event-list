@@ -41,7 +41,7 @@ def build(date, remind):
                 lines.append(f'　場所：{places[a["title"]]}')
         blocks.append('\n'.join(lines))
     if entry and entry.get('changed'):
-        lines = [f'✎ 日程の更新（{date}）']
+        lines = ['✎ 日程の更新']
         for c in entry['changed']:
             lines.append(f'・{c.get("title", "")}：{c.get("before", "")} → {c.get("after", "")}')
         blocks.append('\n'.join(lines))
