@@ -2,6 +2,7 @@
 import { $, el, clear } from '../util/dom.js';
 import { mountSheet, showSheet, hideSheet } from './sheet.js';
 import { loadUpdates } from '../data/updates.js';
+import { weekday } from '../util/date.js';
 
 const MARKUP = `
   <div class="sheet" id="up-sheet" role="dialog" aria-modal="true" aria-labelledby="up-heading">
@@ -19,11 +20,9 @@ export function initUpdatesSheet() {
   $('#up-close').addEventListener('click', () => hideSheet(wrap));
 }
 
-const WD = ['日', '月', '火', '水', '木', '金', '土'];
-
 function dateEl(iso) {
   const [y, m, d] = iso.split('-').map(Number);
-  const w = WD[new Date(y, m - 1, d).getDay()];
+  const w = weekday({ y, m, d });
   return el('div', { class: 'up-date' },
     el('b', { class: 'up-md', text: `${m}/${d}` }),
     el('span', { class: 'up-yw', text: `${y}（${w}）` }));

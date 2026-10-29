@@ -12,9 +12,9 @@ import { closeDetail } from './pin-close.js';
 import { weatherEl, tripButtons } from './event-trip.js';
 
 /* ---------- 行と詳細 ---------- */
-// 自動で日程が変わってから2週間は、目印を出す
 // 新しく入った・内容が変わってから1週間は、「NEW」の印を出す
 const isNew = (e) => !!(e.newAt && e.newAt >= addDaysIso(todayIso(), -7));
+// 自動で日程が変わってから2週間は、「日程更新」の印を出す
 const isRecentChange = (e) => !!(e.lastChange && e.lastChange.at >= addDaysIso(todayIso(), -14));
 
 /** いちばん近い申し込み・期限の日付を、小さな印で出す。終わった予定には出さない。 */
@@ -82,18 +82,14 @@ function detailEl(e) {
   if (e.place) add('場所', e.place);
   if (e.source) add('出典', e.source);
   if (e.note) add('メモ', e.note);
-  if (e.feedId) {
-    if (e.lastChange) add('変更前', `${e.lastChange.from}（${e.lastChange.at} に更新）`);
-  }
+  if (e.feedId && e.lastChange) add('変更前', `${e.lastChange.from}（${e.lastChange.at} に更新）`);
 
   const actions = el('div', { class: 'actions' },
     url ? el('a', { class: 'btn', href: url, target: '_blank', rel: 'noopener noreferrer', text: 'リンクを開く ↗' }) : null,
     dated || (e.dates || []).length
       ? el('button', { class: 'btn solid', type: 'button', text: 'カレンダーに追加', onclick: () => { addToCalendar([e]); closeDetail(); } })
       : el('button', { class: 'btn', type: 'button', disabled: true, text: 'カレンダーに追加' }),
-    el('button', { class: 'btn', type: 'button', text: '編集', onclick: () => openEventSheet(e) }),
-    null);
-
+    el('button', { class: 'btn', type: 'button', text: '編集', onclick: () => openEventSheet(e) }));
 
   const close = () => closeDetail();
   const box = el('div', { class: 'detail', id: `d-${e.id}` }, dl, weatherEl(e), actions, tripButtons(e),
