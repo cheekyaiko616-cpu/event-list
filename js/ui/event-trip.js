@@ -35,7 +35,7 @@ export function weatherEl(e) {
           el('small', { text: md(d) }),
           el('span', { class: 'i', 'aria-hidden': 'true', text: icon }),
           el('span', { class: 't', text: `${w.max}°/${w.min}°` }),
-          el('small', { text: `降水 ${w.pop}%` }));
+          el('small', { text: `雨${w.pop}%` }));
       })));
     })
     .catch(() => text('天気を取得できませんでした（通信を確認してください）'));
