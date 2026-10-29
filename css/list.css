@@ -74,19 +74,18 @@
 .badge.upd { background: var(--ink); color: var(--on-ink); }
 .badge.man { background: var(--line); color: var(--fg); }
 
-/* 詳細を閉じるボタン */
-.close-btn { display: block; width: 100%; min-height: 44px; margin-top: 8px; padding: 0; background: none; border: 0; border-top: 1px solid var(--line); color: var(--muted); font-size: var(--fs-sm); font-weight: 500; }
-
 /* 開いた予定の固定表示（ヘッダーの下）。1画面に収まるよう高さに上限を付ける。一覧と背景色を変えて見分けやすくする */
-#app-pin { flex: none; max-height: 60dvh; overflow-y: auto; overscroll-behavior: contain; background: var(--surface); border-bottom: 1px solid var(--line); box-shadow: 0 10px 16px -12px rgba(0, 0, 0, .32); }
+#app-pin { flex: none; max-height: 100dvh; overflow-y: auto; overscroll-behavior: contain; background: var(--surface); border-bottom: 1px solid var(--line); box-shadow: 0 10px 16px -12px rgba(0, 0, 0, .32); }
 #app-pin:empty { display: none; }
 #app-pin .rows { padding-block: 0; }
 #app-pin .row { border-bottom: 0; }
 #app-pin .row-btn { background: var(--surface); }
-#app-pin .detail { margin: 0 0 10px 0; padding: 10px 12px; background: var(--bg); }
-#app-pin .kv { margin-bottom: 8px; font-size: var(--fs-sm); }
-#app-pin .actions .btn { min-height: 40px; padding: 0 12px; }
-#app-pin .close-btn { min-height: 40px; margin-top: 6px; }
+#app-pin .detail { margin: 0 0 8px 0; padding: 8px 12px; background: var(--bg); }
+#app-pin .kv { gap: 4px 12px; margin-bottom: 8px; font-size: var(--fs-sm); }
+#app-pin .kv dd { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3; line-clamp: 3; overflow: hidden; } /* 長い文は3行まで（詳しくは「編集」で） */
+#app-pin .actions { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; }
+#app-pin .actions .btn { min-height: 40px; padding: 0 4px; white-space: nowrap; }
+#app-pin .trip-actions { margin-top: 6px; }
 .row.is-open { background: color-mix(in srgb, var(--fg) 6%, transparent); }
 
 /* タブのスワイプ中に見せる、隣のタブの仮の画面（指の動きに合わせて、今の画面に続いて動く） */
@@ -104,3 +103,6 @@
 .badge.dl.soon { background: var(--ink); color: var(--on-ink); }
 @media (prefers-color-scheme: dark) { .badge.new { color: #1b2124; } }
 
+
+/* 予定を開いている間は「次の予定」の帯を隠し、詳細を1画面に収める */
+body:has(#app-pin:not(:empty)) #app-now { display: none; }

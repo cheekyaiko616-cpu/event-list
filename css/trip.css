@@ -7,6 +7,11 @@
 .wx-day .i { display: block; font-size: var(--fs-h1); line-height: 1.3; }
 .wx-day .t { display: block; font-family: var(--font-num); font-size: var(--fs-lg); font-weight: 600; }
 
+#app-pin .wx { margin-bottom: 8px; }
+#app-pin .wx-text { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 1; line-clamp: 1; overflow: hidden; }
+#app-pin .wx-day { min-width: 0; flex: 1 1 0; padding: 3px 4px; }
+#app-pin .wx-day .i { font-size: var(--fs-lg); line-height: 1.2; }
+
 /* 乗り換え・ナビ・マップは、同じ幅の3つのボタンにそろえる */
 .trip-actions { margin-top: 8px; }
 .trip-actions .btn { flex: 1 1 0; min-width: 0; }
@@ -26,3 +31,4 @@
 .chips:empty { display: none; }
 .pick { min-height: 36px; padding: 0 12px; border: 1px solid var(--line); border-radius: 18px; background: var(--surface); color: var(--fg); font-size: var(--fs-sm); font-weight: 500; }
 .pick small { color: var(--muted); font-size: var(--fs-cap); font-weight: 500; }
+#app-pin .wx-day small:last-child { display: none; } /* 狭い固定表示では降水確率を省く（日付と気温だけ） */

@@ -85,15 +85,15 @@ function detailEl(e) {
   if (e.feedId && e.lastChange) add('変更前', `${e.lastChange.from}（${e.lastChange.at} に更新）`);
 
   const actions = el('div', { class: 'actions' },
-    url ? el('a', { class: 'btn', href: url, target: '_blank', rel: 'noopener noreferrer', text: 'リンクを開く ↗' }) : null,
+    url ? el('a', { class: 'btn', href: url, target: '_blank', rel: 'noopener noreferrer', text: 'リンク ↗' }) : null,
     dated || (e.dates || []).length
-      ? el('button', { class: 'btn solid', type: 'button', text: 'カレンダーに追加', onclick: () => { addToCalendar([e]); closeDetail(); } })
-      : el('button', { class: 'btn', type: 'button', disabled: true, text: 'カレンダーに追加' }),
+      ? el('button', { class: 'btn solid', type: 'button', text: 'カレンダー', onclick: () => { addToCalendar([e]); closeDetail(); } })
+      : el('button', { class: 'btn', type: 'button', disabled: true, text: 'カレンダー' }),
     el('button', { class: 'btn', type: 'button', text: '編集', onclick: () => openEventSheet(e) }));
 
   const close = () => closeDetail();
-  const box = el('div', { class: 'detail', id: `d-${e.id}` }, dl, weatherEl(e), actions, tripButtons(e),
-    el('button', { class: 'close-btn', type: 'button', text: '閉じる ▲', onclick: close }));
+  // 閉じるのは、行・詳細の空いている所をタップ、または下へスワイプ（閉じるボタンは置かない：1画面に収めるため）
+  const box = el('div', { class: 'detail', id: `d-${e.id}` }, dl, weatherEl(e), actions, tripButtons(e));
   // ボタンやリンク以外の、詳細のあいている所をタップしても閉じる
   box.addEventListener('click', (ev) => { if (!ev.target.closest('a, button, input, textarea, select, label')) close(); });
   return box;
