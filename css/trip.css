@@ -19,19 +19,10 @@
 .tr-row .field { flex: 1 1 0; }
 .tr-row .btn { flex: none; min-height: 44px; }
 .tform .input { color: var(--fg); font-family: inherit; }
-/* 日付・時刻の欄：iPhoneでは標準の入力部品が幅や高さを勝手に変えるので、見た目をそろえる */
-.tform input[type="date"], .tform input[type="time"] { -webkit-appearance: none; appearance: none; display: block; height: 44px; min-width: 0; padding-inline: 8px; text-align: left; }
-.tform input::-webkit-date-and-time-value { text-align: left; min-height: 1.4em; }
-.tform .input:disabled { opacity: .45; }
-.tr-row.dt .field:first-child { flex: 1 1 0; }
-.tr-row.dt .field:last-child { flex: 0 0 128px; }
 .tform .err { min-height: 0; margin: 0; }
 .tform .err:empty { display: none; }
 .tform .btn.wide { flex-direction: column; width: 100%; min-height: 48px; }
-.tform .btn.wide small { font-size: 12px; font-weight: 500; opacity: .85; }
-.tform .btn.wide small:empty { display: none; }
 .chips { display: flex; flex-wrap: wrap; gap: 6px; }
 .chips:empty { display: none; }
 .pick { min-height: 36px; padding: 0 12px; border: 1px solid var(--line); border-radius: 18px; background: var(--surface); color: var(--fg); font-size: 13px; font-weight: 700; }
 .pick small { color: var(--muted); font-size: 12px; font-weight: 500; }
-.tr-app { align-self: center; padding: 8px; color: var(--muted); font-size: 13px; text-decoration: underline; }

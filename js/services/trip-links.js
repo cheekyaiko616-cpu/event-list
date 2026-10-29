@@ -1,46 +1,12 @@
 // 乗り換え・ナビ・マップのリンクを作る（通信はしない。タップで外のアプリ／ページが開く）。
 import { TRIP } from '../config.js';
-import { parseDate, weekday } from '../util/date.js';
-
-const p2 = (n) => String(n).padStart(2, '0');
-
-/** 時刻の使い方 → Yahoo!乗換案内の type（1=出発 4=到着 3=始発 2=終電）。 */
-export const TIME_MODES = [
-  { id: 'arrive', label: '到着', type: '4', text: '到着' },
-  { id: 'depart', label: '出発', type: '1', text: '出発' },
-  { id: 'first', label: '始発', type: '3', text: '始発' },
-  { id: 'last', label: '終電', type: '2', text: '終電' }
-];
-export const timeMode = (id) => TIME_MODES.find((m) => m.id === id) || TIME_MODES[0];
 
 /**
- * Yahoo!乗換案内の検索ページ。Yahoo自身が検索したときと同じ形（時は2けた、分は十の位と一の位に分ける）にする。
- * date は 2026-11-03、time は 09:05、mode は TIME_MODES の id。
+ * Yahoo!乗換案内の検索ページ。出発駅・到着駅だけを渡す（日時は渡さない。アプリで開くと、現在の日時で検索の画面が開く）。
+ * アプリが入っていればアプリで、なければブラウザで開く。
  */
-export function transitUrl({ from, to, date, time, mode }) {
-  const [y, m, d] = date.split('-');
-  const [hh, mm] = time.split(':');
-  const q = new URLSearchParams({
-    from, flatlon: '', to, tlatlon: '', via: '',
-    y, m: p2(+m), d: p2(+d), hh: p2(+hh), m1: mm[0], m2: mm[1], type: timeMode(mode).type,
-    ticket: 'ic', expkind: '1', userpass: '1', ws: '3', s: '0', al: '1', shin: '1', ex: '1', hb: '1', lb: '1', sr: '1'
-  });
-  return `${TRIP.transit}?${q}`;
-}
-
-/** ブラウザ版で開くための、中継ページ(go.html)経由のアドレス。アプリではなくブラウザで開き、日時を渡すため。 */
-export function viaBrowser(url) {
-  return `${new URL('go.html', document.baseURI)}?u=${encodeURIComponent(url)}`;
-}
-
-/** 「11/3(月) 9:00 到着」のような、検索条件の短い表示。始発・終電は時刻なし。 */
-export function whenText({ date, time, mode }) {
-  const p = parseDate(date);
-  const md = `${p.m}/${p.d}(${weekday(p)})`;
-  const t = timeMode(mode);
-  if (t.id === 'first' || t.id === 'last') return `${md} ${t.text}`;
-  const [hh, mm] = time.split(':');
-  return `${md} ${+hh}:${mm} ${t.text}`;
+export function transitUrl({ from, to }) {
+  return `${TRIP.transit}?${new URLSearchParams({ from, to })}`;
 }
 
 /** Yahoo!カーナビ（入っている端末だけで開く）。現在地から会場までの道順。 */

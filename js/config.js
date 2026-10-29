@@ -58,6 +58,5 @@ export const TRIP = {
   weatherTtl: 3 * 3600 * 1000,     // 天気の保存期間（3時間）
   geoTtl: 90 * 86400 * 1000,       // 場所の保存期間（90日）
   cacheKey: 'eventcho.trip.v1',    // 天気・場所の保存先（バックアップには入れない）
-  defaultTime: '09:00',            // 乗り換えの初期の時刻
   offline: /オンライン|配信|未発表|未定/  // 現地がない予定
 };
