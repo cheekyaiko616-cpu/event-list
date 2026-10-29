@@ -58,6 +58,7 @@ iPhoneのホーム画面に追加して使います。ビルド作業は不要�
 | 予定1件ずつの「カレンダーに追加」 / ファイルの保存 | `js/services/calendar.js` / `js/services/files.js` |
 | 状態（予定・タブ・今の画面）の置き場 | `js/state.js` |
 | 保存データの読み書き / バックアップの書き出し・読み込み | `js/data/store.js` / `js/data/backup.js` |
+| 戻すための控え（自動で残す・一覧・戻す） | `js/data/snapshots.js`（数や上限は `js/config.js` の SNAPSHOT） / 画面は `js/ui/settings-page.js` |
 | イベント更新履歴（記録の読み込み / 画面） | `js/data/updates.js` / `js/ui/updates-sheet.js` |
 | 取り込み内容をGitHubへ書く（鍵の登録 / 書き込み / 画面） | `js/services/github.js` / `js/data/watchlist-sync.js` / `js/ui/github-link.js` |
 | タブを左右のスワイプで切り替える | `js/ui/tab-swipe.js` |

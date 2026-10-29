@@ -4,6 +4,8 @@ import { state, notify } from '../state.js';
 import { $ } from '../util/dom.js';
 import { toast } from './toast.js';
 import { buildBackup, parseBackup, applyBackup } from '../data/backup.js';
+import { listSnapshots, loadSnapshot } from '../data/snapshots.js';
+import { el, clear } from '../util/dom.js';
 import { saveFile } from '../services/files.js';
 import { openTabManager } from './tab-manager.js';
 import { GITHUB_MARKUP, initGithubLink, renderGithubLink } from './github-link.js';
@@ -39,9 +41,16 @@ const MARKUP = `
       <p class="set-msg" id="st-msg" role="status"></p>
     </section>
 
+    <section class="set-sec">
+      <h3>前の状態に戻す</h3>
+      <p class="set-note">操作の前や週1回、この端末に自動で控えを残しています。端末のデータを消した場合は戻せないので、大事なときは「書き出す」も使ってください。</p>
+      <div id="st-snaps"></div>
+    </section>
+
   </div>`;
 
 let pending = null; // 読み込み待ちのデータ
+let pendingLabel = '';
 
 function setMsg(text, isError) {
   const m = $('#st-msg');
@@ -52,6 +61,7 @@ function setMsg(text, isError) {
 
 function clearPending() {
   pending = null;
+  pendingLabel = '';
   const c = $('#st-confirm');
   if (c) c.hidden = true;
 }
@@ -143,7 +153,7 @@ export function renderSettings() {
     $('#app-now').hidden = on;
     if (!on) { clearPending(); setMsg('', false); }
   }
-  if (on) renderGithubLink();
+  if (on) { renderGithubLink(); renderSnaps(); }
 }
 
 async function onExport() {
@@ -180,7 +190,37 @@ async function onFile(ev) {
 async function onApply() {
   if (!pending) return;
   const data = pending;
+  const label = pendingLabel;
   clearPending();
-  const ok = await applyBackup(data);
-  setMsg(ok ? '読み込みました。' : '読み込みましたが、保存できませんでした。', !ok);
+  const ok = await applyBackup(data, label);
+  setMsg(ok ? '反映しました。' : '反映しましたが、保存できませんでした。', !ok);
+  renderSnaps();
+}
+
+const fmt = (iso) => { const d = new Date(iso); return `${d.getMonth() + 1}月${d.getDate()}日 ${String(d.getHours()).padStart(2, '0')}:${String(d.getMinutes()).padStart(2, '0')}`; };
+
+/** 戻せる控えの一覧を描く。押すと確認の枠が出る。 */
+function renderSnaps() {
+  const box = $('#st-snaps');
+  if (!box) return;
+  clear(box);
+  const list = listSnapshots();
+  if (!list.length) { box.append(el('p', { class: 'set-note', text: 'まだ控えはありません。' })); return; }
+  list.forEach((s) => {
+    const title = s.kind === 'corrupt' ? s.label : `${fmt(s.at)}　${s.label}`;
+    const sub = s.kind === 'corrupt' ? (s.readable ? '読める状態のコピーです' : '読めないため戻せません') : `予定${s.nEvents}件・タブ${s.nTabs}個`;
+    const btn = el('button', { type: 'button', class: 'btn', text: '戻す', disabled: s.readable ? null : true, onclick: () => onPickSnap(s) });
+    box.append(el('div', { class: 'snap-row' }, el('div', { class: 'snap-info' }, el('div', { text: title }), el('div', { class: 'set-note', text: sub })), btn));
+  });
+}
+
+function onPickSnap(s) {
+  const d = loadSnapshot(s.id);
+  if (!d) { setMsg('この控えは読めませんでした。', true); return; }
+  clearPending();
+  pending = d;
+  pendingLabel = '戻す前';
+  setMsg('', false);
+  $('#st-confirm-text').textContent = `予定${d.events.length}件・タブ${d.tabs.length}個の状態に戻します。今のデータは、戻す前の控えとして残ります。`;
+  $('#st-confirm').hidden = false;
 }

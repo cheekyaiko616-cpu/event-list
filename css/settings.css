@@ -23,3 +23,8 @@
   box-shadow: 0 6px 24px rgba(0, 0, 0, .35);
 }
 #app-settings:has(#st-confirm:not([hidden])) .set-page { padding-bottom: calc(190px + env(safe-area-inset-bottom, 0px)); }
+
+/* 前の状態に戻す */
+.set-note { margin: 2px 0 0; font-size: var(--fs-cap); color: var(--muted); }
+.snap-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 10px 0; border-top: 1px solid var(--line); font-size: var(--fs-sm); }
+.snap-info { min-width: 0; }

@@ -3,6 +3,15 @@ export const APP = { id: 'event-cho', name: 'Event list', schema: 1 };
 
 export const STORAGE_KEY = 'eventcho.data.v1'; // 予定・タブ・設定の保存先
 
+// 戻すための控え（js/data/snapshots.js）。バックアップのファイルには入れない
+export const SNAPSHOT = {
+  key: 'eventcho.snapshots.v1',
+  keepPre: 3,         // 大きな操作の前に自動で残す控えの数
+  keepWeekly: 4,      // 週1回の自動の控えの数
+  weeklyDays: 7,      // 週1回の控えを作る間隔（日）
+  maxBytes: 1500000   // 控え全体の大きさの上限。超えたら古いものから消す
+};
+
 export const COLORS = 8;     // タブの色の数（css/tokens.css の --c1〜--c8 と合わせる）
 export const MAX_TABS = 12;  // タブの上限
 export const WATCH_MAX = 300; // タブごとの「取り込み内容」の文字数の上限

@@ -25,6 +25,7 @@ import { initWatchSync } from './data/watchlist-sync.js';
 import { toast } from './ui/toast.js';
 import { initSplash } from './ui/splash.js';
 import { initDayWatch } from './ui/day-watch.js';
+import { weeklyIfDue } from './data/snapshots.js';
 
 // 状態が変わるたびに、全画面を描き直す
 function renderAll() {
@@ -64,6 +65,7 @@ initDayWatch(renderAll); // 日付をまたいだら描き直す
 
 init().then(async () => {
   if (state.startupMessage) toast(state.startupMessage);
+  weeklyIfDue();    // 週1回、戻すための控えを残す
   await pruneOld(); // 終わって1年たった予定を消す
   startFeed();      // Claudeが調べた日程を自動で反映する（Claude上で開いたときだけ）
 });

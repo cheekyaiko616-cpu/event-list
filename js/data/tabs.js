@@ -1,6 +1,7 @@
 // タブ（予定の種類）の追加・編集・並び替え・削除。
 import { state } from '../state.js';
 import { commit } from './store.js';
+import { takeSnapshot } from './snapshots.js';
 import { COLORS, MAX_TABS, WATCH_MAX } from '../config.js';
 import { newId } from '../util/text.js';
 import { compareJa } from '../util/date.js';
@@ -73,6 +74,7 @@ export async function moveTab(id, dir) {
 
 /** タブを消す。そのタブの予定も、いつも一緒に消す。自動取得の予定は、消した後に自動で戻らないようにする。 */
 export async function removeTab(id) {
+  takeSnapshot('pre', 'タブを削除する前');
   state.events.filter((e) => e.type === id && e.feedId).forEach((e) => {
     if (!state.dismissed.includes(e.feedId)) state.dismissed.push(e.feedId);
   });

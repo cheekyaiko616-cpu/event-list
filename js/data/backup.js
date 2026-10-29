@@ -2,6 +2,7 @@
 import { APP } from '../config.js';
 import { snapshot, replaceAll } from './store.js';
 import { normalizeData } from './schema.js';
+import { takeSnapshot } from './snapshots.js';
 import { todayIso } from '../util/date.js';
 
 /** 書き出すファイルの名前と中身。 */
@@ -27,6 +28,7 @@ export function parseBackup(text) {
 }
 
 /** 今のデータを、読み込んだ内容で置き換える。 */
-export function applyBackup(data) {
+export function applyBackup(data, label) {
+  takeSnapshot('pre', label || '読み込む前'); // 間違えても戻せるように
   return replaceAll(data);
 }
