@@ -34,19 +34,17 @@ def build(date, remind):
     entry = next((e for e in load('updates.json').get('entries', []) if e.get('date') == date), None)
     places = {it.get('title'): it.get('place', '') for it in load('feed.json').get('items', [])}
     if entry and entry.get('added'):
-        lines = ['📅 イベントの追加']
+        items = []
         for a in entry['added']:
-            lines.append(f'・予定名：{a.get("title", "")}')
-            lines.append(f'　日程：{a.get("when", "")}')
+            one = [f'・予定名：{a.get("title", "")}', f'　日程：{a.get("when", "")}']
             if places.get(a.get('title')):  # 場所が分かるものだけ載せる
-                lines.append(f'　場所：{places[a["title"]]}')
-        blocks.append('\n'.join(lines))
+                one.append(f'　場所：{places[a["title"]]}')
+            items.append('\n'.join(one))
+        blocks.append('📅 イベントの追加\n' + '\n\n'.join(items))  # イベントの間は空行
     if entry and entry.get('changed'):
-        lines = ['✎ 日程の更新']
-        for c in entry['changed']:
-            lines.append(f'・予定名：{c.get("title", "")}')
-            lines.append(f'　{c.get("field") or "変更内容"}：{c.get("before", "")} → {c.get("after", "")}')
-        blocks.append('\n'.join(lines))
+        items = [f'・予定名：{c.get("title", "")}\n　{c.get("field") or "変更内容"}：{c.get("before", "")} → {c.get("after", "")}'
+                 for c in entry['changed']]
+        blocks.append('✎ 日程の更新\n' + '\n\n'.join(items))  # イベントの間は空行
     today = datetime.strptime(date, '%Y-%m-%d').date()
     soon = []
     for it in load('feed.json').get('items', []):
@@ -85,7 +83,7 @@ def times_for(note, day):
 def build_today(date):
     """今日開催の予定を、朝の知らせの文章にする。無ければ空文字。"""
     today = datetime.strptime(date, '%Y-%m-%d').date()
-    lines = []
+    items = []
     for it in load('feed.json').get('items', []):
         try:
             start = datetime.strptime(it.get('date', ''), '%Y-%m-%d').date()
@@ -102,7 +100,7 @@ def build_today(date):
                 continue
         elif not start <= today <= end or (end - start).days + 1 > LIVE_DAYS and today != start:
             continue
-        lines.append(f'・{it.get("title", "")}{tag}')
+        lines = [f'・{it.get("title", "")}{tag}']
         when = today.strftime('%Y/%m/%d')  # 日程は今日の日付だけ。ただし長期の予定（初日だけ知らせるもの）は期間を載せる
         if not tag and (end - start).days + 1 > LIVE_DAYS:
             when = start.strftime('%Y/%m/%d') + '〜' + end.strftime('%Y/%m/%d')
@@ -114,7 +112,8 @@ def build_today(date):
             lines.append(f'　開場：{opening}')
         if starting:
             lines.append(f'　開演：{starting}')
-    return f'{today.month}月{today.day}日 今日のイベント\n' + '\n'.join(lines) if lines else ''
+        items.append('\n'.join(lines))
+    return f'{today.month}月{today.day}日 今日のイベント\n' + '\n\n'.join(items) if items else ''
 
 
 def chunks(text):
