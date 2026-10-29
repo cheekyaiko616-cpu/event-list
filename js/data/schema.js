@@ -46,7 +46,7 @@ export function normalizeData(raw) {
       note: str(e.note, 1000),
       dates: cleanDates(e.dates),
       feedId: str(e.feedId, 100),
-      feedHash: str(e.feedHash, 600),
+      feedHash: str(e.feedHash, 2400), // feedHash()（最大で約2100字）より長く取る。切ると、開くたびに「変更あり」になる
       manual: e.manual === true,
       checkedAt: parseDate(e.checkedAt) ? e.checkedAt : '',
       newAt: parseDate(e.newAt) ? e.newAt : '', // 新しく入った・変わった日（一覧の「NEW」の印に使う）
@@ -54,7 +54,6 @@ export function normalizeData(raw) {
       rev: Number.isInteger(e.rev) && e.rev > 0 ? e.rev : 1
     });
   });
-
 
   const dismissed = (Array.isArray(src.dismissed) ? src.dismissed : []).filter((x) => typeof x === 'string' && x).map((x) => x.slice(0, 100)).slice(0, 2000);
 

@@ -1,4 +1,4 @@
-// 設定の画面：左の引き出しから開く。左右どちらへスワイプしても、予定の一覧へ戻る。
+// 設定の画面：左の引き出しから開く。右へスワイプするか「← 戻る」で、予定の一覧へ戻る。
 // 日程の取り込み、バックアップ。
 import { state, notify } from '../state.js';
 import { $ } from '../util/dom.js';
@@ -117,7 +117,7 @@ function initSwipeClose() {
   page.addEventListener('touchcancel', () => { if (mode !== 'anim') reset(); }, { passive: true });
 }
 
-/** ⚙️ボタンで切り替える。もう一度押すか「予定へ戻る」で一覧に戻る。 */
+/** 引き出しの「設定」で切り替える。もう一度押すか「← 戻る」で一覧に戻る。 */
 export function toggleSettings() {
   state.ui.screen = state.ui.screen === 'settings' ? 'list' : 'settings';
   state.ui.openId = null;

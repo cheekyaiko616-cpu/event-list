@@ -13,11 +13,15 @@ from http.server import BaseHTTPRequestHandler, HTTPServer
 
 def ids_from(body):
     """Webhook の本文から、送り主のユーザーIDを取り出す。取れなければ空のリスト。"""
+    events = body.get('events') if isinstance(body, dict) else None
     out = []
-    for ev in (body or {}).get('events', []):
-        src = ev.get('source') or {}
-        if src.get('type') == 'user' and src.get('userId'):
-            out.append((src['userId'], ev.get('type', ''), (ev.get('message') or {}).get('text', '')))
+    for ev in events if isinstance(events, list) else []:  # 形が違う本文でも落ちないよう、1つずつ型を確かめる
+        if not isinstance(ev, dict):
+            continue
+        src = ev.get('source') if isinstance(ev.get('source'), dict) else {}
+        msg = ev.get('message') if isinstance(ev.get('message'), dict) else {}
+        if src.get('type') == 'user' and isinstance(src.get('userId'), str) and src['userId']:
+            out.append((src['userId'], str(ev.get('type', '')), str(msg.get('text', ''))))
     return out
 
 

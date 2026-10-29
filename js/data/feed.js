@@ -137,8 +137,10 @@ async function applyFeed(items, watch = new Map()) {
     else { const k = norm(x.title); if (!byTitle.has(k)) byTitle.set(k, x); }
   });
 
+  const seenIds = new Set(); // 同じ id が2件あっても、最初の1件だけを使う（両方を使うと、開くたびに入れ替わり続ける）
   items.forEach((f) => {
-    if (dismissed.has(f.id)) return;
+    if (dismissed.has(f.id) || seenIds.has(f.id)) return;
+    seenIds.add(f.id);
     if (f.date && (f.end || f.date) < limit) return; // 終わって1年たったものは戻さない
     const hash = feedHash(f);
     const tab = tabByName.get(norm(f.tabName)) || tabs[0];

@@ -18,6 +18,7 @@ function rowEl(d) {
     onclick: (ev) => { ev.currentTarget.closest('.date-row').remove(); refresh(); }
   });
   const row = el('div', { class: 'date-row' }, sel, date, del);
+  row.dataset.note = d.note || ''; // 画面には出さないが、保存するときに失わない（自動取得の「会員最速先行」など）
   if (d.auto) { row.dataset.auto = '1'; row.dataset.k0 = d.kind; row.dataset.d0 = d.date; } // 自動取得の日付。直さなければ自動のまま
   return row;
 }
@@ -52,7 +53,7 @@ export function readDates() {
   return Array.from(document.querySelectorAll('#es-dates .date-row'))
     .map((r) => {
       const kind = r.querySelector('.dk').value, date = r.querySelector('.dd').value;
-      return { kind, date, note: '', auto: r.dataset.auto === '1' && kind === r.dataset.k0 && date === r.dataset.d0 };
+      return { kind, date, note: r.dataset.note || '', auto: r.dataset.auto === '1' && kind === r.dataset.k0 && date === r.dataset.d0 };
     })
     .filter((d) => d.date);
 }
