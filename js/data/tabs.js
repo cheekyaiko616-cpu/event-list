@@ -15,19 +15,27 @@ export const tabById = (id) => state.tabs.find((t) => t.id === id) || null;
 
 export const countEvents = (id) => state.events.filter((e) => e.type === id).length;
 
-export async function addTab(rawName, rawWatch = '') {
-  const name = rawName.trim().slice(0, 20);
-  if (!name) return { ok: false, error: 'タブの名前を入れてください。' };
-  if (state.tabs.some((t) => t.name === name)) return { ok: false, error: '同じ名前のタブがあります。' };
-  if (state.tabs.length >= MAX_TABS) return { ok: false, error: `タブは${MAX_TABS}個までです。` };
-
+/** タブを1つ足す（保存はしない）。色と並びは、使っていないものを自動で選ぶ。上限なら null。 */
+export function newTab(name, { watch = '', importKinds = [] } = {}) {
+  if (state.tabs.length >= MAX_TABS) return null;
   const used = state.tabs.map((t) => t.color);
   let color = (state.tabs.length % COLORS) + 1;
   for (let c = 1; c <= COLORS; c++) {
     if (!used.includes(c)) { color = c; break; }
   }
   const order = state.tabs.reduce((m, t) => Math.max(m, t.order), 0) + 1;
-  state.tabs.push({ id: newId('t'), name, color, order, watch: cleanWatch(rawWatch), hidden: false, show: normalizeShow(null), importKinds: [] });
+  const tab = { id: newId('t'), name, color, order, watch, hidden: false, show: normalizeShow(null), importKinds: normalizeKinds(importKinds) };
+  state.tabs.push(tab);
+  return tab;
+}
+
+export async function addTab(rawName, rawWatch = '') {
+  const name = rawName.trim().slice(0, 20);
+  if (!name) return { ok: false, error: 'タブの名前を入れてください。' };
+  if (state.tabs.some((t) => t.name === name)) return { ok: false, error: '同じ名前のタブがあります。' };
+  if (state.tabs.length >= MAX_TABS) return { ok: false, error: `タブは${MAX_TABS}個までです。` };
+
+  newTab(name, { watch: cleanWatch(rawWatch) });
   await commit();
   return { ok: true };
 }

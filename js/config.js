@@ -9,13 +9,6 @@ export const WATCH_MAX = 300; // タブごとの「取り込み内容」の文�
 
 export const WEEKDAYS = ['日', '月', '火', '水', '木', '金', '土'];
 
-// 初めて開いたときに作られるタブ
-export const DEFAULT_TABS = [
-  { id: 'motor', name: 'モータースポーツ', color: 1, order: 1 },
-  { id: 'rept', name: '爬虫類', color: 2, order: 2 },
-  { id: 'ado', name: 'Ado', color: 3, order: 3, importKinds: ['open', 'close', 'result', 'pay', 'other'] }
-];
-
 // カレンダーに付けるアラート。trigger は「予定の0時」からの差（終日の予定なので0時が基準）
 export const ALERT_OPTIONS = [
   { id: 'd3', label: '3日前の朝9時', trigger: '-P2DT15H' },

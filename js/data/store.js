@@ -1,5 +1,5 @@
 // 状態の読み込みと保存の入口。データを変えたあとは commit() を呼ぶ。
-import { APP, DEFAULT_TABS } from '../config.js';
+import { APP } from '../config.js';
 import { defaultSettings } from './settings-normalize.js';
 import { state, notify } from '../state.js';
 import { loadData, saveData, requestPersistence } from './storage.js';
@@ -60,7 +60,7 @@ export async function init() {
     apply(normalizeData(data));
   } else {
     apply({
-      tabs: DEFAULT_TABS.map((t) => ({ ...t })),
+      tabs: [], // 初めは、タブは1つもない。自動取得などで予定が入ると、そのタブが現れる
       events: [],
       settings: defaultSettings(),
       dismissed: []

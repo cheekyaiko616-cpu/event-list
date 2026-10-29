@@ -6,7 +6,7 @@
 //   こちらで削除した予定 … 二度と自動では戻さない
 import { state } from '../state.js';
 import { commit } from './store.js';
-import { sortedTabs } from './tabs.js';
+import { sortedTabs, newTab } from './tabs.js';
 import { getDb } from '../services/cloud.js';
 import { parseDate, eventEnd, formatRange, todayIso, addDaysIso } from '../util/date.js';
 import { safeUrl, newId } from '../util/text.js';
@@ -92,14 +92,40 @@ function overwrite(e, f, hash, today, firstSync) {
   if (changedDate) e.lastChange = { at: today, from: before, manual: wasManual };
 }
 
+// 自動で作ったタブの名前を、この端末に覚えておく。あとで消したタブが、開くたびに戻らないようにするため。
+const SEEN_KEY = 'eventcho.tabs.seen';
+const seenNames = () => { try { return new Set(JSON.parse(localStorage.getItem(SEEN_KEY) || '[]')); } catch (e) { return new Set(); } };
+const saveSeen = (set) => { try { localStorage.setItem(SEEN_KEY, JSON.stringify([...set])); } catch (e) { /* 覚えられなくても動く */ } };
+
+/**
+ * まだ無いタブを、自動取得の内容から作る：feedの予定のタブ名と、watchlist.json にあるタブ名。
+ * 取り込み内容は watchlist.json から引き継ぐ。いちど自動で作った名前は、消されても作り直さない。作った数を返す。
+ */
+function createTabs(items, watch) {
+  const have = new Set(state.tabs.map((t) => norm(t.name)));
+  const seen = seenNames();
+  const names = new Map(); // 正規化した名前 → 表示名（watchlist の順、そのあと feed だけにある名前）
+  watch.forEach((w, k) => names.set(k, w.name));
+  items.forEach((f) => { if (f.tabName && !names.has(norm(f.tabName))) names.set(norm(f.tabName), f.tabName); });
+  let n = 0;
+  names.forEach((name, k) => {
+    if (have.has(k) || seen.has(k)) return;
+    if (newTab(name, watch.get(k) || {})) { seen.add(k); n++; }
+  });
+  state.tabs.forEach((t) => seen.add(norm(t.name))); // 今あるタブも「作ったことがある」扱い（消したら戻さない）
+  saveSeen(seen);
+  return n;
+}
+
 /** feedの内容を予定に反映する。変わった件数 { added, updated } を返し、変わったときだけ保存する。 */
-async function applyFeed(items) {
+async function applyFeed(items, watch = new Map()) {
+  let touched = createTabs(items, watch) > 0;
   const tabs = sortedTabs();
   const today = todayIso();
   const limit = addDaysIso(today, -RETENTION_DAYS);
   // 初めて自動取得を読むとき（入れ直したときなど）は、全部が新着になってしまうので、NEWの印は付けない
   const firstSync = !state.events.some((x) => x.feedId);
-  let added = 0, updated = 0, touched = false;
+  let added = 0, updated = 0;
 
   items.forEach((f) => {
     if (state.dismissed.includes(f.id)) return;
@@ -126,6 +152,19 @@ async function applyFeed(items) {
 
 let started = false;
 
+/** サイトの watchlist.json から、タブごとの取り込み内容を読む（新しく現れるタブに引き継ぐ用）。読めなければ空。 */
+async function pullWatch() {
+  const map = new Map();
+  try {
+    const res = await fetch('watchlist.json?t=' + Date.now(), { cache: 'no-store' });
+    const body = res.ok ? await res.json() : null;
+    (body && Array.isArray(body.tabs) ? body.tabs : []).forEach((x) => {
+      if (x && typeof x.tabName === 'string' && typeof x.watch === 'string') map.set(norm(x.tabName), { name: x.tabName.slice(0, 20), watch: x.watch.trim().slice(0, 300), importKinds: x.kinds });
+    });
+  } catch (e) { /* 読めなくても、取り込み内容が空のタブができるだけ */ }
+  return map;
+}
+
 /** 公開しているサイトの feed.json を読んで反映する（ホーム画面で使う形）。 */
 async function pullFile() {
   try {
@@ -134,7 +173,7 @@ async function pullFile() {
     const body = await res.json();
     const list = body && Array.isArray(body.items) ? body.items : [];
     const items = list.map((x) => cleanFeedItem(x && x.id, x)).filter(Boolean);
-    return await applyFeed(items);
+    return await applyFeed(items, await pullWatch());
   } catch (e) { return null; /* 読めなくてもアプリは動く */ }
 }
 

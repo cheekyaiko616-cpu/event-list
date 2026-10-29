@@ -39,7 +39,7 @@ iPhoneのホーム画面に追加して使います。ビルド作業は不要�
 | 右下の「＋」ボタン | `js/ui/fab.js` |
 | 左側面の引き出し（設定・過去・イベント更新履歴） | `js/ui/drawer.js` |
 | 「これから／過去」の切り替え | `js/ui/view-switch.js` |
-| 初期のタブ・タブの上限・アラートの選択肢 | `js/config.js` |
+| タブの上限・アラートの選択肢（初めはタブなし。自動取得の予定が入ると、そのタブ名で現れる） | `js/config.js` |
 | 自動取得（Claudeが調べた日程の反映ルール） | `js/data/feed.js` |
 | Claude上の共有データへの入口 | `js/services/cloud.js` |
 | 予定やタブの増減・並べ方のルール | `js/data/events.js` / `js/data/tabs.js` |
