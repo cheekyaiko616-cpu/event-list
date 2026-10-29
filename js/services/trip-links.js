@@ -6,8 +6,8 @@ const p2 = (n) => String(n).padStart(2, '0');
 
 /** 時刻の使い方 → Yahoo!乗換案内の type（1=出発 4=到着 3=始発 2=終電）。 */
 export const TIME_MODES = [
-  { id: 'arrive', label: 'この時刻に着きたい', type: '4', text: '到着' },
-  { id: 'depart', label: 'この時刻に出たい', type: '1', text: '出発' },
+  { id: 'arrive', label: '到着', type: '4', text: '到着' },
+  { id: 'depart', label: '出発', type: '1', text: '出発' },
   { id: 'first', label: '始発', type: '3', text: '始発' },
   { id: 'last', label: '終電', type: '2', text: '終電' }
 ];
