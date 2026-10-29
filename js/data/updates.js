@@ -16,7 +16,8 @@ function cleanEntry(x) {
 /** 新しい順の記録を返す。読めなかったときは null。 */
 export async function loadUpdates() {
   try {
-    const res = await fetch('updates.json?t=' + Date.now(), { cache: 'no-store' });
+    // 変わっていなければ「変更なし」の返事だけで済む（中身はいつも最新）
+    const res = await fetch('updates.json', { cache: 'no-cache' });
     if (!res.ok) return null;
     const body = await res.json();
     return list(body && body.entries).map(cleanEntry).filter((x) => x && (x.added.length || x.changed.length)).sort((a, b) => (a.date < b.date ? 1 : -1)).slice(0, MAX_ENTRIES);

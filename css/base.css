@@ -41,7 +41,6 @@ a { color: inherit; }
 .btn[disabled] { opacity: .45; cursor: default; }
 .btn.danger { color: var(--danger); }
 .btn.danger.armed { background: var(--danger); border-color: var(--danger); color: var(--surface); }
-.btn.sm { padding: 0 10px; }
 .ghost { min-height: 40px; padding: 0 4px; background: none; border: 0; color: var(--muted); font-size: 14px; font-weight: 500; }
 
 .input {

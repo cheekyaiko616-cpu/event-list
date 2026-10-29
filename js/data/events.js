@@ -13,7 +13,7 @@ export function validateEventForm(f) {
   if (!f.title) return '名前を入れてください。';
   if (f.end && !f.date) return '終了日を入れるときは、開始日も入れてください。';
   if (f.date && f.end && f.end < f.date) return '終了日は開始日と同じか、それより後の日にしてください。';
-  if (f.url && !safeUrl(f.url)) return 'リンクは https:// から始まる形で入れてください。';
+  if (f.url && !safeUrl(f.url)) return 'リンクは http:// か https:// から始まる形で入れてください。';
   return '';
 }
 

@@ -1,4 +1,4 @@
-/* 設定の画面（⚙️ボタンで予定の一覧から切り替わる） */
+/* 設定の画面（左の引き出しから開く） */
 #app-settings { touch-action: pan-y; flex: 1; min-height: 0; overflow-y: auto; overscroll-behavior: contain; -webkit-overflow-scrolling: touch; }
 .set-page { padding-top: 12px; padding-bottom: calc(40px + env(safe-area-inset-bottom, 0px)); }
 .set-head { display: flex; align-items: center; justify-content: flex-start; margin-bottom: 4px; }

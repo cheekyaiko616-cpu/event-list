@@ -46,8 +46,6 @@ export const GITHUB = {
   filledKey: 'eventcho.gh.filled'  // 初回の「GitHubの内容を取り込む」を済ませたか
 };
 
-// 取り込みファイルの種類の名前。Claudeが作るファイルの先頭に書く。
-
 // 現地の天気・乗り換え・ナビ・マップ（予定の詳細に出す）
 export const TRIP = {
   weatherApi: 'https://api.open-meteo.com/v1/forecast',
