@@ -60,7 +60,9 @@ def build(date, remind):
         for left, title in sorted(soon):
             lines.append(f'・{title}（締切まであと{left}日）')
         blocks.append('\n'.join(lines))
-    return '\n\n'.join(blocks)
+    if not blocks:
+        return ''
+    return f'{today.month}月{today.day}日更新\n' + '\n\n'.join(blocks)
 
 
 def chunks(text):
