@@ -102,9 +102,8 @@ def build_today(date):
                 continue
         elif not start <= today <= end or (end - start).days + 1 > LIVE_DAYS and today != start:
             continue
-        when = start.strftime('%Y/%m/%d') + (('〜' + end.strftime('%Y/%m/%d')) if end != start else '')
         lines.append(f'・{it.get("title", "")}{tag}')
-        lines.append(f'　日程：{when}')
+        lines.append(f'　日程：{today.strftime("%Y/%m/%d")}')  # 今日の日付だけ載せる
         if it.get('place'):
             lines.append(f'　場所：{it["place"]}')
         opening, starting = times_for(it.get('note', ''), today)
