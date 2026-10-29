@@ -28,15 +28,23 @@ def load(name):
 
 
 def build(date, remind):
-    """送る文章を作る。送るものが無ければ空文字。"""
-    lines = []
+    """送る文章を作る。内容ごと（追加・更新・締切）にまとめる。送るものが無ければ空文字。"""
+    blocks = []
     entry = next((e for e in load('updates.json').get('entries', []) if e.get('date') == date), None)
-    if entry and (entry.get('added') or entry.get('changed')):
-        lines.append(f'📅 日程の更新（{date}）')
-        for a in entry.get('added', []):
-            lines.append(f'＋ {a.get("title", "")}［{a.get("tab", "")}］{a.get("when", "")}')
-        for c in entry.get('changed', []):
-            lines.append(f'✎ {c.get("title", "")}：{c.get("before", "")} → {c.get("after", "")}')
+    places = {it.get('title'): it.get('place', '') for it in load('feed.json').get('items', [])}
+    if entry and entry.get('added'):
+        lines = ['📅 イベントの追加']
+        for a in entry['added']:
+            lines.append(f'・予定名：{a.get("title", "")}')
+            lines.append(f'　日程：{a.get("when", "")}')
+            if places.get(a.get('title')):  # 場所が分かるものだけ載せる
+                lines.append(f'　場所：{places[a["title"]]}')
+        blocks.append('\n'.join(lines))
+    if entry and entry.get('changed'):
+        lines = [f'✎ 日程の更新（{date}）']
+        for c in entry['changed']:
+            lines.append(f'・{c.get("title", "")}：{c.get("before", "")} → {c.get("after", "")}')
+        blocks.append('\n'.join(lines))
     today = datetime.strptime(date, '%Y-%m-%d').date()
     soon = []
     for it in load('feed.json').get('items', []):
@@ -46,12 +54,13 @@ def build(date, remind):
             except ValueError:
                 continue
             if d.get('kind') == 'close' and left in remind:  # ちょうどその日数前になった日だけ（毎日は知らせない）
-                soon.append((left, it.get('title', ''), d.get('note', '')))
+                soon.append((left, it.get('title', '')))
     if soon:
-        lines += ([''] if lines else []) + ['⏰ 申込締切が近づいています']
-        for left, title, note in sorted(soon):
-            lines.append(f'・{title}（締切まであと{left}日）' + (f' {note}' if note else ''))
-    return '\n'.join(lines)
+        lines = ['⏰ 申込締切が近づいています']
+        for left, title in sorted(soon):
+            lines.append(f'・{title}（締切まであと{left}日）')
+        blocks.append('\n'.join(lines))
+    return '\n\n'.join(blocks)
 
 
 def chunks(text):
