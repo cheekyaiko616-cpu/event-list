@@ -2,15 +2,17 @@
 import { TRIP } from '../config.js';
 import { cacheGet, cacheSet } from './trip-cache.js';
 
-/** 天気の番号 → 絵文字と言葉。 */
+/** 天気の番号（WMO）→ 絵文字と言葉。晴れ・晴れ曇り・曇り・小雨・雨・大雨・雪・雷。（霧は指定がないので、そのまま霧の絵） */
 export function weatherLabel(code) {
-  if (code === 0) return { icon: '☀', label: '晴れ' };
-  if (code <= 2) return { icon: '🌤', label: '晴れ時々くもり' };
-  if (code === 3) return { icon: '☁', label: 'くもり' };
-  if (code <= 48) return { icon: '🌫', label: '霧' };
-  if (code <= 67 || (code >= 80 && code <= 82)) return { icon: '☂', label: '雨' };
-  if (code <= 77 || code === 85 || code === 86) return { icon: '❄', label: '雪' };
-  return { icon: '⚡', label: '雷雨' };
+  if (code === 0) return { icon: '☀️', label: '晴れ' };
+  if (code <= 2) return { icon: '⛅️', label: '晴れ曇り' };
+  if (code === 3) return { icon: '☁️', label: '曇り' };
+  if (code <= 48) return { icon: '🌫️', label: '霧' };
+  if (code <= 57 || code === 61 || code === 80) return { icon: '🌂', label: '小雨' };      // 霧雨・弱い雨
+  if (code === 63 || code === 81) return { icon: '☂️', label: '雨' };
+  if (code <= 67 || code === 65 || code === 82) return { icon: '☔️', label: '大雨' };      // 強い雨・凍る雨
+  if (code <= 77 || code === 85 || code === 86) return { icon: '⛄️', label: '雪' };
+  return { icon: '⚡️', label: '雷' };
 }
 
 /** 場所(lat/lon)の今日から16日分。通信できなければ例外。 */

@@ -38,6 +38,7 @@ export function openWeatherSheet(pos, date, label, place) {
         el('span', { class: 'wh-h', text: `${r.hour}時` }),
         el('span', { class: 'wh-i', 'aria-hidden': 'true', text: icon }),
         el('span', { class: 'wh-t', text: `${r.temp}°` }),
+        el('span', { class: 'wh-w', text: word }),
         el('span', { class: 'wh-p', text: `降水 ${r.pop}%` }));
     })));
   }).catch(() => {
