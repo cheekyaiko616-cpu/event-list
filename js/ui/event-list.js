@@ -45,7 +45,7 @@ function emptyEl(past) {
 }
 
 /* ---------- 全体 ---------- */
-const CHUNK = 40; // 1回に描く予定の行数のめやす
+const CHUNK = 12; // 1回に描く予定の行数のめやす
 const loaded = { key: '', n: CHUNK }; // いま開いている一覧で、どこまで描いたか
 
 function buildView(root, now, neighbor = false) {

@@ -1,8 +1,9 @@
 // 起動画面。ゲームのロード画面のように、乗りものが輪の上を一定の速さで回り続ける。
 // 乗りもの（飛行機・スポーツカー・新幹線）は、最初の1コマから出すため js/boot-splash.js が足す。ここは、ゲージと画面の切り替えだけ。
-// 電池のため：動くのは起動中の約2秒だけ。終わったら画面の部品ごと取り除く。
+// 電池のため：動くのは起動中の約1.5秒だけ。終わったら画面の部品ごと取り除く。
 // 枠だけの間のゲージ（CSS）の長さは、index.html の animation-duration を SHOW_MS と同じにそろえる。
-const SHOW_MS = 2000;
+const SHOW_MS = 1500;
+const WAIT_MAX_MS = 5000; // データの準備が終わるのを待つ上限（本体は準備が終わると <html data-ready> を付ける）
 export function initSplash() {
   const root = document.getElementById('splash');
   if (!root) return;
@@ -47,7 +48,8 @@ export function initSplash() {
     if (start === null && noPaintInfo) setStart(ts); // 通知が使えないときは、描画の最初の1コマから
     const p = level(ts);
     draw(p);
-    if (p >= 1) { close(); return; }
+    // 時間が来ても、予定の準備が終わるまでは待つ（「読み込んでいます…」を見せない）。待つのは最大5秒
+    if (p >= 1 && (document.documentElement.hasAttribute('data-ready') || ts - start > SHOW_MS + WAIT_MAX_MS)) { close(); return; }
     requestAnimationFrame(tick);
   };
   requestAnimationFrame(tick);
