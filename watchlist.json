@@ -1,7 +1,7 @@
 {
   "app": "event-cho-watchlist",
   "version": 1,
-  "updatedAt": "2026-10-27T02:59:02.996Z",
+  "updatedAt": "2026-10-31T00:29:42.943Z",
   "tabs": [
     {
       "tabName": "モータースポーツ",
@@ -10,7 +10,7 @@
     },
     {
       "tabName": "爬虫類",
-      "watch": "夏レプ・冬レプ（主催 レップジャパン rep-japan.co.jp）、ナゴレプ（公式 nagorep.com/schedule）の次回開催",
+      "watch": "夏レプ・冬レプ（主催 レップジャパン rep-japan.co.jp）、ナゴレプ（公式 nagorep.com/schedule）、愛知県で開催される即売会の次回開催",
       "kinds": [
         "open"
       ]
