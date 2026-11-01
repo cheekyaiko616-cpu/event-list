@@ -22,6 +22,7 @@ import { initSettingsPage, renderSettings } from './ui/settings-page.js';
 import { initUpdatesSheet } from './ui/updates-sheet.js';
 import { initTransitSheet } from './ui/transit-sheet.js';
 import { initWeatherSheet } from './ui/weather-sheet.js';
+import { initCalendarSheet } from './ui/calendar-sheet.js';
 import { initWatchSync } from './data/watchlist-sync.js';
 import { toast } from './ui/toast.js';
 import { initSplash } from './ui/splash.js';
@@ -58,6 +59,7 @@ initSettingsPage();
 initUpdatesSheet();
 initTransitSheet();
 initWeatherSheet();
+initCalendarSheet();
 initWatchSync();
 // 2本指の拡大・縮小を止める
 ['gesturestart', 'gesturechange', 'gestureend'].forEach((n) => document.addEventListener(n, (e) => e.preventDefault()));

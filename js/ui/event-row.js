@@ -7,6 +7,7 @@ import { isShown } from '../data/settings.js';
 import { safeUrl } from '../util/text.js';
 import { tabById } from '../data/tabs.js';
 import { addToCalendar } from '../services/calendar.js';
+import { openCalendarSheet } from './calendar-sheet.js';
 import { openEventSheet } from './event-sheet.js';
 import { closeDetail } from './pin-close.js';
 import { weatherEl, tripButtons } from './event-trip.js';
@@ -87,7 +88,11 @@ function detailEl(e) {
   const actions = el('div', { class: 'actions' },
     url ? el('a', { class: 'btn', href: url, target: '_blank', rel: 'noopener noreferrer', text: 'リンク ↗' }) : null,
     dated || (e.dates || []).length
-      ? el('button', { class: 'btn solid', type: 'button', text: 'カレンダー', onclick: () => { addToCalendar([e]); closeDetail(); } })
+      ? el('button', { class: 'btn solid', type: 'button', text: 'カレンダー', onclick: () => {
+        // 何日かにまたがる予定は、期間まるごと／特定の日だけ を選ぶ画面を出す
+        if (eventEnd(e) > e.date) { openCalendarSheet(e); return; }
+        addToCalendar([e]); closeDetail();
+      } })
       : el('button', { class: 'btn', type: 'button', disabled: true, text: 'カレンダー' }),
     el('button', { class: 'btn', type: 'button', text: '編集', onclick: () => openEventSheet(e) }));
 
