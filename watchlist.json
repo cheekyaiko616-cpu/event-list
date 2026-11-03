@@ -1,7 +1,7 @@
 {
   "app": "event-cho-watchlist",
   "version": 1,
-  "updatedAt": "2026-11-03T00:58:26.059Z",
+  "updatedAt": "2026-11-03T00:58:32.299Z",
   "tabs": [
     {
       "tabName": "モータースポーツ",
@@ -33,7 +33,7 @@
     },
     {
       "tabName": "戌亥とこ",
-      "watch": "ライブやタイアップ、コラボに関する情報(にじさんじ公式、にじさんじ非公式wiki {https://wikiwiki.jp/nijisanji}、およびそれらに付随するリンクでの記載)",
+      "watch": "ライブやタイアップ、コラボイベントに関する情報(にじさんじ公式、にじさんじ非公式wiki {https://wikiwiki.jp/nijisanji}、およびそれらに付随するリンクでの記載)",
       "kinds": [
         "open",
         "close",
