@@ -1,7 +1,7 @@
 {
   "app": "event-cho-feed",
   "version": 1,
-  "updatedAt": "2026-11-01",
+  "updatedAt": "2026-11-03",
   "items": [
     {
       "id": "supergt-2027-r1",
@@ -686,7 +686,31 @@
       "url": "https://kai-you.net/article/96501",
       "note": "報道ベース。9:00〜17:30、11/20〜29は20:30まで。ライトアップ「秋の烏城灯源郷」は11/21〜29。音声ガイドは無料。",
       "checkedAt": "2026-11-01"
+    },
+    {
+      "id": "inui-2ndlive-20270424",
+      "tabName": "戌亥とこ",
+      "title": "戌亥とこ 2nd Solo Live \"リスタート\"",
+      "date": "2027-04-24",
+      "end": "",
+      "place": "東京ガーデンシアター",
+      "source": "ANYCOLOR公式お知らせ 2026/11/03確認",
+      "url": "https://www.anycolor.co.jp/news/yqmksq2cm",
+      "note": "OPEN 17:00／START 18:00。他の先行・一般発売の日程は公式ページ未掲載のため未記入（当落発表も未確認）。",
+      "checkedAt": "2026-11-03",
+      "dates": [
+        {
+          "kind": "open",
+          "date": "2026-10-07",
+          "note": "シリアル先行抽選 12:00〜"
+        },
+        {
+          "kind": "close",
+          "date": "2026-11-18",
+          "note": "シリアル先行抽選 23:59まで"
+        }
+      ]
     }
   ],
-  "checkedAt": "2026-11-02"
+  "checkedAt": "2026-11-03"
 }
