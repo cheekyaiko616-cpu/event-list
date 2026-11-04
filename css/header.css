@@ -49,17 +49,16 @@
 }
 .fab.dim { opacity: .25; } /* スクロール中は薄くする（押せるままにしてある） */
 
-/* 「＋」の上の「先頭へ戻る」。下へ進んだときだけ出る */
+/* 「＋」の上の「先頭へ戻る」。白い丸で、常に出す（明るい表示・暗い表示どちらも白） */
 .to-top {
   position: fixed; z-index: 10;
   right: calc(max(16px, env(safe-area-inset-right, 0px)) + 5px); bottom: calc(var(--sp-4) + 54px + var(--sp-3) + env(safe-area-inset-bottom, 0px));
   width: 44px; height: 44px; padding: 0; display: flex; align-items: center; justify-content: center;
-  border: 1px solid var(--line); border-radius: 50%; background: var(--surface); color: var(--fg);
+  border: 1px solid rgba(0, 0, 0, .12); border-radius: 50%; background: #fff; color: #1c1c1e;
   box-shadow: var(--sh-strong);
-  opacity: 0; visibility: hidden; transition: opacity .2s, visibility .2s;
+  transition: opacity .2s;
 }
-.to-top.show { opacity: 1; visibility: visible; }
-.to-top.show.dim { opacity: .25; }
+.to-top.dim { opacity: .25; }
 .view-switch { padding-top: var(--sp-2); text-align: left; }
 
 /* 「すべて」は左に固定。ほかのタブだけが横に動く */
