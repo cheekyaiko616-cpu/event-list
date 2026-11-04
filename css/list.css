@@ -42,8 +42,7 @@
 #app-pin .t { overflow: visible; white-space: normal; overflow-wrap: anywhere; } /* 開いた予定は、全文を出す */
 .meta { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; margin-top: 3px; font-size: var(--fs-sm); color: var(--muted); }
 .has-new .t { padding-right: 54px; } /* NEWの下に文字が入らないよう、予定名だけ空ける（タブ名の位置は変えない） */
-.place { flex: 1 1 0; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; } /* 場所は1行。長いときは …（タブ名の位置を動かさない） */
-.row-tab { flex: none; margin-left: auto; padding: 1px 9px; border: 1px solid color-mix(in srgb, var(--c) 55%, transparent); border-radius: 999px; color: var(--c); font-size: var(--fs-cap); font-weight: 500; line-height: 1.5; white-space: nowrap; }
+.row-tab { margin-left: auto; padding: 1px 9px; border: 1px solid color-mix(in srgb, var(--c) 55%, transparent); border-radius: 999px; color: var(--c); font-size: var(--fs-cap); font-weight: 500; line-height: 1.5; white-space: nowrap; }
 .row-new { --c: var(--neon-fg); position: absolute; top: 12px; right: 0; margin: 0; }
 .badge { padding: 1px 6px; border-radius: 4px; background: var(--note-bg); color: var(--note-fg); font-size: var(--fs-cap); font-weight: 500; line-height: 1.5; }
 
