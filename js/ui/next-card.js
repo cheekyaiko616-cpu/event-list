@@ -6,9 +6,6 @@ import { daysUntil, parseDate } from '../util/date.js';
 import { tabById } from '../data/tabs.js';
 import { closeDetail } from './pin-close.js';
 
-/** 帯の右端に出す、タブ名（色つき）。 */
-const tabEnd = (tab) => el('span', { class: 'now-end', text: tab ? tab.name : '未分類' });
-
 /** 開催中の予定を、1行の細い帯で出す（「次の予定」とは別に並べる）。 */
 export function nowStrip(e) {
   const tab = tabById(e.type);
@@ -17,8 +14,7 @@ export function nowStrip(e) {
     onclick: () => { if (state.ui.openId) { closeDetail(); return; } state.ui.openId = e.id; notify(); }
   },
     el('span', { class: 'now-pill', text: '開催中' }),
-    el('span', { class: 'now-title', text: e.title || '（名前なし）' }),
-    tabEnd(tab));
+    el('span', { class: 'now-title', text: e.title || '（名前なし）' }));
 }
 
 /** 次の申込締切を、同じ1行の帯で出す。3日以内は、印を塗りつぶして目立たせる。 */
@@ -31,8 +27,7 @@ export function deadlineStrip(e, d) {
     onclick: () => { if (state.ui.openId) { closeDetail(); return; } state.ui.openId = e.id; notify(); }
   },
     el('span', { class: 'now-pill', text: `締切 ${p.m}/${p.d}` }),
-    el('span', { class: 'now-title', text: e.title || '（名前なし）' }),
-    tabEnd(tab));
+    el('span', { class: 'now-title', text: e.title || '（名前なし）' }));
 }
 
 /** 次の予定も、開催中と同じ大きさの1行の帯で出す。 */
@@ -43,6 +38,5 @@ export function nextStrip(e) {
     onclick: () => { if (state.ui.openId) { closeDetail(); return; } state.ui.openId = e.id; notify(); }
   },
     el('span', { class: 'now-pill', text: '次の予定' }),
-    el('span', { class: 'now-title', text: e.title || '（名前なし）' }),
-    tabEnd(tab));
+    el('span', { class: 'now-title', text: e.title || '（名前なし）' }));
 }

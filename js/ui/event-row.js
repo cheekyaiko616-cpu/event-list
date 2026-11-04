@@ -38,10 +38,11 @@ export function rowEl(e, past, pinned = false) {
   const b = multi ? parseDate(eventEnd(e)) : null;
   const tab = tabById(e.type);
 
+  const cross = multi && a.m !== b.m; // 月をまたぐ予定は、始まりと終わりを月つきで出す
   const when = a
     ? el('span', { class: 'when' },
-        el('b', { class: 'd' + (multi ? ' multi' : ''), text: multi ? `${a.d}–${b.d}` : String(a.d) }),
-        el('span', { class: 'w', text: multi ? `${weekday(a)}–${weekday(b)}` : weekday(a) }))
+        el('b', { class: 'd' + (cross ? ' cross' : multi ? ' multi' : ''), text: cross ? `${a.m}/${a.d}〜` : multi ? `${a.d}–${b.d}` : String(a.d) }),
+        el('span', { class: 'w', text: cross ? `〜${b.m}/${b.d}` : multi ? `${weekday(a)}–${weekday(b)}` : weekday(a) }))
     : el('span', { class: 'when' }, el('b', { class: 'pill', text: '未定' }));
 
   const what = el('span', { class: 'what' },

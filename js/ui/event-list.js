@@ -1,10 +1,11 @@
 // 一覧画面：月ごとの帯、日程未定のまとまり、見える分だけ描く仕組み。行と詳細は event-row.js、固定表示は pin.js。
 import { state } from '../state.js';
 import { $, el, clear } from '../util/dom.js';
-import { todayIso, addDaysIso, parseDate } from '../util/date.js';
+import { todayIso, addDaysIso, parseDate, compareEvents } from '../util/date.js';
 import { nextCloseDeadline } from '../data/dates.js';
 import { isShown } from '../data/settings.js';
-import { selectVisible, groupByMonth, groupByWeek } from '../data/events.js';
+import { selectVisible } from '../data/events.js';
+import { groupByMonth, groupByWeek, placeDate, weekStart } from '../util/group.js';
 import { openEventSheet } from './event-sheet.js';
 import { nowStrip, nextStrip, deadlineStrip } from './next-card.js';
 import { viewSwitchEl } from './view-switch.js';
@@ -18,7 +19,7 @@ const hueOf = (month) => (month * 150) % 360; // 隣り合う月の色が大き�
 /** 週の帯の文字。今週・来週・先週はそう呼び、それ以外は「11/16の週」。 */
 function weekLabel(g) {
   const t = todayIso();
-  const thisMon = addDaysIso(t, -((new Date().getDay() + 6) % 7));
+  const thisMon = weekStart(t);
   if (g.start === thisMon) return '今週';
   if (g.start === addDaysIso(thisMon, 7)) return '来週';
   if (g.start === addDaysIso(thisMon, -7)) return '先週';
@@ -33,9 +34,9 @@ function weekRange(g) {
 }
 
 /** 月の帯（上に固定）。その中を、週の見出しで区切る。 */
-function monthSection(g, past) {
+function monthSection(g, past, key) {
   const parts = [];
-  groupByWeek(g.items).forEach((w) => {
+  groupByWeek(g.items, key).forEach((w) => {
     parts.push(el('div', { class: 'week' },
       el('div', { class: 'week-h' },
         el('div', { class: 'wrap week-in' },
@@ -95,7 +96,11 @@ function buildView(root, now, neighbor = false) {
   const v = selectVisible();
   if (!past) appendNow(now, v);
 
-  const sections = groupByMonth(past ? v.past : v.up).map((g) => ({ n: g.items.length, make: () => monthSection(g, past) }));
+  // これからの一覧では、今週より前に始まって続いている予定を「今週」に置く（終わった予定に見えないように）
+  const today = todayIso();
+  const key = past ? (e) => e.date : (e) => placeDate(e, today);
+  const items = past ? v.past : v.up.slice().sort((a, b) => (key(a) < key(b) ? -1 : key(a) > key(b) ? 1 : compareEvents(a, b)));
+  const sections = groupByMonth(items, key).map((g) => ({ n: g.items.length, make: () => monthSection(g, past, key) }));
   if (!past && v.undated.length) sections.push({ n: v.undated.length, make: () => undatedSection(v.undated) });
   if (!sections.length) root.append(emptyEl(past));
   appendChunked(root, sections, neighbor);

@@ -9,7 +9,7 @@
   --status: #1a1d1b; /* 画面最上部（時計などの帯）。文字が白いので濃い色にする */
   --surface: #ffffff;
   --fg: #1a1d1b;
-  --muted: #5f6963;
+  --muted: #545d58;
   --line: #dcdfd8;
   --ink: #1a1d1b;
   --on-ink: #ffffff;
@@ -30,8 +30,8 @@
   --font-brand: "Cormorant Garamond", "Hiragino Mincho ProN", Georgia, serif;
   --font-num: "Barlow Condensed", "Arial Narrow", system-ui, sans-serif;
   /* 文字の大きさは、この表の値だけを使う（直接 px を書かない）。数字用の大きさ（num-s/num/display）は --font-num の書体専用 */
-  --fs-cap: 13px;   /* 補足・曜日・ラベル・小さなタグ */
-  --fs-sm: 14px;    /* 補助の文・ボタン・タブ */
+  --fs-cap: 14px;   /* 補足・曜日・ラベル・小さなタグ */
+  --fs-sm: 15px;    /* 補助の文・ボタン・タブ */
   --fs-md: 15px;    /* 本文・詳細・見出し(小) */
   --fs-lg: 16px;    /* 予定名・入力欄・リストの見出し */
   --fs-h2: 18px;    /* シートの見出し */
@@ -49,7 +49,7 @@
     --status: #1b2124;
     --surface: #242b2f;
     --fg: #e3e8ea;
-    --muted: #97a4a8;
+    --muted: #a8b4b8;
     --line: #2f393e;
     --ink: #e3e8ea;
     --on-ink: #1b2124;

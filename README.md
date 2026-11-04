@@ -68,6 +68,7 @@ iPhoneのホーム画面に追加して使います。ビルド作業は不要�
 | 動き・お知らせの小さな部品 | `js/ui/motion.js` / `js/ui/toast.js` |
 | 日付や文字の小さな処理 | `js/util/` |
 | ビルドと点検（食い違い・無駄・番号の上げ忘れを自動で見つける） | `tools/build.py` / `tools/check.py` |
+| 日付の計算・並び方・月と週のまとめ方の自動テスト（`node tools/test.mjs` で実行） | `tools/test.mjs` / `js/util/group.js` |
 | 日々の自動取得の手順書 | `tools/daily-fetch.md` |
 | 動作確認用のプレビュー / 起動画像の作成 | `tools/make_preview.py` / `tools/make_startup.py` |
 | 読み込み中・空・エラーの共通の表示（骨組み・読み上げ対応） | `js/ui/state-panel.js` |

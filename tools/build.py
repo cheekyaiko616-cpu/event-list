@@ -11,6 +11,11 @@ ESB = os.environ.get('ESBUILD') or shutil.which('esbuild') or '/opt/npm-tools/no
 # 最初に点検（食い違い・無駄・番号の上げ忘れ）。見つかったら、ここで止める
 if subprocess.run([sys.executable, str(root / 'tools' / 'check.py')]).returncode != 0:
     sys.exit(1)
+# 日付・並び方の自動テスト（node が無い環境では、飛ばす）
+import shutil
+if shutil.which('node') and subprocess.run(['node', str(root / 'tools' / 'test.mjs')], capture_output=True).returncode != 0:
+    print('自動テストが失敗しました: node tools/test.mjs で確認してください')
+    sys.exit(1)
 dist = root / 'dist'
 dist.mkdir(exist_ok=True)
 
