@@ -4,7 +4,7 @@
   "entries": [
     {
       "date": "2026-11-04",
-      "summary": "新規5件（古着タブ）",
+      "summary": "新規6件（古着タブ）",
       "added": [
         {
           "title": "JUNCTION VINTAGE MARKET Vol.4",
@@ -30,6 +30,11 @@
           "title": "Japan American Market",
           "tab": "古着",
           "when": "2026/11/29"
+        },
+        {
+          "title": "第19回 名古屋アンティークマーケット",
+          "tab": "古着",
+          "when": "2026/11/21〜23"
         }
       ],
       "changed": []
