@@ -78,15 +78,15 @@ export function selectVisible() {
   return { up: up.sort(compareEvents), past: past.sort((a, b) => compareEvents(b, a)), undated };
 }
 
-/** 月の変わり目ごとにまとめる。 */
-export function groupByMonth(items) {
+/** 週（月曜はじまり）ごとにまとめる。start / end はその週の月曜と日曜の日付。 */
+export function groupByWeek(items) {
   const out = [];
   let cur = null;
   items.forEach((e) => {
     const p = parseDate(e.date);
-    const key = p.y * 100 + p.m;
-    if (!cur || cur.key !== key) {
-      cur = { key, y: p.y, m: p.m, items: [] };
+    const mon = addDaysIso(e.date, -((new Date(p.y, p.m - 1, p.d).getDay() + 6) % 7));
+    if (!cur || cur.start !== mon) {
+      cur = { start: mon, end: addDaysIso(mon, 6), items: [] };
       out.push(cur);
     }
     cur.items.push(e);

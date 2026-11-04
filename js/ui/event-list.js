@@ -1,10 +1,10 @@
 // 一覧画面：月ごとの帯、日程未定のまとまり、見える分だけ描く仕組み。行と詳細は event-row.js、固定表示は pin.js。
 import { state } from '../state.js';
 import { $, el, clear } from '../util/dom.js';
-import { todayIso } from '../util/date.js';
+import { todayIso, addDaysIso, parseDate } from '../util/date.js';
 import { nextCloseDeadline } from '../data/dates.js';
 import { isShown } from '../data/settings.js';
-import { selectVisible, groupByMonth } from '../data/events.js';
+import { selectVisible, groupByWeek } from '../data/events.js';
 import { openEventSheet } from './event-sheet.js';
 import { nowStrip, nextStrip, deadlineStrip } from './next-card.js';
 import { viewSwitchEl } from './view-switch.js';
@@ -16,13 +16,30 @@ import { statePanel } from './state-panel.js';
 const hueOf = (month) => (month * 150) % 360; // 隣り合う月の色が大きく離れるようにする
 
 /* ---------- 帯と見出し ---------- */
-function monthSection(g, past) {
-  return el('section', { class: 'month', style: `--h:${hueOf(g.m)}` },
+/** 週の帯の文字。今週・来週・先週はそう呼び、それ以外は「11/16の週」。 */
+function weekLabel(g) {
+  const t = todayIso();
+  const thisMon = addDaysIso(t, -((new Date().getDay() + 6) % 7));
+  if (g.start === thisMon) return '今週';
+  if (g.start === addDaysIso(thisMon, 7)) return '来週';
+  if (g.start === addDaysIso(thisMon, -7)) return '先週';
+  const p = parseDate(g.start);
+  return `${p.m}/${p.d}の週`;
+}
+
+function weekRange(g) {
+  const a = parseDate(g.start), b = parseDate(g.end);
+  const yr = a.y !== new Date().getFullYear() ? `${a.y}/` : '';
+  return `${yr}${a.m}/${a.d}–${a.m === b.m ? '' : `${b.m}/`}${b.d}`;
+}
+
+function weekSection(g, past) {
+  const hue = hueOf(parseDate(g.start).m);
+  return el('section', { class: 'month', style: `--h:${hue}` },
     el('div', { class: 'band' },
       el('div', { class: 'wrap band-in' },
-        g.y !== new Date().getFullYear() ? el('span', { class: 'band-y', text: String(g.y) }) : null, // 今の年と違うときだけ、月の左に年を出す
-        el('span', { class: 'band-m', text: String(g.m) }),
-        el('span', { class: 'band-u', text: '月' }),
+        el('span', { class: 'band-w', text: weekLabel(g) }),
+        el('span', { class: 'band-s', text: weekRange(g) }),
         el('span', { class: 'band-r', text: `${g.items.length}件` }))),
     el('ul', { class: 'wrap rows' }, g.items.map((e) => rowEl(e, past))));
 }
@@ -69,7 +86,7 @@ function buildView(root, now, neighbor = false) {
   const v = selectVisible();
   if (!past) appendNow(now, v);
 
-  const sections = groupByMonth(past ? v.past : v.up).map((g) => ({ n: g.items.length, make: () => monthSection(g, past) }));
+  const sections = groupByWeek(past ? v.past : v.up).map((g) => ({ n: g.items.length, make: () => weekSection(g, past) }));
   if (!past && v.undated.length) sections.push({ n: v.undated.length, make: () => undatedSection(v.undated) });
   if (!sections.length) root.append(emptyEl(past));
   appendChunked(root, sections, neighbor);

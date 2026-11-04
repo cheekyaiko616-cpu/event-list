@@ -45,16 +45,16 @@ export function rowEl(e, past, pinned = false) {
     : el('span', { class: 'when' }, el('b', { class: 'pill', text: '未定' }));
 
   const what = el('span', { class: 'what' },
-    el('span', { class: 't', text: e.title || '（名前なし）' }),
+    el('span', { class: 't' }, el('i', { class: 'dot-t', style: `--c:${tabColorCss(tab)}`, 'aria-hidden': 'true' }), e.title || '（名前なし）'),
     el('span', { class: 'meta' },
       isNew(e) ? el('span', { class: 'badge new', text: 'NEW' }) : null,
-      state.ui.filter === 'all' && isShown(e, 'chip')
-        ? el('span', { class: 'chip', style: `--c:${tabColorCss(tab)}`, text: tab ? tab.name : '未分類' })
-        : null,
       isShown(e, 'badges') && isRecentChange(e) ? el('span', { class: 'badge upd', text: e.lastChange.manual ? '公式で再更新' : '日程更新' }) : null,
       isShown(e, 'badges') && e.manual ? el('span', { class: 'badge man', text: '手動修正' }) : null,
       isShown(e, 'deadline') ? deadlineBadge(e) : null,
-      isShown(e, 'place') && e.place ? el('span', { text: e.place }) : null));
+      isShown(e, 'place') && e.place ? el('span', { text: e.place }) : null,
+      state.ui.filter === 'all' && isShown(e, 'chip')
+        ? el('span', { class: 'row-tab', style: `--c:${tabColorCss(tab)}`, text: tab ? tab.name : '未分類' })
+        : null));
 
   const btn = el('button', {
     class: 'row-btn', type: 'button', 'aria-expanded': String(open), 'aria-controls': `d-${e.id}`,
@@ -64,7 +64,7 @@ export function rowEl(e, past, pinned = false) {
       state.ui.openId = e.id;
       notify();
     }
-  }, when, what, el('span', { class: 'chev', 'aria-hidden': 'true' }));
+  }, when, what);
 
   // 開いた予定は、ヘッダーの下に固定して詳細を出す。一覧の中の行には詳細を出さず、印だけ付ける。
   return el('li', { class: 'row' + (past ? ' past' : '') + (open && !pinned ? ' is-open' : ''), 'data-id': e.id }, btn, open && pinned ? detailEl(e) : null);
