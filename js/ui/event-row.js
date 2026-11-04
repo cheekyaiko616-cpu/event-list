@@ -51,7 +51,7 @@ export function rowEl(e, past, pinned = false) {
       isShown(e, 'badges') && isRecentChange(e) ? el('span', { class: 'badge upd', text: e.lastChange.manual ? '公式で再更新' : '日程更新' }) : null,
       isShown(e, 'badges') && e.manual ? el('span', { class: 'badge man', text: '手動修正' }) : null,
       isShown(e, 'deadline') ? deadlineBadge(e) : null,
-      isShown(e, 'place') && e.place ? el('span', { text: e.place }) : null,
+      isShown(e, 'place') && e.place ? el('span', { class: 'place', text: e.place }) : null,
       state.ui.filter === 'all' && isShown(e, 'chip')
         ? el('span', { class: 'row-tab', style: `--c:${tabColorCss(tab)}`, text: tab ? tab.name : '未分類' })
         : null));
