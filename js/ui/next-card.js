@@ -31,7 +31,28 @@ export function deadlineStrip(e, d) {
 }
 
 /**
- * 一覧の上の1列の帯。groups は該当する項目だけ（[{ key: 'live'|'next'|'dl', label, strips }]）。
+ * 帯の背景：該当する予定のタブカラー。1色ならそのまま、複数なら斜めに等分する（2色なら真ん中で斜めに2色）。
+ * 閉じているときは薄め（文字が読める濃さ）、広げているときは濃い色にする。同じタブは1色として数える。
+ */
+function chipBg(tabs, on) {
+  const seen = new Set();
+  const cols = [];
+  tabs.forEach((t) => {
+    const id = t ? t.id : '';
+    if (seen.has(id)) return;
+    seen.add(id);
+    cols.push(tabColorCss(t));
+  });
+  if (!cols.length) return '';
+  const paint = (c) => (on ? c : `color-mix(in srgb, ${c} 30%, var(--surface))`);
+  if (cols.length === 1) return `background:${paint(cols[0])}`;
+  const n = cols.length;
+  const stops = cols.map((c, i) => `${paint(c)} ${(100 * i / n).toFixed(2)}% ${(100 * (i + 1) / n).toFixed(2)}%`);
+  return `background:linear-gradient(115deg, ${stops.join(', ')})`;
+}
+
+/**
+ * 一覧の上の1列の帯。groups は該当する項目だけ（[{ key: 'live'|'next'|'dl', label, strips, tabs }]。tabs は該当する予定のタブ）。
  * 各項目を1つのボタンにして横に並べ、押すとその項目の予定が下に縦に広がる（もう一度押すと閉じる。広げるのは1つだけ）。
  * 2件以上あるときは、ボタンに件数を添える。返すのは、1列の帯と、広げている項目の帯。
  */
@@ -44,7 +65,7 @@ export function nowBar(groups) {
     const on = g === open;
     const n = g.strips.length;
     return el('button', {
-      class: 'now-chip' + (on ? ' on' : ''), type: 'button', 'aria-expanded': String(on),
+      class: 'now-chip' + (on ? ' on' : ''), type: 'button', 'aria-expanded': String(on), style: chipBg(g.tabs || [], on),
       onclick: () => { state.ui.nowOpen = on ? null : { f: state.ui.filter, key: g.key }; notify(); }
     },
       el('span', { class: 'chip-t', text: g.label }),

@@ -22,8 +22,8 @@
   color: var(--fg); font-size: var(--fs-sm); font-weight: 500; white-space: nowrap;
 }
 .chip-n { min-width: 22px; padding: 0 6px; border-radius: 999px; background: var(--ink); color: var(--on-ink); font-size: var(--fs-cap); line-height: 1.5; font-variant-numeric: tabular-nums; }
-.now-chip.on { background: var(--ink); border-color: var(--ink); color: var(--on-ink); }
-.now-chip.on .chip-n { background: var(--on-ink); color: var(--ink); }
+.now-chip.on { border-color: transparent; color: #fff; text-shadow: 0 1px 2px rgba(0, 0, 0, .35); } /* 背景はタブカラー（濃い色）。白い文字にする */
+.now-chip.on .chip-n { background: #fff; color: #1a1d1b; text-shadow: none; }
 
 .next-s .now-pill { background: transparent; color: var(--c); border: 1px solid var(--c); }
 
