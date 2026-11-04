@@ -126,9 +126,9 @@ function appendNow(now, v) {
   const closes = closeDeadlines([...v.up, ...v.undated].filter((e) => isShown(e, 'deadline'))); // 今日以降の申込締切（日程未定の予定も含む）。近い順
   // 開催中・次の予定・申込締切は、該当するものだけを1列に並べる（押すと、その項目の予定が縦に広がる）
   const groups = [
-    live.length ? { key: 'live', label: '開催中', strips: live.map(nowStrip), tabs: live.map((e) => tabById(e.type)) } : null,
-    next ? { key: 'next', label: '次の予定', strips: [nextStrip(next)], tabs: [tabById(next.type)] } : null,
-    closes.length ? { key: 'dl', label: '締切', strips: closes.map((c) => deadlineStrip(c.e, c.d)), tabs: closes.map((c) => tabById(c.e.type)) } : null
+    live.length ? { key: 'live', label: '開催中', n: live.length, strips: () => live.map(nowStrip), tabs: live.map((e) => tabById(e.type)) } : null,
+    next ? { key: 'next', label: '次の予定', n: 1, strips: () => [nextStrip(next)], tabs: [tabById(next.type)] } : null,
+    closes.length ? { key: 'dl', label: '締切', n: closes.length, strips: () => closes.map((c) => deadlineStrip(c.e, c.d)), tabs: closes.map((c) => tabById(c.e.type)) } : null
   ].filter(Boolean);
   if (groups.length) now.append(el('div', { class: 'wrap' }, nowBar(groups)));
 }
@@ -158,6 +158,7 @@ function appendChunked(root, sections, neighbor) {
     limit += CHUNK; loaded.n = limit; // 再描画されても、ここまでは描き直す（スクロール位置が飛ばない）
     fill();
     if (next >= sections.length) { more.remove(); watch.disconnect(); return; }
+    root.insertBefore(more, tail); // 目印は常に末尾へ（中ほどに残ると、残りが一度に描かれてしまう）
     watch.unobserve(more); watch.observe(more); // まだ画面内なら続けて足す
   }, { rootMargin: '600px 0px' });
   watch.observe(more);

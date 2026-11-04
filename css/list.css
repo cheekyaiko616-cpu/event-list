@@ -107,4 +107,4 @@
 
 
 /* 予定を開いている間は「次の予定」の帯を隠し、詳細を1画面に収める */
-body:has(#app-pin:not(:empty)) #app-now { display: none; }
+#app-now:has(+ #app-pin:not(:empty)) { display: none; }

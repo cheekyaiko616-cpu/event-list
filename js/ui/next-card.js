@@ -52,18 +52,17 @@ function chipBg(tabs, on) {
 }
 
 /**
- * 一覧の上の1列の帯。groups は該当する項目だけ（[{ key: 'live'|'next'|'dl', label, strips, tabs }]。tabs は該当する予定のタブ）。
+ * 一覧の上の1列の帯。groups は該当する項目だけ（[{ key: 'live'|'next'|'dl', label, n（件数）, strips（開いたときだけ呼んで帯を作る関数）, tabs }]。tabs は該当する予定のタブ）。
  * 各項目を1つのボタンにして横に並べ、押すとその項目の予定が下に縦に広がる（もう一度押すと閉じる。広げるのは1つだけ）。
  * 2件以上あるときは、ボタンに件数を添える。返すのは、1列の帯と、広げている項目の帯。
  */
 export function nowBar(groups) {
-  if (!groups.length) return [];
   // 広げた項目は、そのタブでだけ有効（タブを切り替えると、閉じた状態から始まる）
   const o = state.ui.nowOpen;
   const open = o && o.f === state.ui.filter ? groups.find((g) => g.key === o.key) : null;
   const bar = el('div', { class: 'now-bar' }, groups.map((g) => {
     const on = g === open;
-    const n = g.strips.length;
+    const n = g.n;
     return el('button', {
       class: 'now-chip' + (on ? ' on' : ''), type: 'button', 'aria-expanded': String(on), style: chipBg(g.tabs || [], on),
       onclick: () => { state.ui.nowOpen = on ? null : { f: state.ui.filter, key: g.key }; notify(); }
@@ -71,7 +70,7 @@ export function nowBar(groups) {
       el('span', { text: g.label }),
       n > 1 ? el('span', { class: 'chip-n', text: String(n) }) : null);
   }));
-  return open ? [bar, ...open.strips] : [bar];
+  return open ? [bar, ...open.strips()] : [bar];
 }
 
 /** 次の予定も、開催中と同じ大きさの1行の帯で出す。 */
