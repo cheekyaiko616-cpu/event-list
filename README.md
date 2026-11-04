@@ -1,7 +1,7 @@
 # Event list
 
 モータースポーツ・爬虫類イベント・Adoライブなどの日程を、日付順の1本リストで管理する個人用のウェブアプリです。
-iPhoneのホーム画面に追加して使います。ビルド作業は不要で、このフォルダをそのまま公開できます。
+iPhoneのホーム画面に追加して使います。ソースを直したら `python3 tools/build.py` で `dist/` を作り直し、このフォルダをそのまま公開します（詳しくは「公開の前に」）。
 
 ## 公開のしかた（GitHub Pages）
 
@@ -32,7 +32,7 @@ iPhoneのホーム画面に追加して使います。ビルド作業は不要�
 | 起動の最初の1コマ（背景色・起動画面。`tools/build.py` が `index.html` に埋め込む） | `css/tokens.css` / `css/splash.css` |
 | iPhoneで開いた直後の画面（無地。`tools/make_startup.py` で作る。反映にはホーム画面のアイコンの入れ直しが必要） | `img/startup/` / `tools/make_startup.py` |
 | 日付が変わったときの描き直し | `js/ui/day-watch.js` |
-| 起動画面（約2秒の画面）のゲージと切り替え | `js/ui/splash.js` |
+| 起動画面（約1.5秒の画面）のゲージと切り替え | `js/ui/splash.js` |
 | 起動画面の乗りもの（最初の1コマから出す） | `js/boot-splash.js` |
 | 見た目のファイルを待たずに起動画面を出し、読み終わってからアプリ本体を動かす | `js/boot-css.js`（起動に失敗したときの再起動もここ） |
 | 同梱の書体（数字・アプリ名用。外から取りに行かない） | `fonts/`・`css/fonts.css`（ライセンスは `fonts/OFL-*.txt`） |
@@ -72,7 +72,7 @@ iPhoneのホーム画面に追加して使います。ビルド作業は不要�
 | 日々の自動取得の手順書 | `tools/daily-fetch.md` |
 | 動作確認用のプレビュー / 起動画像の作成 | `tools/make_preview.py` / `tools/make_startup.py` |
 | 読み込み中・空・エラーの共通の表示（骨組み・読み上げ対応） | `js/ui/state-panel.js` |
-| 毎日の結果をLINEに送る | `tools/line_notify.py` |
+| 毎日の結果をLINEに送る | `tools/line_notify.py`（`.github/workflows/line-notify.yml`） |
 | 毎朝7時に今日開催の予定をLINEに送る | `tools/line_notify.py --today`（`.github/workflows/line-morning.yml`） |
 | LINEのユーザーIDを調べる（Webhookで受け取る） | `tools/line_get_user_id.py` |
 
@@ -93,8 +93,8 @@ iPhoneのホーム画面に追加して使います。ビルド作業は不要�
 
 1. タブの追加・編集画面の「自動で取り込む内容」に、タブごとに欲しい日程を書く
 2. 設定画面の「自動取り込みの連携（GitHub）」に鍵を登録しておくと、その内容が `watchlist.json`（このリポジトリの直下）に自動で保存される
-4. 毎日11:59（日本時間）、自動の作業が `watchlist.json` を読み、タブごとに公式情報を調べて `feed.json` に書く（手順は `tools/daily-fetch.md`）
-5. アプリは開くたびに `feed.json` を読み、予定に追加・更新する。変わった内容は、引き出しの「イベント更新履歴」に出る
+3. 毎日11:59（日本時間）、自動の作業が `watchlist.json` を読み、タブごとに公式情報を調べて `feed.json` に書く（手順は `tools/daily-fetch.md`）
+4. アプリは開くたびに `feed.json` を読み、予定に追加・更新する。変わった内容は、引き出しの「イベント更新履歴」に出る
 
 `watchlist.json` の `tabName` は、アプリのタブ名と同じにしてください。
 

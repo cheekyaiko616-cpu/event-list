@@ -36,7 +36,7 @@ function cleanFeedItem(id, raw) {
 }
 
 /** 反映すべき内容が変わったかを見分けるための印。確認日(checkedAt)は含めない。 */
-export const feedHash = (f) => [f.tabName, f.title, f.date, f.end, f.place, f.source, f.url, f.note, (f.dates || []).map((d) => `${d.kind}:${d.date}`).join(',')].join('|');
+const feedHash = (f) => [f.tabName, f.title, f.date, f.end, f.place, f.source, f.url, f.note, (f.dates || []).map((d) => `${d.kind}:${d.date}`).join(',')].join('|');
 
 /**
  * 自動取得の期限日付を、予定に合わせる。そのタブの設定で「取り込む」にした種類だけ入れる。

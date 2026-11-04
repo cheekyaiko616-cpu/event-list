@@ -20,10 +20,9 @@
   position: absolute; inset: -2px; border-radius: 50%;
   animation: sp-spin 4.8s linear infinite; will-change: transform;
 }
-/* 輪の上端に置く（大きさと位置は splash-art.js の値で決める） */
+/* 輪の上端に置く（大きさと位置は js/boot-splash.js の値で決める） */
 .sp-veh { position: absolute; left: 50%; top: 0; }
 .sp-veh img { display: block; width: 100%; height: 100%; }
-.sp-veh svg { display: block; }
 @keyframes sp-spin { to { transform: rotate(360deg); } }
 
 .sp-title { font-family: "Hiragino Mincho ProN", "Noto Serif JP", Georgia, serif; font-style: italic; font-weight: 600; font-size: var(--fs-display); letter-spacing: .02em; }

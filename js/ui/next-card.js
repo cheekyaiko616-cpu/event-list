@@ -68,7 +68,7 @@ export function nowBar(groups) {
       class: 'now-chip' + (on ? ' on' : ''), type: 'button', 'aria-expanded': String(on), style: chipBg(g.tabs || [], on),
       onclick: () => { state.ui.nowOpen = on ? null : { f: state.ui.filter, key: g.key }; notify(); }
     },
-      el('span', { class: 'chip-t', text: g.label }),
+      el('span', { text: g.label }),
       n > 1 ? el('span', { class: 'chip-n', text: String(n) }) : null);
   }));
   return open ? [bar, ...open.strips] : [bar];

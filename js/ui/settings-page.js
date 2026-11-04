@@ -2,7 +2,6 @@
 // 日程の取り込み、バックアップ。
 import { state, notify } from '../state.js';
 import { $ } from '../util/dom.js';
-import { toast } from './toast.js';
 import { buildBackup, parseBackup, applyBackup } from '../data/backup.js';
 import { listSnapshots, loadSnapshot } from '../data/snapshots.js';
 import { el, clear } from '../util/dom.js';

@@ -27,8 +27,7 @@
 .now-chip.on { border-color: transparent; color: var(--on-c); } /* 背景はタブカラー。その上の文字色は、明るい表示は白・暗い表示は濃い色 */
 .now-chip.on .chip-n { background: var(--on-c); color: var(--fg); }
 
-.next-s .now-pill { background: transparent; color: var(--c); border: 1px solid var(--c); }
+.next-s .now-pill, .dl-s .now-pill { background: transparent; color: var(--c); border: 1px solid var(--c); }
 
 /* 次の申込締切：「次の予定」と同じ線の印。3日以内は塗りつぶす */
-.dl-s .now-pill { background: transparent; color: var(--c); border: 1px solid var(--c); }
 .dl-s.soon .now-pill { background: var(--c); color: var(--on-c); }

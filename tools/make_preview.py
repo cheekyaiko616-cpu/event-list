@@ -4,7 +4,6 @@
 import base64, re, subprocess, sys, pathlib
 root = pathlib.Path(__file__).resolve().parent.parent
 out = pathlib.Path(sys.argv[1])
-ESB = '/opt/npm-tools/node_modules/.bin/esbuild'
 subprocess.run(['python3', str(root / 'tools/build.py')], check=True, capture_output=True)
 js = (root / 'dist/app.min.js').read_text(encoding='utf-8')
 for p in (root / 'img').glob('*.png'):

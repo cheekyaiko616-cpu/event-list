@@ -27,7 +27,7 @@ function writeLocal(data) {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
 }
 
-/** { status: 'ok' | 'missing' | 'corrupt' | 'unavailable', data, cloud } を返す。 */
+/** { status: 'ok' | 'missing' | 'corrupt' | 'unavailable', data } を返す。 */
 export async function loadData() {
   const db = await getDb();
   if (db) {
@@ -35,18 +35,18 @@ export async function loadData() {
       const snap = await db.doc(DOC).get();
       if (snap.exists) {
         const body = snap.data() || {};
-        try { return { status: 'ok', data: JSON.parse(body.json), cloud: true }; } catch (e) { /* 下で端末内を見る */ }
+        try { return { status: 'ok', data: JSON.parse(body.json) }; } catch (e) { /* 下で端末内を見る */ }
       }
       // 共有データがまだ空：以前この端末に保存したものがあれば引き継ぐ
       const local = readLocal();
       if (local.status === 'ok') {
         await saveData(local.data);
-        return { ...local, cloud: true };
+        return local;
       }
-      return { status: 'missing', data: null, cloud: true };
+      return { status: 'missing', data: null };
     } catch (e) { /* 共有データを読めないときは、端末内で続ける */ }
   }
-  return { ...readLocal(), cloud: false };
+  return readLocal();
 }
 
 let queue = Promise.resolve();

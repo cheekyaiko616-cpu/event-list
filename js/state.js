@@ -7,7 +7,6 @@ export const state = {
   events: [],         // { id, type, title, date, end, place, source, url, note, rev }
   settings: { alerts: [] },
   dismissed: [],      // 自動取得の予定のうち、利用者が削除したもの（feedId）。再び追加しない
-  cloud: false,       // 保存先がクラウド（Claude上の共有データ）か
   // screen: 'list'（予定）か 'settings'（設定）。nowOpen: 上の1列の帯で広げている項目（{ f: タブ, key: 'live'=開催中 / 'next'=次の予定 / 'dl'=申込締切 }。広げていなければ null）
   ui: { filter: 'all', view: 'upcoming', openId: null, screen: 'list', nowOpen: null }
 };

@@ -35,7 +35,7 @@ function weekRange(g) {
 }
 
 /** 月の帯（上に固定）。その中を、週の見出しで区切る。 */
-function monthSection(g, past, key) {
+function monthSection(g, key) {
   const parts = [];
   groupByWeek(g.items, key).forEach((w) => {
     parts.push(el('div', { class: 'week' },
@@ -44,7 +44,7 @@ function monthSection(g, past, key) {
           el('span', { class: 'week-w', text: weekLabel(w) }),
           el('span', { class: 'week-s', text: weekRange(w) }),
           el('span', { class: 'week-n', text: `${w.items.length}件` }))),
-      el('ul', { class: 'wrap rows' }, w.items.map((e) => rowEl(e, past)))));
+      el('ul', { class: 'wrap rows' }, w.items.map((e) => rowEl(e)))));
   });
   return el('section', { class: 'month', style: `--h:${hueOf(g.m)}` },
     el('div', { class: 'band' },
@@ -62,7 +62,7 @@ function undatedSection(items) {
       el('div', { class: 'wrap band-in' },
         el('span', { class: 'band-t', text: '日程未定' }),
         el('span', { class: 'band-r', text: `公式発表待ち ・ ${items.length}件` }))),
-    el('ul', { class: 'wrap rows' }, items.map((e) => rowEl(e, false))));
+    el('ul', { class: 'wrap rows' }, items.map((e) => rowEl(e))));
 }
 
 /* ---------- 空の状態 ---------- */
@@ -101,7 +101,7 @@ function buildView(root, now, neighbor = false) {
   const today = todayIso();
   const key = past ? (e) => e.date : (e) => placeDate(e, today);
   const items = past ? v.past : v.up.slice().sort((a, b) => (key(a) < key(b) ? -1 : key(a) > key(b) ? 1 : compareEvents(a, b)));
-  const sections = groupByMonth(items, key).map((g) => ({ n: g.items.length, make: () => monthSection(g, past, key) }));
+  const sections = groupByMonth(items, key).map((g) => ({ n: g.items.length, make: () => monthSection(g, key) }));
   if (!past && v.undated.length) sections.push({ n: v.undated.length, make: () => undatedSection(v.undated) });
   if (!sections.length) root.append(emptyEl(past));
   appendChunked(root, sections, neighbor);

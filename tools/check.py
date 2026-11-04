@@ -6,7 +6,10 @@
   4. CSS の、使われていない class / id、同じ場所の二重定義
   5. JS の、使われていない export
   6. 画面や動きを直したのに sw.js の CACHE の番号を上げ忘れていないか（git の直前の版と比べる）
-  7. 背景色が、tokens.css・index.html の theme-color・manifest・起動画像で、そろっているか"""
+  7. 背景色が、tokens.css・index.html の theme-color・manifest・起動画像で、そろっているか
+  8. 起動画面のゲージの長さが、splash.js と index.html でそろっているか
+  9. JS の、使われていない import
+ 10. CSS 変数（--xxx）の、定義だけされて一度も使われていないもの"""
 import pathlib, re, subprocess, sys
 
 root = pathlib.Path(__file__).resolve().parent.parent
@@ -92,6 +95,23 @@ for f, s in texts.items():
         used = sum(len(re.findall(r'\b' + name + r'\b', t)) for g, t in texts.items() if g != f)
         if not used:
             errors.append(f'使われていないexport: {rel(f)} {name}')
+
+# 9. 使われていない import（import の行を除いた本文に、その名前が一度も出てこない）
+for f, s in texts.items():
+    body = re.sub(r"^import [^;]*;", '', s, flags=re.M)
+    for m in re.finditer(r"^import \{([^}]+)\} from", s, re.M):
+        for part in m.group(1).split(','):
+            name = part.strip().split(' as ')[-1].strip()
+            if name and not re.search(r'(?<![\w$])' + re.escape(name) + r'(?![\w$])', body):
+                errors.append(f'使われていないimport: {rel(f)} {name}')
+
+# 10. 使われていない CSS 変数（定義の --xxx が、var(--xxx) で一度も使われていない。--c1〜--c12 は JS が組み立てて使う）
+css_all = ''.join(read(f) for f in css_files) + all_src
+for name in sorted(set(re.findall(r'(--[A-Za-z0-9-]+)\s*:', read(root / 'css/tokens.css')))):
+    if re.fullmatch(r'--c\d+', name):
+        continue
+    if f'var({name}' not in css_all:
+        errors.append(f'使われていないCSS変数: css/tokens.css {name}')
 
 # 6. CACHE の上げ忘れ
 def git(*a):

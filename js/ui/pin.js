@@ -1,7 +1,7 @@
 // 開いた予定をヘッダーの下に固定して見せる仕組み（固定の描画・外側タップで閉じる・スワイプで解除）。
 import { state } from '../state.js';
 import { $, el, clear } from '../util/dom.js';
-import { reduced, EASE } from './motion.js';
+import { EASE } from './motion.js';
 import { closeDetail, isClosing } from './pin-close.js';
 import { rowEl } from './event-row.js';
 
@@ -27,10 +27,10 @@ export function renderPin() {
   clear(pin);
   const e = state.ui.openId ? state.events.find((x) => x.id === state.ui.openId) : null;
   if (!e || !state.ready) { pinId = null; return; }
-  pin.append(el('ul', { class: 'wrap rows' }, rowEl(e, state.ui.view === 'past', true)));
+  pin.append(el('ul', { class: 'wrap rows' }, rowEl(e, true)));
   if (pinId !== e.id) { // 出現：高さを広げながら、ふわっと出す
     pinId = e.id;
-    if (!reduced() && pin.animate) {
+    if (pin.animate) {
       const h = pin.getBoundingClientRect().height;
       pin.animate([{ height: '0px', opacity: 0 }, { height: `${h}px`, opacity: 1 }], { duration: 240, easing: EASE });
     }

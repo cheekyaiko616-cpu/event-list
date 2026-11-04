@@ -31,7 +31,7 @@ function deadlineBadge(e) {
   });
 }
 
-export function rowEl(e, past, pinned = false) {
+export function rowEl(e, pinned = false) {
   const open = state.ui.openId === e.id;
   const a = parseDate(e.date);
   const multi = a && e.date !== eventEnd(e);
@@ -45,7 +45,7 @@ export function rowEl(e, past, pinned = false) {
         el('span', { class: 'w', text: cross ? `〜${b.m}/${b.d}` : multi ? `${weekday(a)}–${weekday(b)}` : weekday(a) }))
     : el('span', { class: 'when' }, el('b', { class: 'pill', text: '未定' }));
 
-  const what = el('span', { class: 'what' },
+  const what = el('span', null,
     el('span', { class: 't', text: e.title || '（名前なし）' }),
     el('span', { class: 'meta' },
       isShown(e, 'badges') && isRecentChange(e) ? el('span', { class: 'badge upd', text: e.lastChange.manual ? '公式で再更新' : '日程更新' }) : null,
@@ -67,7 +67,7 @@ export function rowEl(e, past, pinned = false) {
   }, when, what, isNew(e) ? el('span', { class: 'row-tab row-new', text: 'NEW' }) : null);
 
   // 開いた予定は、ヘッダーの下に固定して詳細を出す。一覧の中の行には詳細を出さず、印だけ付ける。
-  return el('li', { class: 'row' + (past ? ' past' : '') + (open && !pinned ? ' is-open' : ''), 'data-id': e.id }, btn, open && pinned ? detailEl(e) : null);
+  return el('li', { class: 'row' + (open && !pinned ? ' is-open' : ''), 'data-id': e.id }, btn, open && pinned ? detailEl(e) : null);
 }
 
 function detailEl(e) {

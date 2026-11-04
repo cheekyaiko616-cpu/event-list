@@ -33,7 +33,7 @@ function keepFilterValid() {
   if (f !== 'all' && (hidden || !state.tabs.some((t) => t.id === f))) state.ui.filter = 'all';
 }
 
-export async function persist() {
+async function persist() {
   try {
     await saveData(snapshot());
     state.saveError = false;
@@ -54,8 +54,7 @@ export async function commit() {
 
 /** 起動時に1回だけ呼ぶ。 */
 export async function init() {
-  const { status, data, cloud } = await loadData();
-  state.cloud = !!cloud;
+  const { status, data } = await loadData();
   if (status === 'ok') {
     apply(normalizeData(data));
   } else {

@@ -35,8 +35,8 @@ export function openWeatherSheet(pos, date, label, place) {
     body.append(el('ul', { class: 'wh-list' }, rows.map((r) => {
       const { icon, label: word } = weatherLabel(r.code);
       return el('li', { class: 'wh-row', 'aria-label': `${r.hour}時 ${word} ${r.temp}度 降水確率${r.pop}%` },
-        el('span', { class: 'wh-h', text: `${r.hour}時` }),
-        el('span', { class: 'wh-i', 'aria-hidden': 'true', text: icon }),
+        el('span', { text: `${r.hour}時` }),
+        el('span', { 'aria-hidden': 'true', text: icon }),
         el('span', { class: 'wh-t', text: `${r.temp}°` }),
         el('span', { class: 'wh-w', text: word }),
         el('span', { class: 'wh-p', text: `降水 ${r.pop}%` }));

@@ -55,21 +55,16 @@
 .palette { display: flex; flex-wrap: wrap; gap: var(--sp-3); margin-top: var(--sp-2); }
 .swatch { width: 40px; height: 40px; border: 2px solid var(--line); border-radius: 50%; background: var(--c); }
 .swatch[aria-pressed="true"] { border-color: var(--fg); box-shadow: 0 0 0 2px var(--surface) inset; }
-.tab-confirm { margin-top: var(--sp-3); padding: var(--sp-3); border: 1px solid var(--line); border-radius: var(--r-m); background: var(--bg); }
-.tab-confirm p { margin: 0 0 8px; font-size: var(--fs-sm); }
+.tab-confirm, .confirm-box { margin-top: var(--sp-3); padding: var(--sp-3); border: 1px solid var(--line); border-radius: var(--r-m); background: var(--bg); }
+.tab-confirm p, .confirm-box p { margin: 0 0 8px; font-size: var(--fs-sm); }
 .tab-new-row { display: flex; gap: 8px; margin-top: 4px; }
 .more { margin-top: var(--sp-4); }
 .more summary { cursor: pointer; font-size: var(--fs-sm); font-weight: 500; color: var(--muted); min-height: 32px; }
 
 /* 設定 */
-.set-sec { margin-top: var(--sp-5); padding-top: 16px; border-top: 1px solid var(--line); }
-.set-sec:first-of-type { margin-top: 12px; padding-top: 0; border-top: 0; }
-.set-sec h3 { margin: 0 0 4px; font-size: var(--fs-md); font-weight: 500; }
 .set-sec .check { margin-top: 8px; }
 .set-sec .actions { margin-top: var(--sp-3); }
 .set-msg { min-height: 1.4em; margin: 8px 0 0; font-size: var(--fs-sm); font-weight: 500; }
-.confirm-box { margin-top: var(--sp-3); padding: var(--sp-3); border: 1px solid var(--line); border-radius: var(--r-m); background: var(--bg); }
-.confirm-box p { margin: 0 0 8px; font-size: var(--fs-sm); }
 
 /* イベント更新履歴：日ごとのカード */
 .up-card { margin-top: var(--sp-4); padding: var(--sp-3); border: 1px solid var(--line); border-radius: var(--r-m); background: var(--bg); }
@@ -97,7 +92,6 @@
 .date-row .btn { padding: 0; min-width: 44px; }
 
 /* タブの編集：表示の選択欄。項目は「このタブを一覧に出す」の下に、少し字下げして並べる */
-#te-show .check { margin-top: 0; min-height: 40px; }
 #te-show .check-sub { padding-left: 24px; }
 #te-show input:disabled + * , #te-show .check:has(input:disabled) { opacity: .45; }
 
