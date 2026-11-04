@@ -1,10 +1,10 @@
 // 「すべて」タブの上にある絞り込みボタンと、その選択画面。
-import { state, notify } from '../state.js';
+import { notify } from '../state.js';
 import { $, el, clear } from '../util/dom.js';
 import { colorCss } from '../util/tab-color.js';
 import { mountSheet, showSheet, hideSheet } from './sheet.js';
 import { sortedTabs } from '../data/tabs.js';
-import { isOff, offCount, setOff, resetOff } from '../data/all-filter.js';
+import { isOff, setOff, resetOff } from '../data/all-filter.js';
 
 const MARKUP = `
   <div class="sheet" id="af-sheet" role="dialog" aria-modal="true" aria-labelledby="af-heading">
@@ -41,13 +41,8 @@ function renderList() {
   });
 }
 
-/** 一覧の上に固定する、絞り込みボタン。「すべて」を開いているときだけ出す。 */
-export function allFilterEl() {
-  const tabs = state.tabs.filter((t) => !t.hidden);
-  const n = offCount();
-  return el('div', { class: 'wrap af-bar' },
-    el('button', {
-      class: `btn af-btn${n ? ' on' : ''}`, type: 'button', id: 'btn-af',
-      onclick: () => { renderList(); showSheet(wrap); }
-    }, '絞り込み ', el('span', { class: 'af-n', text: n ? `${tabs.length - n}/${tabs.length}` : '全て' })));
+/** 「すべて」の左横のボタンから開く。 */
+export function openAllFilter() {
+  renderList();
+  showSheet(wrap);
 }

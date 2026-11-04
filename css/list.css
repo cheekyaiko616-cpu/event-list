@@ -1,14 +1,19 @@
 /* 一覧画面：月の帯、予定の行、詳細、お知らせ、空の状態。 */
 .month { margin-top: 18px; }
-/* 週の帯：その週を見ているあいだは上に固定し、次の週に入ると入れ替わる */
+/* 月の帯：その月を見ているあいだは上に固定し、次の月に入ると入れ替わる。週の見出しは、その中の細い区切り */
 .band {
   position: sticky; top: 0; z-index: 2;
   background: hsl(var(--h) var(--band-bg-s) var(--band-bg-l));
   color: hsl(var(--h) var(--band-fg-s) var(--band-fg-l));
 }
-.band-in { display: flex; align-items: baseline; gap: 10px; padding-block: 8px; }
-.band-w { font-size: var(--fs-md); font-weight: 600; }
-.band-s { font-size: var(--fs-sm); font-variant-numeric: tabular-nums; opacity: .85; }
+.band-in { display: flex; align-items: baseline; gap: 4px; padding-block: 8px; }
+.band-m, .band-y { font: 500 var(--fs-display)/1 var(--font-num); font-variant-numeric: tabular-nums; }
+.band-y { margin-right: 10px; }
+.band-u { font-size: var(--fs-md); font-weight: 500; }
+.week-h { display: flex; align-items: baseline; gap: 8px; padding-block: 8px 2px; font-size: var(--fs-sm); color: var(--muted); border-bottom: 1px solid var(--line); }
+.week-w { font-weight: 600; color: var(--fg); }
+.week-s, .week-n { font-variant-numeric: tabular-nums; }
+.week-n { margin-left: auto; }
 .band-r { margin-left: auto; font-size: var(--fs-sm); font-weight: 500; font-variant-numeric: tabular-nums; }
 .band.tbd { background: var(--surface); color: var(--muted); border-block: 1px solid var(--line); }
 .band.tbd .band-t { font-size: var(--fs-md); font-weight: 500; }
@@ -32,7 +37,7 @@
 .t { display: block; font-size: var(--fs-lg); font-weight: 500; line-height: 1.5; letter-spacing: 0; overflow-wrap: anywhere; }
 .meta { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; margin-top: 3px; font-size: var(--fs-sm); color: var(--muted); }
 .dot-t { display: inline-block; width: 9px; height: 9px; margin: 0 7px 1px 0; border-radius: 3px; background: var(--c); }
-.row-tab { margin-left: auto; color: var(--c); font-size: var(--fs-cap); font-weight: 500; white-space: nowrap; }
+.row-tab { margin-left: auto; padding: 1px 9px; border: 1px solid color-mix(in srgb, var(--c) 55%, transparent); border-radius: 999px; color: var(--c); font-size: var(--fs-cap); font-weight: 500; line-height: 1.5; white-space: nowrap; }
 .badge { padding: 1px 6px; border-radius: 4px; background: var(--note-bg); color: var(--note-fg); font-size: var(--fs-cap); font-weight: 500; line-height: 1.5; }
 
 

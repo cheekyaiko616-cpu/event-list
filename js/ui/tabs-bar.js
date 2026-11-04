@@ -4,6 +4,8 @@ import { $, el, clear } from '../util/dom.js';
 import { visibleTabs } from '../data/settings.js';
 import { colorCss } from '../util/tab-color.js';
 import { openTabAdd } from './tab-add.js';
+import { openAllFilter } from './all-filter-sheet.js';
+import { offCount } from '../data/all-filter.js';
 import { slideList } from './motion.js';
 
 export function initTabsBar() {
@@ -39,6 +41,13 @@ function tabButton(x, ids) {
   });
 }
 
+/** じょうご形の絞り込みボタン（「すべて」の左横）。 */
+function filterButton() {
+  const b = el('button', { class: 'tab tab-filter', type: 'button', id: 'btn-af', 'aria-label': '「すべて」に出すタブを選ぶ', onclick: openAllFilter });
+  b.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4h18l-7 8.5V20l-4-2v-5.5z"/></svg>'; // 固定の図だけ
+  return b;
+}
+
 export function renderTabsBar() {
   const scroller = $('#tabs');
   const inner = $('#tabs-in');
@@ -53,11 +62,14 @@ export function renderTabsBar() {
   if (key !== shownKey) { // タブが増減・改名・色変更されたときだけ、作り直す
     shownKey = key;
     clear(inner);
+    inner.append(filterButton());
     items.forEach((x) => inner.append(tabButton(x, ids)));
     inner.append(el('button', {
       class: 'tab tab-add', type: 'button', 'aria-label': 'タブを追加', text: '＋', onclick: openTabAdd
     }));
   }
+  const fb = $('#btn-af');
+  if (fb) fb.classList.toggle('on', offCount() > 0); // 絞り込み中の印
   // 選んでいる印だけを、その場で付け替える（切り替えのたびに作り直さない）
   inner.querySelectorAll('[data-tab]').forEach((b) => {
     const on = b.dataset.tab === state.ui.filter;
@@ -70,7 +82,8 @@ export function renderTabsBar() {
   scroller.scrollLeft = left;
   const sel = inner.querySelector('[aria-selected="true"]');
   const pinned = inner.querySelector('.tab-all');
-  const stickyW = pinned ? pinned.offsetWidth + 4 : 0;
+  const funnel = inner.querySelector('.tab-filter');
+  const stickyW = pinned ? pinned.offsetWidth + (funnel ? funnel.offsetWidth + 4 : 0) + 4 : 0;
   if (sel && sel !== pinned) {
     if (sel.offsetLeft - stickyW < scroller.scrollLeft) {
       scroller.scrollLeft = Math.max(0, sel.offsetLeft - stickyW - 8);

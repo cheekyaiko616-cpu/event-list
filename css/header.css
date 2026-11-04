@@ -49,7 +49,7 @@
 .view-switch { padding-top: 10px; text-align: left; }
 
 /* 「すべて」は左に固定。ほかのタブだけが横に動く */
-.tab-all { position: sticky; left: 0; z-index: 3; }
+.tab-all { position: sticky; left: 48px; z-index: 3; }
 
 /* 左の引き出し */
 .drawer-handle {
@@ -82,11 +82,11 @@
 #app-now { flex: none; max-height: 30dvh; overflow-y: auto; overscroll-behavior: none; padding-bottom: 8px; } /* 背景は付けない（飛行機の柄を、全画面で共通に見せる） */
 #app-now:empty { display: none; }
 
-/* 「すべて」の絞り込みボタン */
-.af-bar { padding-top: 6px; text-align: left; }
-.af-btn { min-height: 36px; font-size: var(--fs-cap); }
-.af-btn.on { border-color: var(--ink); }
-.af-n { font-variant-numeric: tabular-nums; color: var(--muted); }
-.af-btn.on .af-n { color: var(--fg); font-weight: 600; }
 .af-row { margin-top: 0; min-height: 44px; flex: 1; }
 .af-row .dot { flex: none; }
+
+/* 「すべて」の左横の、じょうご形の絞り込みボタン。絞り込み中は色を付ける */
+.tab-filter { position: sticky; left: 0; z-index: 4; min-width: 44px; padding: 0 10px; color: var(--muted); }
+.tab-filter svg { display: block; width: 20px; height: 20px; fill: currentColor; }
+.tab-filter.on { color: var(--fg); border-top-color: var(--fg); }
+.tab-filter.on::after { content: ""; position: absolute; top: 8px; right: 7px; width: 7px; height: 7px; border-radius: 50%; background: var(--fg); }

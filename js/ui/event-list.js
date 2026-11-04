@@ -4,11 +4,10 @@ import { $, el, clear } from '../util/dom.js';
 import { todayIso, addDaysIso, parseDate } from '../util/date.js';
 import { nextCloseDeadline } from '../data/dates.js';
 import { isShown } from '../data/settings.js';
-import { selectVisible, groupByWeek } from '../data/events.js';
+import { selectVisible, groupByMonth, groupByWeek } from '../data/events.js';
 import { openEventSheet } from './event-sheet.js';
 import { nowStrip, nextStrip, deadlineStrip } from './next-card.js';
 import { viewSwitchEl } from './view-switch.js';
-import { allFilterEl } from './all-filter-sheet.js';
 import { rowEl } from './event-row.js';
 import { renderPin } from './pin.js';
 import { statePanel } from './state-panel.js';
@@ -33,15 +32,24 @@ function weekRange(g) {
   return `${yr}${a.m}/${a.d}–${a.m === b.m ? '' : `${b.m}/`}${b.d}`;
 }
 
-function weekSection(g, past) {
-  const hue = hueOf(parseDate(g.start).m);
-  return el('section', { class: 'month', style: `--h:${hue}` },
+/** 月の帯（上に固定）。その中を、週の見出しで区切る。 */
+function monthSection(g, past) {
+  const parts = [];
+  groupByWeek(g.items).forEach((w) => {
+    parts.push(el('div', { class: 'wrap week-h' },
+      el('span', { class: 'week-w', text: weekLabel(w) }),
+      el('span', { class: 'week-s', text: weekRange(w) }),
+      el('span', { class: 'week-n', text: `${w.items.length}件` })));
+    parts.push(el('ul', { class: 'wrap rows' }, w.items.map((e) => rowEl(e, past))));
+  });
+  return el('section', { class: 'month', style: `--h:${hueOf(g.m)}` },
     el('div', { class: 'band' },
       el('div', { class: 'wrap band-in' },
-        el('span', { class: 'band-w', text: weekLabel(g) }),
-        el('span', { class: 'band-s', text: weekRange(g) }),
+        g.y !== new Date().getFullYear() ? el('span', { class: 'band-y', text: String(g.y) }) : null, // 今の年と違うときだけ、月の左に年を出す
+        el('span', { class: 'band-m', text: String(g.m) }),
+        el('span', { class: 'band-u', text: '月' }),
         el('span', { class: 'band-r', text: `${g.items.length}件` }))),
-    el('ul', { class: 'wrap rows' }, g.items.map((e) => rowEl(e, past))));
+    parts);
 }
 
 function undatedSection(items) {
@@ -82,11 +90,10 @@ function buildView(root, now, neighbor = false) {
   }
 
   if (past) now.append(viewSwitchEl()); // 過去の一覧では、戻るボタンを一覧の外に固定する
-  if (!past && state.ui.filter === 'all') now.append(allFilterEl());
   const v = selectVisible();
   if (!past) appendNow(now, v);
 
-  const sections = groupByWeek(past ? v.past : v.up).map((g) => ({ n: g.items.length, make: () => weekSection(g, past) }));
+  const sections = groupByMonth(past ? v.past : v.up).map((g) => ({ n: g.items.length, make: () => monthSection(g, past) }));
   if (!past && v.undated.length) sections.push({ n: v.undated.length, make: () => undatedSection(v.undated) });
   if (!sections.length) root.append(emptyEl(past));
   appendChunked(root, sections, neighbor);
