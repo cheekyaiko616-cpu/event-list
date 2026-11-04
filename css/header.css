@@ -38,13 +38,17 @@
 .brand-row { display: flex; align-items: center; gap: 8px; }
 .bar > div:first-child { min-width: 0; flex: none; }
 
-/* 右下の「＋」（予定の追加） */
+/* 画面下部のフッター：右下に「＋」（予定の追加）。一覧の下に並べるので、最後の行が隠れない。背景は付けない（飛行機の柄を共通に見せる） */
+.foot {
+  flex: none; display: flex; align-items: center; justify-content: flex-end;
+  min-height: calc(var(--foot-h) + env(safe-area-inset-bottom, 0px));
+  padding: 8px max(16px, env(safe-area-inset-right, 0px)) calc(8px + env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px));
+  border-top: 1px solid var(--line);
+}
 .fab {
-  position: fixed; z-index: 10;
-  right: max(16px, env(safe-area-inset-right, 0px)); bottom: calc(18px + env(safe-area-inset-bottom, 0px));
-  width: 54px; height: 54px; padding: 0; border: 0; border-radius: 50%;
+  flex: none; width: 48px; height: 48px; padding: 0; border: 0; border-radius: 50%;
   background: var(--ink); color: var(--on-ink); font-size: var(--fs-xl); line-height: 1;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, .2);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, .2);
 }
 .view-switch { padding-top: 10px; text-align: left; }
 

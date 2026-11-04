@@ -73,13 +73,13 @@
 @keyframes skel { to { background-position: -200% 0; } }
 @media (prefers-reduced-motion: reduce) { .skel-d, .skel-t { animation: none; } }
 .list-more { height: 1px; }
-.end-space { height: calc(72px + env(safe-area-inset-bottom, 0px)); }
+.end-space { height: 24px; } /* 下のフッターは一覧の外にあるので、末尾の空きは少しでよい */
 
 .badge.upd { background: var(--ink); color: var(--on-ink); }
 .badge.man { background: var(--line); color: var(--fg); }
 
 /* 開いた予定の固定表示（ヘッダーの下）。1画面に収まるよう高さに上限を付ける。一覧と背景色を変えて見分けやすくする */
-#app-pin { flex: none; max-height: 100dvh; overflow-y: auto; overscroll-behavior: contain; background: var(--surface); border-bottom: 1px solid var(--line); box-shadow: 0 10px 16px -12px rgba(0, 0, 0, .32); }
+#app-pin { flex: 0 1 auto; min-height: 0; max-height: 100dvh; overflow-y: auto; overscroll-behavior: contain; background: var(--surface); border-bottom: 1px solid var(--line); box-shadow: 0 10px 16px -12px rgba(0, 0, 0, .32); }
 #app-pin:empty { display: none; }
 #app-pin .rows { padding-block: 0; }
 #app-pin .row { border-bottom: 0; }

@@ -3,6 +3,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { parseDate, addDaysIso, eventEnd, compareEvents } from '../js/util/date.js';
 import { weekStart, placeDate, groupByMonth, groupByWeek } from '../js/util/group.js';
+import { closeDeadlines } from '../js/data/dates.js';
 
 test('実在しない日付・空欄は null', () => {
   assert.equal(parseDate('2026-02-30'), null);
@@ -57,4 +58,16 @@ test('続いている予定は、置く日付でまとめる', () => {
   assert.equal(months.length, 1);
   assert.equal(months[0].m, 11);
   assert.equal(groupByWeek(months[0].items, key).length, 1);
+});
+
+test('申込締切は、今日以降だけを近い順に並べる（1件の予定につき1つ）', () => {
+  const ev = [
+    { id: 'a', dates: [{ kind: 'close', date: '2099-12-31' }] },
+    { id: 'b', dates: [{ kind: 'close', date: '2000-01-01' }] },                                   // 過去は除く
+    { id: 'c', dates: [{ kind: 'open', date: '2099-01-01' }, { kind: 'close', date: '2099-03-01' }, { kind: 'close', date: '2099-05-01' }] }, // 近い締切だけ
+    { id: 'd', dates: [{ kind: 'result', date: '2099-02-01' }] },                                   // 締切でなければ除く
+    { id: 'e' }
+  ];
+  assert.deepEqual(closeDeadlines(ev).map((x) => [x.e.id, x.d.date]), [['c', '2099-03-01'], ['a', '2099-12-31']]);
+  assert.deepEqual(closeDeadlines([]), []);
 });

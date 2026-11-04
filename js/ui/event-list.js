@@ -2,12 +2,12 @@
 import { state } from '../state.js';
 import { $, el, clear } from '../util/dom.js';
 import { todayIso, addDaysIso, parseDate, compareEvents } from '../util/date.js';
-import { nextCloseDeadline } from '../data/dates.js';
+import { closeDeadlines } from '../data/dates.js';
 import { isShown } from '../data/settings.js';
 import { selectVisible } from '../data/events.js';
 import { groupByMonth, groupByWeek, placeDate, weekStart } from '../util/group.js';
 import { openEventSheet } from './event-sheet.js';
-import { nowStrip, nextStrip, deadlineStrip } from './next-card.js';
+import { nowStrip, nextStrip, deadlineStrip, moreGroup } from './next-card.js';
 import { viewSwitchEl } from './view-switch.js';
 import { rowEl } from './event-row.js';
 import { renderPin } from './pin.js';
@@ -122,8 +122,10 @@ function appendNow(now, v) {
   const today = todayIso();
   const live = v.up.filter((e) => e.date <= today);
   const next = v.up.find((e) => e.date > today);
-  const close = nextCloseDeadline([...v.up, ...v.undated].filter((e) => isShown(e, 'deadline'))); // 次の申込締切（日程未定の予定も含む）
-  if (live.length || next || close) now.append(el('div', { class: 'wrap' }, [...live.map(nowStrip), next ? nextStrip(next) : null, close ? deadlineStrip(close.e, close.d) : null]));
+  const closes = closeDeadlines([...v.up, ...v.undated].filter((e) => isShown(e, 'deadline'))); // 今日以降の申込締切（日程未定の予定も含む）。近い順
+  // 開催中と申込締切は、複数あるとき先頭の1本＋「＋N件」にまとめる（押すと縦に広がる）
+  const strips = [...moreGroup('live', live.map(nowStrip)), next ? nextStrip(next) : null, ...moreGroup('dl', closes.map((c) => deadlineStrip(c.e, c.d)))];
+  if (strips.some(Boolean)) now.append(el('div', { class: 'wrap' }, strips));
 }
 
 /**

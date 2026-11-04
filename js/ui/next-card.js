@@ -30,6 +30,22 @@ export function deadlineStrip(e, d) {
     el('span', { class: 'now-title', text: e.title || '（名前なし）' }));
 }
 
+/**
+ * 同じ種類の帯が複数あるとき、先頭の1本と「+N件」だけを出す。「+N件」を押すと、残りが縦に並び、「閉じる」で戻る。
+ * key は 'live'（開催中）か 'dl'（申込締切）。広げているかは state.ui.nowOpen[key]。帯が1本以下なら、そのまま返す。
+ */
+export function moreGroup(key, strips) {
+  if (strips.length <= 1) return strips;
+  const open = !!state.ui.nowOpen[key];
+  const more = el('button', {
+    class: 'now-more', type: 'button', 'aria-expanded': String(open),
+    'aria-label': open ? '残りの帯を閉じる' : `ほか${strips.length - 1}件を表示`,
+    onclick: () => { state.ui.nowOpen[key] = !open; notify(); }
+  }, open ? '閉じる' : `+${strips.length - 1}件`);
+  const head = el('div', { class: 'now-row' }, strips[0], more);
+  return open ? [head, ...strips.slice(1)] : [head];
+}
+
 /** 次の予定も、開催中と同じ大きさの1行の帯で出す。 */
 export function nextStrip(e) {
   const tab = tabById(e.type);

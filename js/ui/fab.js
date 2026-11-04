@@ -1,4 +1,4 @@
-// 画面右下の「＋」ボタン：予定を追加する。設定の画面では隠す。
+// 画面下部のフッターの右下に置く「＋」ボタン：予定を追加する。設定の画面ではフッターごと隠す。
 import { state } from '../state.js';
 import { $ } from '../util/dom.js';
 import { openEventSheet } from './event-sheet.js';
@@ -11,10 +11,10 @@ export function initFab() {
   b.setAttribute('aria-label', '予定を追加');
   b.textContent = '＋';
   b.addEventListener('click', () => openEventSheet(null));
-  document.body.append(b);
+  $('#app-foot').append(b);
 }
 
 export function renderFab() {
-  const b = $('#btn-add');
-  if (b) b.hidden = state.ui.screen === 'settings';
+  const f = $('#app-foot');
+  if (f) f.hidden = state.ui.screen === 'settings';
 }

@@ -13,6 +13,7 @@
   --line: #dcdfd8;
   --ink: #1a1d1b;
   --on-ink: #ffffff;
+  --foot-h: 64px;    /* 下のフッター（＋ボタン）の高さ（ホームバーの余白は別に足す） */
   --danger: #b42318;
   --note-bg: #fff1cf;
   --note-fg: #5f4300;

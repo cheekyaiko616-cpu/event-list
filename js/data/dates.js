@@ -16,15 +16,16 @@ export function cleanDates(list) {
   return out.slice(0, DATES_MAX);
 }
 
-/** 予定の一覧の中で、今日以降でいちばん近い「申込締切」。{ e, d } か、無ければ null。 */
-export function nextCloseDeadline(events) {
+/** 予定の一覧の中で、今日以降の「申込締切」を、近い順に並べる（1件の予定につき、いちばん近い締切1つ）。[{ e, d }]。無ければ空。 */
+export function closeDeadlines(events) {
   const t = todayIso();
-  let best = null;
+  const out = [];
   events.forEach((e) => {
     const d = (e.dates || []).find((x) => x.kind === 'close' && x.date >= t);
-    if (d && (!best || d.date < best.d.date)) best = { e, d };
+    if (d) out.push({ e, d });
   });
-  return best;
+  out.sort((a, b) => (a.d.date < b.d.date ? -1 : a.d.date > b.d.date ? 1 : 0)); // 同じ日は、もとの並びのまま
+  return out;
 }
 
 /** 今日以降でいちばん近い関連日付。無ければ null。 */
