@@ -36,7 +36,8 @@
 }
 .t { display: block; font-size: var(--fs-lg); font-weight: 500; line-height: 1.5; letter-spacing: 0; overflow-wrap: anywhere; }
 .meta { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; margin-top: 3px; font-size: var(--fs-sm); color: var(--muted); }
-.dot-t { display: inline-block; width: 9px; height: 9px; margin: 0 7px 1px 0; border-radius: 3px; background: var(--c); }
+.row-new { margin-left: 0; align-self: start; }
+.has-new { grid-template-columns: 56px minmax(0, 1fr) auto; }
 .row-tab { margin-left: auto; padding: 1px 9px; border: 1px solid color-mix(in srgb, var(--c) 55%, transparent); border-radius: 999px; color: var(--c); font-size: var(--fs-cap); font-weight: 500; line-height: 1.5; white-space: nowrap; }
 .badge { padding: 1px 6px; border-radius: 4px; background: var(--note-bg); color: var(--note-fg); font-size: var(--fs-cap); font-weight: 500; line-height: 1.5; }
 
@@ -69,7 +70,6 @@
 .list-more { height: 1px; }
 .end-space { height: calc(72px + env(safe-area-inset-bottom, 0px)); }
 
-.badge.new { background: var(--danger); color: #fff; letter-spacing: .06em; }
 .badge.upd { background: var(--ink); color: var(--on-ink); }
 .badge.man { background: var(--line); color: var(--fg); }
 
@@ -100,7 +100,6 @@
 /* 近い申し込み・期限の印。3日以内は目立たせる */
 .badge.dl { background: var(--line); color: var(--fg); }
 .badge.dl.soon { background: var(--ink); color: var(--on-ink); }
-@media (prefers-color-scheme: dark) { .badge.new { color: #1b2124; } }
 
 
 /* 予定を開いている間は「次の予定」の帯を隠し、詳細を1画面に収める */
