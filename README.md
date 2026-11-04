@@ -20,7 +20,7 @@ iPhoneのホーム画面に追加して使います。ビルド作業は不要�
 | 画面上部とタブの見た目 | `css/header.css` |
 | 一覧（月の帯・行・詳細）の見た目 | `css/list.css` |
 | 下から出る画面（入力・タブ管理・設定）の見た目 | `css/sheets.css` |
-| 上の帯（開催中・次の予定・申込締切）の中身・見た目と、複数あるときの「+N件」 | `js/ui/next-card.js` / `css/next.css` |
+| 上の1列の帯（開催中・次の予定・申込締切のうち、該当するものだけ。タップで縦に展開）の中身・見た目 | `js/ui/next-card.js` / `css/next.css` |
 | 一覧の表示内容（月の帯・日程未定・見える分だけ描く仕組み） | `js/ui/event-list.js` |
 | 予定1件の行と、開いたときの詳細・ボタン | `js/ui/event-row.js` |
 | 開いた予定をヘッダーの下に固定する仕組み | `js/ui/pin.js` / `js/ui/pin-close.js` |
@@ -42,7 +42,7 @@ iPhoneのホーム画面に追加して使います。ビルド作業は不要�
 | 「すべて」タブの中の絞り込み（保存 / 画面） | `js/data/all-filter.js` / `js/ui/all-filter-sheet.js` |
 | 設定画面（取り込み・バックアップ。引き出しから開く） | `js/ui/settings-page.js` / 見た目は `css/settings.css` |
 | 画面上部（タイトルと今日の日付） | `js/ui/header.js` |
-| 画面下部のフッター（右下の「＋」ボタン） | `js/ui/fab.js` / 見た目は `css/header.css` |
+| 右下の「＋」ボタン | `js/ui/fab.js` |
 | 左側面の引き出し（設定・過去・イベント更新履歴） | `js/ui/drawer.js` |
 | 「これから／過去」の切り替え | `js/ui/view-switch.js` |
 | タブの上限・アラートの選択肢（初めはタブなし。自動取得の予定が入ると、そのタブ名で現れる） | `js/config.js` |

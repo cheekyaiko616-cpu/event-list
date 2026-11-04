@@ -31,19 +31,26 @@ export function deadlineStrip(e, d) {
 }
 
 /**
- * 同じ種類の帯が複数あるとき、先頭の1本と「+N件」だけを出す。「+N件」を押すと、残りが縦に並び、「閉じる」で戻る。
- * key は 'live'（開催中）か 'dl'（申込締切）。広げているかは state.ui.nowOpen[key]。帯が1本以下なら、そのまま返す。
+ * 一覧の上の1列の帯。groups は該当する項目だけ（[{ key: 'live'|'next'|'dl', label, strips }]）。
+ * 各項目を1つのボタンにして横に並べ、押すとその項目の予定が下に縦に広がる（もう一度押すと閉じる。広げるのは1つだけ）。
+ * 2件以上あるときは、ボタンに件数を添える。返すのは、1列の帯と、広げている項目の帯。
  */
-export function moreGroup(key, strips) {
-  if (strips.length <= 1) return strips;
-  const open = !!state.ui.nowOpen[key];
-  const more = el('button', {
-    class: 'now-more', type: 'button', 'aria-expanded': String(open),
-    'aria-label': open ? '残りの帯を閉じる' : `ほか${strips.length - 1}件を表示`,
-    onclick: () => { state.ui.nowOpen[key] = !open; notify(); }
-  }, open ? '閉じる' : `+${strips.length - 1}件`);
-  const head = el('div', { class: 'now-row' }, strips[0], more);
-  return open ? [head, ...strips.slice(1)] : [head];
+export function nowBar(groups) {
+  if (!groups.length) return [];
+  // 広げた項目は、そのタブでだけ有効（タブを切り替えると、閉じた状態から始まる）
+  const o = state.ui.nowOpen;
+  const open = o && o.f === state.ui.filter ? groups.find((g) => g.key === o.key) : null;
+  const bar = el('div', { class: 'now-bar' }, groups.map((g) => {
+    const on = g === open;
+    const n = g.strips.length;
+    return el('button', {
+      class: 'now-chip' + (on ? ' on' : ''), type: 'button', 'aria-expanded': String(on),
+      onclick: () => { state.ui.nowOpen = on ? null : { f: state.ui.filter, key: g.key }; notify(); }
+    },
+      el('span', { class: 'chip-t', text: g.label }),
+      n > 1 ? el('span', { class: 'chip-n', text: String(n) }) : null);
+  }));
+  return open ? [bar, ...open.strips] : [bar];
 }
 
 /** 次の予定も、開催中と同じ大きさの1行の帯で出す。 */

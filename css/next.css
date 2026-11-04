@@ -14,15 +14,16 @@
 .now-pill { flex: none; padding: 1px 8px; border-radius: 999px; background: var(--c); color: #fff; font-size: var(--fs-cap); font-weight: 500; letter-spacing: .04em; }
 .now-title { flex: 1; min-width: 0; font-size: var(--fs-md); font-weight: 500; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
-/* 複数あるときの「＋N件」：先頭の帯の右に並べる。押すと残りが縦に広がる */
-.now-row { display: flex; align-items: stretch; gap: 8px; margin-top: 10px; }
-.now-row .now { flex: 1; min-width: 0; width: auto; margin-top: 0; }
-.now-more {
-  flex: none; min-width: 64px; min-height: 40px; padding: 0 12px;
+/* 上の1列の帯：開催中・次の予定・申込締切のうち、該当するものだけを横に並べる。押すと、その項目の予定が下に縦に広がる */
+.now-bar { display: flex; gap: 8px; margin-top: 10px; }
+.now-chip {
+  flex: 1 1 0; min-width: 0; min-height: 40px; display: flex; align-items: center; justify-content: center; gap: 6px; padding: 0 8px;
   background: var(--surface); border: 1px solid var(--line); border-radius: 10px;
-  color: var(--fg); font-size: var(--fs-sm); font-weight: 500; font-variant-numeric: tabular-nums; white-space: nowrap;
+  color: var(--fg); font-size: var(--fs-sm); font-weight: 500; white-space: nowrap;
 }
-.now-more[aria-expanded="true"] { background: var(--ink); border-color: var(--ink); color: var(--on-ink); }
+.chip-n { min-width: 22px; padding: 0 6px; border-radius: 999px; background: var(--ink); color: var(--on-ink); font-size: var(--fs-cap); line-height: 1.5; font-variant-numeric: tabular-nums; }
+.now-chip.on { background: var(--ink); border-color: var(--ink); color: var(--on-ink); }
+.now-chip.on .chip-n { background: var(--on-ink); color: var(--ink); }
 
 .next-s .now-pill { background: transparent; color: var(--c); border: 1px solid var(--c); }
 

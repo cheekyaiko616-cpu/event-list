@@ -54,7 +54,7 @@ textarea.input { resize: vertical; }
 .legend { font-size: var(--fs-cap); font-weight: 500; color: var(--muted); }
 
 .toast {
-  position: fixed; left: 50%; bottom: calc(var(--foot-h) + 12px + env(safe-area-inset-bottom, 0px)); /* フッターの上に出す */
+  position: fixed; left: 50%; bottom: calc(16px + env(safe-area-inset-bottom, 0px));
   transform: translateX(-50%); z-index: 30;
   max-width: calc(100% - 32px); padding: 10px 16px; border-radius: 10px;
   background: var(--ink); color: var(--on-ink);
