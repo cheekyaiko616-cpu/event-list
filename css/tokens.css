@@ -21,6 +21,7 @@
   --c1: #c2410c; --c2: #2b7a3d; --c3: #3a4cc4; --c4: #b0266b;
   --c5: #0f766e; --c6: #8a5a00; --c7: #6d3fc9; --c8: #475569;
   --c9: #b91c1c; --c10: #0369a1; --c11: #4d7c0f; --c12: #a21caf;
+  --neon: #7ddc00; --neon-fg: #2f5a00; /* NEWの印（蛍光の黄緑） */
 
   /* 月ごとの帯の濃さ。色相は js 側で月ごとに決める */
   --band-bg-s: 30%; --band-bg-l: 92%; --band-fg-s: 28%; --band-fg-l: 30%;
@@ -60,6 +61,7 @@
     --c1: #ff9066; --c2: #6fd68a; --c3: #9aa8ff; --c4: #ff8fc0;
     --c5: #5fd6c9; --c6: #f0b95a; --c7: #b99bff; --c8: #a9b6c7;
     --c9: #f87171; --c10: #5cc8ff; --c11: #b5e04a; --c12: #e879f9;
+    --neon: #c6ff00; --neon-fg: #c6ff00;
 
     --band-bg-s: 20%; --band-bg-l: 17%; --band-fg-s: 38%; --band-fg-l: 82%;
   }

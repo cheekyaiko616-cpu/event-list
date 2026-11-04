@@ -63,7 +63,7 @@ export function rowEl(e, past, pinned = false) {
       state.ui.openId = e.id;
       notify();
     }
-  }, when, what, isNew(e) ? el('span', { class: 'row-tab row-new', style: `--c:${tabColorCss(tab)}`, text: 'NEW' }) : null);
+  }, when, what, isNew(e) ? el('span', { class: 'row-tab row-new', text: 'NEW' }) : null);
 
   // 開いた予定は、ヘッダーの下に固定して詳細を出す。一覧の中の行には詳細を出さず、印だけ付ける。
   return el('li', { class: 'row' + (past ? ' past' : '') + (open && !pinned ? ' is-open' : ''), 'data-id': e.id }, btn, open && pinned ? detailEl(e) : null);
