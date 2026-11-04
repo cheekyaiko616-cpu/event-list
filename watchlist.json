@@ -1,7 +1,7 @@
 {
   "app": "event-cho-watchlist",
   "version": 1,
-  "updatedAt": "2026-11-03T12:31:07.554Z",
+  "updatedAt": "2026-11-04T00:57:26.606Z",
   "tabs": [
     {
       "tabName": "モータースポーツ",
@@ -44,6 +44,11 @@
         "close",
         "result"
       ]
+    },
+    {
+      "tabName": "多肉/植物",
+      "watch": "愛知県および周辺での植物即売会イベント(但し、庭木、果樹、花のみのイベントは除く)",
+      "kinds": []
     }
   ]
 }
