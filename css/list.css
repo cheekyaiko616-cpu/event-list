@@ -10,7 +10,9 @@
 .band-m, .band-y { font: 500 var(--fs-display)/1 var(--font-num); font-variant-numeric: tabular-nums; }
 .band-y { margin-right: 10px; }
 .band-u { font-size: var(--fs-md); font-weight: 500; }
-.week-h { display: flex; align-items: baseline; gap: 8px; padding-block: 8px 2px; font-size: var(--fs-sm); color: var(--muted); border-bottom: 1px solid var(--line); }
+.week { position: relative; }
+.week-h { position: sticky; top: var(--band-h, 48px); z-index: 1; background: var(--bg); border-bottom: 1px solid var(--line); }
+.week-in { display: flex; align-items: baseline; gap: 8px; padding-block: 8px 4px; font-size: var(--fs-sm); color: var(--muted); }
 .week-w { font-weight: 600; color: var(--fg); }
 .week-s, .week-n { font-variant-numeric: tabular-nums; }
 .week-n { margin-left: auto; }
@@ -22,6 +24,7 @@
 .row { border-bottom: 1px solid var(--line); }
 .row:last-child { border-bottom: 0; }
 .row-btn {
+  position: relative;
   display: grid; grid-template-columns: 56px minmax(0, 1fr); gap: 12px; align-items: start;
   width: 100%; padding: 12px 0; background: none; border: 0; text-align: left;
 }
@@ -36,9 +39,9 @@
 }
 .t { display: block; font-size: var(--fs-lg); font-weight: 500; line-height: 1.5; letter-spacing: 0; overflow-wrap: anywhere; }
 .meta { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; margin-top: 3px; font-size: var(--fs-sm); color: var(--muted); }
-.has-new { grid-template-columns: 56px minmax(0, 1fr) auto; }
+.has-new .t { padding-right: 54px; } /* NEWの下に文字が入らないよう、予定名だけ空ける（タブ名の位置は変えない） */
 .row-tab { margin-left: auto; padding: 1px 9px; border: 1px solid color-mix(in srgb, var(--c) 55%, transparent); border-radius: 999px; color: var(--c); font-size: var(--fs-cap); font-weight: 500; line-height: 1.5; white-space: nowrap; }
-.row-new { color: var(--neon-fg); margin-left: 0; align-self: start; border-color: var(--neon); background: color-mix(in srgb, var(--neon) 16%, transparent); font-weight: 700; letter-spacing: .06em; }
+.row-new { color: var(--neon-fg); position: absolute; top: 12px; right: 0; margin: 0; border-color: var(--neon); background: color-mix(in srgb, var(--neon) 16%, transparent); font-weight: 700; letter-spacing: .06em; }
 .badge { padding: 1px 6px; border-radius: 4px; background: var(--note-bg); color: var(--note-fg); font-size: var(--fs-cap); font-weight: 500; line-height: 1.5; }
 
 

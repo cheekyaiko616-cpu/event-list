@@ -36,11 +36,13 @@ function weekRange(g) {
 function monthSection(g, past) {
   const parts = [];
   groupByWeek(g.items).forEach((w) => {
-    parts.push(el('div', { class: 'wrap week-h' },
-      el('span', { class: 'week-w', text: weekLabel(w) }),
-      el('span', { class: 'week-s', text: weekRange(w) }),
-      el('span', { class: 'week-n', text: `${w.items.length}件` })));
-    parts.push(el('ul', { class: 'wrap rows' }, w.items.map((e) => rowEl(e, past))));
+    parts.push(el('div', { class: 'week' },
+      el('div', { class: 'week-h' },
+        el('div', { class: 'wrap week-in' },
+          el('span', { class: 'week-w', text: weekLabel(w) }),
+          el('span', { class: 'week-s', text: weekRange(w) }),
+          el('span', { class: 'week-n', text: `${w.items.length}件` }))),
+      el('ul', { class: 'wrap rows' }, w.items.map((e) => rowEl(e, past)))));
   });
   return el('section', { class: 'month', style: `--h:${hueOf(g.m)}` },
     el('div', { class: 'band' },
@@ -97,6 +99,17 @@ function buildView(root, now, neighbor = false) {
   if (!past && v.undated.length) sections.push({ n: v.undated.length, make: () => undatedSection(v.undated) });
   if (!sections.length) root.append(emptyEl(past));
   appendChunked(root, sections, neighbor);
+  if (!neighbor) syncBandH(root);
+}
+
+/** 月の帯の高さを覚えておく。週の見出しを、その真下に重ねて固定するため。 */
+function syncBandH(root) {
+  const set = () => {
+    const b = root.querySelector('.band');
+    if (b && b.offsetHeight) document.documentElement.style.setProperty('--band-h', `${b.offsetHeight}px`);
+  };
+  set();
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(set);
 }
 
 /** 一覧の上に固定する、開催中・次の予定・次の申込締切。 */
