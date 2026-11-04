@@ -4,7 +4,7 @@
   "entries": [
     {
       "date": "2026-11-04",
-      "summary": "新規27件（古着6件・多肉/植物21件）",
+      "summary": "新規28件（古着6件・多肉/植物22件）",
       "added": [
         {
           "title": "JUNCTION VINTAGE MARKET Vol.4",
@@ -140,6 +140,11 @@
           "title": "愛珍植祭 NEW YEAR PARTY 2027",
           "tab": "多肉/植物",
           "when": "2027/1/24"
+        },
+        {
+          "title": "植祭 植物で暮らしを楽しくする（2026年11月）",
+          "tab": "多肉/植物",
+          "when": "2026/11/28〜29"
         }
       ],
       "changed": []
