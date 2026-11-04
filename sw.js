@@ -1,7 +1,7 @@
 // オフラインでも開けるようにするための仕組み。
 // アプリ本体は保存済みのものをすぐ出し、裏で最新を取りに行く（下の fetch の説明を参照）。日程データ（json）は、いつも通信で最新を読む。
 // ファイルを追加・削除したら ASSETS を直し、CACHE の番号を上げる。
-const CACHE = 'event-cho-v144';
+const CACHE = 'event-cho-v145';
 const ASSETS = [
   './',
   'index.html',
