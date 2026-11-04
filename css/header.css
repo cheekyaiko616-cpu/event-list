@@ -23,13 +23,13 @@
   background: var(--top); /* すべてのタブで同じ（ヘッダーと共通）。切り替えで背景も大きさも変えない */
   border: 1px solid var(--line);
   border-top: 2px solid color-mix(in srgb, var(--c) 30%, var(--line));
-  border-radius: 8px 8px 0 0;
+  border-radius: var(--r-m) var(--r-m) 0 0;
   color: var(--muted); font-size: var(--fs-sm); font-weight: 500; white-space: nowrap;
 }
 /* 選んでいるタブは、上の線の色と文字の濃さだけで見分ける */
 .tab[aria-selected="true"] { border-top-color: var(--c); color: var(--fg); }
 .tab-add {
-  position: sticky; right: 0; min-width: 44px; padding: 0 10px;
+  position: sticky; right: 0; min-width: 44px; padding: 0 var(--sp-2);
   border-style: dashed; border-top-width: 1px; border-top-color: var(--line);
   font-size: var(--fs-lg); line-height: 1;
 }
@@ -41,14 +41,14 @@
 /* 右下の「＋」（予定の追加） */
 .fab {
   position: fixed; z-index: 10;
-  right: max(16px, env(safe-area-inset-right, 0px)); bottom: calc(18px + env(safe-area-inset-bottom, 0px));
+  right: max(16px, env(safe-area-inset-right, 0px)); bottom: calc(var(--sp-4) + env(safe-area-inset-bottom, 0px));
   width: 54px; height: 54px; padding: 0; border: 0; border-radius: 50%;
   background: var(--ink); color: var(--on-ink); font-size: var(--fs-xl); line-height: 1;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, .2);
+  box-shadow: var(--sh-strong);
   transition: opacity .2s;
 }
 .fab.dim { opacity: .25; } /* スクロール中は薄くする（押せるままにしてある） */
-.view-switch { padding-top: 10px; text-align: left; }
+.view-switch { padding-top: var(--sp-2); text-align: left; }
 
 /* 「すべて」は左に固定。ほかのタブだけが横に動く */
 .tab-all { position: sticky; left: 48px; z-index: 3; }
@@ -56,7 +56,7 @@
 /* 左の引き出し */
 .drawer-handle {
   position: fixed; z-index: 9; top: 42%; left: 0; width: 16px; height: 72px; padding: 0;
-  background: var(--ink); border: 0; border-radius: 0 10px 10px 0; opacity: .55;
+  background: var(--ink); border: 0; border-radius: 0 var(--r-m) var(--r-m) 0; opacity: .55;
 }
 .drawer-handle::before { content: ""; position: absolute; inset: -10px -30px -10px -4px; } /* 押しやすく */
 .drawer-handle::after {
@@ -70,13 +70,13 @@
 .drawer-scrim.open { background: rgba(0, 0, 0, .45); }
 .drawer {
   width: min(78vw, 300px); height: 100%; padding: calc(24px + env(safe-area-inset-top, 0px)) 16px calc(24px + env(safe-area-inset-bottom, 0px));
-  background: var(--surface); box-shadow: 6px 0 18px rgba(0, 0, 0, .25); cursor: auto;
+  background: var(--surface); box-shadow: var(--sh-side); cursor: auto;
   display: flex; flex-direction: column; gap: 8px; transform: translateX(-100%); transition: transform .2s ease-out;
 }
 .drawer-scrim.open .drawer { transform: none; }
 .drawer-item {
   min-height: 52px; padding: 0 16px; text-align: left; font-size: var(--fs-lg); font-weight: 500;
-  background: var(--bg); border: 1px solid var(--line); border-radius: 10px;
+  background: var(--bg); border: 1px solid var(--line); border-radius: var(--r-m);
 }
 .drawer-item.on { background: var(--ink); border-color: var(--ink); color: var(--on-ink); }
 
@@ -88,7 +88,7 @@
 .af-row .dot { flex: none; }
 
 /* 「すべて」の左横の、じょうご形の絞り込みボタン。絞り込み中は色を付ける */
-.tab-filter { position: sticky; left: 0; z-index: 4; min-width: 44px; padding: 0 10px; color: var(--muted); }
+.tab-filter { position: sticky; left: 0; z-index: 4; min-width: 44px; padding: 0 var(--sp-2); color: var(--muted); }
 .tab-filter svg { display: block; width: 20px; height: 20px; fill: currentColor; }
 .tab-filter.on { color: var(--fg); border-top-color: var(--fg); }
 .tab-filter.on::after { content: ""; position: absolute; top: 8px; right: 7px; width: 7px; height: 7px; border-radius: 50%; background: var(--fg); }

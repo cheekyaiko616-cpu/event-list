@@ -1,5 +1,5 @@
 /* 一覧画面：月の帯、予定の行、詳細、お知らせ、空の状態。 */
-.month { margin-top: 18px; }
+.month { margin-top: var(--sp-4); }
 /* 月の帯：その月を見ているあいだは上に固定し、次の月に入ると入れ替わる。週の見出しは、その中の細い区切り */
 .band {
   position: sticky; top: 0; z-index: 2;
@@ -8,7 +8,7 @@
 }
 .band-in { display: flex; align-items: baseline; gap: 4px; padding-block: 8px; }
 .band-m, .band-y { font: 500 var(--fs-display)/1 var(--font-num); font-variant-numeric: tabular-nums; }
-.band-y { margin-right: 10px; }
+.band-y { margin-right: var(--sp-2); }
 .band-u { font-size: var(--fs-md); font-weight: 500; }
 .week { position: relative; }
 .week-h { position: sticky; top: var(--band-h, 48px); z-index: 1; background: var(--bg); border-bottom: 1px solid var(--line); }
@@ -28,46 +28,46 @@
   display: grid; grid-template-columns: 56px minmax(0, 1fr); gap: 12px; align-items: start;
   width: 100%; padding: 12px 0; background: none; border: 0; text-align: left;
 }
-.when { display: flex; flex-direction: column; align-items: center; gap: 3px; text-align: center; }
+.when { display: flex; flex-direction: column; align-items: center; gap: var(--sp-1); text-align: center; }
 .d { font: 500 var(--fs-num)/1 var(--font-num); font-variant-numeric: tabular-nums; }
 .d.multi { font-size: var(--fs-num-s); }
 .d.cross { font-size: var(--fs-h2); font-weight: 600; white-space: nowrap; }
 .w { font-size: var(--fs-cap); line-height: 1.2; color: var(--muted); }
 .pill {
-  display: inline-block; margin-top: 4px; padding: 2px 8px;
-  border: 1px dashed var(--muted); border-radius: 999px;
+  display: inline-block; margin-top: 4px; padding: var(--pill-py) var(--pill-px); line-height: var(--pill-lh);
+  border: 1px dashed var(--muted); border-radius: var(--r-pill);
   font-size: var(--fs-cap); font-weight: 500; color: var(--muted);
 }
 .t { display: block; font-size: var(--fs-lg); font-weight: 500; line-height: 1.5; letter-spacing: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; } /* 一覧では1行。長いときは … */
 #app-pin .t { overflow: visible; white-space: normal; overflow-wrap: anywhere; } /* 開いた予定は、全文を出す */
-.meta { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; margin-top: 3px; font-size: var(--fs-sm); color: var(--muted); }
+.meta { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-1) var(--sp-2); margin-top: var(--sp-1); font-size: var(--fs-sm); color: var(--muted); }
 .has-new .t { padding-right: 54px; } /* NEWの下に文字が入らないよう、予定名だけ空ける（タブ名の位置は変えない） */
-.row-tab { margin-left: auto; padding: 1px 9px; border: 1px solid color-mix(in srgb, var(--c) 55%, transparent); border-radius: 999px; color: var(--c); font-size: var(--fs-cap); font-weight: 500; line-height: 1.5; white-space: nowrap; }
+.row-tab { margin-left: auto; padding: var(--pill-py) var(--pill-px); border: 1px solid color-mix(in srgb, var(--c) 55%, transparent); border-radius: var(--r-pill); color: var(--c); font-size: var(--fs-cap); font-weight: 500; line-height: 1.5; white-space: nowrap; }
 .row-new { --c: var(--neon-fg); position: absolute; top: 12px; right: 0; margin: 0; }
-.badge { padding: 1px 6px; border-radius: 4px; background: var(--note-bg); color: var(--note-fg); font-size: var(--fs-cap); font-weight: 500; line-height: 1.5; }
+.badge { padding: var(--pill-py) var(--pill-px); border: 1px solid transparent; border-radius: var(--r-pill); background: var(--note-bg); color: var(--note-fg); font-size: var(--fs-cap); font-weight: 500; line-height: 1.5; }
 
 
-.detail { margin: 0 0 14px 68px; padding: 14px 16px; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; }
-.kv { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 6px 14px; margin: 0 0 12px; font-size: var(--fs-md); }
+.detail { margin: 0 0 var(--sp-3) 68px; padding: var(--sp-3) var(--sp-4); background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-m); }
+.kv { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: var(--sp-2) var(--sp-3); margin: 0 0 var(--sp-3); font-size: var(--fs-md); }
 .kv dt { padding-top: 2px; color: var(--muted); font-size: var(--fs-cap); white-space: nowrap; }
 .kv dd { margin: 0; overflow-wrap: anywhere; }
 .actions { display: flex; flex-wrap: wrap; gap: 8px; }
 
 .note {
-  display: flex; flex-direction: column; gap: 6px; align-items: flex-start;
-  margin-top: 12px; padding: 10px 12px; border-radius: 10px;
+  display: flex; flex-direction: column; gap: var(--sp-2); align-items: flex-start;
+  margin-top: var(--sp-3); padding: var(--sp-2) var(--sp-3); border-radius: var(--r-m);
   background: var(--note-bg); color: var(--note-fg); font-size: var(--fs-sm); line-height: 1.55;
 }
 .note p { margin: 0; }
 .empty { padding-block: 44px; text-align: center; color: var(--muted); }
-.empty p { margin: 0 0 14px; }
+.empty p { margin: 0 0 var(--sp-4); }
 .empty .actions { justify-content: center; }
 .empty .btn, .note .btn { min-height: 44px; }
 .empty .sub { font-size: var(--fs-sm); }
 /* 読み込み中の骨組み。動きが苦手な設定では止める */
-.skel { list-style: none; margin: 18px 0 0; padding: 0; display: grid; gap: 14px; }
-.skel-row { display: flex; align-items: center; gap: 14px; }
-.skel-d, .skel-t { display: block; border-radius: 6px; background: linear-gradient(90deg, var(--line) 25%, var(--surface) 50%, var(--line) 75%); background-size: 200% 100%; animation: skel 1.4s linear infinite; }
+.skel { list-style: none; margin: var(--sp-4) 0 0; padding: 0; display: grid; gap: var(--sp-4); }
+.skel-row { display: flex; align-items: center; gap: var(--sp-3); }
+.skel-d, .skel-t { display: block; border-radius: var(--r-s); background: linear-gradient(90deg, var(--line) 25%, var(--surface) 50%, var(--line) 75%); background-size: 200% 100%; animation: skel 1.4s linear infinite; }
 .skel-d { width: 40px; height: 36px; flex: none; }
 .skel-t { height: 16px; flex: 1; }
 @keyframes skel { to { background-position: -200% 0; } }
@@ -79,7 +79,7 @@
 .badge.man { background: var(--line); color: var(--fg); }
 
 /* 開いた予定の固定表示（ヘッダーの下）。1画面に収まるよう高さに上限を付ける。一覧と背景色を変えて見分けやすくする */
-#app-pin { flex: none; max-height: 100dvh; overflow-y: auto; overscroll-behavior: contain; background: var(--surface); border-bottom: 1px solid var(--line); box-shadow: 0 10px 16px -12px rgba(0, 0, 0, .32); }
+#app-pin { flex: none; max-height: 100dvh; overflow-y: auto; overscroll-behavior: contain; background: var(--surface); border-bottom: 1px solid var(--line); box-shadow: var(--sh-weak-down); }
 #app-pin:empty { display: none; }
 #app-pin .rows { padding-block: 0; }
 #app-pin .row { border-bottom: 0; }
@@ -87,9 +87,9 @@
 #app-pin .detail { margin: 0 0 8px 0; padding: 8px 12px; background: var(--bg); }
 #app-pin .kv { gap: 4px 12px; margin-bottom: 8px; font-size: var(--fs-sm); }
 #app-pin .kv dd { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3; line-clamp: 3; overflow: hidden; } /* 長い文は3行まで（詳しくは「編集」で） */
-#app-pin .actions { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; }
+#app-pin .actions { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--sp-2); }
 #app-pin .actions .btn { min-height: 40px; padding: 0 4px; white-space: nowrap; }
-#app-pin .trip-actions { margin-top: 6px; }
+#app-pin .trip-actions { margin-top: var(--sp-2); }
 .row.is-open { background: color-mix(in srgb, var(--fg) 6%, transparent); }
 
 /* タブのスワイプ中に見せる、隣のタブの仮の画面（指の動きに合わせて、今の画面に続いて動く） */
