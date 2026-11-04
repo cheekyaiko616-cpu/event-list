@@ -1,4 +1,5 @@
 // 予定1件の「行」と、タップで開く「詳細」。一覧（event-list.js）と固定表示（pin.js）で共通。
+import { tabColorCss } from '../util/tab-color.js';
 import { state, notify } from '../state.js';
 import { el } from '../util/dom.js';
 import { parseDate, weekday, eventEnd, formatRange, todayIso, addDaysIso, daysUntil } from '../util/date.js';
@@ -48,7 +49,7 @@ export function rowEl(e, past, pinned = false) {
     el('span', { class: 'meta' },
       isNew(e) ? el('span', { class: 'badge new', text: 'NEW' }) : null,
       state.ui.filter === 'all' && isShown(e, 'chip')
-        ? el('span', { class: 'chip', style: `--c:${tab ? `var(--c${tab.color})` : 'var(--muted)'}`, text: tab ? tab.name : '未分類' })
+        ? el('span', { class: 'chip', style: `--c:${tabColorCss(tab)}`, text: tab ? tab.name : '未分類' })
         : null,
       isShown(e, 'badges') && isRecentChange(e) ? el('span', { class: 'badge upd', text: e.lastChange.manual ? '公式で再更新' : '日程更新' }) : null,
       isShown(e, 'badges') && e.manual ? el('span', { class: 'badge man', text: '手動修正' }) : null,

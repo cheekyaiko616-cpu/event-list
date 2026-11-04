@@ -1,4 +1,5 @@
 // 一覧の一番上に出す、開催中と次の予定の1行の帯。
+import { tabColorCss } from '../util/tab-color.js';
 import { state, notify } from '../state.js';
 import { el } from '../util/dom.js';
 import { daysUntil, eventEnd, todayIso, parseDate } from '../util/date.js';
@@ -10,7 +11,7 @@ export function nowStrip(e) {
   const tab = tabById(e.type);
   const last = eventEnd(e) === todayIso();
   return el('button', {
-    class: 'now', type: 'button', style: `--c:${tab ? `var(--c${tab.color})` : 'var(--muted)'}`,
+    class: 'now', type: 'button', style: `--c:${tabColorCss(tab)}`,
     onclick: () => { if (state.ui.openId) { closeDetail(); return; } state.ui.openId = e.id; notify(); }
   },
     el('span', { class: 'now-pill', text: '開催中' }),
@@ -25,7 +26,7 @@ export function deadlineStrip(e, d) {
   const p = parseDate(d.date);
   const left = n === 0 ? '今日まで' : n === 1 ? '明日まで' : `${p.m}/${p.d}（あと${n}日）`;
   return el('button', {
-    class: 'now dl-s' + (n <= 3 ? ' soon' : ''), type: 'button', style: `--c:${tab ? `var(--c${tab.color})` : 'var(--muted)'}`,
+    class: 'now dl-s' + (n <= 3 ? ' soon' : ''), type: 'button', style: `--c:${tabColorCss(tab)}`,
     onclick: () => { if (state.ui.openId) { closeDetail(); return; } state.ui.openId = e.id; notify(); }
   },
     el('span', { class: 'now-pill', text: '申込締切' }),
@@ -39,7 +40,7 @@ export function nextStrip(e) {
   const n = daysUntil(e.date);
   const left = n === 0 ? '今日' : n === 1 ? '明日' : `${n}日後`;
   return el('button', {
-    class: 'now next-s', type: 'button', style: `--c:${tab ? `var(--c${tab.color})` : 'var(--muted)'}`,
+    class: 'now next-s', type: 'button', style: `--c:${tabColorCss(tab)}`,
     onclick: () => { if (state.ui.openId) { closeDetail(); return; } state.ui.openId = e.id; notify(); }
   },
     el('span', { class: 'now-pill', text: '次の予定' }),

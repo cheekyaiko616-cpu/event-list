@@ -1,6 +1,7 @@
 // 保存データや読み込んだファイルの中身を、安全な形に整える。
 // 項目を増やすときは、ここに足す。
-import { COLORS, WATCH_MAX } from '../config.js';
+import { WATCH_MAX } from '../config.js';
+import { normalizeColor } from '../util/tab-color.js';
 import { normalizeSettings, normalizeShow, normalizeKinds } from './settings-normalize.js';
 import { parseDate } from '../util/date.js';
 import { cleanDates } from './dates.js';
@@ -18,7 +19,7 @@ export function normalizeData(raw) {
     tabs.push({
       id: t.id.slice(0, 60),
       name: str(t.name, 20) || '無題',
-      color: Number.isInteger(t.color) && t.color >= 1 && t.color <= COLORS ? t.color : COLORS,
+      color: normalizeColor(t.color),
       order: Number.isFinite(t.order) ? t.order : i + 1,
       watch: str(t.watch, WATCH_MAX).trim(),
       hidden: t.hidden === true, // 一覧に出さない

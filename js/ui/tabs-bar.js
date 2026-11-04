@@ -2,6 +2,7 @@
 import { state, notify } from '../state.js';
 import { $, el, clear } from '../util/dom.js';
 import { visibleTabs } from '../data/settings.js';
+import { colorCss } from '../util/tab-color.js';
 import { openTabAdd } from './tab-add.js';
 import { slideList } from './motion.js';
 
@@ -44,7 +45,7 @@ export function renderTabsBar() {
   const left = scroller.scrollLeft;
 
   const items = [{ id: 'all', name: 'すべて', color: 'var(--ink)' }].concat(
-    visibleTabs().map((t) => ({ id: t.id, name: t.name, color: `var(--c${t.color})` }))
+    visibleTabs().map((t) => ({ id: t.id, name: t.name, color: colorCss(t.color) }))
   );
   const ids = items.map((x) => x.id);
   const key = items.map((x) => `${x.id}\u0001${x.name}\u0001${x.color}`).join('\u0002');

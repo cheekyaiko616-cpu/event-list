@@ -4,6 +4,7 @@ import { commit } from './store.js';
 import { takeSnapshot } from './snapshots.js';
 import { COLORS, MAX_TABS, WATCH_MAX } from '../config.js';
 import { newId } from '../util/text.js';
+import { normalizeColor } from '../util/tab-color.js';
 import { compareJa } from '../util/date.js';
 import { normalizeShow, normalizeKinds } from './settings-normalize.js';
 
@@ -49,7 +50,7 @@ export async function updateTab(id, { name, color, watch, hidden, show, importKi
   const n = String(name).trim().slice(0, 20);
   if (!n) return { ok: false, error: 'タブの名前を入れてください。' };
   if (state.tabs.some((x) => x.id !== id && x.name === n)) return { ok: false, error: '同じ名前のタブがあります。' };
-  const c = Number.isInteger(color) && color >= 1 && color <= COLORS ? color : t.color;
+  const c = normalizeColor(color, t.color);
   const w = cleanWatch(watch);
   const h = hidden === true;
   const sh = normalizeShow(show, t.show);

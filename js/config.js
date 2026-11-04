@@ -12,7 +12,7 @@ export const SNAPSHOT = {
   maxBytes: 1500000   // 控え全体の大きさの上限。超えたら古いものから消す
 };
 
-export const COLORS = 8;     // タブの色の数（css/tokens.css の --c1〜--c8 と合わせる）
+export const COLORS = 12;    // タブの色の見本の数（css/tokens.css の --c1〜--c12 と合わせる）。見本のほかに、好きな色（#rrggbb）も選べる
 export const MAX_TABS = 12;  // タブの上限
 export const WATCH_MAX = 300; // タブごとの「取り込み内容」の文字数の上限
 

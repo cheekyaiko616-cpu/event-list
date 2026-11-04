@@ -4,6 +4,7 @@ import { mountSheet, showSheet, hideSheet } from './sheet.js';
 import { toast } from './toast.js';
 import { tabById, countEvents, updateTab, removeTab } from '../data/tabs.js';
 import { COLORS, WATCH_MAX, SHOW_KEYS, DATE_KINDS } from '../config.js';
+import { colorCss } from '../util/tab-color.js';
 import { refreshNow } from '../data/feed.js';
 
 const MARKUP = `
@@ -42,7 +43,7 @@ const MARKUP = `
 
 let wrap = null;
 let tabId = null;
-let color = 1;
+let color = 1; // 見本の番号か、好きな色（#rrggbb）
 let hidden = false;
 let show = {};
 let kinds = [];
@@ -60,11 +61,17 @@ function drawColors() {
   clear(box);
   for (let c = 1; c <= COLORS; c++) {
     box.append(el('button', {
-      class: 'swatch', type: 'button', style: `--c:var(--c${c})`,
+      class: 'swatch', type: 'button', style: `--c:${colorCss(c)}`,
       'aria-label': `色${c}`, 'aria-pressed': String(c === color), 'data-color': String(c),
       onclick: () => { color = c; drawColors(); }
     }));
   }
+  // 好きな色：端末の色選びの画面で、自由に選ぶ
+  const custom = typeof color === 'string';
+  const pick = el('input', { type: 'color', class: 'swatch-input', 'aria-label': '好きな色を選ぶ', value: custom ? color : '#3a8fd9' });
+  pick.addEventListener('input', () => { color = pick.value; const cs = box.querySelector('.swatch-custom'); cs.style.setProperty('--c', colorCss(color)); cs.classList.add('set'); cs.querySelector('.swatch-plus').textContent = ''; box.querySelectorAll('.swatch').forEach((s) => s.setAttribute('aria-pressed', String(s.classList.contains('swatch-custom')))); });
+  box.append(el('label', { class: 'swatch swatch-custom' + (custom ? ' set' : ''), style: custom ? `--c:${colorCss(color)}` : null, 'aria-pressed': String(custom), title: '好きな色' },
+    el('span', { class: 'swatch-plus', 'aria-hidden': 'true', text: custom ? '' : '＋' }), pick));
 }
 
 /** 自動で取り込む日付の種類の選択欄。 */

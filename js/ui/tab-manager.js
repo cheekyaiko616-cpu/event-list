@@ -1,4 +1,5 @@
 // タブの一覧の画面（設定から開く）。並び替えと、編集・追加の画面への入口だけを持つ。
+import { colorCss } from '../util/tab-color.js';
 import { $, el, clear } from '../util/dom.js';
 import { mountSheet, showSheet, hideSheet } from './sheet.js';
 import { sortedTabs, moveTab } from '../data/tabs.js';
@@ -40,7 +41,7 @@ function rowEl(tab, i, tabs) {
     el('button', {
       class: 'tab-row-main', type: 'button', 'data-edit': tab.id, onclick: () => openTabEdit(tab.id)
     },
-      el('span', { class: 'dot', style: `--c:var(--c${tab.color})` }),
+      el('span', { class: 'dot', style: `--c:${colorCss(tab.color)}` }),
       el('span', { class: 'tab-row-name', text: tab.name }),
       el('span', { class: 'tab-row-go', text: '編集' })),
     el('div', { class: 'mv' },
