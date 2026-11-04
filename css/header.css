@@ -45,7 +45,9 @@
   width: 54px; height: 54px; padding: 0; border: 0; border-radius: 50%;
   background: var(--ink); color: var(--on-ink); font-size: var(--fs-xl); line-height: 1;
   box-shadow: 0 6px 20px rgba(0, 0, 0, .2);
+  transition: opacity .2s;
 }
+.fab.dim { opacity: .25; } /* スクロール中は薄くする（押せるままにしてある） */
 .view-switch { padding-top: 10px; text-align: left; }
 
 /* 「すべて」は左に固定。ほかのタブだけが横に動く */
