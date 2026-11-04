@@ -41,7 +41,7 @@
 .meta { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; margin-top: 3px; font-size: var(--fs-sm); color: var(--muted); }
 .has-new .t { padding-right: 54px; } /* NEWの下に文字が入らないよう、予定名だけ空ける（タブ名の位置は変えない） */
 .row-tab { margin-left: auto; padding: 1px 9px; border: 1px solid color-mix(in srgb, var(--c) 55%, transparent); border-radius: 999px; color: var(--c); font-size: var(--fs-cap); font-weight: 500; line-height: 1.5; white-space: nowrap; }
-.row-new { color: var(--neon-fg); position: absolute; top: 12px; right: 0; margin: 0; border-color: var(--neon); background: color-mix(in srgb, var(--neon) 16%, transparent); font-weight: 700; letter-spacing: .06em; }
+.row-new { --c: var(--neon-fg); position: absolute; top: 12px; right: 0; margin: 0; }
 .badge { padding: 1px 6px; border-radius: 4px; background: var(--note-bg); color: var(--note-fg); font-size: var(--fs-cap); font-weight: 500; line-height: 1.5; }
 
 
