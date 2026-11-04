@@ -81,3 +81,12 @@
 /* 開催中・次の予定：一覧とは別に、ヘッダーの下へ固定 */
 #app-now { flex: none; max-height: 30dvh; overflow-y: auto; overscroll-behavior: none; padding-bottom: 8px; } /* 背景は付けない（飛行機の柄を、全画面で共通に見せる） */
 #app-now:empty { display: none; }
+
+/* 「すべて」の絞り込みボタン */
+.af-bar { padding-top: 6px; text-align: left; }
+.af-btn { min-height: 36px; font-size: var(--fs-cap); }
+.af-btn.on { border-color: var(--ink); }
+.af-n { font-variant-numeric: tabular-nums; color: var(--muted); }
+.af-btn.on .af-n { color: var(--fg); font-weight: 600; }
+.af-row { margin-top: 0; min-height: 44px; flex: 1; }
+.af-row .dot { flex: none; }

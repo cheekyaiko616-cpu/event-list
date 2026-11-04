@@ -39,6 +39,7 @@ iPhoneのホーム画面に追加して使います。ビルド作業は不要�
 | 文字の大きさの表（直接 px を書かず、`--fs-*` を使う） | `css/tokens.css` |
 | タブの並び | `js/ui/tabs-bar.js` |
 | タブの一覧・追加・編集の画面 | `js/ui/tab-manager.js` / `js/ui/tab-add.js` / `js/ui/tab-edit.js` |
+| 「すべて」タブの中の絞り込み（保存 / 画面） | `js/data/all-filter.js` / `js/ui/all-filter-sheet.js` |
 | 設定画面（取り込み・バックアップ。引き出しから開く） | `js/ui/settings-page.js` / 見た目は `css/settings.css` |
 | 画面上部（タイトルと今日の日付） | `js/ui/header.js` |
 | 右下の「＋」ボタン | `js/ui/fab.js` |

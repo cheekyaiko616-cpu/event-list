@@ -8,6 +8,7 @@ import { selectVisible, groupByMonth } from '../data/events.js';
 import { openEventSheet } from './event-sheet.js';
 import { nowStrip, nextStrip, deadlineStrip } from './next-card.js';
 import { viewSwitchEl } from './view-switch.js';
+import { allFilterEl } from './all-filter-sheet.js';
 import { rowEl } from './event-row.js';
 import { renderPin } from './pin.js';
 import { statePanel } from './state-panel.js';
@@ -64,6 +65,7 @@ function buildView(root, now, neighbor = false) {
   }
 
   if (past) now.append(viewSwitchEl()); // 過去の一覧では、戻るボタンを一覧の外に固定する
+  if (!past && state.ui.filter === 'all') now.append(allFilterEl());
   const v = selectVisible();
   if (!past) appendNow(now, v);
 
