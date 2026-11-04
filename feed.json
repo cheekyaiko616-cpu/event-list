@@ -1,7 +1,7 @@
 {
   "app": "event-cho-feed",
   "version": 1,
-  "updatedAt": "2026-11-03",
+  "updatedAt": "2026-11-04",
   "items": [
     {
       "id": "supergt-2027-r1",
@@ -710,7 +710,67 @@
           "note": "シリアル先行抽選 23:59まで"
         }
       ]
+    },
+    {
+      "id": "junction-vintage-vol4-20261107",
+      "tabName": "古着",
+      "title": "JUNCTION VINTAGE MARKET Vol.4",
+      "date": "2026-11-07",
+      "end": "2026-11-08",
+      "place": "愛知県岡崎市",
+      "source": "第三者サイト(Vinty)の情報・公式未確認 2026/11/04確認",
+      "url": "https://www.vinty.jp/events/search?type=monthly&month=11",
+      "note": "会場の詳しい場所・入場料は未確認。",
+      "checkedAt": "2026-11-04"
+    },
+    {
+      "id": "pullmarket-vol2-20261121",
+      "tabName": "古着",
+      "title": "PULL MARKET vol.2 大古着市",
+      "date": "2026-11-21",
+      "end": "",
+      "place": "愛知県岡崎市 籠田公園",
+      "source": "第三者サイト(Vinty)の情報・公式未確認 2026/11/04確認",
+      "url": "https://www.vinty.jp/events/search?type=monthly&month=11",
+      "note": "会場の詳しい場所・入場料は未確認。",
+      "checkedAt": "2026-11-04"
+    },
+    {
+      "id": "aichi-furugi-matsuri-20261128",
+      "tabName": "古着",
+      "title": "愛知古着祭",
+      "date": "2026-11-28",
+      "end": "",
+      "place": "愛知県名古屋市",
+      "source": "第三者サイト(Vinty)の情報・公式未確認 2026/11/04確認",
+      "url": "https://www.vinty.jp/events/search?type=monthly&month=11",
+      "note": "昨年は久屋大通公園・入場無料だったが、今年の会場は未確認。",
+      "checkedAt": "2026-11-04"
+    },
+    {
+      "id": "kov-vintage-vol3-20261129",
+      "tabName": "古着",
+      "title": "KOV VINTAGE MARKET vol.3",
+      "date": "2026-11-29",
+      "end": "",
+      "place": "愛知県常滑市",
+      "source": "第三者サイト(Vinty)の情報・公式未確認 2026/11/04確認",
+      "url": "https://www.vinty.jp/events/search?type=monthly&month=11",
+      "note": "会場の詳しい場所・入場料は未確認。",
+      "checkedAt": "2026-11-04"
+    },
+    {
+      "id": "japan-american-market-20261129",
+      "tabName": "古着",
+      "title": "Japan American Market",
+      "date": "2026-11-29",
+      "end": "",
+      "place": "愛知県西尾市",
+      "source": "第三者サイト(Vinty)の情報・公式未確認 2026/11/04確認",
+      "url": "https://www.vinty.jp/events/search?type=monthly&month=11",
+      "note": "会場の詳しい場所・入場料は未確認。",
+      "checkedAt": "2026-11-04"
     }
   ],
-  "checkedAt": "2026-11-03"
+  "checkedAt": "2026-11-04"
 }

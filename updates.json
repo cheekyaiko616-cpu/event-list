@@ -3,6 +3,38 @@
   "version": 1,
   "entries": [
     {
+      "date": "2026-11-04",
+      "summary": "新規5件（古着タブ）",
+      "added": [
+        {
+          "title": "JUNCTION VINTAGE MARKET Vol.4",
+          "tab": "古着",
+          "when": "2026/11/7〜8"
+        },
+        {
+          "title": "PULL MARKET vol.2 大古着市",
+          "tab": "古着",
+          "when": "2026/11/21"
+        },
+        {
+          "title": "愛知古着祭",
+          "tab": "古着",
+          "when": "2026/11/28"
+        },
+        {
+          "title": "KOV VINTAGE MARKET vol.3",
+          "tab": "古着",
+          "when": "2026/11/29"
+        },
+        {
+          "title": "Japan American Market",
+          "tab": "古着",
+          "when": "2026/11/29"
+        }
+      ],
+      "changed": []
+    },
+    {
       "date": "2026-11-03",
       "summary": "新規1件",
       "added": [
