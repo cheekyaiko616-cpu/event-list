@@ -1,7 +1,7 @@
 {
   "app": "event-cho-feed",
   "version": 1,
-  "updatedAt": "2026-11-04",
+  "updatedAt": "2026-11-05",
   "items": [
     {
       "id": "supergt-2027-r1",
@@ -121,7 +121,7 @@
       "source": "スーパー耐久シリーズ公式サイト「2027年の開催日程のご案内」2026/10/06。10/24確認",
       "url": "https://supertaikyu.com/news/schedule2027.html",
       "note": "暫定（変更の可能性あり）",
-      "checkedAt": "2026-10-24"
+      "checkedAt": "2026-11-05"
     },
     {
       "id": "taikyu-2027-r2",
@@ -133,7 +133,7 @@
       "source": "スーパー耐久シリーズ公式サイト「2027年の開催日程のご案内」2026/10/06。10/24確認",
       "url": "https://supertaikyu.com/news/schedule2027.html",
       "note": "暫定（変更の可能性あり）",
-      "checkedAt": "2026-10-24"
+      "checkedAt": "2026-11-05"
     },
     {
       "id": "taikyu-2027-r3",
@@ -145,7 +145,7 @@
       "source": "スーパー耐久シリーズ公式サイト「2027年の開催日程のご案内」2026/10/06。10/24確認",
       "url": "https://supertaikyu.com/news/schedule2027.html",
       "note": "暫定（変更の可能性あり）",
-      "checkedAt": "2026-10-24"
+      "checkedAt": "2026-11-05"
     },
     {
       "id": "taikyu-2027-r4",
@@ -157,7 +157,7 @@
       "source": "スーパー耐久シリーズ公式サイト「2027年の開催日程のご案内」2026/10/06。10/24確認",
       "url": "https://supertaikyu.com/news/schedule2027.html",
       "note": "暫定（変更の可能性あり）",
-      "checkedAt": "2026-10-24"
+      "checkedAt": "2026-11-05"
     },
     {
       "id": "taikyu-2027-r5",
@@ -169,7 +169,7 @@
       "source": "スーパー耐久シリーズ公式サイト「2027年の開催日程のご案内」2026/10/06。10/24確認",
       "url": "https://supertaikyu.com/news/schedule2027.html",
       "note": "暫定（変更の可能性あり）",
-      "checkedAt": "2026-10-24"
+      "checkedAt": "2026-11-05"
     },
     {
       "id": "taikyu-2027-r6",
@@ -181,7 +181,7 @@
       "source": "スーパー耐久シリーズ公式サイト「2027年の開催日程のご案内」2026/10/06。10/24確認",
       "url": "https://supertaikyu.com/news/schedule2027.html",
       "note": "暫定（変更の可能性あり）",
-      "checkedAt": "2026-10-24"
+      "checkedAt": "2026-11-05"
     },
     {
       "id": "taikyu-2027-r7",
@@ -193,7 +193,7 @@
       "source": "スーパー耐久シリーズ公式サイト「2027年の開催日程のご案内」2026/10/06。10/24確認",
       "url": "https://supertaikyu.com/news/schedule2027.html",
       "note": "暫定（変更の可能性あり）",
-      "checkedAt": "2026-10-24"
+      "checkedAt": "2026-11-05"
     },
     {
       "id": "wec-2027-r1",
@@ -313,7 +313,7 @@
       "source": "ナゴレプ公式サイト「日程&会場」。10/24確認",
       "url": "https://nagorep.com/schedule/",
       "note": "10:00〜17:00",
-      "checkedAt": "2026-10-24"
+      "checkedAt": "2026-11-05"
     },
     {
       "id": "jrs-winter-2027",
@@ -325,7 +325,7 @@
       "source": "主催のレップジャパン公式サイトに、2027年の日程の掲載なし（10/24確認）",
       "url": "https://www.rep-japan.co.jp/jrs/",
       "note": "日程が発表されたら更新します",
-      "checkedAt": "2026-10-24"
+      "checkedAt": "2026-11-05"
     },
     {
       "id": "jrs-summer-2027",
@@ -337,7 +337,7 @@
       "source": "主催のレップジャパン公式サイトに、2027年の日程の掲載なし（10/24確認）",
       "url": "https://www.rep-japan.co.jp/jrs/",
       "note": "日程が発表されたら更新します",
-      "checkedAt": "2026-10-24"
+      "checkedAt": "2026-11-05"
     },
     {
       "id": "ado-utatte-2027-tokyo",
@@ -421,7 +421,7 @@
       "source": "SUPER GT公式サイト 2026カレンダー。10/24確認",
       "url": "https://supergt.net/calendar",
       "note": "",
-      "checkedAt": "2026-10-24"
+      "checkedAt": "2026-11-05"
     },
     {
       "id": "supergt-2026-r2",
@@ -433,7 +433,7 @@
       "source": "SUPER GT公式サイト 2026カレンダー。10/24確認",
       "url": "https://supergt.net/calendar",
       "note": "",
-      "checkedAt": "2026-10-24"
+      "checkedAt": "2026-11-05"
     },
     {
       "id": "supergt-2026-r3",
@@ -445,7 +445,7 @@
       "source": "SUPER GT公式サイト 2026カレンダー。10/24確認",
       "url": "https://supergt.net/calendar",
       "note": "公式カレンダーでは第8戦と同じ週末（11/6〜）の表記。",
-      "checkedAt": "2026-10-24"
+      "checkedAt": "2026-11-05"
     },
     {
       "id": "supergt-2026-r4",
@@ -457,7 +457,7 @@
       "source": "SUPER GT公式サイト 2026カレンダー。10/24確認",
       "url": "https://supergt.net/calendar",
       "note": "",
-      "checkedAt": "2026-10-24"
+      "checkedAt": "2026-11-05"
     },
     {
       "id": "supergt-2026-r5",
@@ -469,7 +469,7 @@
       "source": "SUPER GT公式サイト 2026カレンダー。10/24確認",
       "url": "https://supergt.net/calendar",
       "note": "",
-      "checkedAt": "2026-10-24"
+      "checkedAt": "2026-11-05"
     },
     {
       "id": "supergt-2026-r6",
@@ -481,7 +481,7 @@
       "source": "SUPER GT公式サイト 2026カレンダー。10/24確認",
       "url": "https://supergt.net/calendar",
       "note": "",
-      "checkedAt": "2026-10-24"
+      "checkedAt": "2026-11-05"
     },
     {
       "id": "supergt-2026-r7",
@@ -493,7 +493,7 @@
       "source": "SUPER GT公式サイト 2026カレンダー。10/24確認",
       "url": "https://supergt.net/calendar",
       "note": "",
-      "checkedAt": "2026-10-24"
+      "checkedAt": "2026-11-05"
     },
     {
       "id": "supergt-2026-r8",
@@ -505,7 +505,7 @@
       "source": "SUPER GT公式サイト 2026カレンダー。10/24確認",
       "url": "https://supergt.net/calendar",
       "note": "",
-      "checkedAt": "2026-10-24"
+      "checkedAt": "2026-11-05"
     },
     {
       "id": "taikyu-2026-r1",
@@ -661,7 +661,7 @@
       "source": "美術手帖の報道（東京国立博物館の発表を紹介）。公式サイトは今回開けず未確認。2026/10/26確認",
       "url": "https://bijutsutecho.com/magazine/news/headline/33107",
       "note": "東博コレクション展の会期中に開催。公式での再確認待ち。",
-      "checkedAt": "2026-10-26"
+      "checkedAt": "2026-11-05"
     },
     {
       "id": "raden-hakone-panel-2026",
@@ -1046,7 +1046,20 @@
       "url": "https://leaf-laboratory.com/blogs/media/event-shizuoka-list",
       "note": "10:00開始。愛知周辺（掛川）の対象。日程・会場は第三者サイトの掲載で、入場料・詳細は未確認。雨天の可能性あり。",
       "checkedAt": "2026-11-04"
+    },
+    {
+      "id": "jrs-centrair-2027",
+      "tabName": "爬虫類",
+      "title": "JRSセントレアレプ in 愛知（冬レプ・愛知）2027",
+      "date": "2027-02-13",
+      "end": "2027-02-14",
+      "place": "愛知県（会場名は公式ページで未確認）",
+      "source": "公式サイト(レップジャパン) 2026/11/05確認",
+      "url": "https://rep-japan.co.jp/jrs/",
+      "note": "出展受付ページの記載。年の表記はなく、曜日から2027年と判断。入場時間・料金は未確認。前売り券はチケットぴあ・ローチケで販売中との記載。",
+      "checkedAt": "2026-11-05",
+      "dates": []
     }
   ],
-  "checkedAt": "2026-11-04"
+  "checkedAt": "2026-11-05"
 }
