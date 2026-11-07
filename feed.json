@@ -1,7 +1,7 @@
 {
   "app": "event-cho-feed",
   "version": 1,
-  "updatedAt": "2026-11-05",
+  "updatedAt": "2026-11-07",
   "items": [
     {
       "id": "supergt-2027-r1",
@@ -13,7 +13,7 @@
       "source": "SUPER GT公式サイト「2027年のSUPER GTカレンダー（予定）を発表」。公式サイト 2026/11/05確認",
       "url": "https://supergt.net/en/news_race_report/2027-super-gt-calendar-planned-announced",
       "note": "暫定（FIA・JAF承認待ち、変更の可能性あり）。日付は決勝日。",
-      "checkedAt": "2026-11-06"
+      "checkedAt": "2026-11-07"
     },
     {
       "id": "supergt-2027-r2",
@@ -25,7 +25,7 @@
       "source": "SUPER GT公式サイト「2027年のSUPER GTカレンダー（予定）を発表」。公式サイト 2026/11/05確認",
       "url": "https://supergt.net/en/news_race_report/2027-super-gt-calendar-planned-announced",
       "note": "暫定（FIA・JAF承認待ち、変更の可能性あり）。日付は決勝日。",
-      "checkedAt": "2026-11-06"
+      "checkedAt": "2026-11-07"
     },
     {
       "id": "supergt-2027-r3",
@@ -37,7 +37,7 @@
       "source": "SUPER GT公式サイト「2027年のSUPER GTカレンダー（予定）を発表」。公式サイト 2026/11/05確認",
       "url": "https://supergt.net/en/news_race_report/2027-super-gt-calendar-planned-announced",
       "note": "暫定（JAF・FIA申請中、変更の可能性あり）。日付は6/18〜19。",
-      "checkedAt": "2026-11-06"
+      "checkedAt": "2026-11-07"
     },
     {
       "id": "supergt-2027-r4",
@@ -49,7 +49,7 @@
       "source": "SUPER GT公式サイト「2027年のSUPER GTカレンダー（予定）を発表」。公式サイト 2026/11/05確認",
       "url": "https://supergt.net/en/news_race_report/2027-super-gt-calendar-planned-announced",
       "note": "暫定（FIA・JAF承認待ち、変更の可能性あり）。日付は決勝日。",
-      "checkedAt": "2026-11-06"
+      "checkedAt": "2026-11-07"
     },
     {
       "id": "supergt-2027-r5",
@@ -61,7 +61,7 @@
       "source": "SUPER GT公式サイト「2027年のSUPER GTカレンダー（予定）を発表」。公式サイト 2026/11/05確認",
       "url": "https://supergt.net/en/news_race_report/2027-super-gt-calendar-planned-announced",
       "note": "暫定（FIA・JAF承認待ち、変更の可能性あり）。日付は決勝日。",
-      "checkedAt": "2026-11-06"
+      "checkedAt": "2026-11-07"
     },
     {
       "id": "supergt-2027-r6",
@@ -73,7 +73,7 @@
       "source": "SUPER GT公式サイト「2027年のSUPER GTカレンダー（予定）を発表」。公式サイト 2026/11/05確認",
       "url": "https://supergt.net/en/news_race_report/2027-super-gt-calendar-planned-announced",
       "note": "暫定（FIA・JAF承認待ち、変更の可能性あり）。日付は決勝日。",
-      "checkedAt": "2026-11-06"
+      "checkedAt": "2026-11-07"
     },
     {
       "id": "supergt-2027-r7",
@@ -85,7 +85,7 @@
       "source": "SUPER GT公式サイト「2027年のSUPER GTカレンダー（予定）を発表」。公式サイト 2026/11/05確認",
       "url": "https://supergt.net/en/news_race_report/2027-super-gt-calendar-planned-announced",
       "note": "暫定（FIA・JAF承認待ち、変更の可能性あり）。日付は決勝日。",
-      "checkedAt": "2026-11-06"
+      "checkedAt": "2026-11-07"
     },
     {
       "id": "supergt-2027-r8",
@@ -97,7 +97,7 @@
       "source": "SUPER GT公式サイト「2027年のSUPER GTカレンダー（予定）を発表」。公式サイト 2026/11/05確認",
       "url": "https://supergt.net/en/news_race_report/2027-super-gt-calendar-planned-announced",
       "note": "暫定（FIA・JAF承認待ち、変更の可能性あり）。日付は決勝日。",
-      "checkedAt": "2026-11-06"
+      "checkedAt": "2026-11-07"
     },
     {
       "id": "supergt-2027-suzuka1000km",
@@ -109,7 +109,7 @@
       "source": "SUPER GT公式サイト「2027年のSUPER GTカレンダー（予定）を発表」。公式サイト 2026/11/05確認",
       "url": "https://supergt.net/en/news_race_report/2027-super-gt-calendar-planned-announced",
       "note": "SUPER GT通常の8戦とは別の特別戦（GT300のみ）。日付は決勝日。公式では9/4〜5。詳細は後日発表。暫定（JAF・FIA申請中、変更の可能性あり）。",
-      "checkedAt": "2026-11-06"
+      "checkedAt": "2026-11-07"
     },
     {
       "id": "taikyu-2027-r1",
@@ -205,7 +205,7 @@
       "source": "FIA WEC公式サイト「2027年カレンダー」(2026/06/12発表)。10/24確認",
       "url": "https://www.fiawec.com/en/news/fia-wec-reveals-nine-round-2027-calendar-as-series-expands/13598",
       "note": "",
-      "checkedAt": "2026-11-06"
+      "checkedAt": "2026-11-07"
     },
     {
       "id": "wec-2027-r2",
@@ -217,7 +217,7 @@
       "source": "FIA WEC公式サイト「2027年カレンダー」(2026/06/12発表)。10/24確認",
       "url": "https://www.fiawec.com/en/news/fia-wec-reveals-nine-round-2027-calendar-as-series-expands/13598",
       "note": "",
-      "checkedAt": "2026-11-06"
+      "checkedAt": "2026-11-07"
     },
     {
       "id": "wec-2027-r3",
@@ -229,7 +229,7 @@
       "source": "FIA WEC公式サイト「2027年カレンダー」(2026/06/12発表)。10/24確認",
       "url": "https://www.fiawec.com/en/news/fia-wec-reveals-nine-round-2027-calendar-as-series-expands/13598",
       "note": "",
-      "checkedAt": "2026-11-06"
+      "checkedAt": "2026-11-07"
     },
     {
       "id": "wec-2027-r4",
@@ -241,7 +241,7 @@
       "source": "FIA WEC公式サイト「2027年カレンダー」(2026/06/12発表)。10/24確認",
       "url": "https://www.fiawec.com/en/news/fia-wec-reveals-nine-round-2027-calendar-as-series-expands/13598",
       "note": "",
-      "checkedAt": "2026-11-06"
+      "checkedAt": "2026-11-07"
     },
     {
       "id": "wec-2027-r5",
@@ -253,7 +253,7 @@
       "source": "FIA WEC公式サイト「2027年カレンダー」(2026/06/12発表)。10/24確認",
       "url": "https://www.fiawec.com/en/news/fia-wec-reveals-nine-round-2027-calendar-as-series-expands/13598",
       "note": "",
-      "checkedAt": "2026-11-06"
+      "checkedAt": "2026-11-07"
     },
     {
       "id": "wec-2027-r6",
@@ -265,7 +265,7 @@
       "source": "FIA WEC公式サイト「2027年カレンダー」(2026/06/12発表)。10/24確認",
       "url": "https://www.fiawec.com/en/news/fia-wec-reveals-nine-round-2027-calendar-as-series-expands/13598",
       "note": "",
-      "checkedAt": "2026-11-06"
+      "checkedAt": "2026-11-07"
     },
     {
       "id": "wec-2027-r7",
@@ -277,7 +277,7 @@
       "source": "FIA WEC公式サイト「2027年カレンダー」(2026/06/12発表)。10/24確認",
       "url": "https://www.fiawec.com/en/news/fia-wec-reveals-nine-round-2027-calendar-as-series-expands/13598",
       "note": "",
-      "checkedAt": "2026-11-06"
+      "checkedAt": "2026-11-07"
     },
     {
       "id": "wec-2027-r8",
@@ -289,7 +289,7 @@
       "source": "FIA WEC公式サイト「2027年カレンダー」(2026/06/12発表)。10/24確認",
       "url": "https://www.fiawec.com/en/news/fia-wec-reveals-nine-round-2027-calendar-as-series-expands/13598",
       "note": "",
-      "checkedAt": "2026-11-06"
+      "checkedAt": "2026-11-07"
     },
     {
       "id": "wec-2027-r9",
@@ -301,7 +301,7 @@
       "source": "FIA WEC公式サイト「2027年カレンダー」(2026/06/12発表)。10/24確認",
       "url": "https://www.fiawec.com/en/news/fia-wec-reveals-nine-round-2027-calendar-as-series-expands/13598",
       "note": "",
-      "checkedAt": "2026-11-06"
+      "checkedAt": "2026-11-07"
     },
     {
       "id": "nagorep-2026",
@@ -313,7 +313,7 @@
       "source": "ナゴレプ公式サイト「日程&会場」「チケット情報」。公式サイト 2026/11/05確認",
       "url": "https://nagorep.com/ticket/",
       "note": "10:00〜17:00。前売おとな1,300円・小中学生800円",
-      "checkedAt": "2026-11-05",
+      "checkedAt": "2026-11-07",
       "dates": [
         {
           "kind": "open",
@@ -332,7 +332,7 @@
       "source": "公式サイト(レップジャパン) 2026/11/05確認",
       "url": "https://www.rep-japan.co.jp/jrs/JRS2018/",
       "note": "10:00〜17:00。前売券は発売中（ぴあ・ローチケ）。前売大人1,400円。",
-      "checkedAt": "2026-11-05"
+      "checkedAt": "2026-11-07"
     },
     {
       "id": "jrs-summer-2027",
@@ -344,7 +344,7 @@
       "source": "主催のレップジャパン公式サイトに、2027年の日程の掲載なし（10/24確認）",
       "url": "https://www.rep-japan.co.jp/jrs/",
       "note": "日程が発表されたら更新します",
-      "checkedAt": "2026-11-05"
+      "checkedAt": "2026-11-07"
     },
     {
       "id": "ado-utatte-2027-tokyo",
@@ -356,7 +356,7 @@
       "source": "Ado公式サイト（ユニバーサルミュージック）2026/10/19発表・クラウドナイン公式。10/27確認",
       "url": "https://www.universal-music.co.jp/ado/news/2026-10-19/",
       "note": "当落発表・入金期限・一般発売は、公式で未発表（10/27時点）。",
-      "checkedAt": "2026-11-06",
+      "checkedAt": "2026-11-07",
       "dates": [
         {
           "kind": "open",
@@ -380,7 +380,7 @@
       "source": "Ado公式サイト（ユニバーサルミュージック）2026/10/19発表・クラウドナイン公式。10/27確認",
       "url": "https://www.universal-music.co.jp/ado/news/2026-10-19/",
       "note": "当落発表・入金期限・一般発売は、公式で未発表（10/27時点）。",
-      "checkedAt": "2026-11-06",
+      "checkedAt": "2026-11-07",
       "dates": [
         {
           "kind": "open",
@@ -404,7 +404,7 @@
       "source": "Ado公式サイト（ユニバーサルミュージック）2026/10/19発表・クラウドナイン公式。10/27確認",
       "url": "https://www.universal-music.co.jp/ado/news/2026-10-19/",
       "note": "当落発表・入金期限・一般発売は、公式で未発表（10/27時点）。",
-      "checkedAt": "2026-11-06",
+      "checkedAt": "2026-11-07",
       "dates": [
         {
           "kind": "open",
@@ -632,7 +632,7 @@
       "source": "主催レップジャパン公式サイト（8/1-2、JRS2026夏レプ）。10/24確認",
       "url": "https://www.rep-japan.co.jp/jrs/",
       "note": "年の表記はページに無し。土日が2026年と合うため2026年開催と判断。",
-      "checkedAt": "2026-10-24"
+      "checkedAt": "2026-11-07"
     },
     {
       "id": "ado-himitsukichi-2026-yoyogi",
@@ -704,7 +704,7 @@
       "source": "ANYCOLOR公式お知らせ 2026/11/03確認",
       "url": "https://www.anycolor.co.jp/news/yqmksq2cm",
       "note": "OPEN 17:00／START 18:00。他の先行・一般発売の日程は公式ページ未掲載のため未記入（当落発表も未確認）。",
-      "checkedAt": "2026-11-06",
+      "checkedAt": "2026-11-07",
       "dates": [
         {
           "kind": "open",
@@ -1064,7 +1064,7 @@
       "source": "公式サイト(レップジャパン) 2026/11/05確認",
       "url": "https://www.rep-japan.co.jp/jrs/centrair/",
       "note": "10:00〜17:00。公式ページに2027年と明記。前売券は発売中（ぴあ・ローチケ）。",
-      "checkedAt": "2026-11-05",
+      "checkedAt": "2026-11-07",
       "dates": []
     },
     {
@@ -1078,7 +1078,19 @@
       "url": "https://hololive.hololivepro.com/news/20260815-01-399/",
       "note": "Day2出演。開場15:30/開演16:30。配信チケットの詳細は未掲載。",
       "checkedAt": "2026-11-05"
+    },
+    {
+      "id": "raden-musicstage-2027-day1",
+      "tabName": "儒烏風亭らでん",
+      "title": "hololive RECORDS MUSIC STAGE 2027（DAY1にReGLOSS出演）",
+      "date": "2027-01-09",
+      "end": "",
+      "place": "Kアリーナ横浜",
+      "source": "ホロライブ公式 2026/11/7確認（出演者欄にReGLOSSとあり、らでんさん個人の記載は確認できず）",
+      "url": "https://hololive.hololivepro.com/news/20261020-02-85/",
+      "note": "2日間開催(1/9・10)。ReGLOSSはDAY1。",
+      "checkedAt": "2026-11-07"
     }
   ],
-  "checkedAt": "2026-11-06"
+  "checkedAt": "2026-11-07"
 }
