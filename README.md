@@ -65,6 +65,7 @@ iPhoneのホーム画面に追加して使います。ソースを直したら `
 | 戻すための控え（自動で残す・一覧・戻す） | `js/data/snapshots.js`（数や上限は `js/config.js` の SNAPSHOT） / 画面は `js/ui/settings-page.js` |
 | イベント更新履歴（記録の読み込み / 画面） | `js/data/updates.js` / `js/ui/updates-sheet.js` |
 | 取り込み内容をGitHubへ書く（鍵の登録 / 書き込み / 画面） | `js/services/github.js` / `js/data/watchlist-sync.js` / `js/ui/github-link.js` |
+| カレンダーに追加した印と、GitHubの calendar.json への保存（朝の支度ブリーフが読む） | `js/data/calendar-marks.js` / `js/data/calendar-sync.js` |
 | タブを左右のスワイプで切り替える | `js/ui/tab-swipe.js` |
 | 動き・お知らせの小さな部品 | `js/ui/motion.js` / `js/ui/toast.js` |
 | 日付や文字の小さな処理 | `js/util/` |

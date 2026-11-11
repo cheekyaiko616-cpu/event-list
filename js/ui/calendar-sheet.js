@@ -3,6 +3,7 @@
 import { $, el, clear } from '../util/dom.js';
 import { mountSheet, showSheet, hideSheet } from './sheet.js';
 import { addToCalendar } from '../services/calendar.js';
+import { markCalendar } from '../data/calendar-marks.js';
 import { closeDetail } from './pin-close.js';
 import { parseDate, weekday, eventEnd, addDaysIso } from '../util/date.js';
 
@@ -72,8 +73,14 @@ export function openCalendarSheet(e) {
 
   go.addEventListener('click', () => {
     // ボタンを押した直後に呼ぶ（iPhoneのカレンダーの画面を出すため）
-    if (radios.pick.checked) addToCalendar(pickedEvents(e, boxes.filter((b) => b.checked).map((b) => b.value)));
-    else addToCalendar([e]);
+    if (radios.pick.checked) {
+      const picked = pickedEvents(e, boxes.filter((b) => b.checked).map((b) => b.value));
+      addToCalendar(picked);
+      markCalendar(e, picked.map((x) => ({ from: x.date, to: x.end || x.date })));
+    } else {
+      addToCalendar([e]);
+      markCalendar(e);
+    }
     hideSheet(wrap);
     closeDetail();
   });

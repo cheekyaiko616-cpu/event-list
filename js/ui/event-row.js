@@ -8,6 +8,7 @@ import { isShown } from '../data/settings.js';
 import { safeUrl } from '../util/text.js';
 import { tabById } from '../data/tabs.js';
 import { addToCalendar } from '../services/calendar.js';
+import { markCalendar, unmarkCalendar, isOnCalendar, calLabel } from '../data/calendar-marks.js';
 import { openCalendarSheet } from './calendar-sheet.js';
 import { openEventSheet } from './event-sheet.js';
 import { closeDetail } from './pin-close.js';
@@ -85,6 +86,12 @@ function detailEl(e) {
   if (e.source) add('出典', e.source);
   if (e.note) add('メモ', e.note);
   if (e.feedId && e.lastChange) add('変更前', `${e.lastChange.from}（${e.lastChange.at} に更新）`);
+  // カレンダーに追加した印（朝の支度ブリーフに出る）。「外す」で出さなくなる
+  if (isOnCalendar(e)) {
+    dl.append(el('dt', { text: 'カレンダー' }), el('dd', { class: 'cal-mark' },
+      el('span', { text: `追加済み ${calLabel(e)}` }),
+      el('button', { type: 'button', class: 'ghost cal-off', text: '外す', onclick: (ev) => { ev.stopPropagation(); unmarkCalendar(e); } })));
+  }
 
   const actions = el('div', { class: 'actions' },
     url ? el('a', { class: 'btn', href: url, target: '_blank', rel: 'noopener noreferrer', text: 'リンク ↗' }) : null,
@@ -92,7 +99,7 @@ function detailEl(e) {
       ? el('button', { class: 'btn solid', type: 'button', text: 'カレンダー', onclick: () => {
         // 何日かにまたがる予定は、期間まるごと／特定の日だけ を選ぶ画面を出す
         if (eventEnd(e) > e.date) { openCalendarSheet(e); return; }
-        addToCalendar([e]); closeDetail();
+        addToCalendar([e]); markCalendar(e); closeDetail();
       } })
       : el('button', { class: 'btn', type: 'button', disabled: true, text: 'カレンダー' }),
     el('button', { class: 'btn', type: 'button', text: '編集', onclick: () => openEventSheet(e) }));

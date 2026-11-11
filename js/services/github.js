@@ -1,5 +1,5 @@
-// GitHubとのやりとり：鍵の保存、watchlist.json の読み書き。
-// 画面は扱わない。保存の流れは data/watchlist-sync.js が決める。
+// GitHubとのやりとり：鍵の保存、watchlist.json・calendar.json の読み書き。
+// 画面は扱わない。保存の流れは data/watchlist-sync.js と data/calendar-sync.js が決める。
 import { GITHUB } from '../config.js';
 
 const API = 'https://api.github.com';
@@ -26,7 +26,7 @@ function fromBase64(b64) {
   return new TextDecoder().decode(Uint8Array.from(bin, (c) => c.charCodeAt(0)));
 }
 
-const url = () => `${API}/repos/${GITHUB.owner}/${GITHUB.repo}/contents/${GITHUB.path}`;
+const url = (path) => `${API}/repos/${GITHUB.owner}/${GITHUB.repo}/contents/${path}`;
 const headers = (token) => ({
   Authorization: `Bearer ${token}`,
   Accept: 'application/vnd.github+json',
@@ -43,12 +43,12 @@ function explain(status) {
   return `GitHubから想定外の返事がありました（${status}）。`;
 }
 
-/** 読む。{ ok, status, sha, text, error }。ファイルがまだ無いときは ok で sha=null。 */
-export async function readRemote() {
+/** 読む（path を省くと watchlist.json）。{ ok, status, sha, text, error }。ファイルがまだ無いときは ok で sha=null。 */
+export async function readRemote(path = GITHUB.path) {
   const token = getToken();
   if (!token) return { ok: false, status: 0, error: '鍵が登録されていません。' };
   try {
-    const res = await fetch(`${url()}?ref=${GITHUB.branch}&t=${Date.now()}`, { headers: headers(token), cache: 'no-store' });
+    const res = await fetch(`${url(path)}?ref=${GITHUB.branch}&t=${Date.now()}`, { headers: headers(token), cache: 'no-store' });
     if (res.status === 404) return { ok: true, status: 404, sha: null, text: '' };
     if (!res.ok) return { ok: false, status: res.status, error: explain(res.status) };
     const body = await res.json();
@@ -59,13 +59,13 @@ export async function readRemote() {
 }
 
 /** 書く。sha は、読んだときの版（新規ならnull）。{ ok, status, sha, error }。 */
-export async function writeRemote(text, sha, message) {
+export async function writeRemote(text, sha, message, path = GITHUB.path) {
   const token = getToken();
   if (!token) return { ok: false, status: 0, error: '鍵が登録されていません。' };
   const body = { message, content: toBase64(text), branch: GITHUB.branch };
   if (sha) body.sha = sha;
   try {
-    const res = await fetch(url(), {
+    const res = await fetch(url(path), {
       method: 'PUT',
       headers: { ...headers(token), 'Content-Type': 'application/json' },
       body: JSON.stringify(body)

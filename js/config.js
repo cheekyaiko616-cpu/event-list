@@ -51,6 +51,7 @@ export const RETENTION_DAYS = 365;
 // 取り込み内容の一覧(watchlist.json)を保存するGitHub上の場所。毎日の取得がここを読む。
 export const GITHUB = {
   owner: 'cheekyaiko616-cpu', repo: 'event-list', path: 'watchlist.json', branch: 'main',
+  calendarPath: 'calendar.json',  // カレンダーに追加した予定の一覧。朝の支度ブリーフ（別アプリ）がこれを読む
   tokenKey: 'eventcho.gh.token',   // 鍵の保存先（この端末の中だけ。バックアップには入れない）
   filledKey: 'eventcho.gh.filled'  // 初回の「GitHubの内容を取り込む」を済ませたか
 };

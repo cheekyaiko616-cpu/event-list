@@ -8,6 +8,14 @@ import { cleanDates } from './dates.js';
 
 const str = (v, max) => (typeof v === 'string' ? v.slice(0, max) : '');
 
+/** 「カレンダーに追加」した期間の並び [{ from, to }]。正しくないものは捨てる。 */
+function cleanCal(list) {
+  return (Array.isArray(list) ? list : [])
+    .filter((r) => r && parseDate(r.from) && parseDate(r.to) && r.to >= r.from)
+    .map((r) => ({ from: r.from, to: r.to }))
+    .slice(-20);
+}
+
 export function normalizeData(raw) {
   const src = raw && typeof raw === 'object' ? raw : {};
 
@@ -51,6 +59,7 @@ export function normalizeData(raw) {
       manual: e.manual === true,
       checkedAt: parseDate(e.checkedAt) ? e.checkedAt : '',
       newAt: parseDate(e.newAt) ? e.newAt : '', // 新しく入った・変わった日（一覧の「NEW」の印に使う）
+      cal: cleanCal(e.cal), // 「カレンダーに追加」した期間（朝の支度ブリーフへ渡す）
       lastChange: e.lastChange && parseDate(e.lastChange.at) ? { at: e.lastChange.at, from: str(e.lastChange.from, 100), manual: e.lastChange.manual === true } : null,
       rev: Number.isInteger(e.rev) && e.rev > 0 ? e.rev : 1
     });

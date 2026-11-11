@@ -108,3 +108,7 @@
 
 /* 予定を開いている間は「次の予定」の帯を隠し、詳細を1画面に収める */
 #app-now:has(+ #app-pin:not(:empty)) { display: none; }
+/* 「カレンダー 追加済み」の行。外すボタンは右に寄せ、行の高さを広げすぎない */
+.kv dd.cal-mark { display: flex; align-items: center; gap: var(--sp-2); }
+.kv dd.cal-mark span { flex: 1; }
+.cal-off { min-height: 32px; text-decoration: underline; }
