@@ -1,7 +1,7 @@
 {
   "app": "event-cho-feed",
   "version": 1,
-  "updatedAt": "2026-11-11",
+  "updatedAt": "2026-11-12",
   "items": [
     {
       "id": "supergt-2027-r1",
@@ -313,7 +313,7 @@
       "source": "ナゴレプ公式サイト「日程&会場」「チケット情報」。公式サイト 2026/11/05確認",
       "url": "https://nagorep.com/ticket/",
       "note": "10:00〜17:00。前売おとな1,300円・小中学生800円",
-      "checkedAt": "2026-11-10",
+      "checkedAt": "2026-11-12",
       "dates": [
         {
           "kind": "open",
@@ -356,7 +356,7 @@
       "source": "Ado公式サイト（ユニバーサルミュージック）2026/10/19発表・クラウドナイン公式。10/27確認／当落・入金は報道ベース・公式未確認(ticketjam) 11/8確認",
       "url": "https://www.universal-music.co.jp/ado/news/2026-10-19/",
       "note": "一般発売は公式で未発表（11/8時点）。当落・入金の日付は報道ベースで公式未確認。",
-      "checkedAt": "2026-11-10",
+      "checkedAt": "2026-11-12",
       "dates": [
         {
           "kind": "open",
@@ -390,7 +390,7 @@
       "source": "Ado公式サイト（ユニバーサルミュージック）2026/10/19発表・クラウドナイン公式。10/27確認／当落・入金は報道ベース・公式未確認(ticketjam) 11/8確認",
       "url": "https://www.universal-music.co.jp/ado/news/2026-10-19/",
       "note": "一般発売は公式で未発表（11/8時点）。当落・入金の日付は報道ベースで公式未確認。",
-      "checkedAt": "2026-11-10",
+      "checkedAt": "2026-11-12",
       "dates": [
         {
           "kind": "open",
@@ -424,7 +424,7 @@
       "source": "Ado公式サイト（ユニバーサルミュージック）2026/10/19発表・クラウドナイン公式。10/27確認／当落・入金は報道ベース・公式未確認(ticketjam) 11/8確認",
       "url": "https://www.universal-music.co.jp/ado/news/2026-10-19/",
       "note": "一般発売は公式で未発表（11/8時点）。当落・入金の日付は報道ベースで公式未確認。",
-      "checkedAt": "2026-11-10",
+      "checkedAt": "2026-11-12",
       "dates": [
         {
           "kind": "open",
@@ -731,10 +731,10 @@
       "date": "2027-04-24",
       "end": "",
       "place": "東京ガーデンシアター",
-      "source": "ANYCOLOR公式お知らせ 2026/11/03確認",
-      "url": "https://www.anycolor.co.jp/news/yqmksq2cm",
+      "source": "公式サイト(にじさんじ) 2026/11/12確認",
+      "url": "https://www.nijisanji.jp/events/inui_restart/",
       "note": "OPEN 17:00／START 18:00。他の先行・一般発売の日程は公式ページ未掲載のため未記入（当落発表も未確認）。 シリアルコードはCD盤のみ（デジタル版なし）。抽選期間は変わる場合あり。",
-      "checkedAt": "2026-11-10",
+      "checkedAt": "2026-11-12",
       "dates": [
         {
           "kind": "open",
@@ -745,6 +745,26 @@
           "kind": "close",
           "date": "2026-11-18",
           "note": "シリアル先行抽選 23:59まで"
+        },
+        {
+          "kind": "open",
+          "date": "2026-12-01",
+          "note": "総合ファンクラブ先行抽選 12:00〜"
+        },
+        {
+          "kind": "close",
+          "date": "2026-12-20",
+          "note": "総合ファンクラブ先行抽選 23:59まで"
+        },
+        {
+          "kind": "open",
+          "date": "2027-01-14",
+          "note": "イープラス先行抽選 12:00〜"
+        },
+        {
+          "kind": "close",
+          "date": "2027-01-31",
+          "note": "イープラス先行抽選 23:59まで"
         }
       ]
     },
@@ -1179,8 +1199,8 @@
       "source": "ホロライブ公式ニュース 2026/11/11確認",
       "url": "https://hololivepro.com/news_en/20261109-hololive-regloss-member-juufuutei-raden-collaborates-with-taiwans-2026-good-old-living-festival-life-zuoying-in-the-light/",
       "note": "らでんさんは現地に来ず、録画・デジタル企画で参加（スタンプラリー、フォトブースなど）。12:00〜20:00（台湾時間）",
-      "checkedAt": "2026-11-11"
+      "checkedAt": "2026-11-12"
     }
   ],
-  "checkedAt": "2026-11-11"
+  "checkedAt": "2026-11-12"
 }
