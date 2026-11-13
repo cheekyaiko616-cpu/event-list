@@ -3,7 +3,7 @@
 //   services/  … カレンダーのファイル作成、ファイルの受け渡し
 //   ui/        … 画面ごとの部品
 //   util/      … 日付や文字の小さな道具
-import { state, subscribe } from './state.js';
+import { state, subscribe, notify } from './state.js';
 import { init } from './data/store.js';
 import { pruneOld } from './data/events.js';
 import { startFeed } from './data/feed.js';
@@ -77,6 +77,9 @@ initDayWatch(renderAll); // 日付をまたいだら描き直す
 init().then(async () => {
   document.documentElement.setAttribute('data-ready', '1'); // 起動できた印（js/boot-css.js が、失敗時の再起動に使う）
   if (state.startupMessage) toast(state.startupMessage);
+  // 朝の支度ブリーフから「?event=予定のID」付きで開かれたら、その予定を開く
+  const want = new URLSearchParams(location.search).get('event');
+  if (want && state.events.some((x) => x.id === want)) { state.ui.filter = 'all'; state.ui.openId = want; notify(); }
   weeklyIfDue();    // 週1回、戻すための控えを残す
   await pruneOld(); // 終わって1年たった予定を消す
   startFeed();      // Claudeが調べた日程を自動で反映する（Claude上で開いたときだけ）
