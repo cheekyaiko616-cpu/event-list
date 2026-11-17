@@ -3,17 +3,6 @@
   "kind": "calendar",
   "items": [
     {
-      "id": "emw1f0ioqy8yw-2026-11-14",
-      "title": "sweet jungle",
-      "from": "2026-11-14",
-      "to": "2026-11-14",
-      "place": "愛知県常滑市 AICHI SKY EXPO（愛知県国際展示場）",
-      "tab": "多肉/植物",
-      "color": "#6d3fc9",
-      "open": "",
-      "start": ""
-    },
-    {
       "id": "emvntn1l4pr5m-2026-11-15",
       "title": "スーパー耐久 2026 Rd.7 富士",
       "from": "2026-11-15",
@@ -80,5 +69,5 @@
       "start": ""
     }
   ],
-  "savedAt": "2026-11-13T13:01:16.687Z"
+  "savedAt": "2026-11-17T13:23:59.528Z"
 }
