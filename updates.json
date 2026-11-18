@@ -3,6 +3,18 @@
   "version": 1,
   "entries": [
     {
+      "date": "2026-11-18",
+      "summary": "新規1件",
+      "added": [
+        {
+          "title": "東京 GYM-EXレプ冬",
+          "tab": "爬虫類",
+          "when": "2026/12/26〜27"
+        }
+      ],
+      "changed": []
+    },
+    {
       "date": "2026-11-13",
       "summary": "申し込みの日付が増えた：1件",
       "added": [],

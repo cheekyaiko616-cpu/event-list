@@ -1,7 +1,7 @@
 {
   "app": "event-cho-feed",
   "version": 1,
-  "updatedAt": "2026-11-13",
+  "updatedAt": "2026-11-18",
   "items": [
     {
       "id": "supergt-2027-r1",
@@ -313,7 +313,7 @@
       "source": "ナゴレプ公式サイト「日程&会場」「チケット情報」。公式サイト 2026/11/05確認",
       "url": "https://nagorep.com/ticket/",
       "note": "10:00〜17:00。前売おとな1,300円・小中学生800円",
-      "checkedAt": "2026-11-17",
+      "checkedAt": "2026-11-18",
       "dates": [
         {
           "kind": "open",
@@ -332,7 +332,7 @@
       "source": "公式サイト(レップジャパン) 2026/11/05確認",
       "url": "https://www.rep-japan.co.jp/jrs/JRS2018/",
       "note": "10:00〜17:00。前売券は発売中（ぴあ・ローチケ）。前売大人1,400円。",
-      "checkedAt": "2026-11-08"
+      "checkedAt": "2026-11-18"
     },
     {
       "id": "jrs-summer-2027",
@@ -344,7 +344,7 @@
       "source": "主催のレップジャパン公式サイトに、2027年の日程の掲載なし（10/24確認）",
       "url": "https://www.rep-japan.co.jp/jrs/",
       "note": "日程が発表されたら更新します",
-      "checkedAt": "2026-11-17"
+      "checkedAt": "2026-11-18"
     },
     {
       "id": "ado-utatte-2027-tokyo",
@@ -356,7 +356,7 @@
       "source": "Ado公式サイト（ユニバーサルミュージック）2026/10/19発表・クラウドナイン公式。10/27確認／当落・入金は報道ベース・公式未確認(ticketjam) 11/8確認",
       "url": "https://www.universal-music.co.jp/ado/news/2026-10-19/",
       "note": "一般発売は公式で未発表（11/8時点）。当落・入金の日付は報道ベースで公式未確認。",
-      "checkedAt": "2026-11-15",
+      "checkedAt": "2026-11-18",
       "dates": [
         {
           "kind": "open",
@@ -390,7 +390,7 @@
       "source": "Ado公式サイト（ユニバーサルミュージック）2026/10/19発表・クラウドナイン公式。10/27確認／当落・入金は報道ベース・公式未確認(ticketjam) 11/8確認",
       "url": "https://www.universal-music.co.jp/ado/news/2026-10-19/",
       "note": "一般発売は公式で未発表（11/8時点）。当落・入金の日付は報道ベースで公式未確認。",
-      "checkedAt": "2026-11-15",
+      "checkedAt": "2026-11-18",
       "dates": [
         {
           "kind": "open",
@@ -424,7 +424,7 @@
       "source": "Ado公式サイト（ユニバーサルミュージック）2026/10/19発表・クラウドナイン公式。10/27確認／当落・入金は報道ベース・公式未確認(ticketjam) 11/8確認",
       "url": "https://www.universal-music.co.jp/ado/news/2026-10-19/",
       "note": "一般発売は公式で未発表（11/8時点）。当落・入金の日付は報道ベースで公式未確認。",
-      "checkedAt": "2026-11-15",
+      "checkedAt": "2026-11-18",
       "dates": [
         {
           "kind": "open",
@@ -734,7 +734,7 @@
       "source": "公式サイト(にじさんじ) 2026/11/13確認",
       "url": "https://www.nijisanji.jp/events/inui_restart/",
       "note": "OPEN 17:00／START 18:00。当落発表は未発表。シリアルコードはCD盤のみ（デジタル版なし）。抽選期間は変わる場合あり。",
-      "checkedAt": "2026-11-17",
+      "checkedAt": "2026-11-18",
       "dates": [
         {
           "kind": "open",
@@ -1119,7 +1119,7 @@
       "source": "公式サイト(レップジャパン) 2026/11/05確認",
       "url": "https://www.rep-japan.co.jp/jrs/centrair/",
       "note": "10:00〜17:00。公式ページに2027年と明記。前売券は発売中（ぴあ・ローチケ）。",
-      "checkedAt": "2026-11-08",
+      "checkedAt": "2026-11-18",
       "dates": []
     },
     {
@@ -1205,7 +1205,20 @@
       "url": "https://hololivepro.com/news_en/20261109-hololive-regloss-member-juufuutei-raden-collaborates-with-taiwans-2026-good-old-living-festival-life-zuoying-in-the-light/",
       "note": "らでんさんは現地に来ず、録画・デジタル企画で参加（スタンプラリー、フォトブースなど）。12:00〜20:00（台湾時間）",
       "checkedAt": "2026-11-12"
+    },
+    {
+      "id": "jrs-gymex-winter-20261226",
+      "tabName": "爬虫類",
+      "title": "東京 GYM-EXレプ冬（ジャパンレプタイルズショー）",
+      "date": "2026-12-26",
+      "end": "2026-12-27",
+      "place": "東京（GYM-EX）",
+      "source": "公式サイト(レップジャパン) 2026/11/18確認",
+      "url": "https://www.rep-japan.co.jp/jrs/",
+      "note": "前売券は発売中（公式チケットセンター・ぴあ・ローチケ）。会場名・入場料は公式ページに記載なし。",
+      "checkedAt": "2026-11-18",
+      "dates": []
     }
   ],
-  "checkedAt": "2026-11-17"
+  "checkedAt": "2026-11-18"
 }
