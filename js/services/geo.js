@@ -28,16 +28,35 @@ export async function locate(place) {
   return inflight.get(place);
 }
 
+/** 場所の欄から、地図で探す言葉を優先順に作る。括弧の中の住所を先に使い、「＆」などで複数ある場合は最初の1つだけ見る。 */
+function queriesFor(place) {
+  const list = [];
+  const addr = (place.match(/[（(]([^）)]*[市区町村][^）)]*\d[^）)]*)[）)]/) || [])[1];
+  if (addr) {
+    const a = addr.split(/[＆&、,・]/)[0].trim();
+    list.push(a);
+    const coarse = a.replace(/(\d+)[-ー−－].*$/, '$1'); // 番地を落として町まで
+    if (coarse !== a) list.push(coarse);
+    const wide = (a.match(/^(.*?[市区町村](?:.*?[区])?)/) || [])[1];
+    if (wide && !list.includes(wide)) list.push(wide);
+  }
+  const name = place.replace(/[（(].*?[）)]/g, ' ').split(/[＆&]/)[0].trim();
+  if (name && !list.includes(name)) list.push(name);
+  return list;
+}
+
 async function search(place) {
-  const gap = 1100 - (Date.now() - last);
-  if (gap > 0) await wait(gap);
-  last = Date.now();
-  const q = place.replace(/[（(].*?[）)]/g, ' ').trim();
-  const res = await fetch(`${TRIP.geoApi}?format=jsonv2&limit=1&accept-language=ja&q=${encodeURIComponent(q)}`);
-  if (!res.ok) throw new Error('geo');
-  const list = await res.json();
-  const top = Array.isArray(list) && list[0];
-  const found = top && Number.isFinite(+top.lat) && Number.isFinite(+top.lon) ? { lat: +top.lat, lon: +top.lon, name: place, station: '', stationKm: null } : null;
+  let found = null;
+  for (const q of queriesFor(place)) {
+    const gap = 1100 - (Date.now() - last);
+    if (gap > 0) await wait(gap);
+    last = Date.now();
+    const res = await fetch(`${TRIP.geoApi}?format=jsonv2&limit=1&accept-language=ja&q=${encodeURIComponent(q)}`);
+    if (!res.ok) throw new Error('geo');
+    const list = await res.json();
+    const top = Array.isArray(list) && list[0];
+    if (top && Number.isFinite(+top.lat) && Number.isFinite(+top.lon)) { found = { lat: +top.lat, lon: +top.lon, name: place, station: '', stationKm: null }; break; }
+  }
   cacheSet('geo', place, found, 200);
   return found;
 }
