@@ -67,5 +67,7 @@ export function normalizeData(raw) {
 
   const dismissed = (Array.isArray(src.dismissed) ? src.dismissed : []).filter((x) => typeof x === 'string' && x).map((x) => x.slice(0, 100)).slice(0, 2000);
 
-  return { tabs, events, settings: normalizeSettings(src.settings), dismissed };
+  const restored = (Array.isArray(src.restored) ? src.restored : []).filter((x) => typeof x === 'string' && x).map((x) => x.slice(0, 100)).slice(0, 500);
+
+  return { tabs, events, settings: normalizeSettings(src.settings), dismissed, restored };
 }

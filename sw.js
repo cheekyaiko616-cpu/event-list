@@ -1,7 +1,7 @@
 // オフラインでも開けるようにするための仕組み。
 // アプリ本体は保存済みのものをすぐ出し、裏で最新を取りに行く（下の fetch の説明を参照）。日程データ（json）は、いつも通信で最新を読む。
 // ファイルを追加・削除したら ASSETS を直し、CACHE の番号を上げる。
-const CACHE = 'event-cho-v149';
+const CACHE = 'event-cho-v150';
 const ASSETS = [
   './',
   'index.html',
@@ -38,7 +38,7 @@ self.addEventListener('activate', (e) => {
 // 起動のたびに通信を待たないので、最初の画面が早く出る。
 // 日程データ（json）は、保存せず、いつも通信で最新を読む。
 // （読み込みのたびに付く印つきのアドレスで保存すると、使われない保存分が増え続けるため。通信できないときは、アプリ側が「読めない」と扱うだけで困らない）
-const LIVE = ['feed.json', 'updates.json', 'watchlist.json'];
+const LIVE = ['feed.json', 'updates.json', 'watchlist.json', 'removed.json'];
 
 self.addEventListener('fetch', (e) => {
   const req = e.request;

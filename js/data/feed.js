@@ -6,6 +6,7 @@
 //   こちらで削除した予定 … 二度と自動では戻さない
 //   こちらで作った予定   … 同じ題名のfeedがあっても、上書きも二重にもしない（こちらを優先する）
 //   こちらで消したタブ   … そのタブ向けの予定は入れない（別のタブには入れない）
+//   地域外として消された予定 … removed.json にあるものは一覧から外す（手動修正したもの・復元したものは外さない）。復元は restoreFeedItem
 import { state } from '../state.js';
 import { commit } from './store.js';
 import { sortedTabs, newTab } from './tabs.js';
@@ -15,6 +16,7 @@ import { safeUrl, newId } from '../util/text.js';
 import { RETENTION_DAYS } from '../config.js';
 import { cleanDates } from './dates.js';
 import { importsKind } from './settings.js';
+import { loadRemovedIds } from './removed.js';
 
 const str = (v, max) => (typeof v === 'string' ? v.trim().slice(0, max) : '');
 const norm = (s) => (s || '').normalize('NFKC').replace(/\s+/g, '').toLowerCase();
@@ -120,7 +122,7 @@ function createTabs(items, watch) {
 }
 
 /** feedの内容を予定に反映する。変わった件数 { added, updated } を返し、変わったときだけ保存する。 */
-async function applyFeed(items, watch = new Map()) {
+async function applyFeed(items, watch = new Map(), removedIds = new Set()) {
   let touched = createTabs(items, watch) > 0;
   const tabs = sortedTabs();
   const today = todayIso();
@@ -166,8 +168,29 @@ async function applyFeed(items, watch = new Map()) {
     }
   });
 
+  // 地域外として消された予定を、一覧から外す（feedに残っているもの・手動修正したもの・復元したものは外さない）
+  if (removedIds.size) {
+    const keep = state.events.filter((x) => !(x.feedId && removedIds.has(x.feedId) && !seenIds.has(x.feedId) && !x.manual && !state.restored.includes(x.feedId)));
+    if (keep.length !== state.events.length) { state.events = keep; touched = true; }
+  }
+
   if (touched) await commit();
   return { added, updated };
+}
+
+/** 地域外で消された予定を、一覧に戻す。{ ok, message }。戻した印は state.restored に残り、毎日の取得にも伝わる。 */
+export async function restoreFeedItem(raw) {
+  const f = cleanFeedItem(raw && raw.id, raw);
+  if (!f) return { ok: false, message: 'この予定は戻せません（出典がありません）。' };
+  const tab = sortedTabs().find((t) => norm(t.name) === norm(f.tabName)) || (f.tabName ? null : sortedTabs()[0]);
+  if (!tab) return { ok: false, message: `「${f.tabName}」のタブがないため戻せません。先にタブを作ってください。` };
+  if (state.events.some((x) => x.feedId === f.id)) return { ok: true, message: 'すでに一覧にあります。' };
+  const made = createEvent(f, tab, feedHash(f), todayIso());
+  state.events.push(made);
+  if (!state.restored.includes(f.id)) state.restored.push(f.id);
+  state.dismissed = state.dismissed.filter((x) => x !== f.id);
+  await commit();
+  return { ok: true, message: '一覧に戻しました。' };
 }
 
 const PULL_GAP_MS = 30 * 1000;
@@ -198,7 +221,8 @@ async function pullFile() {
     const body = await res.json();
     const list = body && Array.isArray(body.items) ? body.items : [];
     const items = list.map((x) => cleanFeedItem(x && x.id, x)).filter(Boolean);
-    return await applyFeed(items, await watching);
+    const removed = await loadRemovedIds(); // 読めなければ空（何も外さない）
+    return await applyFeed(items, await watching, removed);
   } catch (e) { return null; /* 読めなくてもアプリは動く */ }
 }
 

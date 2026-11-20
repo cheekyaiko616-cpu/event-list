@@ -3,6 +3,7 @@
 import { state } from '../state.js';
 import { $, el, clear } from '../util/dom.js';
 import { openUpdates } from './updates-sheet.js';
+import { openRemoved } from './removed-sheet.js';
 import { toggleSettings } from './settings-page.js';
 import { toggleView } from './view-switch.js';
 
@@ -70,7 +71,8 @@ function renderDrawer() {
   panel.append(
     item('設定', 'dr-settings', toggleSettings, settings),
     item('過去のイベント', 'dr-past', toggleView, past),
-    item('イベント更新履歴', 'dr-info', openUpdates, false));
+    item('イベント更新履歴', 'dr-info', openUpdates, false),
+    item('地域外で消した予定', 'dr-removed', openRemoved, false));
 }
 
 /** 左端から右へのスワイプで開く／開いているとき左へのスワイプで閉じる。 */

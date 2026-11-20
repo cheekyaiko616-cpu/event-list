@@ -1,5 +1,6 @@
 // 取り込みの一覧：タブごとの「取り込み内容」を、GitHub保存用の形にまとめる。
 // 画面は扱わない。形を変えるときはここだけ直す。
+import { state } from '../state.js';
 import { sortedTabs } from './tabs.js';
 
 /** 取り込み内容が書かれたタブだけを、並び順どおりに集める。 */
@@ -8,6 +9,7 @@ export function watchlistData() {
     app: 'event-cho-watchlist',
     version: 1,
     updatedAt: new Date().toISOString(),
+    keepIds: [...state.restored], // 地域外で消されたが、利用者が復元した予定。毎日の取得は、これを地域外として消さない
     tabs: sortedTabs()
       .filter((t) => (t.watch || '').trim())
       .map((t) => ({ tabName: t.name, watch: t.watch.trim(), kinds: t.importKinds || [] })) // kinds: 申し込みなどの日付で取り込む種類（空なら開催日だけ）

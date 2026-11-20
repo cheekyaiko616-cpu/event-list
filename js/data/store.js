@@ -14,7 +14,8 @@ export function snapshot() {
     tabs: state.tabs,
     events: state.events,
     settings: state.settings,
-    dismissed: state.dismissed
+    dismissed: state.dismissed,
+    restored: state.restored
   };
 }
 
@@ -23,6 +24,7 @@ function apply(d) {
   state.events = d.events;
   state.settings = d.settings;
   state.dismissed = d.dismissed || [];
+  state.restored = d.restored || [];
   keepFilterValid();
 }
 
@@ -62,7 +64,8 @@ export async function init() {
       tabs: [], // 初めは、タブは1つもない。自動取得などで予定が入ると、そのタブが現れる
       events: [],
       settings: defaultSettings(),
-      dismissed: []
+      dismissed: [],
+      restored: []
     });
     if (status === 'missing') await persist();
     if (status === 'unavailable') state.saveError = true;

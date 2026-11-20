@@ -14,7 +14,8 @@ let timer = null;
 let running = false;
 let again = false;
 
-const fingerprint = () => JSON.stringify(watchlistData().tabs);
+const keyOf = (tabs, keep) => JSON.stringify([tabs, [...(Array.isArray(keep) ? keep : [])].sort()]);
+const fingerprint = () => { const w = watchlistData(); return keyOf(w.tabs, w.keepIds); };
 const filled = () => { try { return localStorage.getItem(GITHUB.filledKey) === '1'; } catch (e) { return false; } };
 const markFilled = () => { try { localStorage.setItem(GITHUB.filledKey, '1'); } catch (e) { /* 次回もう一度行うだけ */ } };
 
@@ -71,7 +72,7 @@ export async function syncNow() {
 
       // 中身が同じなら書かない
       let same = false;
-      try { same = r.text && JSON.stringify(JSON.parse(r.text).tabs) === fingerprint(); } catch (e) { same = false; }
+      try { const j = JSON.parse(r.text); same = !!r.text && keyOf(j.tabs, j.keepIds) === fingerprint(); } catch (e) { same = false; }
       if (same) { baseline = fingerprint(); set('ok', '', false); return { ok: true, wrote: false }; }
 
       const text = JSON.stringify(watchlistData(), null, 2) + '\n';
