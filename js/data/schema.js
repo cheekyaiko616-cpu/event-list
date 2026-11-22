@@ -16,6 +16,13 @@ function cleanCal(list) {
     .slice(-20);
 }
 
+/** 緯度・経度。使えない値は null。 */
+function cleanGeo(g) {
+  const lat = g && typeof g.lat === 'number' ? g.lat : NaN;
+  const lon = g && typeof g.lon === 'number' ? g.lon : NaN;
+  return Number.isFinite(lat) && Number.isFinite(lon) && Math.abs(lat) <= 90 && Math.abs(lon) <= 180 ? { lat, lon } : null;
+}
+
 export function normalizeData(raw) {
   const src = raw && typeof raw === 'object' ? raw : {};
 
@@ -50,6 +57,8 @@ export function normalizeData(raw) {
       date,
       end,
       place: str(e.place, 100),
+      geo: cleanGeo(e.geo), // 公式情報で確かめた緯度・経度（ナビ・天気の場所）。なければ null
+      address: str(e.address, 200),
       source: str(e.source, 200),
       url: str(e.url, 500),
       note: str(e.note, 1000),

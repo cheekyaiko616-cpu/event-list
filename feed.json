@@ -722,7 +722,10 @@
       "source": "岡山城公式サイト 2026/11/05確認",
       "url": "https://okayama-castle.jp/5607/",
       "note": "9:00〜17:30、11/20〜29は20:30まで。秋の烏城灯源郷の特別演出は11/21〜29。音声ガイド無料(全12種)。",
-      "checkedAt": "2026-11-22"
+      "checkedAt": "2026-11-22",
+      "lat": 34.665217,
+      "lon": 133.935986,
+      "address": "岡山県岡山市北区丸の内2-3-1"
     },
     {
       "id": "inui-2ndlive-20270424",
@@ -771,7 +774,10 @@
           "date": "2027-02-13",
           "note": "一般発売 12:00〜（先着）"
         }
-      ]
+      ],
+      "lat": 35.637759,
+      "lon": 139.79202,
+      "address": "東京都江東区有明2-1-6"
     },
     {
       "id": "junction-vintage-vol4-20261107",
@@ -795,7 +801,10 @@
       "source": "第三者サイト(Vinty)の情報・公式未確認 2026/11/04確認",
       "url": "https://www.vinty.jp/events/search?type=monthly&month=11",
       "note": "会場の詳しい場所・入場料は未確認。",
-      "checkedAt": "2026-11-22"
+      "checkedAt": "2026-11-22",
+      "lat": 34.959164,
+      "lon": 137.167385,
+      "address": "愛知県岡崎市籠田町68"
     },
     {
       "id": "aichi-furugi-matsuri-20261128",
@@ -843,7 +852,10 @@
       "source": "公式サイト 2026/11/05確認",
       "url": "https://en.nagoya-antique-market.jp/event/nam19th/",
       "note": "東10:00-17:00/西9:30-16:30。有料(当日1日1,300円)。18歳未満・70歳以上無料。",
-      "checkedAt": "2026-11-22"
+      "checkedAt": "2026-11-22",
+      "lat": 35.151737,
+      "lon": 136.902449,
+      "address": "愛知県名古屋市中区橘2-8-55"
     },
     {
       "id": "botajam-gifu-20261107",
@@ -855,7 +867,10 @@
       "source": "第三者サイト(PUKUBOOK・アガベイベントナビ・nextmeet)の情報・公式未確認 2026/11/04確認",
       "url": "https://pukubook.jp/events/area/%E6%9D%B1%E6%B5%B7",
       "note": "日程・会場は第三者サイトの掲載。入場料・詳細は未確認。",
-      "checkedAt": "2026-11-22"
+      "checkedAt": "2026-11-22",
+      "lat": 35.33096,
+      "lon": 137.154891,
+      "address": "岐阜県多治見市東町4-2-5"
     },
     {
       "id": "gamagori-tanikufesta-6-20261114",
@@ -867,7 +882,10 @@
       "source": "第三者サイト(PUKUBOOK・アガベイベントナビ・nextmeet)の情報・公式未確認 2026/11/04確認",
       "url": "https://pukubook.jp/events/area/%E6%9D%B1%E6%B5%B7",
       "note": "日程・会場は第三者サイトの掲載。入場料・詳細は未確認。",
-      "checkedAt": "2026-11-22"
+      "checkedAt": "2026-11-22",
+      "lat": 34.819985,
+      "lon": 137.223627,
+      "address": "愛知県蒲郡市港町1150番地"
     },
     {
       "id": "sweet-jungle-20261114",
@@ -879,7 +897,10 @@
       "source": "第三者サイト(PUKUBOOK・アガベイベントナビ・nextmeet)の情報・公式未確認 2026/11/04確認",
       "url": "https://pukubook.jp/events/area/%E6%9D%B1%E6%B5%B7",
       "note": "日程・会場は第三者サイトの掲載。 有料（金額未確認）。",
-      "checkedAt": "2026-11-22"
+      "checkedAt": "2026-11-22",
+      "lat": 34.856297,
+      "lon": 136.821709,
+      "address": "愛知県常滑市セントレア5丁目10番1号"
     },
     {
       "id": "roots-plus-1-20261115",
@@ -891,7 +912,10 @@
       "source": "第三者サイト(PUKUBOOK・アガベイベントナビ・nextmeet)の情報・公式未確認 2026/11/04確認",
       "url": "https://pukubook.jp/events/area/%E6%9D%B1%E6%B5%B7",
       "note": "日程・会場は第三者サイトの掲載。入場料・詳細は未確認。",
-      "checkedAt": "2026-11-22"
+      "checkedAt": "2026-11-22",
+      "lat": 35.171389,
+      "lon": 136.720159,
+      "address": "愛知県津島市宮川町1丁目"
     },
     {
       "id": "uetomo-hiroba-aki-20261115",
@@ -903,7 +927,10 @@
       "source": "第三者サイト(PUKUBOOK・アガベイベントナビ・nextmeet)の情報・公式未確認 2026/11/04確認",
       "url": "https://pukubook.jp/events/area/%E6%9D%B1%E6%B5%B7",
       "note": "日程・会場は第三者サイトの掲載。入場料・詳細は未確認。",
-      "checkedAt": "2026-11-22"
+      "checkedAt": "2026-11-22",
+      "lat": 35.40193,
+      "lon": 136.798571,
+      "address": "岐阜県岐阜市切通7丁目15-22"
     },
     {
       "id": "mori-tanikuen-big-20261122",
@@ -915,7 +942,10 @@
       "source": "第三者サイト(PUKUBOOK・アガベイベントナビ・nextmeet)の情報・公式未確認 2026/11/04確認",
       "url": "https://pukubook.jp/events/area/%E6%9D%B1%E6%B5%B7",
       "note": "日程・会場は第三者サイトの掲載。入場料・詳細は未確認。",
-      "checkedAt": "2026-11-22"
+      "checkedAt": "2026-11-22",
+      "lat": 34.637012,
+      "lon": 136.102789,
+      "address": "三重県名張市蔵持町2928"
     },
     {
       "id": "pakipo-no-sono-20261123",
@@ -927,7 +957,10 @@
       "source": "第三者サイト(PUKUBOOK・アガベイベントナビ・nextmeet)の情報・公式未確認 2026/11/04確認",
       "url": "https://pukubook.jp/events/area/%E6%9D%B1%E6%B5%B7",
       "note": "日程・会場は第三者サイトの掲載。入場料・詳細は未確認。",
-      "checkedAt": "2026-11-22"
+      "checkedAt": "2026-11-22",
+      "lat": 35.081741,
+      "lon": 137.07773,
+      "address": "愛知県みよし市三好町大慈山1-1"
     },
     {
       "id": "camp-park-garden-3-20261128",
@@ -939,7 +972,10 @@
       "source": "第三者サイト(PUKUBOOK・アガベイベントナビ・nextmeet)の情報・公式未確認 2026/11/04確認",
       "url": "https://pukubook.jp/events/area/%E6%9D%B1%E6%B5%B7",
       "note": "日程・会場は第三者サイトの掲載。 入場無料（第三者サイト情報）。",
-      "checkedAt": "2026-11-22"
+      "checkedAt": "2026-11-22",
+      "lat": 35.160655,
+      "lon": 136.908961,
+      "address": "愛知県名古屋市中区大須4-4-1"
     },
     {
       "id": "santa29-festa-20-20261129",
@@ -951,7 +987,10 @@
       "source": "第三者サイト(PUKUBOOK・アガベイベントナビ・nextmeet)の情報・公式未確認 2026/11/04確認",
       "url": "https://pukubook.jp/events/area/%E6%9D%B1%E6%B5%B7",
       "note": "日程・会場は第三者サイトの掲載。入場料・詳細は未確認。",
-      "checkedAt": "2026-11-22"
+      "checkedAt": "2026-11-22",
+      "lat": 34.95905,
+      "lon": 137.084452,
+      "address": "愛知県安城市御幸本町504-1"
     },
     {
       "id": "chinki-plant-fair-4-20261129",
@@ -963,7 +1002,10 @@
       "source": "第三者サイト(PUKUBOOK・アガベイベントナビ・nextmeet)の情報・公式未確認 2026/11/04確認",
       "url": "https://pukubook.jp/events/area/%E6%9D%B1%E6%B5%B7",
       "note": "日程・会場は第三者サイトの掲載。入場料・詳細は未確認。",
-      "checkedAt": "2026-11-22"
+      "checkedAt": "2026-11-22",
+      "lat": 35.27552,
+      "lon": 136.97005,
+      "address": "愛知県春日井市西山町2-8-1"
     },
     {
       "id": "bizarre-plants-night-20261205",
@@ -987,7 +1029,10 @@
       "source": "第三者サイト(PUKUBOOK・アガベイベントナビ・nextmeet)の情報・公式未確認 2026/11/04確認",
       "url": "https://pukubook.jp/events/area/%E6%9D%B1%E6%B5%B7",
       "note": "日程・会場は第三者サイトの掲載。入場料・詳細は未確認。",
-      "checkedAt": "2026-11-22"
+      "checkedAt": "2026-11-22",
+      "lat": 35.160655,
+      "lon": 136.908961,
+      "address": "愛知県名古屋市中区大須4-4-1"
     },
     {
       "id": "botanical-market-mie-11-20261206",
@@ -999,7 +1044,10 @@
       "source": "第三者サイト(PUKUBOOK・アガベイベントナビ・nextmeet)の情報・公式未確認 2026/11/04確認",
       "url": "https://pukubook.jp/events/area/%E6%9D%B1%E6%B5%B7",
       "note": "日程・会場は第三者サイトの掲載。入場料・詳細は未確認。",
-      "checkedAt": "2026-11-22"
+      "checkedAt": "2026-11-22",
+      "lat": 34.546531,
+      "lon": 136.550723,
+      "address": "三重県松阪市上川町212-1"
     },
     {
       "id": "lier-taniku-kariya-20261210",
@@ -1011,7 +1059,10 @@
       "source": "第三者サイト(PUKUBOOK・アガベイベントナビ・nextmeet)の情報・公式未確認 2026/11/04確認",
       "url": "https://pukubook.jp/events/area/%E6%9D%B1%E6%B5%B7",
       "note": "日程・会場は第三者サイトの掲載。入場料・詳細は未確認。",
-      "checkedAt": "2026-11-22"
+      "checkedAt": "2026-11-22",
+      "lat": 34.990639,
+      "lon": 137.009075,
+      "address": "愛知県刈谷市相生町1-1-6"
     },
     {
       "id": "taniku-revolution-3-20261212",
@@ -1071,7 +1122,10 @@
       "source": "第三者サイト(PUKUBOOK・アガベイベントナビ・nextmeet)の情報・公式未確認 2026/11/04確認",
       "url": "https://pukubook.jp/events/area/%E6%9D%B1%E6%B5%B7",
       "note": "日程・会場は第三者サイトの掲載。入場料・詳細は未確認。",
-      "checkedAt": "2026-11-22"
+      "checkedAt": "2026-11-22",
+      "lat": 35.160655,
+      "lon": 136.908961,
+      "address": "愛知県名古屋市中区大須4-4-1"
     },
     {
       "id": "botanical-monsters-2027-20270117",
@@ -1083,7 +1137,10 @@
       "source": "第三者サイト(PUKUBOOK・アガベイベントナビ・nextmeet)の情報・公式未確認 2026/11/04確認",
       "url": "https://pukubook.jp/events/area/%E6%9D%B1%E6%B5%B7",
       "note": "日程・会場は第三者サイトの掲載。入場料・詳細は未確認。",
-      "checkedAt": "2026-11-22"
+      "checkedAt": "2026-11-22",
+      "lat": 34.944573,
+      "lon": 137.114609,
+      "address": "愛知県岡崎市昭和町木舟25番地"
     },
     {
       "id": "aichinsyokusai-newyear-20270124",
@@ -1095,7 +1152,10 @@
       "source": "第三者サイト(PUKUBOOK・アガベイベントナビ・nextmeet)の情報・公式未確認 2026/11/04確認",
       "url": "https://pukubook.jp/events/area/%E6%9D%B1%E6%B5%B7",
       "note": "日程・会場は第三者サイトの掲載。入場料・詳細は未確認。",
-      "checkedAt": "2026-11-22"
+      "checkedAt": "2026-11-22",
+      "lat": 34.990639,
+      "lon": 137.009075,
+      "address": "愛知県刈谷市相生町1-1-6"
     },
     {
       "id": "ueshisai-tsumagoi-20261128",
@@ -1107,7 +1167,10 @@
       "source": "第三者サイト(leaf-laboratory)の情報・公式未確認 2026/11/04確認",
       "url": "https://leaf-laboratory.com/blogs/media/event-shizuoka-list",
       "note": "10:00開始。愛知周辺（掛川）の対象。日程・会場は第三者サイトの掲載で、雨天の可能性あり。 入場無料・駐車場無料（第三者サイト情報）。",
-      "checkedAt": "2026-11-22"
+      "checkedAt": "2026-11-22",
+      "lat": 34.765407,
+      "lon": 138.042594,
+      "address": "静岡県掛川市満水2000"
     },
     {
       "id": "jrs-centrair-2027",
@@ -1120,7 +1183,10 @@
       "url": "https://www.rep-japan.co.jp/jrs/centrair/",
       "note": "10:00〜17:00。公式ページに2027年と明記。前売券は発売中（ぴあ・ローチケ）。",
       "checkedAt": "2026-11-22",
-      "dates": []
+      "dates": [],
+      "lat": 34.856297,
+      "lon": 136.821709,
+      "address": "愛知県常滑市セントレア5丁目10番1号"
     },
     {
       "id": "raden-wachawacha-20261115",
@@ -1132,7 +1198,10 @@
       "source": "ホロライブ公式ニュース 2026/11/05確認",
       "url": "https://hololive.hololivepro.com/news/20260815-01-399/",
       "note": "Day2出演。開場15:30/開演16:30。配信チケットの詳細は未掲載。",
-      "checkedAt": "2026-11-22"
+      "checkedAt": "2026-11-22",
+      "lat": 35.664746,
+      "lon": 139.524424,
+      "address": "東京都調布市西町290-11"
     },
     {
       "id": "raden-musicstage-2027-day1",
@@ -1144,7 +1213,10 @@
       "source": "ホロライブ公式 2026/11/7確認（出演者欄にReGLOSSとあり、らでんさん個人の記載は確認できず）",
       "url": "https://hololive.hololivepro.com/news/20261020-02-85/",
       "note": "2日間開催(1/9・10)。ReGLOSSはDAY1。",
-      "checkedAt": "2026-11-22"
+      "checkedAt": "2026-11-22",
+      "lat": 35.464577,
+      "lon": 139.630633,
+      "address": "神奈川県横浜市西区みなとみらい6-2-14"
     },
     {
       "id": "taikyu-2027-test1",
@@ -1217,7 +1289,10 @@
       "url": "https://www.rep-japan.co.jp/jrs/",
       "note": "前売券は発売中（公式チケットセンター・ぴあ・ローチケ）。会場名・入場料は公式ページに記載なし。",
       "checkedAt": "2026-11-22",
-      "dates": []
+      "dates": [],
+      "lat": 35.641487,
+      "lon": 139.791935,
+      "address": "東京都江東区有明1-10-1"
     },
     {
       "id": "raden-estaregg-agf-2026",

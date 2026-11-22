@@ -17,10 +17,23 @@ function knownVenue(place) {
   return v ? { lat: v.lat, lon: v.lon, name: v.name, station: v.station || '', stationKm: v.stationKm ?? null } : null;
 }
 
-/** 場所を引く。見つからなければ null、通信できなければ例外。 */
-export async function locate(place) {
+/** 緯度・経度として使える値か。 */
+const validGeo = (g) => !!g && Number.isFinite(g.lat) && Number.isFinite(g.lon) && Math.abs(g.lat) <= 90 && Math.abs(g.lon) <= 180;
+
+/** 会場の名前がなく、県・市・国だけの場所か（例：愛知県名古屋市、東京、静岡、アメリカ）。ここは天気の目安にはなるが、ナビの行き先にはしない。 */
+function isVague(place) {
+  const q = place.replace(/[（(].*?[）)]/g, ' ').replace(/\s+/g, '');
+  return /^(?:[一-龥ァ-ヶ]{1,5}(?:都|道|府|県|市|区|町|村))+$/.test(q) || /^(?:東京|大阪|京都|愛知|静岡|岐阜|三重|北海道|アメリカ|韓国|台湾|日本|中国)$/.test(q);
+}
+
+/**
+ * 場所を引く。geo は、公式情報で確かめた緯度・経度（feed.json に書かれたもの）。あればそれを最優先にする。
+ * 見つからなければ null、通信できなければ例外。会場の名前がない場所は approx:true（ナビの行き先にはしない）。
+ */
+export async function locate(place, geo) {
   if (!hasPlace(place)) return null;
   const known = knownVenue(place);
+  if (validGeo(geo)) return { lat: geo.lat, lon: geo.lon, name: known ? known.name : place, station: known ? known.station : '', stationKm: known ? known.stationKm : null };
   if (known) return known;
   const hit = cacheGet('geo', place, TRIP.geoTtl);
   if (hit !== undefined) return hit;
@@ -46,17 +59,19 @@ function queriesFor(place) {
 }
 
 async function search(place) {
+  const pref = (place.match(/[一-龥]{2,3}[都道府県]/) || [])[0]; // 場所に書かれた県。検索結果がその県の外なら使わない（同名の別の場所を避ける）
   let found = null;
   for (const q of queriesFor(place)) {
     const gap = 1100 - (Date.now() - last);
     if (gap > 0) await wait(gap);
     last = Date.now();
-    const res = await fetch(`${TRIP.geoApi}?format=jsonv2&limit=1&accept-language=ja&q=${encodeURIComponent(q)}`);
+    const res = await fetch(`${TRIP.geoApi}?format=jsonv2&limit=3&accept-language=ja&q=${encodeURIComponent(q)}`);
     if (!res.ok) throw new Error('geo');
     const list = await res.json();
-    const top = Array.isArray(list) && list[0];
-    if (top && Number.isFinite(+top.lat) && Number.isFinite(+top.lon)) { found = { lat: +top.lat, lon: +top.lon, name: place, station: '', stationKm: null }; break; }
+    const top = (Array.isArray(list) ? list : []).find((x) => Number.isFinite(+x.lat) && Number.isFinite(+x.lon) && (!pref || String(x.display_name || '').includes(pref)));
+    if (top) { found = { lat: +top.lat, lon: +top.lon, name: place, station: '', stationKm: null }; break; }
   }
+  if (found && isVague(place)) found.approx = true;
   cacheSet('geo', place, found, 200);
   return found;
 }

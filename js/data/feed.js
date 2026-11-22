@@ -29,8 +29,10 @@ function cleanFeedItem(id, raw) {
   if (!id || !title || !source) return null;
   const date = parseDate(x.date) ? x.date : '';
   const end = date && parseDate(x.end) && x.end > date ? x.end : '';
+  const geo = typeof x.lat === 'number' && typeof x.lon === 'number' && Math.abs(x.lat) <= 90 && Math.abs(x.lon) <= 180 ? { lat: x.lat, lon: x.lon } : null; // 公式情報で確かめた緯度・経度
   return {
     id: String(id).slice(0, 100), tabName: str(x.tabName, 20), title, date, end,
+    geo, address: str(x.address, 200),
     place: str(x.place, 100), source, url: safeUrl(str(x.url, 500)) || '', note: str(x.note, 1000),
     dates: cleanDates(x.dates).map((d) => ({ ...d, auto: true })),
     checkedAt: parseDate(x.checkedAt) ? x.checkedAt : ''
@@ -58,7 +60,7 @@ function syncDates(e, f) {
 /** feed の1件から、新しい予定を作る。 */
 function createEvent(f, tab, hash, newAt) {
   const e = {
-    id: newId('e'), rev: 1, type: tab.id, title: f.title, date: f.date, end: f.end, place: f.place,
+    id: newId('e'), rev: 1, type: tab.id, title: f.title, date: f.date, end: f.end, place: f.place, geo: f.geo, address: f.address,
     source: f.source, url: f.url, note: f.note,
     feedId: f.id, feedHash: hash, manual: false, checkedAt: f.checkedAt, lastChange: null, dates: [],
     newAt
@@ -71,6 +73,8 @@ function createEvent(f, tab, hash, newAt) {
 function refreshSame(e, f, today, firstSync) {
   let touched = false;
   if (f.checkedAt && e.checkedAt !== f.checkedAt) { e.checkedAt = f.checkedAt; touched = true; }
+  // 緯度・経度と住所は、予定の内容(hash)とは別に合わせる（NEWの印は付けない）。こちらで場所を直した予定は触らない
+  if (!e.manual && (JSON.stringify(e.geo || null) !== JSON.stringify(f.geo) || (e.address || '') !== f.address)) { e.geo = f.geo; e.address = f.address; touched = true; }
   const autoCount = () => (e.dates || []).filter((d) => d.auto).length;
   const before = autoCount();
   if (syncDates(e, f)) {  // 設定で取り込む種類を変えたときも反映する
@@ -87,7 +91,7 @@ function overwrite(e, f, hash, today, firstSync) {
   const wasManual = e.manual === true;
   Object.assign(e, {
     title: e.feedId ? f.title : e.title, date: f.date, end: f.end, place: f.place || e.place,
-    source: f.source, url: f.url || e.url, note: f.note || e.note,
+    source: f.source, url: f.url || e.url, note: f.note || e.note, geo: f.geo, address: f.address,
     feedId: f.id, feedHash: hash, manual: false, checkedAt: f.checkedAt || e.checkedAt,
     rev: (e.rev || 1) + 1
   });

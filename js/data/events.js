@@ -34,7 +34,9 @@ export async function saveEvent(f, id = null) {
   if (id) {
     const e = state.events.find((x) => x.id === id);
     if (!e) return false;
+    const moved = (e.place || '') !== data.place;
     Object.assign(e, data, { rev: (e.rev || 1) + 1 });
+    if (moved) { e.geo = null; e.address = ''; } // 場所を書き換えたら、前の緯度・経度は使わない
     if (e.feedId) e.manual = true; // 自動取得の予定を直したら「手動修正」として残す
   } else {
     state.events.push({ id: newId('e'), rev: 1, ...data });

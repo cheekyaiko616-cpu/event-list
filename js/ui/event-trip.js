@@ -11,7 +11,7 @@ import { carnaviUrl, mapUrl } from '../services/trip-links.js';
 import { openTransit } from './transit-sheet.js';
 
 const md = (iso) => { const p = parseDate(iso); return `${p.m}/${p.d}(${weekday(p)})`; };
-const where = (e) => locate(e.place).catch(() => null); // 同じ場所は保存・共有されるので、何度呼んでも通信は1回
+const where = (e) => locate(e.place, e.geo).catch(() => null); // 同じ場所は保存・共有されるので、何度呼んでも通信は1回
 
 /** 現地の天気（日本国内の予定だけ）。日付がない・終わった・場所がない予定では null。海外・場所が分からない予定では、場所を調べたあと何も出さない。 */
 export function weatherEl(e) {
@@ -19,7 +19,7 @@ export function weatherEl(e) {
   const box = el('div', { class: 'wx', hidden: true }); // 日本国内と分かるまで出さない
   const text = (t) => { box.hidden = false; box.replaceChildren(el('p', { class: 'wx-text', text: t })); };
   let place = null;
-  locate(e.place)
+  locate(e.place, e.geo)
     .then((pos) => {
       if (!inJapan(pos)) return null; // 海外・場所が分からない：天気は出さない
       place = pos;
@@ -57,7 +57,7 @@ export function tripButtons(e) {
   const map = el('a', { class: 'btn', href: mapUrl(null, e.place), target: '_blank', rel: 'noopener', text: 'マップ' });
   const navi = el('a', { class: 'btn', href: '#', 'aria-disabled': 'true', text: 'ナビ' });
   where(e).then((pos) => {
-    if (!pos) return;
+    if (!pos || pos.approx) return; // 会場の名前がない場所は、ナビの行き先にしない（県や市の中心に案内してしまうため）
     map.href = mapUrl(pos, e.place);
     navi.href = carnaviUrl(pos, pos.name || e.place);
     navi.removeAttribute('aria-disabled');
