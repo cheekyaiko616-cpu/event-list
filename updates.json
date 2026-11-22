@@ -3,6 +3,61 @@
   "version": 1,
   "entries": [
     {
+      "date": "2026-11-22",
+      "summary": "SUPER GT 2027の日程を初日からの表記に直した：8件",
+      "added": [],
+      "changed": [
+        {
+          "title": "SUPER GT 2027 第1戦 岡山",
+          "tab": "モータースポーツ",
+          "before": "4/4のみ",
+          "after": "4/3〜4/4"
+        },
+        {
+          "title": "SUPER GT 2027 第2戦 富士",
+          "tab": "モータースポーツ",
+          "before": "5/4のみ",
+          "after": "5/3〜5/4"
+        },
+        {
+          "title": "SUPER GT 2027 第4戦 鈴鹿",
+          "tab": "モータースポーツ",
+          "before": "8/1のみ",
+          "after": "7/31〜8/1"
+        },
+        {
+          "title": "SUPER GT 2027 第5戦 SUGO",
+          "tab": "モータースポーツ",
+          "before": "9/19のみ",
+          "after": "9/18〜9/19"
+        },
+        {
+          "title": "SUPER GT 2027 第6戦 オートポリス",
+          "tab": "モータースポーツ",
+          "before": "10/17のみ",
+          "after": "10/16〜10/17"
+        },
+        {
+          "title": "SUPER GT 2027 第7戦 富士",
+          "tab": "モータースポーツ",
+          "before": "11/7のみ",
+          "after": "11/6〜11/7"
+        },
+        {
+          "title": "SUPER GT 2027 第8戦 もてぎ",
+          "tab": "モータースポーツ",
+          "before": "11/21のみ",
+          "after": "11/20〜11/21"
+        },
+        {
+          "title": "SUPER GT 2027 鈴鹿1000km（IGTC第5戦・GT300は選択参戦）",
+          "tab": "モータースポーツ",
+          "before": "9/5のみ",
+          "after": "9/4〜9/5"
+        }
+      ]
+    },
+    {
       "date": "2026-11-20",
       "summary": "新規1件",
       "added": [

@@ -1,31 +1,31 @@
 {
   "app": "event-cho-feed",
   "version": 1,
-  "updatedAt": "2026-11-20",
+  "updatedAt": "2026-11-22",
   "items": [
     {
       "id": "supergt-2027-r1",
       "tabName": "モータースポーツ",
       "title": "SUPER GT 2027 第1戦 岡山",
-      "date": "2027-04-04",
-      "end": "",
+      "date": "2027-04-03",
+      "end": "2027-04-04",
       "place": "岡山国際サーキット",
-      "source": "SUPER GT公式サイト「2027年のSUPER GTカレンダー（予定）を発表」。公式サイト 2026/11/05確認",
+      "source": "公式サイト 2026/11/22確認（予定・JAF/FIA申請中）",
       "url": "https://supergt.net/en/news_race_report/2027-super-gt-calendar-planned-announced",
       "note": "暫定（FIA・JAF承認待ち、変更の可能性あり）。日付は決勝日。",
-      "checkedAt": "2026-11-21"
+      "checkedAt": "2026-11-22"
     },
     {
       "id": "supergt-2027-r2",
       "tabName": "モータースポーツ",
       "title": "SUPER GT 2027 第2戦 富士",
-      "date": "2027-05-04",
-      "end": "",
+      "date": "2027-05-03",
+      "end": "2027-05-04",
       "place": "富士スピードウェイ",
-      "source": "SUPER GT公式サイト「2027年のSUPER GTカレンダー（予定）を発表」。公式サイト 2026/11/05確認",
+      "source": "公式サイト 2026/11/22確認（予定・JAF/FIA申請中）",
       "url": "https://supergt.net/en/news_race_report/2027-super-gt-calendar-planned-announced",
       "note": "暫定（FIA・JAF承認待ち、変更の可能性あり）。日付は決勝日。",
-      "checkedAt": "2026-11-21"
+      "checkedAt": "2026-11-22"
     },
     {
       "id": "supergt-2027-r3",
@@ -37,79 +37,79 @@
       "source": "SUPER GT公式サイト「2027年のSUPER GTカレンダー（予定）を発表」。公式サイト 2026/11/05確認",
       "url": "https://supergt.net/en/news_race_report/2027-super-gt-calendar-planned-announced",
       "note": "暫定（JAF・FIA申請中、変更の可能性あり）。日付は6/18〜19。",
-      "checkedAt": "2026-11-21"
+      "checkedAt": "2026-11-22"
     },
     {
       "id": "supergt-2027-r4",
       "tabName": "モータースポーツ",
       "title": "SUPER GT 2027 第4戦 鈴鹿",
-      "date": "2027-08-01",
-      "end": "",
+      "date": "2027-07-31",
+      "end": "2027-08-01",
       "place": "鈴鹿サーキット",
-      "source": "SUPER GT公式サイト「2027年のSUPER GTカレンダー（予定）を発表」。公式サイト 2026/11/05確認",
+      "source": "公式サイト 2026/11/22確認（予定・JAF/FIA申請中）",
       "url": "https://supergt.net/en/news_race_report/2027-super-gt-calendar-planned-announced",
       "note": "暫定（FIA・JAF承認待ち、変更の可能性あり）。日付は決勝日。",
-      "checkedAt": "2026-11-21"
+      "checkedAt": "2026-11-22"
     },
     {
       "id": "supergt-2027-r5",
       "tabName": "モータースポーツ",
       "title": "SUPER GT 2027 第5戦 SUGO",
-      "date": "2027-09-19",
-      "end": "",
+      "date": "2027-09-18",
+      "end": "2027-09-19",
       "place": "スポーツランドSUGO",
-      "source": "SUPER GT公式サイト「2027年のSUPER GTカレンダー（予定）を発表」。公式サイト 2026/11/05確認",
+      "source": "公式サイト 2026/11/22確認（予定・JAF/FIA申請中）",
       "url": "https://supergt.net/en/news_race_report/2027-super-gt-calendar-planned-announced",
       "note": "暫定（FIA・JAF承認待ち、変更の可能性あり）。日付は決勝日。",
-      "checkedAt": "2026-11-21"
+      "checkedAt": "2026-11-22"
     },
     {
       "id": "supergt-2027-r6",
       "tabName": "モータースポーツ",
       "title": "SUPER GT 2027 第6戦 オートポリス",
-      "date": "2027-10-17",
-      "end": "",
+      "date": "2027-10-16",
+      "end": "2027-10-17",
       "place": "オートポリス",
-      "source": "SUPER GT公式サイト「2027年のSUPER GTカレンダー（予定）を発表」。公式サイト 2026/11/05確認",
+      "source": "公式サイト 2026/11/22確認（予定・JAF/FIA申請中）",
       "url": "https://supergt.net/en/news_race_report/2027-super-gt-calendar-planned-announced",
       "note": "暫定（FIA・JAF承認待ち、変更の可能性あり）。日付は決勝日。",
-      "checkedAt": "2026-11-21"
+      "checkedAt": "2026-11-22"
     },
     {
       "id": "supergt-2027-r7",
       "tabName": "モータースポーツ",
       "title": "SUPER GT 2027 第7戦 富士",
-      "date": "2027-11-07",
-      "end": "",
+      "date": "2027-11-06",
+      "end": "2027-11-07",
       "place": "富士スピードウェイ",
-      "source": "SUPER GT公式サイト「2027年のSUPER GTカレンダー（予定）を発表」。公式サイト 2026/11/05確認",
+      "source": "公式サイト 2026/11/22確認（予定・JAF/FIA申請中）",
       "url": "https://supergt.net/en/news_race_report/2027-super-gt-calendar-planned-announced",
       "note": "暫定（FIA・JAF承認待ち、変更の可能性あり）。日付は決勝日。",
-      "checkedAt": "2026-11-21"
+      "checkedAt": "2026-11-22"
     },
     {
       "id": "supergt-2027-r8",
       "tabName": "モータースポーツ",
       "title": "SUPER GT 2027 第8戦 もてぎ",
-      "date": "2027-11-21",
-      "end": "",
+      "date": "2027-11-20",
+      "end": "2027-11-21",
       "place": "モビリティリゾートもてぎ",
-      "source": "SUPER GT公式サイト「2027年のSUPER GTカレンダー（予定）を発表」。公式サイト 2026/11/05確認",
+      "source": "公式サイト 2026/11/22確認（予定・JAF/FIA申請中）",
       "url": "https://supergt.net/en/news_race_report/2027-super-gt-calendar-planned-announced",
       "note": "暫定（FIA・JAF承認待ち、変更の可能性あり）。日付は決勝日。",
-      "checkedAt": "2026-11-21"
+      "checkedAt": "2026-11-22"
     },
     {
       "id": "supergt-2027-suzuka1000km",
       "tabName": "モータースポーツ",
       "title": "SUPER GT 2027 鈴鹿1000km（IGTC第5戦・GT300は選択参戦）",
-      "date": "2027-09-05",
-      "end": "",
+      "date": "2027-09-04",
+      "end": "2027-09-05",
       "place": "鈴鹿サーキット",
-      "source": "SUPER GT公式サイト「2027年のSUPER GTカレンダー（予定）を発表」。公式サイト 2026/11/05確認",
+      "source": "公式サイト 2026/11/22確認（予定・JAF/FIA申請中）",
       "url": "https://supergt.net/en/news_race_report/2027-super-gt-calendar-planned-announced",
       "note": "SUPER GT通常の8戦とは別の特別戦（GT300のみ）。日付は決勝日。公式では9/4〜5。詳細は後日発表。暫定（JAF・FIA申請中、変更の可能性あり）。",
-      "checkedAt": "2026-11-21"
+      "checkedAt": "2026-11-22"
     },
     {
       "id": "taikyu-2027-r1",
@@ -121,7 +121,7 @@
       "source": "スーパー耐久シリーズ公式サイト「2027年の開催日程のご案内」2026/10/06。10/24確認",
       "url": "https://supertaikyu.com/news/schedule2027.html",
       "note": "暫定（変更の可能性あり）",
-      "checkedAt": "2026-11-21"
+      "checkedAt": "2026-11-22"
     },
     {
       "id": "taikyu-2027-r2",
@@ -133,7 +133,7 @@
       "source": "スーパー耐久シリーズ公式サイト「2027年の開催日程のご案内」2026/10/06。10/24確認",
       "url": "https://supertaikyu.com/news/schedule2027.html",
       "note": "暫定（変更の可能性あり）",
-      "checkedAt": "2026-11-21"
+      "checkedAt": "2026-11-22"
     },
     {
       "id": "taikyu-2027-r3",
@@ -145,7 +145,7 @@
       "source": "スーパー耐久シリーズ公式サイト「2027年の開催日程のご案内」2026/10/06。10/24確認",
       "url": "https://supertaikyu.com/news/schedule2027.html",
       "note": "暫定（変更の可能性あり）",
-      "checkedAt": "2026-11-21"
+      "checkedAt": "2026-11-22"
     },
     {
       "id": "taikyu-2027-r4",
@@ -157,7 +157,7 @@
       "source": "スーパー耐久シリーズ公式サイト「2027年の開催日程のご案内」2026/10/06。10/24確認",
       "url": "https://supertaikyu.com/news/schedule2027.html",
       "note": "暫定（変更の可能性あり）",
-      "checkedAt": "2026-11-21"
+      "checkedAt": "2026-11-22"
     },
     {
       "id": "taikyu-2027-r5",
@@ -169,7 +169,7 @@
       "source": "スーパー耐久シリーズ公式サイト「2027年の開催日程のご案内」2026/10/06。10/24確認",
       "url": "https://supertaikyu.com/news/schedule2027.html",
       "note": "暫定（変更の可能性あり）",
-      "checkedAt": "2026-11-21"
+      "checkedAt": "2026-11-22"
     },
     {
       "id": "taikyu-2027-r6",
@@ -181,7 +181,7 @@
       "source": "スーパー耐久シリーズ公式サイト「2027年の開催日程のご案内」2026/10/06。10/24確認",
       "url": "https://supertaikyu.com/news/schedule2027.html",
       "note": "暫定（変更の可能性あり）",
-      "checkedAt": "2026-11-21"
+      "checkedAt": "2026-11-22"
     },
     {
       "id": "taikyu-2027-r7",
@@ -193,7 +193,7 @@
       "source": "スーパー耐久シリーズ公式サイト「2027年の開催日程のご案内」2026/10/06。10/24確認",
       "url": "https://supertaikyu.com/news/schedule2027.html",
       "note": "暫定（変更の可能性あり）",
-      "checkedAt": "2026-11-21"
+      "checkedAt": "2026-11-22"
     },
     {
       "id": "wec-2027-r1",
@@ -205,7 +205,7 @@
       "source": "FIA WEC公式サイト「2027年カレンダー」(2026/06/12発表)。10/24確認",
       "url": "https://www.fiawec.com/en/news/fia-wec-reveals-nine-round-2027-calendar-as-series-expands/13598",
       "note": "",
-      "checkedAt": "2026-11-19"
+      "checkedAt": "2026-11-22"
     },
     {
       "id": "wec-2027-r2",
@@ -217,7 +217,7 @@
       "source": "FIA WEC公式サイト「2027年カレンダー」(2026/06/12発表)。10/24確認",
       "url": "https://www.fiawec.com/en/news/fia-wec-reveals-nine-round-2027-calendar-as-series-expands/13598",
       "note": "",
-      "checkedAt": "2026-11-19"
+      "checkedAt": "2026-11-22"
     },
     {
       "id": "wec-2027-r3",
@@ -229,7 +229,7 @@
       "source": "FIA WEC公式サイト「2027年カレンダー」(2026/06/12発表)。10/24確認",
       "url": "https://www.fiawec.com/en/news/fia-wec-reveals-nine-round-2027-calendar-as-series-expands/13598",
       "note": "",
-      "checkedAt": "2026-11-19"
+      "checkedAt": "2026-11-22"
     },
     {
       "id": "wec-2027-r4",
@@ -241,7 +241,7 @@
       "source": "FIA WEC公式サイト「2027年カレンダー」(2026/06/12発表)。10/24確認",
       "url": "https://www.fiawec.com/en/news/fia-wec-reveals-nine-round-2027-calendar-as-series-expands/13598",
       "note": "",
-      "checkedAt": "2026-11-19"
+      "checkedAt": "2026-11-22"
     },
     {
       "id": "wec-2027-r5",
@@ -253,7 +253,7 @@
       "source": "FIA WEC公式サイト「2027年カレンダー」(2026/06/12発表)。10/24確認",
       "url": "https://www.fiawec.com/en/news/fia-wec-reveals-nine-round-2027-calendar-as-series-expands/13598",
       "note": "",
-      "checkedAt": "2026-11-19"
+      "checkedAt": "2026-11-22"
     },
     {
       "id": "wec-2027-r6",
@@ -265,7 +265,7 @@
       "source": "FIA WEC公式サイト「2027年カレンダー」(2026/06/12発表)。10/24確認",
       "url": "https://www.fiawec.com/en/news/fia-wec-reveals-nine-round-2027-calendar-as-series-expands/13598",
       "note": "",
-      "checkedAt": "2026-11-19"
+      "checkedAt": "2026-11-22"
     },
     {
       "id": "wec-2027-r7",
@@ -277,7 +277,7 @@
       "source": "FIA WEC公式サイト「2027年カレンダー」(2026/06/12発表)。10/24確認",
       "url": "https://www.fiawec.com/en/news/fia-wec-reveals-nine-round-2027-calendar-as-series-expands/13598",
       "note": "",
-      "checkedAt": "2026-11-19"
+      "checkedAt": "2026-11-22"
     },
     {
       "id": "wec-2027-r8",
@@ -289,7 +289,7 @@
       "source": "FIA WEC公式サイト「2027年カレンダー」(2026/06/12発表)。10/24確認",
       "url": "https://www.fiawec.com/en/news/fia-wec-reveals-nine-round-2027-calendar-as-series-expands/13598",
       "note": "",
-      "checkedAt": "2026-11-19"
+      "checkedAt": "2026-11-22"
     },
     {
       "id": "wec-2027-r9",
@@ -301,7 +301,7 @@
       "source": "FIA WEC公式サイト「2027年カレンダー」(2026/06/12発表)。10/24確認",
       "url": "https://www.fiawec.com/en/news/fia-wec-reveals-nine-round-2027-calendar-as-series-expands/13598",
       "note": "",
-      "checkedAt": "2026-11-19"
+      "checkedAt": "2026-11-22"
     },
     {
       "id": "nagorep-2026",
@@ -313,7 +313,7 @@
       "source": "ナゴレプ公式サイト「日程&会場」「チケット情報」。公式サイト 2026/11/05確認",
       "url": "https://nagorep.com/ticket/",
       "note": "10:00〜17:00。前売おとな1,300円・小中学生800円",
-      "checkedAt": "2026-11-18",
+      "checkedAt": "2026-11-22",
       "dates": [
         {
           "kind": "open",
@@ -332,7 +332,7 @@
       "source": "公式サイト(レップジャパン) 2026/11/05確認",
       "url": "https://www.rep-japan.co.jp/jrs/JRS2018/",
       "note": "10:00〜17:00。前売券は発売中（ぴあ・ローチケ）。前売大人1,400円。",
-      "checkedAt": "2026-11-21"
+      "checkedAt": "2026-11-22"
     },
     {
       "id": "jrs-summer-2027",
@@ -344,7 +344,7 @@
       "source": "主催のレップジャパン公式サイトに、2027年の日程の掲載なし（10/24確認）",
       "url": "https://www.rep-japan.co.jp/jrs/",
       "note": "日程が発表されたら更新します",
-      "checkedAt": "2026-11-20"
+      "checkedAt": "2026-11-22"
     },
     {
       "id": "ado-utatte-2027-tokyo",
@@ -356,7 +356,7 @@
       "source": "Ado公式サイト（ユニバーサルミュージック）2026/10/19発表・クラウドナイン公式。10/27確認／当落・入金は報道ベース・公式未確認(ticketjam) 11/8確認",
       "url": "https://www.universal-music.co.jp/ado/news/2026-10-19/",
       "note": "一般発売は公式で未発表（11/8時点）。当落・入金の日付は報道ベースで公式未確認。",
-      "checkedAt": "2026-11-20",
+      "checkedAt": "2026-11-22",
       "dates": [
         {
           "kind": "open",
@@ -390,7 +390,7 @@
       "source": "Ado公式サイト（ユニバーサルミュージック）2026/10/19発表・クラウドナイン公式。10/27確認／当落・入金は報道ベース・公式未確認(ticketjam) 11/8確認",
       "url": "https://www.universal-music.co.jp/ado/news/2026-10-19/",
       "note": "一般発売は公式で未発表（11/8時点）。当落・入金の日付は報道ベースで公式未確認。",
-      "checkedAt": "2026-11-20",
+      "checkedAt": "2026-11-22",
       "dates": [
         {
           "kind": "open",
@@ -424,7 +424,7 @@
       "source": "Ado公式サイト（ユニバーサルミュージック）2026/10/19発表・クラウドナイン公式。10/27確認／当落・入金は報道ベース・公式未確認(ticketjam) 11/8確認",
       "url": "https://www.universal-music.co.jp/ado/news/2026-10-19/",
       "note": "一般発売は公式で未発表（11/8時点）。当落・入金の日付は報道ベースで公式未確認。",
-      "checkedAt": "2026-11-20",
+      "checkedAt": "2026-11-22",
       "dates": [
         {
           "kind": "open",
@@ -458,7 +458,7 @@
       "source": "SUPER GT公式サイト 2026カレンダー。10/24確認",
       "url": "https://supergt.net/calendar",
       "note": "",
-      "checkedAt": "2026-11-05"
+      "checkedAt": "2026-11-22"
     },
     {
       "id": "supergt-2026-r2",
@@ -470,7 +470,7 @@
       "source": "SUPER GT公式サイト 2026カレンダー。10/24確認",
       "url": "https://supergt.net/calendar",
       "note": "",
-      "checkedAt": "2026-11-05"
+      "checkedAt": "2026-11-22"
     },
     {
       "id": "supergt-2026-r3",
@@ -482,7 +482,7 @@
       "source": "SUPER GT公式サイト 2026カレンダー・もてぎ大会のご案内。公式サイト 2026/11/05確認",
       "url": "https://supergt.net/en/calendar",
       "note": "セパン戦の代替。11/6は専有走行、第3戦は11/7(土)。11/8(日)に第8戦。",
-      "checkedAt": "2026-11-05"
+      "checkedAt": "2026-11-22"
     },
     {
       "id": "supergt-2026-r4",
@@ -494,7 +494,7 @@
       "source": "SUPER GT公式サイト 2026カレンダー。10/24確認",
       "url": "https://supergt.net/calendar",
       "note": "",
-      "checkedAt": "2026-11-05"
+      "checkedAt": "2026-11-22"
     },
     {
       "id": "supergt-2026-r5",
@@ -506,7 +506,7 @@
       "source": "SUPER GT公式サイト 2026カレンダー。10/24確認",
       "url": "https://supergt.net/calendar",
       "note": "",
-      "checkedAt": "2026-11-05"
+      "checkedAt": "2026-11-22"
     },
     {
       "id": "supergt-2026-r6",
@@ -518,7 +518,7 @@
       "source": "SUPER GT公式サイト 2026カレンダー。10/24確認",
       "url": "https://supergt.net/calendar",
       "note": "",
-      "checkedAt": "2026-11-05"
+      "checkedAt": "2026-11-22"
     },
     {
       "id": "supergt-2026-r7",
@@ -530,7 +530,7 @@
       "source": "SUPER GT公式サイト 2026カレンダー。10/24確認",
       "url": "https://supergt.net/calendar",
       "note": "",
-      "checkedAt": "2026-11-05"
+      "checkedAt": "2026-11-22"
     },
     {
       "id": "supergt-2026-r8",
@@ -542,7 +542,7 @@
       "source": "SUPER GT公式サイト 2026カレンダー。10/24確認",
       "url": "https://supergt.net/calendar",
       "note": "",
-      "checkedAt": "2026-11-05"
+      "checkedAt": "2026-11-22"
     },
     {
       "id": "taikyu-2026-r1",
@@ -554,7 +554,7 @@
       "source": "スーパー耐久シリーズ公式サイト 2026年スケジュール。10/24確認",
       "url": "https://supertaikyu.com/",
       "note": "",
-      "checkedAt": "2026-10-24"
+      "checkedAt": "2026-11-22"
     },
     {
       "id": "taikyu-2026-r2",
@@ -566,7 +566,7 @@
       "source": "スーパー耐久シリーズ公式サイト 2026年スケジュール。10/24確認",
       "url": "https://supertaikyu.com/",
       "note": "",
-      "checkedAt": "2026-10-24"
+      "checkedAt": "2026-11-22"
     },
     {
       "id": "taikyu-2026-r3",
@@ -578,7 +578,7 @@
       "source": "スーパー耐久シリーズ公式サイト 2026年スケジュール。10/24確認",
       "url": "https://supertaikyu.com/",
       "note": "",
-      "checkedAt": "2026-10-24"
+      "checkedAt": "2026-11-22"
     },
     {
       "id": "taikyu-2026-r4",
@@ -590,7 +590,7 @@
       "source": "スーパー耐久シリーズ公式サイト 2026年スケジュール。10/24確認",
       "url": "https://supertaikyu.com/",
       "note": "",
-      "checkedAt": "2026-10-24"
+      "checkedAt": "2026-11-22"
     },
     {
       "id": "taikyu-2026-r5",
@@ -602,7 +602,7 @@
       "source": "スーパー耐久シリーズ公式サイト 2026年スケジュール。10/24確認",
       "url": "https://supertaikyu.com/",
       "note": "",
-      "checkedAt": "2026-10-24"
+      "checkedAt": "2026-11-22"
     },
     {
       "id": "taikyu-2026-r6",
@@ -614,7 +614,7 @@
       "source": "スーパー耐久シリーズ公式サイト 2026年スケジュール。10/24確認",
       "url": "https://supertaikyu.com/",
       "note": "",
-      "checkedAt": "2026-10-24"
+      "checkedAt": "2026-11-22"
     },
     {
       "id": "taikyu-2026-r7",
@@ -626,7 +626,7 @@
       "source": "スーパー耐久シリーズ公式サイト 2026年スケジュール。10/24確認",
       "url": "https://supertaikyu.com/",
       "note": "",
-      "checkedAt": "2026-11-08"
+      "checkedAt": "2026-11-22"
     },
     {
       "id": "wec-2026-r8",
@@ -638,7 +638,7 @@
       "source": "FIA WEC公式サイト「6 Hours of Monza 2026」・公式発表 2026/07/28。公式サイト 2026/11/05確認",
       "url": "https://www.fiawec.com/en/race/6-hours-of-monza-2026",
       "note": "バーレーン戦は中東情勢で中止となり、モンツァに変更。決勝は11/8(日)。",
-      "checkedAt": "2026-11-05"
+      "checkedAt": "2026-11-22"
     },
     {
       "id": "ado-stadium-2026",
@@ -650,7 +650,7 @@
       "source": "Ado公式サイト（ユニバーサルミュージック）2025/11/23発表。10/24確認",
       "url": "https://www.universal-music.co.jp/ado/news/2025-11-23/",
       "note": "タイトルは発表時点で「後日発表」",
-      "checkedAt": "2026-10-24"
+      "checkedAt": "2026-11-22"
     },
     {
       "id": "jrs-summer-2026",
@@ -662,7 +662,7 @@
       "source": "主催レップジャパン公式サイト（8/1-2、JRS2026夏レプ）。10/24確認",
       "url": "https://www.rep-japan.co.jp/jrs/",
       "note": "年の表記はページに無し。土日が2026年と合うため2026年開催と判断。",
-      "checkedAt": "2026-11-07"
+      "checkedAt": "2026-11-22"
     },
     {
       "id": "ado-himitsukichi-2026-yoyogi",
@@ -674,7 +674,7 @@
       "source": "Ado公式サイト（ユニバーサルミュージック）／ドキドキ秘密基地の公式発表（運営 クラウドナイン） 2026/10/24確認",
       "url": "https://www.universal-music.co.jp/ado/news/2026-07-03-3/",
       "note": "10/24(土) 開場15:30・開演17:00、10/25(日) 開場14:30・開演16:00。有料会員限定。",
-      "checkedAt": "2026-10-24"
+      "checkedAt": "2026-11-22"
     },
     {
       "id": "raden-x-rechord-20261129",
@@ -686,7 +686,7 @@
       "source": "ホロライブ公式ニュース(2026/09/12)。10/26確認",
       "url": "https://hololive.hololivepro.com/news/20260912-01-410/",
       "note": "出演：音乃瀬奏・一条莉々華・儒烏風亭らでん・轟はじめ。配信チケット6,500円(税込)、12/29まで販売。",
-      "checkedAt": "2026-11-08"
+      "checkedAt": "2026-11-22"
     },
     {
       "id": "raden-tohaku-2027",
@@ -698,7 +698,7 @@
       "source": "特設ページ(ClaN Entertainment運営・©COVER/東京国立博物館表記)と美術手帖の報道。ホロライブ・東博の公式は未確認。2026/11/08確認",
       "url": "https://raden2027.clan-entertainment.com/",
       "note": "東博コレクション展の会期中。音声ガイド・謎解き・特設パネル。オンライン受注は10/31終了、東博ショップでも一部販売予定。公式での再確認待ち。",
-      "checkedAt": "2026-11-08"
+      "checkedAt": "2026-11-22"
     },
     {
       "id": "raden-hakone-panel-2026",
@@ -710,7 +710,7 @@
       "source": "発売元ジュピター公式サイト 2026/11/05確認",
       "url": "https://www.jupiter.co.jp/game/pixelmuseumdlc01/",
       "note": "ゲーム『ピクロス 箱根探訪編』(12/10配信)の記念企画。等身大パネル2種。内容は予告なく変わる場合あり。",
-      "checkedAt": "2026-11-08"
+      "checkedAt": "2026-11-22"
     },
     {
       "id": "raden-okayama-castle-2026",
@@ -722,7 +722,7 @@
       "source": "岡山城公式サイト 2026/11/05確認",
       "url": "https://okayama-castle.jp/5607/",
       "note": "9:00〜17:30、11/20〜29は20:30まで。秋の烏城灯源郷の特別演出は11/21〜29。音声ガイド無料(全12種)。",
-      "checkedAt": "2026-11-05"
+      "checkedAt": "2026-11-22"
     },
     {
       "id": "inui-2ndlive-20270424",
@@ -734,7 +734,7 @@
       "source": "公式サイト(にじさんじ) 2026/11/13確認",
       "url": "https://www.nijisanji.jp/events/inui_restart/",
       "note": "OPEN 17:00／START 18:00。当落発表は未発表。シリアルコードはCD盤のみ（デジタル版なし）。抽選期間は変わる場合あり。",
-      "checkedAt": "2026-11-21",
+      "checkedAt": "2026-11-22",
       "dates": [
         {
           "kind": "open",
@@ -783,7 +783,7 @@
       "source": "第三者サイト(Vinty)の情報・公式未確認 2026/11/04確認",
       "url": "https://www.vinty.jp/events/search?type=monthly&month=11",
       "note": "会場の詳しい場所・入場料は未確認。",
-      "checkedAt": "2026-11-04"
+      "checkedAt": "2026-11-22"
     },
     {
       "id": "pullmarket-vol2-20261121",
@@ -795,7 +795,7 @@
       "source": "第三者サイト(Vinty)の情報・公式未確認 2026/11/04確認",
       "url": "https://www.vinty.jp/events/search?type=monthly&month=11",
       "note": "会場の詳しい場所・入場料は未確認。",
-      "checkedAt": "2026-11-08"
+      "checkedAt": "2026-11-22"
     },
     {
       "id": "aichi-furugi-matsuri-20261128",
@@ -807,7 +807,7 @@
       "source": "第三者サイト(Vinty)の情報・公式未確認 2026/11/04確認",
       "url": "https://www.vinty.jp/events/search?type=monthly&month=11",
       "note": "昨年は久屋大通公園・入場無料だったが、今年の会場は未確認。",
-      "checkedAt": "2026-11-08"
+      "checkedAt": "2026-11-22"
     },
     {
       "id": "kov-vintage-vol3-20261129",
@@ -819,7 +819,7 @@
       "source": "第三者サイト(Vinty)の情報・公式未確認 2026/11/04確認",
       "url": "https://www.vinty.jp/events/search?type=monthly&month=11",
       "note": "会場の詳しい場所・入場料は未確認。",
-      "checkedAt": "2026-11-08"
+      "checkedAt": "2026-11-22"
     },
     {
       "id": "japan-american-market-20261129",
@@ -831,7 +831,7 @@
       "source": "第三者サイト(Vinty)の情報・公式未確認 2026/11/04確認",
       "url": "https://www.vinty.jp/events/search?type=monthly&month=11",
       "note": "会場の詳しい場所・入場料は未確認。",
-      "checkedAt": "2026-11-08"
+      "checkedAt": "2026-11-22"
     },
     {
       "id": "nagoya-antique-market-19-20261121",
@@ -843,7 +843,7 @@
       "source": "公式サイト 2026/11/05確認",
       "url": "https://en.nagoya-antique-market.jp/event/nam19th/",
       "note": "東10:00-17:00/西9:30-16:30。有料(当日1日1,300円)。18歳未満・70歳以上無料。",
-      "checkedAt": "2026-11-08"
+      "checkedAt": "2026-11-22"
     },
     {
       "id": "botajam-gifu-20261107",
@@ -855,7 +855,7 @@
       "source": "第三者サイト(PUKUBOOK・アガベイベントナビ・nextmeet)の情報・公式未確認 2026/11/04確認",
       "url": "https://pukubook.jp/events/area/%E6%9D%B1%E6%B5%B7",
       "note": "日程・会場は第三者サイトの掲載。入場料・詳細は未確認。",
-      "checkedAt": "2026-11-04"
+      "checkedAt": "2026-11-22"
     },
     {
       "id": "gamagori-tanikufesta-6-20261114",
@@ -867,7 +867,7 @@
       "source": "第三者サイト(PUKUBOOK・アガベイベントナビ・nextmeet)の情報・公式未確認 2026/11/04確認",
       "url": "https://pukubook.jp/events/area/%E6%9D%B1%E6%B5%B7",
       "note": "日程・会場は第三者サイトの掲載。入場料・詳細は未確認。",
-      "checkedAt": "2026-11-08"
+      "checkedAt": "2026-11-22"
     },
     {
       "id": "sweet-jungle-20261114",
@@ -879,7 +879,7 @@
       "source": "第三者サイト(PUKUBOOK・アガベイベントナビ・nextmeet)の情報・公式未確認 2026/11/04確認",
       "url": "https://pukubook.jp/events/area/%E6%9D%B1%E6%B5%B7",
       "note": "日程・会場は第三者サイトの掲載。 有料（金額未確認）。",
-      "checkedAt": "2026-11-08"
+      "checkedAt": "2026-11-22"
     },
     {
       "id": "roots-plus-1-20261115",
@@ -891,7 +891,7 @@
       "source": "第三者サイト(PUKUBOOK・アガベイベントナビ・nextmeet)の情報・公式未確認 2026/11/04確認",
       "url": "https://pukubook.jp/events/area/%E6%9D%B1%E6%B5%B7",
       "note": "日程・会場は第三者サイトの掲載。入場料・詳細は未確認。",
-      "checkedAt": "2026-11-08"
+      "checkedAt": "2026-11-22"
     },
     {
       "id": "uetomo-hiroba-aki-20261115",
@@ -903,7 +903,7 @@
       "source": "第三者サイト(PUKUBOOK・アガベイベントナビ・nextmeet)の情報・公式未確認 2026/11/04確認",
       "url": "https://pukubook.jp/events/area/%E6%9D%B1%E6%B5%B7",
       "note": "日程・会場は第三者サイトの掲載。入場料・詳細は未確認。",
-      "checkedAt": "2026-11-08"
+      "checkedAt": "2026-11-22"
     },
     {
       "id": "mori-tanikuen-big-20261122",
@@ -915,7 +915,7 @@
       "source": "第三者サイト(PUKUBOOK・アガベイベントナビ・nextmeet)の情報・公式未確認 2026/11/04確認",
       "url": "https://pukubook.jp/events/area/%E6%9D%B1%E6%B5%B7",
       "note": "日程・会場は第三者サイトの掲載。入場料・詳細は未確認。",
-      "checkedAt": "2026-11-08"
+      "checkedAt": "2026-11-22"
     },
     {
       "id": "pakipo-no-sono-20261123",
@@ -927,7 +927,7 @@
       "source": "第三者サイト(PUKUBOOK・アガベイベントナビ・nextmeet)の情報・公式未確認 2026/11/04確認",
       "url": "https://pukubook.jp/events/area/%E6%9D%B1%E6%B5%B7",
       "note": "日程・会場は第三者サイトの掲載。入場料・詳細は未確認。",
-      "checkedAt": "2026-11-08"
+      "checkedAt": "2026-11-22"
     },
     {
       "id": "camp-park-garden-3-20261128",
@@ -939,7 +939,7 @@
       "source": "第三者サイト(PUKUBOOK・アガベイベントナビ・nextmeet)の情報・公式未確認 2026/11/04確認",
       "url": "https://pukubook.jp/events/area/%E6%9D%B1%E6%B5%B7",
       "note": "日程・会場は第三者サイトの掲載。 入場無料（第三者サイト情報）。",
-      "checkedAt": "2026-11-08"
+      "checkedAt": "2026-11-22"
     },
     {
       "id": "santa29-festa-20-20261129",
@@ -951,7 +951,7 @@
       "source": "第三者サイト(PUKUBOOK・アガベイベントナビ・nextmeet)の情報・公式未確認 2026/11/04確認",
       "url": "https://pukubook.jp/events/area/%E6%9D%B1%E6%B5%B7",
       "note": "日程・会場は第三者サイトの掲載。入場料・詳細は未確認。",
-      "checkedAt": "2026-11-08"
+      "checkedAt": "2026-11-22"
     },
     {
       "id": "chinki-plant-fair-4-20261129",
@@ -963,7 +963,7 @@
       "source": "第三者サイト(PUKUBOOK・アガベイベントナビ・nextmeet)の情報・公式未確認 2026/11/04確認",
       "url": "https://pukubook.jp/events/area/%E6%9D%B1%E6%B5%B7",
       "note": "日程・会場は第三者サイトの掲載。入場料・詳細は未確認。",
-      "checkedAt": "2026-11-08"
+      "checkedAt": "2026-11-22"
     },
     {
       "id": "bizarre-plants-night-20261205",
@@ -975,7 +975,7 @@
       "source": "第三者サイト(PUKUBOOK・アガベイベントナビ・nextmeet)の情報・公式未確認 2026/11/04確認",
       "url": "https://pukubook.jp/events/area/%E6%9D%B1%E6%B5%B7",
       "note": "日程・会場は第三者サイトの掲載。 入場500円（前売は11月販売予定・第三者サイト情報）。",
-      "checkedAt": "2026-11-08"
+      "checkedAt": "2026-11-22"
     },
     {
       "id": "taniku-xmas-20261205",
@@ -987,7 +987,7 @@
       "source": "第三者サイト(PUKUBOOK・アガベイベントナビ・nextmeet)の情報・公式未確認 2026/11/04確認",
       "url": "https://pukubook.jp/events/area/%E6%9D%B1%E6%B5%B7",
       "note": "日程・会場は第三者サイトの掲載。入場料・詳細は未確認。",
-      "checkedAt": "2026-11-08"
+      "checkedAt": "2026-11-22"
     },
     {
       "id": "botanical-market-mie-11-20261206",
@@ -999,7 +999,7 @@
       "source": "第三者サイト(PUKUBOOK・アガベイベントナビ・nextmeet)の情報・公式未確認 2026/11/04確認",
       "url": "https://pukubook.jp/events/area/%E6%9D%B1%E6%B5%B7",
       "note": "日程・会場は第三者サイトの掲載。入場料・詳細は未確認。",
-      "checkedAt": "2026-11-08"
+      "checkedAt": "2026-11-22"
     },
     {
       "id": "lier-taniku-kariya-20261210",
@@ -1011,7 +1011,7 @@
       "source": "第三者サイト(PUKUBOOK・アガベイベントナビ・nextmeet)の情報・公式未確認 2026/11/04確認",
       "url": "https://pukubook.jp/events/area/%E6%9D%B1%E6%B5%B7",
       "note": "日程・会場は第三者サイトの掲載。入場料・詳細は未確認。",
-      "checkedAt": "2026-11-08"
+      "checkedAt": "2026-11-22"
     },
     {
       "id": "taniku-revolution-3-20261212",
@@ -1023,7 +1023,7 @@
       "source": "第三者サイト(PUKUBOOK・アガベイベントナビ・nextmeet)の情報・公式未確認 2026/11/04確認",
       "url": "https://pukubook.jp/events/area/%E6%9D%B1%E6%B5%B7",
       "note": "日程・会場は第三者サイトの掲載。 入場無料・駐車場約900台無料（第三者サイト情報）。",
-      "checkedAt": "2026-11-08"
+      "checkedAt": "2026-11-22"
     },
     {
       "id": "tokai-okiboita-20261219",
@@ -1035,7 +1035,7 @@
       "source": "第三者サイト(PUKUBOOK・アガベイベントナビ・nextmeet)の情報・公式未確認 2026/11/04確認",
       "url": "https://pukubook.jp/events/area/%E6%9D%B1%E6%B5%B7",
       "note": "日程・会場は第三者サイトの掲載。入場料・詳細は未確認。",
-      "checkedAt": "2026-11-08"
+      "checkedAt": "2026-11-22"
     },
     {
       "id": "yurutto-tanikumarche-2-20261227",
@@ -1047,7 +1047,7 @@
       "source": "第三者サイト(PUKUBOOK・アガベイベントナビ・nextmeet)の情報・公式未確認 2026/11/04確認",
       "url": "https://pukubook.jp/events/area/%E6%9D%B1%E6%B5%B7",
       "note": "日程・会場は第三者サイトの掲載。入場料・詳細は未確認。",
-      "checkedAt": "2026-11-08"
+      "checkedAt": "2026-11-22"
     },
     {
       "id": "plants-family-toyohashi-20270109",
@@ -1059,7 +1059,7 @@
       "source": "第三者サイト(PUKUBOOK・アガベイベントナビ・nextmeet)の情報・公式未確認 2026/11/04確認",
       "url": "https://pukubook.jp/events/area/%E6%9D%B1%E6%B5%B7",
       "note": "日程・会場は第三者サイトの掲載。入場料・詳細は未確認。",
-      "checkedAt": "2026-11-08"
+      "checkedAt": "2026-11-22"
     },
     {
       "id": "plants-family-nagoya-20270111",
@@ -1071,7 +1071,7 @@
       "source": "第三者サイト(PUKUBOOK・アガベイベントナビ・nextmeet)の情報・公式未確認 2026/11/04確認",
       "url": "https://pukubook.jp/events/area/%E6%9D%B1%E6%B5%B7",
       "note": "日程・会場は第三者サイトの掲載。入場料・詳細は未確認。",
-      "checkedAt": "2026-11-08"
+      "checkedAt": "2026-11-22"
     },
     {
       "id": "botanical-monsters-2027-20270117",
@@ -1083,7 +1083,7 @@
       "source": "第三者サイト(PUKUBOOK・アガベイベントナビ・nextmeet)の情報・公式未確認 2026/11/04確認",
       "url": "https://pukubook.jp/events/area/%E6%9D%B1%E6%B5%B7",
       "note": "日程・会場は第三者サイトの掲載。入場料・詳細は未確認。",
-      "checkedAt": "2026-11-08"
+      "checkedAt": "2026-11-22"
     },
     {
       "id": "aichinsyokusai-newyear-20270124",
@@ -1095,7 +1095,7 @@
       "source": "第三者サイト(PUKUBOOK・アガベイベントナビ・nextmeet)の情報・公式未確認 2026/11/04確認",
       "url": "https://pukubook.jp/events/area/%E6%9D%B1%E6%B5%B7",
       "note": "日程・会場は第三者サイトの掲載。入場料・詳細は未確認。",
-      "checkedAt": "2026-11-08"
+      "checkedAt": "2026-11-22"
     },
     {
       "id": "ueshisai-tsumagoi-20261128",
@@ -1107,7 +1107,7 @@
       "source": "第三者サイト(leaf-laboratory)の情報・公式未確認 2026/11/04確認",
       "url": "https://leaf-laboratory.com/blogs/media/event-shizuoka-list",
       "note": "10:00開始。愛知周辺（掛川）の対象。日程・会場は第三者サイトの掲載で、雨天の可能性あり。 入場無料・駐車場無料（第三者サイト情報）。",
-      "checkedAt": "2026-11-08"
+      "checkedAt": "2026-11-22"
     },
     {
       "id": "jrs-centrair-2027",
@@ -1119,7 +1119,7 @@
       "source": "公式サイト(レップジャパン) 2026/11/05確認",
       "url": "https://www.rep-japan.co.jp/jrs/centrair/",
       "note": "10:00〜17:00。公式ページに2027年と明記。前売券は発売中（ぴあ・ローチケ）。",
-      "checkedAt": "2026-11-21",
+      "checkedAt": "2026-11-22",
       "dates": []
     },
     {
@@ -1132,7 +1132,7 @@
       "source": "ホロライブ公式ニュース 2026/11/05確認",
       "url": "https://hololive.hololivepro.com/news/20260815-01-399/",
       "note": "Day2出演。開場15:30/開演16:30。配信チケットの詳細は未掲載。",
-      "checkedAt": "2026-11-08"
+      "checkedAt": "2026-11-22"
     },
     {
       "id": "raden-musicstage-2027-day1",
@@ -1144,7 +1144,7 @@
       "source": "ホロライブ公式 2026/11/7確認（出演者欄にReGLOSSとあり、らでんさん個人の記載は確認できず）",
       "url": "https://hololive.hololivepro.com/news/20261020-02-85/",
       "note": "2日間開催(1/9・10)。ReGLOSSはDAY1。",
-      "checkedAt": "2026-11-08"
+      "checkedAt": "2026-11-22"
     },
     {
       "id": "taikyu-2027-test1",
@@ -1156,7 +1156,7 @@
       "source": "公式サイト(スーパー耐久 2027年開催日程) 2026/11/08確認",
       "url": "https://supertaikyu.com/news/schedule2027.html",
       "note": "暫定（変更の可能性あり）。公式テスト。",
-      "checkedAt": "2026-11-21"
+      "checkedAt": "2026-11-22"
     },
     {
       "id": "taikyu-2027-test2",
@@ -1168,7 +1168,7 @@
       "source": "公式サイト(スーパー耐久 2027年開催日程) 2026/11/08確認",
       "url": "https://supertaikyu.com/news/schedule2027.html",
       "note": "暫定（変更の可能性あり）。公式テスト。",
-      "checkedAt": "2026-11-21"
+      "checkedAt": "2026-11-22"
     },
     {
       "id": "wec-2027-prologue",
@@ -1180,7 +1180,7 @@
       "source": "公式サイト(fiawec.com 2027カレンダー記事) 2026/11/08確認",
       "url": "https://www.fiawec.com/en/news/fia-wec-reveals-nine-round-2027-calendar-as-series-expands/13598",
       "note": "第1戦の直前。記事本文の表のみに記載。",
-      "checkedAt": "2026-11-19"
+      "checkedAt": "2026-11-22"
     },
     {
       "id": "jusai-10th-20270320",
@@ -1192,7 +1192,7 @@
       "source": "樹祭サイト(jusai.link)と第三者サイト(agave-navi)・公式SNS未確認 2026/11/08確認",
       "url": "https://jusai.link/",
       "note": "入場料は未発表。アガベ・塊根系の大規模即売会。",
-      "checkedAt": "2026-11-08"
+      "checkedAt": "2026-11-22"
     },
     {
       "id": "raden-taiwan-zuoying-20261212",
@@ -1204,7 +1204,7 @@
       "source": "ホロライブ公式ニュース 2026/11/11確認",
       "url": "https://hololivepro.com/news_en/20261109-hololive-regloss-member-juufuutei-raden-collaborates-with-taiwans-2026-good-old-living-festival-life-zuoying-in-the-light/",
       "note": "らでんさんは現地に来ず、録画・デジタル企画で参加（スタンプラリー、フォトブースなど）。12:00〜20:00（台湾時間）",
-      "checkedAt": "2026-11-21"
+      "checkedAt": "2026-11-22"
     },
     {
       "id": "jrs-gymex-winter-20261226",
@@ -1216,7 +1216,7 @@
       "source": "公式サイト(レップジャパン) 2026/11/18確認",
       "url": "https://www.rep-japan.co.jp/jrs/",
       "note": "前売券は発売中（公式チケットセンター・ぴあ・ローチケ）。会場名・入場料は公式ページに記載なし。",
-      "checkedAt": "2026-11-21",
+      "checkedAt": "2026-11-22",
       "dates": []
     },
     {
@@ -1229,8 +1229,8 @@
       "source": "ホロライブ公式ニュース 2026/11/20確認",
       "url": "https://hololive.hololivepro.com/en/news/20261111-02-25/",
       "note": "ReGLOSS4名の新規イラスト。AGF会場名は本文に記載なし。POP-UP STOREは2026/12/29〜2027/1/11。",
-      "checkedAt": "2026-11-21"
+      "checkedAt": "2026-11-22"
     }
   ],
-  "checkedAt": "2026-11-21"
+  "checkedAt": "2026-11-22"
 }
