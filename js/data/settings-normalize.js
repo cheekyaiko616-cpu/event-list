@@ -2,7 +2,7 @@
 import { DEFAULT_SETTINGS, ALERT_OPTIONS, DATE_KINDS, SHOW_KEYS } from '../config.js';
 
 export function defaultSettings() {
-  return { alerts: [...DEFAULT_SETTINGS.alerts] };
+  return { alerts: [...DEFAULT_SETTINGS.alerts], otherTab: false };
 }
 
 /** 保存データや読み込んだファイルの設定を、安全な形に整える。無い項目は初期値。 */
@@ -11,7 +11,8 @@ export function normalizeSettings(raw) {
   const d = defaultSettings();
   const list = (v, ok, fallback) => (Array.isArray(v) ? v.filter((x, i) => typeof x === 'string' && ok(x) && v.indexOf(x) === i) : fallback);
   return {
-    alerts: list(src.alerts, (id) => ALERT_OPTIONS.some((o) => o.id === id), d.alerts)
+    alerts: list(src.alerts, (id) => ALERT_OPTIONS.some((o) => o.id === id), d.alerts),
+    otherTab: src.otherTab === true // 「その他」タブを、最初に1回だけ足したか（消したあとに、また足さないため）
   };
 }
 

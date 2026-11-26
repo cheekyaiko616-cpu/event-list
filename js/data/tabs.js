@@ -8,6 +8,8 @@ import { normalizeColor } from '../util/tab-color.js';
 import { compareJa } from '../util/date.js';
 import { normalizeShow, normalizeKinds } from './settings-normalize.js';
 
+const OTHER_TAB = 'その他';
+
 /** 取り込み内容の文字を整える（前後の空白を消し、長さを上限まで） */
 const cleanWatch = (raw) => (typeof raw === 'string' ? raw.trim().slice(0, WATCH_MAX) : '');
 
@@ -30,6 +32,16 @@ export function newTab(name, { watch = '', importKinds = [] } = {}) {
   const tab = { id: newId('t'), name, color, order, watch, hidden: false, show: normalizeShow(null), importKinds: normalizeKinds(importKinds) };
   state.tabs.push(tab);
   return tab;
+}
+
+/** 既存の種類に当てはまらない予定のために、「その他」タブを最初に1回だけ足す。消したタブは、あとから戻さない。 */
+export async function ensureOtherTab() {
+  if (state.settings.otherTab) return;
+  if (!state.tabs.some((t) => t.name === OTHER_TAB)) {
+    if (!newTab(OTHER_TAB)) return; // タブが上限なら、足さない（次に開いたとき、また試す）
+  }
+  state.settings.otherTab = true;
+  await commit();
 }
 
 export async function addTab(rawName, rawWatch = '') {

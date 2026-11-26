@@ -5,6 +5,7 @@
 //   util/      … 日付や文字の小さな道具
 import { state, subscribe, notify } from './state.js';
 import { init } from './data/store.js';
+import { ensureOtherTab } from './data/tabs.js';
 import { pruneOld } from './data/events.js';
 import { startFeed } from './data/feed.js';
 import { initHeader, renderHeader } from './ui/header.js';
@@ -82,6 +83,7 @@ init().then(async () => {
   // 朝の支度ブリーフから「?event=予定のID」付きで開かれたら、その予定を開く
   const want = new URLSearchParams(location.search).get('event');
   if (want && state.events.some((x) => x.id === want)) { state.ui.filter = 'all'; state.ui.openId = want; notify(); }
+  await ensureOtherTab(); // 既存の種類に当てはまらない予定用の「その他」タブ（最初に1回だけ足す）
   weeklyIfDue();    // 週1回、戻すための控えを残す
   await pruneOld(); // 終わって1年たった予定を消す
   startFeed();      // Claudeが調べた日程を自動で反映する（Claude上で開いたときだけ）
