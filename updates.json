@@ -3,6 +3,18 @@
   "version": 1,
   "entries": [
     {
+      "date": "2026-11-27",
+      "summary": "新規1件",
+      "added": [
+        {
+          "title": "hololive production・Travel Diary Exhibition（台北・らでんほか6名）",
+          "tab": "儒烏風亭らでん",
+          "when": "2026/12/17〜2027/2/14"
+        }
+      ],
+      "changed": []
+    },
+    {
       "date": "2026-11-22",
       "summary": "SUPER GT 2027の日程を初日からの表記に直した：8件",
       "added": [],
